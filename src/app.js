@@ -1,9 +1,15 @@
 'use strict';
 
 import './app.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-function onReady() {
-  console.info('DOM ready!');
+class App extends React.Component {
+  render() {
+    return (
+      '<div>Hello Moto!</div>'
+    );
+  }
 }
 
-document.addEventListener('DOMContentLoaded', onReady);
+ReactDOM.render(<App />, document.getElementById('app'));
