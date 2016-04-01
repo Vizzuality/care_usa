@@ -6,6 +6,7 @@ import postcssMixins from 'postcss-mixins';
 import postcssSimpleVars from 'postcss-simple-vars';
 import postcssNested from 'postcss-nested';
 import postcssImporter from 'postcss-import';
+import postcssFunctions from 'postcss-functions';
 import path from 'path';
 
 const prodPlugins = [
@@ -42,14 +43,14 @@ const config = {
     loaders: [
       {test: /\.html$/, loader: 'file?name=[name].[ext]'},
       {test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},
-      {test: /\.postcss$/, loader: 'style-loader!css-loader!postcss-loader'},
+      {test: /\.(postcss$|css$)/, loader: 'style-loader!css-loader!postcss-loader'},
       {test: /\.(png|jpg|gif)$/, loader: 'url-loader?prefix=image/&limit=5000&context=./src/images'}
     ]
   },
 
   plugins: process.env.NODE_ENV === 'production' ? prodPlugins : [],
 
-  postcss: () => [autoprefixer, postcssImporter, postcssMixins, postcssSimpleVars, postcssNested]
+  postcss: () => [ autoprefixer, postcssImporter, postcssMixins, postcssSimpleVars, postcssNested, postcssFunctions ]
 
 };
 

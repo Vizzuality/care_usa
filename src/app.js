@@ -1,5 +1,6 @@
 'use strict';
 
+import 'normalize.css';
 import './app.postcss';
 import React from 'react';
 import ReactDOM from 'react-dom';
