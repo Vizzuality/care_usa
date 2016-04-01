@@ -34,7 +34,7 @@ const options = {
        return rem;
     }
   }
-  
+
 };
 
 const config = {
@@ -42,10 +42,12 @@ const config = {
   context: path.join(__dirname, 'src'),
 
   entry: [
-    'webpack/hot/only-dev-server',
+    'webpack/hot/dev-server',
     './index.html',
     './app.js'
   ],
+
+  publicPath: '/assets/',
 
   output: {
     path: path.join(__dirname, 'dist'),
