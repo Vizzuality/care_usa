@@ -4,7 +4,7 @@
   "description": "70 years of lasting change",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "./node_modules/.bin/webpack-dev-server --content-base ./ --hot --progress --colors",
+    "start": "./node_modules/.bin/webpack-dev-server --hot --progress --colors --inline",
     "build": "./node_modules/.bin/webpack --progress --colors",
     "test": ""
   },

@@ -2,6 +2,7 @@
 
 import webpack from 'webpack';
 import autoprefixer from 'autoprefixer';
+import postCssImport from 'postcss-import';
 import postcssMixins from 'postcss-mixins';
 import postcssSimpleVars from 'postcss-simple-vars';
 import postcssNested from 'postcss-nested';
@@ -65,7 +66,7 @@ const config = {
 
   plugins: process.env.NODE_ENV === 'production' ? prodPlugins : [],
 
-  postcss: () => [ autoprefixer, postcssImporter, postcssMixins, postcssSimpleVars, postcssNested, postcssFunctions(options) ]
+  postcss: (webpack) => [ postcssImporter({ addDependencyTo: webpack }), autoprefixer, postcssMixins, postcssSimpleVars, postcssNested, postcssFunctions(options) ]
 
 };
 
