@@ -10,20 +10,12 @@ class MenuDevice extends React.Component {
     super(props);
   }
 
-  _closeSubmenu() {
-    this.refs.menuDevice.classList.remove('is-visible');
-  }
-
-  componentWillMount() {
-    console.log(this.props.onClick);
-  }
-
   render() {
     return (
       <div className={ this.props.deviceMenuOpen ?  "is-visible m-menu--device"  : "m-menu--device" } 
            ref="menuDevice">
         <button 
-          className="btn-close js-close-menu"
+          className="btn-close"
           onClick={ this.props.onClick }
         />
         <ul className="menu">

@@ -25,19 +25,19 @@ class App extends React.Component {
     this.setState(device);
   }
 
-  toggleDeviceMenu() {
-    this.setState({ 'deviceMenuOpen': ! !!this.state.deviceMenuOpen });
-    console.log(this.state);
+  toggleMenu() {
+    this.setState({ 'menuDeviceOpen': ! !!this.state.menuDeviceOpen });
   }
 
   render() {
-
     return (
       <div className="l-app">
         <div id="header" className="l-header">
           <div className="wrap">
             <a href="/" className="logo" src={ "./images/logo.svg" } >CARE</a>
-            <MainMenu />
+            <MainMenu 
+              onClick= { this.toggleMenu.bind(this) }
+            />
           </div>
         </div>
         <div id="dashboard" className="l-dashboard"></div>
@@ -46,8 +46,8 @@ class App extends React.Component {
 
         <button className="btn -secondary"></button>
         { this.state.device ? (<MenuDevice 
-            deviceMenuOpen= {this.state.menuDeviceOpen}
-            onClick= { this.toggleDeviceMenu }
+            deviceMenuOpen= { this.state.menuDeviceOpen }
+            onClick= { this.toggleMenu.bind(this) }
           />) : null }
       </div>
     );
