@@ -4,7 +4,7 @@
   "description": "70 years of lasting change",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "./node_modules/.bin/webpack-dev-server --hot --progress --colors",
+    "start": "./node_modules/.bin/webpack-dev-server --hot --progress --colors --inline",
     "build": "./node_modules/.bin/webpack --progress --colors",
     "test": ""
   },
@@ -32,7 +32,12 @@
     "babel-preset-react": "^6.5.0",
     "css-loader": "^0.23.1",
     "file-loader": "^0.8.5",
+    "postcss-functions": "^2.1.0",
+    "postcss-import": "^8.0.2",
     "postcss-loader": "^0.8.1",
+    "postcss-mixins": "^4.0.1",
+    "postcss-nested": "^1.0.0",
+    "postcss-simple-vars": "^1.2.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
