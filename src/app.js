@@ -30,6 +30,11 @@ class App extends React.Component {
   }
 
   render() {
+    var menuDevice = this.state.device ? (<MenuDevice 
+      deviceMenuOpen= { this.state.menuDeviceOpen }
+      onClick= { this.toggleMenu.bind(this) }
+    />) : null
+
     return (
       <div className="l-app">
         <div id="header" className="l-header">
@@ -45,10 +50,7 @@ class App extends React.Component {
         <div id="timeline" className="l-timeline"></div>
 
         <button className="btn -secondary"></button>
-        { this.state.device ? (<MenuDevice 
-            deviceMenuOpen= { this.state.menuDeviceOpen }
-            onClick= { this.toggleMenu.bind(this) }
-          />) : null }
+        { menuDevice }
       </div>
     );
   }

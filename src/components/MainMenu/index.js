@@ -16,7 +16,7 @@ class MainMenu extends React.Component {
       <div className="m-main-menu" id="mainMenu">
         <button 
           className="btn-menu-toggle"
-          onClick={this.props.onClick}
+          onClick={ this.props.onClick }
           />
         <ul className="menu">
           <li><a href="/about" className="menu-link">who cares</a></li>
