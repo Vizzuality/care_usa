@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Vizzuality/care_use#readme",
   "dependencies": {
+    "jquery": "^2.2.2",
     "leaflet": "^0.7.7",
     "normalize.css": "^3.0.3",
     "react": "^0.14.8",
@@ -39,6 +40,7 @@
     "postcss-nested": "^1.0.0",
     "postcss-simple-vars": "^1.2.0",
     "style-loader": "^0.13.1",
+    "underscore": "^1.8.3",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1"
