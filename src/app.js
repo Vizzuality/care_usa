@@ -16,7 +16,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       device: null,
-      menuDeviceOpen: true
+      menuDeviceOpen: false
     }
   }
 
@@ -27,6 +27,7 @@ class App extends React.Component {
 
   toggleDeviceMenu() {
     this.setState({ 'deviceMenuOpen': ! !!this.state.deviceMenuOpen });
+    console.log(this.state);
   }
 
   render() {
@@ -46,6 +47,7 @@ class App extends React.Component {
         <button className="btn -secondary"></button>
         { this.state.device ? (<MenuDevice 
             deviceMenuOpen= {this.state.menuDeviceOpen}
+            onClick= { this.toggleDeviceMenu }
           />) : null }
       </div>
     );

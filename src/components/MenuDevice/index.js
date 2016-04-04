@@ -15,7 +15,7 @@ class MenuDevice extends React.Component {
   }
 
   componentWillMount() {
-    console.log(this.props.deviceMenuOpen);
+    console.log(this.props.onClick);
   }
 
   render() {
@@ -24,7 +24,7 @@ class MenuDevice extends React.Component {
            ref="menuDevice">
         <button 
           className="btn-close js-close-menu"
-          onClick={ (this._closeSubmenu).bind(this) }
+          onClick={ this.props.onClick }
         />
         <ul className="menu">
           <li className="menu-link"><a href="/about">who cares</a></li>
