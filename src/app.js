@@ -15,9 +15,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mobile: null,
-      tablet: null,
-      device: null
+      device: null,
+      menuDeviceOpen: true
     }
   }
 
@@ -26,13 +25,17 @@ class App extends React.Component {
     this.setState(device);
   }
 
+  toggleDeviceMenu() {
+    this.setState({ 'deviceMenuOpen': ! !!this.state.deviceMenuOpen });
+  }
+
   render() {
 
     return (
       <div className="l-app">
         <div id="header" className="l-header">
           <div className="wrap">
-            <a href="/" className="logo" src={ "./images/logo.svg" } ></a>
+            <a href="/" className="logo" src={ "./images/logo.svg" } >CARE</a>
             <MainMenu />
           </div>
         </div>
@@ -41,7 +44,9 @@ class App extends React.Component {
         <div id="timeline" className="l-timeline"></div>
 
         <button className="btn -secondary"></button>
-        { this.state.device ? (<MenuDevice />) : null }
+        { this.state.device ? (<MenuDevice 
+            deviceMenuOpen= {this.state.menuDeviceOpen}
+          />) : null }
       </div>
     );
   }

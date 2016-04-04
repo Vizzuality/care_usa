@@ -3,6 +3,26 @@ $timeline-height: 45px;
 $l-margin-hz: 60px;
 $l-margin-vt: 50px;
 
+.wrap {
+  position: relative;
+  width: 100%;
+  max-width: $grid-max-width;
+  margin: 0 auto;
+  padding: 0 $wrap-padding-mobile;
+
+  @media screen and (min-width: $screen-s) {
+    padding: 0 $wrap-padding-tablet;
+  }
+
+  @media screen and (min-width: 768px) {
+    padding: 0 $wrap-padding-desktop;
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    padding: 0 $wrap-padding-desktop-xl;
+  }
+}
+
 .l-app {
   position: absolute;
   top: 0;
@@ -21,12 +41,22 @@ $l-margin-vt: 50px;
 
 
 .l-header {
+  display: flex;
+  flex: 1 1 100%;
+  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: $header-height;
   z-index: 1;
+
+  > .wrap {
+    display: flex;
+    flex: 1 1 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 
