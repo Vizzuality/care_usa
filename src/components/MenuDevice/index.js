@@ -19,8 +19,8 @@ class MenuDevice extends React.Component {
           onClick={ this.props.onClick }
         />
         <ul className="menu">
-          <li className="menu-link"><a href="/about">who cares</a></li>
-          <li className="menu-link"><a href="/aniversary">CARE’s Anniversary</a></li>
+          <li><a href="/about" className="menu-link">who cares</a></li>
+          <li><a href="/aniversary" className="menu-link">CARE’s Anniversary</a></li>
          </ul>
       </div>
     )

@@ -20,7 +20,7 @@ class MainMenu extends React.Component {
           />
         <ul className="menu">
           <li><a href="/about" className="menu-link">who cares</a></li>
-          <li className="menu-link"><a href="/aniversary">CARE’s Anniversary</a></li>
+          <li><a href="/aniversary" className="menu-link">CARE’s Anniversary</a></li>
       </ul>
      </div>
     );
