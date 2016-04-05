@@ -15,6 +15,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentTab: 'who-cares',
       device: null,
       menuDeviceOpen: false
     }
@@ -27,6 +28,10 @@ class App extends React.Component {
 
   toggleMenu() {
     this.setState({ 'menuDeviceOpen': ! !!this.state.menuDeviceOpen });
+  }
+
+  changeTab(tab, e) {
+    this.setState({ 'currentTab': tab });
   }
 
   render() {
@@ -43,7 +48,9 @@ class App extends React.Component {
               <svg className="icon icon-logo"><use xlinkHref="#icon-logo"></use></svg>
             </a>
             <MainMenu 
+              currentTab = { this.state.currentTab }
               toggleMenuFn= { this.toggleMenu.bind(this) }
+              changeTabFn= { this.changeTab.bind(this) }
             />
           </div>
         </div>

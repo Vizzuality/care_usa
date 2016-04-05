@@ -19,8 +19,8 @@ class MainMenu extends React.Component {
           onClick={ this.props.toggleMenuFn }
         />
         <ul className="menu">
-          <li><a href="/about" className="menu-link">Who cares</a></li>
-          <li><a href="/aniversary" className="menu-link">CARE’s Anniversary</a></li>
+          <li><a href="#" className={ this.props.currentTab == 'who-cares' ? 'is-active menu-link' : 'menu-link' } onClick={ this.props.changeTabFn.bind(null, 'who-cares') }>Who cares</a></li>
+          <li><a href="#" className={ this.props.currentTab == 'anniversary' ? 'is-active menu-link' : 'menu-link' } onClick={ this.props.changeTabFn.bind(null, 'anniversary') }>CARE’s Anniversary</a></li>
       </ul>
      </div>
     );
