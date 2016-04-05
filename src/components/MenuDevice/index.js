@@ -16,7 +16,7 @@ class MenuDevice extends React.Component {
            ref="menuDevice">
         <button 
           className="btn-close"
-          onClick={ this.props.onClick }
+          onClick={ this.props.toggleMenuFn }
         />
         <ul className="menu">
           <li><a href="/about" className="menu-link">who cares</a></li>

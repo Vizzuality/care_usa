@@ -2,7 +2,7 @@
 
 import 'normalize.css';
 import './app.postcss';
-import React from 'react';
+import React  from 'react';
 import ReactDOM from 'react-dom';
 
 import MainMenu from './components/MainMenu';
@@ -32,17 +32,20 @@ class App extends React.Component {
   render() {
     var menuDevice = this.state.device ? (<MenuDevice 
       deviceMenuOpen= { this.state.menuDeviceOpen }
-      onClick= { this.toggleMenu.bind(this) }
+      toggleMenuFn= { this.toggleMenu.bind(this) }
     />) : null
 
     return (
       <div className="l-app">
         <div id="header" className="l-header">
           <div className="wrap">
-            <a href="/" className="logo" src={ "./images/logo.svg" } >CARE</a>
+            <a href="/" className="logo">
+              <svg className="icon icon-logo"><use xlinkHref="#icon-logo"></use></svg>
+            </a>
             <MainMenu 
-              onClick= { this.toggleMenu.bind(this) }
+              toggleMenuFn= { this.toggleMenu.bind(this) }
             />
+
           </div>
         </div>
         <div id="dashboard" className="l-dashboard"></div>
