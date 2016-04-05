@@ -28,7 +28,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    var map = new MapView({ 'mapContainer': this.refs.Map });
+    var map = new MapView({ 'mapElement': this.refs.Map });
   }
 
   toggleMenu() {

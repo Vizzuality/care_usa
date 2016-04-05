@@ -14,19 +14,25 @@ var MapView =  Backbone.View.extend({
   initialize: function (options) {
     this.options = options || {};
 
-    this.mapContainer = this.options.mapContainer;
+    this.mapElement = this.options.mapElement;
     this._createMap();
   },
 
   _createMap: function() {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZGhha2VsaWxhIiwiYSI6InRkODNmdzAifQ.1aPjRitXRLOeocZSZ5jqAw';
+    L.mapbox.accessToken = 'pk.eyJ1IjoiZGhha2VsaWxhIiwiYSI6InRkODNmdzAifQ.1aPjRitXRLOeocZSZ5jqAw';
     
-    this.optionsMap.container = this.mapContainer;
-    this.map = new mapboxgl.Map( this.optionsMap );
+    this.map = L.mapbox.map(this.mapElement, 'mapbox.streets').setView([38.8929,-77.0252], 14);
 
-    // Add zoom and rotation controls to the map.
-    // this.map.addControl(new mapboxgl.Navigation());
+    this._addLayers();
   },
+
+  _addLayers: function() {
+    console.log('load')
+    L.tileLayer('https://cartocdn-ashbu.global.ssl.fastly.net/simbiotica/api/v1/map/ad78f28b63c643a6a793885abdd63e14:1459237782618/0/{z}/{x}/{y}.png').addTo(this.map);
+
+
+    // https://cartocdn-ashbu.global.ssl.fastly.net/simbiotica/api/v1/map/ad78f28b63c643a6a793885abdd63e14:1459237782618/0/3/5/3.png
+  }
 });
 
 export default MapView;
