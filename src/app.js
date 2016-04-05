@@ -45,14 +45,17 @@ class App extends React.Component {
             <MainMenu 
               toggleMenuFn= { this.toggleMenu.bind(this) }
             />
-
           </div>
         </div>
-        <div id="dashboard" className="l-dashboard"></div>
-        <div id="map" className="l-map"></div>
-        <div id="timeline" className="l-timeline"></div>
 
-        <button className="btn -secondary"></button>
+        <div id="map" className="l-map"></div>
+        
+        <div id="dashboard" className="l-dashboard"></div>
+        <div id="timeline" className="l-timeline"></div>
+        <div id="donate" className="l-donate">
+          <button className="btn -secondary"></button>
+        </div>
+
         { menuDevice }
       </div>
     );

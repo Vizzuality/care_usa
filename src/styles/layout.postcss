@@ -1,12 +1,12 @@
-$header-height: 130px;
-$timeline-height: 45px;
-$l-margin-hz: 60px;
-$l-margin-vt: 50px;
+$header-height: 90;
+$header-height-mb: 70;
+$timeline-height: 45;
+$l-margin-vt: 50;
 
 .wrap {
   position: relative;
   width: 100%;
-  max-width: $grid-max-width;
+  /* max-width: $grid-max-width; */
   margin: 0 auto;
   padding: 0 $wrap-padding-mobile;
 
@@ -14,7 +14,7 @@ $l-margin-vt: 50px;
     padding: 0 $wrap-padding-tablet;
   }
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: $screen-m) {
     padding: 0 $wrap-padding-desktop;
   }
 
@@ -48,8 +48,13 @@ $l-margin-vt: 50px;
   top: 0;
   left: 0;
   right: 0;
-  height: $header-height;
+  height: rem($header-height-mb);
   z-index: 1;
+  background-color: #ddd;
+
+  @media screen and (min-width: $screen-m) {
+    height: rem($header-height);
+  }
 
   > .wrap {
     display: flex;
@@ -62,18 +67,62 @@ $l-margin-vt: 50px;
 
 .l-dashboard {
   position: absolute;
-  top: $header-height;
-  left: $l-margin-hz;
-  bottom: 170px;
-  width: 360px;
-  max-height: 600px;
+  background-color: grey;
+  top: rem($header-height-mb);
+  left: 0;
+  right: 0;
+  height: rem($timeline-height);
+
+  @media screen and (min-width: $screen-m) {
+    left: $wrap-padding-desktop;
+    top: rem(110);
+    height: auto;
+    bottom: 170px;
+    width: 360px;
+    max-height: 600px;
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    left: $wrap-padding-desktop-xl;
+  }
 }
 
 
 .l-timeline {
   position: absolute;
-  left: $l-margin-hz;
-  right: 260px;
-  bottom: $l-margin-vt;
-  height: $timeline-height;
+  bottom: rem($timeline-height);
+  left: 0;
+  right: 0;
+  height: rem($timeline-height);
+  background-color: #ddd;
+
+  @media screen and (min-width: $screen-m) {
+    right: 260px;
+    left: $wrap-padding-desktop;
+    bottom: rem($l-margin-vt);
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    left: $wrap-padding-desktop-xl;
+  }
+}
+
+.l-donate {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: rem($timeline-height);
+  background-color: $color-3;
+
+  @media screen and (min-width: $screen-m) {
+    right: $wrap-padding-desktop;
+    width: rem(160);
+    left: auto;    
+    bottom: rem($l-margin-vt);
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    right: $wrap-padding-desktop-xl;
+  }
 }

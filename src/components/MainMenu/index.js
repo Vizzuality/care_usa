@@ -19,7 +19,7 @@ class MainMenu extends React.Component {
           onClick={ this.props.toggleMenuFn }
         />
         <ul className="menu">
-          <li><a href="/about" className="menu-link">who cares</a></li>
+          <li><a href="/about" className="menu-link">Who cares</a></li>
           <li><a href="/aniversary" className="menu-link">CARE’s Anniversary</a></li>
       </ul>
      </div>
