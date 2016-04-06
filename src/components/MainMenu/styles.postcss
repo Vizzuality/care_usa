@@ -1,0 +1,45 @@
+@import'../../styles/settings.postcss';
+@import'../../styles/helpers.postcss';
+
+.m-main-menu {
+
+  .btn-menu-toggle {
+    @media screen and (min-width: $screen-m) {
+      display: none;
+    }
+  }
+  
+  .menu {
+    display: none;
+    list-style: none;
+    
+    @media screen and (min-width: $screen-m) {
+      display: flex;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+
+  .menu-link {
+    position: relative;
+    margin-left: rem(50);
+    color: $font-color-2;
+    font-size: rem(20);
+    font-weight: 700;
+    line-height: rem(18);
+    text-decoration: none;
+
+    &.is-active {
+      &:after {
+        content: "";
+        position: absolute;
+        bottom: rem(-10);
+        left: 0;
+        right: 0;
+        height: rem(4);
+        background-color: $color-1;
+      }
+    }
+  }
+}

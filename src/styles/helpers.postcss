@@ -5,7 +5,7 @@
  * Place here in alphabetic order.
  * Abstract classes to extend.
  */
-%clearfix {
+@define-extend clearfix {
   &:before, &:after {
     display: table;
     content: '';
@@ -16,7 +16,7 @@
   }
 }
 
-%clean-button-or-input {
+@define-extend clean-button-or-input {
   appearance: none;
   box-shadow: none;
   background: none;
@@ -25,7 +25,7 @@
   outline: none;
 }
 
-%center {
+@define-extend center {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -33,29 +33,18 @@
   transform: translate(-50%, -50%);
 }
 
-%centerx {
+@define-extend centerx {
   position: absolute;
   left: 50%;
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
 }
 
-%centery {
+@define-extend centery {
   position: absolute;
   top: 50%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
-}
-
-% {
-  display: none !important;
-  visibility: hidden;
-}
-
-%list-reset {
-  list-style: none;
-  padding: 0;
-  margin: 0;
 }
 
 
@@ -93,10 +82,6 @@
     font-weight: $weight;
     font-style: $style;
   }
-}
-
-@define-mixin rem $px {
-  
 }
 
 
