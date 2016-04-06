@@ -7,9 +7,9 @@ import ReactDOM from 'react-dom';
 
 import MainMenu from './components/MainMenu';
 import MenuDevice from './components/MenuDevice';
-import MapView from './components/Map';
+import MapView from './scripts/views/MapView.js';
 
-import helpers from './helpers.js'
+import utils from './scripts/helpers/utils.js'
 
 class App extends React.Component {
 
@@ -23,11 +23,11 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.setState(helpers.checkDevice());
+    this.setState(utils.checkDevice());
   }
 
   componentDidMount() {
-    var map = new MapView({ 'mapElement': this.refs.Map });
+    var map = new MapView({ mapElement: this.refs.Map });
   }
 
   toggleMenu() {
