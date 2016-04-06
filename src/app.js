@@ -20,7 +20,9 @@ class App extends React.Component {
     this.state = {
       currentTab: 'who-cares',
       device: null,
-      menuDeviceOpen: false
+      menuDeviceOpen: false,
+      infowindowVisibility: true,
+      infowindowPosition: { top: '50%', left: '50%' }
     }
   }
 
@@ -29,7 +31,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    var map = new MapView({ mapElement: this.refs.Map });
+    this.map = new MapView({ 
+      mapElement: this.refs.Map,
+      infowindowOpenFn: this.infowindowOpen
+    });
+
   }
 
   toggleMenu() {
@@ -40,16 +46,34 @@ class App extends React.Component {
     this.setState({ currentTab: tab });
   }
 
+  infowindowClose() {
+    this.setState({ infowindowVisibility: false });
+  }
+
+  infowindowOpen(position) {
+    this.setState({ infowindowVisibility: true, infowindowPosition: position });
+  }
+
   render() {
     let menuDevice = null;
+    let infoWindow = null;
 
-    if (this.state.device) {
+    if (this.state.mobile) {
       menuDevice = (
         <MenuDevice
-          deviceMenuOpen={ this.state.menuDeviceOpen }
-          toggleMenuFn={ this.toggleMenu.bind(this) }
+          deviceMenuOpen = { this.state.menuDeviceOpen }
+          toggleMenuFn = { this.toggleMenu.bind(this) }
         />
       );
+    }
+
+    if (this.state.infowindowVisibility) {
+      infoWindow = (
+        <Infowindow
+          position = { !this.state.mobile ? this.state.infowindowPosition : null }
+          closeFn = { this.infowindowClose.bind(this) }
+        />
+      )
     }
 
     return (
@@ -60,9 +84,9 @@ class App extends React.Component {
               <svg className="icon icon-logo"><use xlinkHref="#icon-logo"></use></svg>
             </a>
             <MainMenu
-              currentTab={ this.state.currentTab }
-              toggleMenuFn={ this.toggleMenu.bind(this) }
-              changeTabFn={ this.changeTab.bind(this) }
+              currentTab = { this.state.currentTab }
+              toggleMenuFn = { this.toggleMenu.bind(this) }
+              changeTabFn = { this.changeTab.bind(this) }
             />
           </div>
         </div>
@@ -76,8 +100,7 @@ class App extends React.Component {
         </div>
 
         { menuDevice }
-
-        <Infowindow />
+        { infoWindow }
       </div>
     );
   }

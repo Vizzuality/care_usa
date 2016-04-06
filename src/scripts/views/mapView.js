@@ -25,6 +25,16 @@ class MapView extends Backbone.View {
   _createMap() {
     L.mapbox.accessToken = this.options.accessToken;
     this.map = L.mapbox.map(this.options.mapElement, 'mapbox.streets', this.options);
+
+    this._setEvents();
+  }
+
+  _setEvents() {
+    this.map.on('click', this._IHaveBeenClicked.bind(this));
+  }
+
+  _IHaveBeenClicked(e) {
+    console.log(e)
   }
 
   _addLayer(options) {
