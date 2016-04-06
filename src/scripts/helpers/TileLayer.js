@@ -31,7 +31,7 @@ class CreateTileLayer {
         'type': 'cartodb',
         'options': {
           'sql': this.options.sql,
-          'cartocss': '#destinations {polygon-fill: #229A00; }',
+          'cartocss': this.options.cartoCss,
           'cartocss_version': '2.3.0'
         }
       }]
