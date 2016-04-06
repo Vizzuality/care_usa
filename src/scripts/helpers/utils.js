@@ -2,6 +2,7 @@
 
 import $ from 'jquery';
 
+
 function checkDevice() {
   const mobileWidth = 640;
   const tableWidth = 767;

@@ -7,9 +7,9 @@ import ReactDOM from 'react-dom';
 
 import MainMenu from './components/MainMenu';
 import MenuDevice from './components/MenuDevice';
-import MapView from './components/Map';
+import MapView from './scripts/views/mapView.js';
 
-import helpers from './helpers.js'
+import utils from './scripts/helpers/utils.js'
 
 class App extends React.Component {
 
