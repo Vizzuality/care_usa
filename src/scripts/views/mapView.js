@@ -1,36 +1,43 @@
+'use strict';
+
 import React from 'react';
 import Backbone from 'backbone';
+import _ from 'underscore';
 
-import createTileLayer from './../helpers/createTileLayer';
+import TileLayer from './../helpers/TileLayer';
 
-var MapView =  Backbone.View.extend({
+const defaults = {
+  accessToken: 'pk.eyJ1IjoiZGhha2VsaWxhIiwiYSI6InRkODNmdzAifQ.1aPjRitXRLOeocZSZ5jqAw',
+  style: 'mapbox://styles/mapbox/streets-v8',
+  center: [-3.7, 40.41],
+  zoom: 3
+};
 
-  el: 'map',
+class MapView extends Backbone.View {
 
-  optionsMap: {
-    style: 'mapbox://styles/mapbox/streets-v8',
-    center: [-3.7, 40.41],
-    zoom: 3
-  },
+  initialize(options) {
+    this.options = _.extend(options, defaults);
 
-  initialize: function (options) {
-    this.options = options || {};
-
-    this.mapElement = this.options.mapElement;
     this._createMap();
-  },
-
-  _createMap: function() {
-    L.mapbox.accessToken = 'pk.eyJ1IjoiZGhha2VsaWxhIiwiYSI6InRkODNmdzAifQ.1aPjRitXRLOeocZSZ5jqAw';
-    
-    this.map = L.mapbox.map(this.mapElement, 'mapbox.streets').setView(this.optionsMap.center, this.optionsMap.zoom);
-
-    this._addLayers();
-  },
-
-  _addLayers: function() {
-    this.createTileLayer.createLayer();
+    this._addLayer();
   }
-});
+
+  _createMap() {
+    L.mapbox.accessToken = this.options.accessToken;
+    this.map = L.mapbox.map(this.options.mapElement, 'mapbox.streets', this.options);
+  }
+
+  _addLayer(options) {
+
+    //Temporary. Until we recive options from somewhere else. 
+    options = {
+      sql: 'with r as (SELECT count(iso), iso FROM care_donors group by iso) SELECT r.count, r.iso, s.the_geom_webmercator FROM r inner join borders_care s on r.iso=s.iso' 
+    }
+
+    const layer = new TileLayer(options);
+    layer.createLayer().then( () => { layer.addLayer(this.map) } );
+  }
+
+};
 
 export default MapView;

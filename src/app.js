@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 
 import MainMenu from './components/MainMenu';
 import MenuDevice from './components/MenuDevice';
-import MapView from './scripts/views/mapView.js';
+import MapView from './scripts/views/MapView.js';
 
 import utils from './scripts/helpers/utils.js'
 
@@ -23,7 +23,7 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.setState(helpers.checkDevice());
+    this.setState(utils.checkDevice());
   }
 
   componentDidMount() {
