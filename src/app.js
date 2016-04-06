@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 
 import MainMenu from './components/MainMenu';
 import MenuDevice from './components/MenuDevice';
+import MapView from './components/Map';
 
 import helpers from './helpers.js'
 
@@ -23,6 +24,10 @@ class App extends React.Component {
 
   componentWillMount() {
     this.setState(helpers.checkDevice());
+  }
+
+  componentDidMount() {
+    var map = new MapView({ 'mapElement': this.refs.Map });
   }
 
   toggleMenu() {
@@ -60,7 +65,7 @@ class App extends React.Component {
           </div>
         </div>
 
-        <div id="map" className="l-map"></div>
+        <div id="map" className="l-map" ref="Map"></div>
 
         <div id="dashboard" className="l-dashboard"></div>
         <div id="timeline" className="l-timeline"></div>
