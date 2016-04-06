@@ -4,7 +4,6 @@ import './styles.postcss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
 class MainMenu extends React.Component {
 
   constructor(props) {
@@ -14,7 +13,7 @@ class MainMenu extends React.Component {
   render() {
     return (
       <div className="m-main-menu" id="mainMenu">
-        <button 
+        <button
           className="btn-menu-toggle"
           onClick={ this.props.toggleMenuFn }
         />

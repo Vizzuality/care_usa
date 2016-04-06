@@ -24,19 +24,6 @@ const prodPlugins = [
   new webpack.optimize.OccurrenceOrderPlugin()
 ];
 
-const options = {
-
-  functions: {
-    rem: function ($px) {
-       var base = 16;
-       var rem = ($px / base) + 'rem';
-
-       return rem;
-    }
-  }
-
-};
-
 const config = {
 
   context: path.join(__dirname, 'src'),
@@ -65,7 +52,18 @@ const config = {
 
   plugins: process.env.NODE_ENV === 'production' ? prodPlugins : [],
 
-  postcss: (webpack) => [ postcssImporter({ addDependencyTo: webpack }), autoprefixer, postcssMixins, postcssSimpleVars, postcssNested, postcssFunctions(options) ]
+  postcss: (webpack) => [
+    postcssImporter({ addDependencyTo: webpack }),
+    autoprefixer,
+    postcssMixins,
+    postcssSimpleVars,
+    postcssNested,
+    postcssFunctions({
+      functions: {
+        rem: (px) => (px / 16) + 'rem'
+      }
+    })
+  ]
 
 };
 

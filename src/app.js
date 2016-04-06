@@ -22,23 +22,28 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    var device = helpers.checkDevice();
-    this.setState(device);
+    this.setState(helpers.checkDevice());
   }
 
   toggleMenu() {
-    this.setState({ 'menuDeviceOpen': ! !!this.state.menuDeviceOpen });
+    this.setState({ menuDeviceOpen: !this.state.menuDeviceOpen });
   }
 
   changeTab(tab, e) {
-    this.setState({ 'currentTab': tab });
+    this.setState({ currentTab: tab });
   }
 
   render() {
-    var menuDevice = this.state.device ? (<MenuDevice 
-      deviceMenuOpen= { this.state.menuDeviceOpen }
-      toggleMenuFn= { this.toggleMenu.bind(this) }
-    />) : null
+    let menuDevice = null;
+
+    if (this.state.device) {
+      menuDevice = (
+        <MenuDevice
+          deviceMenuOpen={ this.state.menuDeviceOpen }
+          toggleMenuFn={ this.toggleMenu.bind(this) }
+        />
+      );
+    }
 
     return (
       <div className="l-app">
@@ -47,16 +52,16 @@ class App extends React.Component {
             <a href="/" className="logo">
               <svg className="icon icon-logo"><use xlinkHref="#icon-logo"></use></svg>
             </a>
-            <MainMenu 
-              currentTab = { this.state.currentTab }
-              toggleMenuFn= { this.toggleMenu.bind(this) }
-              changeTabFn= { this.changeTab.bind(this) }
+            <MainMenu
+              currentTab={ this.state.currentTab }
+              toggleMenuFn={ this.toggleMenu.bind(this) }
+              changeTabFn={ this.changeTab.bind(this) }
             />
           </div>
         </div>
 
         <div id="map" className="l-map"></div>
-        
+
         <div id="dashboard" className="l-dashboard"></div>
         <div id="timeline" className="l-timeline"></div>
         <div id="donate" className="l-donate">
@@ -67,7 +72,7 @@ class App extends React.Component {
       </div>
     );
   }
-  
+
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
