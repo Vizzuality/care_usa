@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 
 import MainMenu from './components/MainMenu';
 import MenuDevice from './components/MenuDevice';
+import TimelineView from './components/Timeline';
 import MapView from './scripts/views/MapView.js';
 
 import utils from './scripts/helpers/utils.js'
@@ -28,6 +29,7 @@ class App extends React.Component {
 
   componentDidMount() {
     var map = new MapView({ mapElement: this.refs.Map });
+    var timeline = new TimelineView({ el: this.refs.Timeline });
   }
 
   toggleMenu() {
@@ -68,7 +70,12 @@ class App extends React.Component {
         <div id="map" className="l-map" ref="Map"></div>
 
         <div id="dashboard" className="l-dashboard"></div>
-        <div id="timeline" className="l-timeline"></div>
+        <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
+          <svg className="btn js-button">
+            <use xlinkHref="#icon-play" className="js-button-icon"></use>
+          </svg>
+          <div className="svg-container js-svg-container"></div>
+        </div>
         <div id="donate" className="l-donate">
           <button className="btn -secondary"></button>
         </div>
