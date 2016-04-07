@@ -18,7 +18,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 'who-cares',
+      currentPage: 'who-cares',
+      currentMap: 'donations',
       device: null,
       menuDeviceOpen: false,
       infowindowVisibility: false,
@@ -42,8 +43,8 @@ class App extends React.Component {
     this.setState({ menuDeviceOpen: !this.state.menuDeviceOpen });
   }
 
-  changeTab(tab, e) {
-    this.setState({ currentTab: tab });
+  changeTab(page, e) {
+    this.setState({ currentPage: page });
   }
 
   infowindowClose() {
@@ -76,6 +77,7 @@ class App extends React.Component {
         <Infowindow
           position = { !this.state.mobile ? this.state.infowindowPosition : null }
           latLong = { this.state.latLong }
+          currentMap = { this.state.currentMap }
           closeFn = { this.infowindowClose.bind(this) }
         />
       )
