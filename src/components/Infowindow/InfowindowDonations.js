@@ -1,31 +1,20 @@
-'use strict';
+'use strict'
 
-import './styles.postcss';
 import React from 'react';
 import DonorsModel from './../../scripts/models/DonorsModel';
 
+import InfoWindow from './index';
 
-class Infowindow extends React.Component {
-  
+class InfoWindowDonations extends InfoWindow {
+
   constructor(props) {
     super(props);
 
     this.state = {
-      city: null,
       visibility: null
     }
 
-    this.model = null;
-  }
-
-  componentWillMount() {
-    this.model.fetch().done( () => {
-      this.setState({ 
-        city: this.model.attributes[0].city, 
-        amount: this.model.attributes[0].amount,
-        visibility: true,
-      });
-    });
+    this.model = new DonorsModel( {lat: this.props.latLong.lat, lng: this.props.latLong.lng });
   }
 
   render() {
@@ -40,11 +29,12 @@ class Infowindow extends React.Component {
           <svg className="icon icon-close"><use xlinkHref="#icon-close"></use></svg>
         </button>
         <div className="wrapper">
-          <h2>{ this.state.city }</h2>
+          <h2>Donations</h2>
         </div>
       </div>
     )
   }
-};
+  
+}
 
-export default Infowindow;
+export default InfoWindowDonations;

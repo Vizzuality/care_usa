@@ -7,7 +7,8 @@ import ReactDOM from 'react-dom';
 
 import MainMenu from './components/MainMenu';
 import MenuDevice from './components/MenuDevice';
-import Infowindow from './components/Infowindow';
+import InfowindowDonations from './components/Infowindow/InfowindowDonations';
+import InfowindowProjects from './components/Infowindow/InfowindowProjects';
 
 import MapView from './scripts/views/MapView.js';
 
@@ -73,14 +74,25 @@ class App extends React.Component {
     }
 
     if (this.state.infowindowVisibility) {
-      infoWindow = (
-        <Infowindow
-          position = { !this.state.mobile ? this.state.infowindowPosition : null }
-          latLong = { this.state.latLong }
-          currentMap = { this.state.currentMap }
-          closeFn = { this.infowindowClose.bind(this) }
-        />
-      )
+      if (this.state.currentMap == 'donations') {
+        infoWindow = (
+          <InfowindowDonations
+            position = { !this.state.mobile ? this.state.infowindowPosition : null }
+            latLong = { this.state.latLong }
+            currentMap = { this.state.currentMap }
+            closeFn = { this.infowindowClose.bind(this) }
+          />
+        )
+      } else {
+        infoWindow = (
+          <InfowindowProjects
+            position = { !this.state.mobile ? this.state.infowindowPosition : null }
+            latLong = { this.state.latLong }
+            currentMap = { this.state.currentMap }
+            closeFn = { this.infowindowClose.bind(this) }
+          />
+        )
+      }
     }
 
     return (
