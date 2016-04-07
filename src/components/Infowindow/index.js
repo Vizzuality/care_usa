@@ -2,13 +2,17 @@
 
 import './styles.postcss';
 import React from 'react';
+import ProjectModel from './../../scripts/models/ProjectModel';
 
 class Infowindow extends React.Component {
   
   constructor(props) {
     super(props);
+  }
 
-    // console.log(this.props)
+  componentWillMount() {
+    console.log(this.props);
+    const projectModel = new ProjectModel();
   }
 
   render() {

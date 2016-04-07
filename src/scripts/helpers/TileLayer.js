@@ -10,12 +10,12 @@ const defaults = {
 class CreateTileLayer {
 
   /*
-   * Options: 
+   * Options: {
    *  account,
    *  sql,
-   *  cartoCss,
+   *  cartoCss
+   * }
    */
-
   constructor(options) {
     this.options = Object.assign(defaults, options);
   }

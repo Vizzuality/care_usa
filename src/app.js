@@ -21,8 +21,8 @@ class App extends React.Component {
       currentTab: 'who-cares',
       device: null,
       menuDeviceOpen: false,
-      infowindowVisibility: true,
-      infowindowPosition: { top: '50%', left: '50%' }
+      infowindowVisibility: false,
+      infowindowPosition: {}
     }
   }
 
@@ -33,7 +33,7 @@ class App extends React.Component {
   componentDidMount() {
     this.map = new MapView({ 
       mapElement: this.refs.Map,
-      infowindowOpenFn: this.infowindowOpen
+      infowindowOpenFn: this.infowindowOpen.bind(this)
     });
 
   }
@@ -50,8 +50,12 @@ class App extends React.Component {
     this.setState({ infowindowVisibility: false });
   }
 
-  infowindowOpen(position) {
-    this.setState({ infowindowVisibility: true, infowindowPosition: position });
+  infowindowOpen(position, latLong) {
+    this.setState({ 
+      infowindowVisibility: true, 
+      infowindowPosition: position,
+      latLong: latLong
+    });
   }
 
   render() {
@@ -71,6 +75,7 @@ class App extends React.Component {
       infoWindow = (
         <Infowindow
           position = { !this.state.mobile ? this.state.infowindowPosition : null }
+          latLong = { this.state.latLong }
           closeFn = { this.infowindowClose.bind(this) }
         />
       )

@@ -30,15 +30,17 @@ class MapView extends Backbone.View {
   }
 
   _setEvents() {
-    this.map.on('click', this._IHaveBeenClicked.bind(this));
+    this.map.on('click', this._infowindowSetUp);
   }
 
-  _IHaveBeenClicked(e) {
-    console.log(e)
+  _infowindowSetUp(e) {
+    //TODO. Adjust postion near to borders limits.
+    const latLong = e.latlng;
+    const position = { left: e.containerPoint.x + 'px', top: e.containerPoint.y + 'px' };
+    this.options.infowindowOpenFn(position, latLong)
   }
 
   _addLayer(options) {
-
     //Temporary. Until we recive options from somewhere else. 
     options = {
       sql: 'with r as (SELECT count(iso), iso FROM care_donors group by iso) SELECT r.count, r.iso, s.the_geom_webmercator FROM r inner join borders_care s on r.iso=s.iso' ,
