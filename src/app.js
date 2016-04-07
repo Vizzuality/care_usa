@@ -81,7 +81,7 @@ class App extends React.Component {
         <div id="header" className="l-header">
           <div className="wrap">
             <a href="/" className="logo">
-              <svg className="icon icon-logo"><use xlinkHref="#icon-logo"></use></svg>
+              <img className="icon icon-logo" src={"./src/images/logo.svg"}></img>
             </a>
             <MainMenu
               currentTab = { this.state.currentTab }

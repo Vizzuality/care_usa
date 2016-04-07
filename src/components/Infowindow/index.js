@@ -8,13 +8,18 @@ class Infowindow extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props)
+    // console.log(this.props)
   }
 
   render() {
     return(
       <div className="m-infowindow" style={ this.props.position }>
-        <button onClick={ this.props.closeFn }></button>
+        <button 
+          onClick={ this.props.closeFn } 
+          className="btn-close"
+        >
+          <svg className="icon icon-close"><use xlinkHref="#icon-close"></use></svg>
+        </button>
         <p>I'm your new Infowindow!</p>
       </div>
     )

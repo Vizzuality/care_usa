@@ -1,4 +1,5 @@
 @import'../../styles/settings.postcss';
+@import'../../styles/helpers.postcss';
 
 .m-infowindow {
   position: absolute;
@@ -14,6 +15,7 @@
   @media screen and (min-width: $screen-m) {
     right: auto;
     height: auto;
+    min-height: rem(100);
     padding: rem(30);
     box-shadow: 0 0 5px 0 rgba(40, 40, 42, 0.3);
 
@@ -40,6 +42,26 @@
       bottom: rem(-11);
       left: 51%;
       border-top: 10px solid rgba(40, 40, 42, 0.1);
+    }
+  }
+
+  .btn-close {
+    @extend %clean-button-or-input;
+    width: rem(15);
+    height: rem(15);
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: rem(20);
+
+    @media screen and (min-width: $screen-m) {
+      margin: rem(20) rem(30);
+    }
+
+    .icon-close {
+      width: 100%;
+      height: 100%;
+      fill: $white;
     }
   }
 
