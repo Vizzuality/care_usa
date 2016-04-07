@@ -31,6 +31,7 @@ const config = {
   entry: [
     'webpack/hot/dev-server',
     './index.html',
+    './anniversary.html',
     './app.js'
   ],
 
