@@ -7,6 +7,9 @@ import ReactDOM from 'react-dom';
 
 import MainMenu from './components/MainMenu';
 import MenuDevice from './components/MenuDevice';
+import InfowindowDonations from './components/Infowindow/InfowindowDonations';
+import InfowindowProjects from './components/Infowindow/InfowindowProjects';
+
 import MapView from './scripts/views/MapView.js';
 
 import utils from './scripts/helpers/utils.js'
@@ -16,9 +19,12 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 'who-cares',
+      currentPage: 'who-cares',
+      currentMap: 'donations',
       device: null,
-      menuDeviceOpen: false
+      menuDeviceOpen: false,
+      infowindowVisibility: false,
+      infowindowPosition: {}
     }
   }
 
@@ -27,27 +33,66 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    var map = new MapView({ mapElement: this.refs.Map });
+    this.map = new MapView({ 
+      mapElement: this.refs.Map,
+      infowindowOpenFn: this.infowindowOpen.bind(this)
+    });
+
   }
 
   toggleMenu() {
     this.setState({ menuDeviceOpen: !this.state.menuDeviceOpen });
   }
 
-  changeTab(tab, e) {
-    this.setState({ currentTab: tab });
+  changeTab(page, e) {
+    this.setState({ currentPage: page });
+  }
+
+  infowindowClose() {
+    this.setState({ infowindowVisibility: false });
+  }
+
+  infowindowOpen(position, latLong) {
+    this.setState({ 
+      infowindowVisibility: true, 
+      infowindowPosition: position,
+      latLong: latLong
+    });
   }
 
   render() {
     let menuDevice = null;
+    let infoWindow = null;
 
-    if (this.state.device) {
+    if (this.state.mobile) {
       menuDevice = (
         <MenuDevice
-          deviceMenuOpen={ this.state.menuDeviceOpen }
-          toggleMenuFn={ this.toggleMenu.bind(this) }
+          deviceMenuOpen = { this.state.menuDeviceOpen }
+          toggleMenuFn = { this.toggleMenu.bind(this) }
         />
       );
+    }
+
+    if (this.state.infowindowVisibility) {
+      if (this.state.currentMap == 'donations') {
+        infoWindow = (
+          <InfowindowDonations
+            position = { !this.state.mobile ? this.state.infowindowPosition : null }
+            latLong = { this.state.latLong }
+            currentMap = { this.state.currentMap }
+            closeFn = { this.infowindowClose.bind(this) }
+          />
+        )
+      } else {
+        infoWindow = (
+          <InfowindowProjects
+            position = { !this.state.mobile ? this.state.infowindowPosition : null }
+            latLong = { this.state.latLong }
+            currentMap = { this.state.currentMap }
+            closeFn = { this.infowindowClose.bind(this) }
+          />
+        )
+      }
     }
 
     return (
@@ -55,12 +100,12 @@ class App extends React.Component {
         <div id="header" className="l-header">
           <div className="wrap">
             <a href="/" className="logo">
-              <svg className="icon icon-logo"><use xlinkHref="#icon-logo"></use></svg>
+              <img className="icon icon-logo" src={"./src/images/logo.svg"}></img>
             </a>
             <MainMenu
-              currentTab={ this.state.currentTab }
-              toggleMenuFn={ this.toggleMenu.bind(this) }
-              changeTabFn={ this.changeTab.bind(this) }
+              currentTab = { this.state.currentTab }
+              toggleMenuFn = { this.toggleMenu.bind(this) }
+              changeTabFn = { this.changeTab.bind(this) }
             />
           </div>
         </div>
@@ -74,6 +119,7 @@ class App extends React.Component {
         </div>
 
         { menuDevice }
+        { infoWindow }
       </div>
     );
   }

@@ -25,15 +25,27 @@ class MapView extends Backbone.View {
   _createMap() {
     L.mapbox.accessToken = this.options.accessToken;
     this.map = L.mapbox.map(this.options.mapElement, 'mapbox.streets', this.options);
+
+    this._setEvents();
+  }
+
+  _setEvents() {
+    this.map.on('click', this._infowindowSetUp);
+  }
+
+  _infowindowSetUp(e) {
+    //TODO. Adjust postion near to borders limits.
+    const latLong = e.latlng;
+    const position = { left: e.containerPoint.x + 'px', top: e.containerPoint.y + 'px' };
+    this.options.infowindowOpenFn(position, latLong)
   }
 
   _addLayer(options) {
-
     //Temporary. Until we recive options from somewhere else. 
     options = {
       sql: 'with r as (SELECT count(iso), iso FROM care_donors group by iso) SELECT r.count, r.iso, s.the_geom_webmercator FROM r inner join borders_care s on r.iso=s.iso' ,
-      cartoCss: '#destinations {polygon-fill: #229A00; }'
-    }
+      cartoCss: '#care_donors{marker-fill-opacity: 0.9;marker-line-color: #FFF;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;marker-type: ellipse;marker-width: 10;marker-fill: #FF6600;marker-allow-overlap: true;}'
+   }
 
     const currentLayer = new TileLayer(options);
     currentLayer.createLayer().then( () => { currentLayer.addLayer(this.map) } );

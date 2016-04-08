@@ -3,6 +3,7 @@
 import webpack from 'webpack';
 import autoprefixer from 'autoprefixer';
 import postcssMixins from 'postcss-mixins';
+import postcssExtend from 'postcss-extend';
 import postcssSimpleVars from 'postcss-simple-vars';
 import postcssNested from 'postcss-nested';
 import postcssImporter from 'postcss-import';
@@ -56,6 +57,7 @@ const config = {
     postcssImporter({ addDependencyTo: webpack }),
     autoprefixer,
     postcssMixins,
+    postcssExtend,
     postcssSimpleVars,
     postcssNested,
     postcssFunctions({
