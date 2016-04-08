@@ -1,6 +1,7 @@
 'use strict';
 
 import webpack from 'webpack';
+import ExtractPlugin from 'extract-text-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import postcssMixins from 'postcss-mixins';
 import postcssSimpleVars from 'postcss-simple-vars';
@@ -24,6 +25,10 @@ const prodPlugins = [
   new webpack.optimize.OccurrenceOrderPlugin()
 ];
 
+const plugins = [
+  new ExtractPlugin('bundle.css'), //To extract CSS
+];
+
 const config = {
 
   context: path.join(__dirname, 'src'),
@@ -31,16 +36,19 @@ const config = {
   entry: [
     'webpack/hot/dev-server',
     './index.html',
+    './app.js',
     './anniversary.html',
-    './app.js'
+    './anniversary.js'
   ],
 
   publicPath: '/assets/',
 
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
+
+  plugins: plugins,
 
   module: {
     loaders: [
