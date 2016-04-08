@@ -81,6 +81,27 @@ class TimelineView extends Backbone.View {
           .attr('transform', 'translate(0, ' + (svgContainerDimensions.height / 2 + 4) + ')')
           .call(this.axis);
 
+    /* We need it to calculate the position of the brush */
+    this.axis = d3Axis[0][0];
+
+    this.brush = d3.svg.brush()
+      .x(this.scale)
+      .extent([this.options.domain[1], this.options.domain[1]])
+      .clamp(true)
+      .on('brushstart', this.onCursorStartDrag.bind(this))
+      .on('brush', this.onCursorDrag.bind(this))
+      .on('brushend', this.onCursorEndDrag.bind(this));
+
+    /* Cursor line - needs to be under the ticks */
+    this.d3CursorLine = d3Axis
+      .append('line')
+      .attr('x1', 0)
+      .attr('x2', this.scale(this.options.domain[1]))
+      .attr('y1', 0)
+      .attr('y2', 0)
+      .style('stroke-dasharray', '0, 0')
+      .attr('class', 'cursor-line');
+
     /* We add the ticks for the report */
     d3Axis.selectAll('.tick')
       .append('rect')
@@ -108,18 +129,36 @@ class TimelineView extends Backbone.View {
         .attr('class', 'milestone');
 
     /* We add the cursor */
-    this.d3Cursor = d3Axis
+    const d3Slider = d3Axis
+      .append('g')
+      .attr('class', 'slider')
+      .call(this.brush);
+
+    d3Slider.selectAll('.extent, .resize, .background')
+      .remove();
+
+    this.d3Cursor = d3Slider
       .append('circle')
       .attr('cx', d => this.scale(this.cursorPosition))
       .attr('cy', 0)
       .attr('r', 10)
       .attr('class', 'cursor');
+
+    this.cursor = this.d3Cursor[0][0];
+
+    this.d3Cursor
+      .call(this.brush.event);
+
+    /* TODO: use the real dates insteaf of these */
+    if(!this.options.data) {
+      this.options.data = this.scale.ticks(d3.time.week, 2).map(date => {
+        return { date };
+      })
+    }
   }
 
   togglePlay() {
-    this.playing = !this.playing;
-    this.buttonIcon.setAttribute('xlink:href', `#icon-${this.playing ? 'pause' : 'play'}`);
-    if(this.playing) {
+    if(!this.playing) {
       this.play();
     } else {
       this.stop();
@@ -127,12 +166,10 @@ class TimelineView extends Backbone.View {
   }
 
   play() {
-    /* TODO: use the real dates insteaf of these */
-    if(!this.options.data) {
-      this.options.data = this.scale.ticks(d3.time.week, 2).map(date => {
-        return { date };
-      })
-    }
+    if(this.playing) return;
+
+    this.playing = true;
+    this.buttonIcon.setAttribute('xlink:href', '#icon-pause');
 
     /* We move the cursor at the beginning if it's at the end */
     if(this.cursorPosition === this.options.domain[1]) {
@@ -150,15 +187,18 @@ class TimelineView extends Backbone.View {
   }
 
   stop() {
-    if(this.animationFrame) {
-      cancelAnimationFrame(this.animationFrame);
-      this.animationFrame = null;
+    if(!this.playing) return;
 
-      /* We place the cursor at the end of the timeline if we reached the end */
-      if(this.currentDataIndex === this.options.data.length - 1) {
-        this.cursorPosition = this.options.domain[1];
-        this.moveCursor(this.cursorPosition);
-      }
+    this.playing = false;
+    this.buttonIcon.setAttribute('xlink:href', '#icon-play');
+
+    cancelAnimationFrame(this.animationFrame);
+    this.animationFrame = null;
+
+    /* We place the cursor at the end of the timeline if we reached the end */
+    if(this.currentDataIndex === this.options.data.length - 1) {
+      this.cursorPosition = this.options.domain[1];
+      this.moveCursor(this.cursorPosition);
     }
   }
 
@@ -194,15 +234,18 @@ class TimelineView extends Backbone.View {
     if(this.cursorPosition < this.options.domain[1]) {
       this.animationFrame = requestAnimationFrame(this.renderAnimationFrame.bind(this));
     } else {
-      this.togglePlay();
+      this.stop();
     }
   }
 
   moveCursor(date) {
+    this.brush.extent([date, date]);
     this.d3Cursor.attr('cx', this.scale(date));
+    this.d3CursorLine.attr('x2', this.scale(date));
   }
 
   /* TODO */
+  /* TODO: should absolutely be debounced because of the brush */
   triggerCurrentData() {
     console.log('Trigger data for', this.options.data[this.currentDataIndex]);
   }
@@ -213,6 +256,49 @@ class TimelineView extends Backbone.View {
    * https://github.com/mbostock/d3/issues/2790 */
   dayOffset(date, offset) {
     return new Date(+date + offset * 24 * 60 * 60 * 1000);
+  }
+
+  onCursorStartDrag() {
+    this.stop();
+    document.body.classList.add('-grabbing');
+  }
+
+  onCursorEndDrag() {
+    document.body.classList.remove('-grabbing');
+  }
+
+  onCursorDrag() {
+    if(!d3.event.sourceEvent) return;
+
+    let date = this.scale.invert(d3.mouse(this.axis)[0]);
+    if(date > this.options.domain[1]) date = this.options.domain[1];
+    if(date < this.options.domain[0]) date = this.options.domain[0];
+
+    const dataIndex = this.getClosestDataIndex(date);
+    if(dataIndex !== this.currentDataIndex) {
+      this.currentDataIndex = this.getClosestDataIndex(date);
+      this.triggerCurrentData();
+    }
+
+    this.cursorPosition = date;
+    this.moveCursor(date);
+  }
+
+  /* Return the index of the data item with the closest date to the one passed
+   * as argument */
+  getClosestDataIndex(date) {
+    var current = 0;
+    while(current < this.options.data.length - 1) {
+      if(this.options.data[current].date > date) {
+        if(current === 0) return current;
+        const previousDiff = +date - (+this.options.data[current - 1].date);
+        const nextDiff = +this.options.data[current].date - (+date);
+        if(previousDiff <= nextDiff) return current - 1;
+        return current;
+      }
+      current++;
+    }
+    return this.options.data.length - 1;
   }
 
 };

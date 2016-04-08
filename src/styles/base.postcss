@@ -25,5 +25,10 @@ body {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  &.-grabbing {
+    cursor: -webkit-grabbing !important; /* Autoprefixer doesn't work for that */
+    cursor:    -moz-grabbing !important;
+    cursor:         grabbing !important;
+  }
 }
-  

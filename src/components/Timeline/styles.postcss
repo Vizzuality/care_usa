@@ -37,6 +37,18 @@
         stroke: rgba($color-4, .3);
         fill: none;
       }
+
+      .cursor {
+        fill: $color-4;
+        cursor: -webkit-grab; /* Autoprefixer doesn't work for that */
+        cursor:    -moz-grab;
+        cursor:         grab;
+      }
+
+      .cursor-line {
+        stroke: $color-4;
+        stroke-width: 3px; /* rem value not supported for this property */
+      }
     }
   }
 }
