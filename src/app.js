@@ -33,7 +33,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.map = new MapView({ 
+    this.map = new MapView({
       mapElement: this.refs.Map,
       infowindowOpenFn: this.infowindowOpen.bind(this)
     });
@@ -53,8 +53,8 @@ class App extends React.Component {
   }
 
   infowindowOpen(position, latLong) {
-    this.setState({ 
-      infowindowVisibility: true, 
+    this.setState({
+      infowindowVisibility: true,
       infowindowPosition: position,
       latLong: latLong
     });
@@ -126,4 +126,8 @@ class App extends React.Component {
 
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+const appElement = document.getElementById('app');
+
+if (appElement) {
+  ReactDOM.render(<App />, appElement);
+}
