@@ -1,18 +1,14 @@
 'use strict';
 
-import 'normalize.css';
-import './app.postcss';
 import React  from 'react';
-import ReactDOM from 'react-dom';
+import MainMenu from '../MainMenu';
+import MenuDevice from '../MenuDevice';
+import InfowindowDonations from '../Infowindow/InfowindowDonations';
+import InfowindowProjects from '../Infowindow/InfowindowProjects';
 
-import MainMenu from './components/MainMenu';
-import MenuDevice from './components/MenuDevice';
-import InfowindowDonations from './components/Infowindow/InfowindowDonations';
-import InfowindowProjects from './components/Infowindow/InfowindowProjects';
+import MapView from '../Map';
 
-import MapView from './scripts/views/MapView.js';
-
-import utils from './scripts/helpers/utils.js'
+import utils from '../../scripts/helpers/utils';
 
 class App extends React.Component {
 
@@ -126,8 +122,4 @@ class App extends React.Component {
 
 }
 
-const appElement = document.getElementById('app');
-
-if (appElement) {
-  ReactDOM.render(<App />, appElement);
-}
+export default App;
