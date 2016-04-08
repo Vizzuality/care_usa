@@ -29,7 +29,8 @@ class InfoWindowDonations extends InfoWindow {
           <svg className="icon icon-close"><use xlinkHref="#icon-close"></use></svg>
         </button>
         <div className="wrapper">
-          <h2>Donations</h2>
+          <p>Donations</p>
+          <h2>{ this.state.city }</h2>
         </div>
       </div>
     )
