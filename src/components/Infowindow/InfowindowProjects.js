@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react';
-import DonorsModel from './../../scripts/models/DonorsModel';
+import DonorsModel from './../../scripts/models/DonorModel';
 
 import InfoWindow from './index';
 
@@ -22,8 +22,8 @@ class InfoWindowProjects extends InfoWindow {
 
     return(
       <div className={ infowindowClasses } style={ this.props.position }>
-        <button 
-          onClick={ this.props.closeFn } 
+        <button
+          onClick={ this.props.closeFn }
           className="btn-close"
         >
           <svg className="icon icon-close"><use xlinkHref="#icon-close"></use></svg>
@@ -34,7 +34,7 @@ class InfoWindowProjects extends InfoWindow {
       </div>
     )
   }
-  
+
 }
 
 export default InfoWindowProjects;

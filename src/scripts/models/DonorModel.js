@@ -1,6 +1,5 @@
 'use strict';
 
-import Backbone from 'backbone';
 import CartodbModel from './CartodbModel';
 
 class DonorModel extends CartodbModel {

@@ -2,7 +2,6 @@
 
 import './styles.postcss';
 import React from 'react';
-import DonorsModel from './../../scripts/models/DonorsModel';
 
 class Infowindow extends React.Component {
 
