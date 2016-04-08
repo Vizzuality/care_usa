@@ -172,7 +172,7 @@ class TimelineView extends Backbone.View {
       this.cursorPosition = this.options.data[this.currentDataIndex].date;
       this.moveCursor(this.cursorPosition);
     } else {
-      this.cursorPosition = d3.time.day.offset(this.cursorPosition, this.dayPerFrame);
+      this.cursorPosition = this.dayOffset(this.cursorPosition, this.dayPerFrame);
 
       /* We don't want to overpass the date last data to not go outside of the
        * range */
@@ -209,6 +209,14 @@ class TimelineView extends Backbone.View {
   /* TODO */
   triggerCurrentData() {
     console.log('Trigger data for', this.options.data[this.currentDataIndex]);
+  }
+
+  /* Compute and return date with the passed offset
+   * NOTE: d3.time.day.offset can't be used because the use of float numbers are
+   * not crossbrowser-standardized yet on d3 3.5.16:
+   * https://github.com/mbostock/d3/issues/2790 */
+  dayOffset(date, offset) {
+    return new Date(+date + offset * 24 * 60 * 60 * 1000);
   }
 
 };
