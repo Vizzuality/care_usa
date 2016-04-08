@@ -32,7 +32,8 @@ const config = {
   entry: [
     'webpack/hot/dev-server',
     './index.html',
-    './app.js'
+    './anniversary.html',
+    './app.js',
   ],
 
   publicPath: '/assets/',
