@@ -134,8 +134,10 @@ class TimelineView extends Backbone.View {
       })
     }
 
-    /* We move the cursor at the beginning */
-    this.moveCursor(this.options.domain[0]);
+    /* We move the cursor at the beginning if it's at the end */
+    if(this.cursorPosition === this.options.domain[1]) {
+      this.moveCursor(this.options.domain[0]);
+    }
 
     /* We compute the number of day we need to jump for each animation frame,
      * assuming that the animation loop is called at 60 FPS
@@ -152,13 +154,10 @@ class TimelineView extends Backbone.View {
       cancelAnimationFrame(this.animationFrame);
       this.animationFrame = null;
 
-      /* We place or the cursor on the last date with data or at the end of the
-       * timeline if we reached the end */
+      /* We place the cursor at the end of the timeline if we reached the end */
       if(this.currentDataIndex === this.options.data.length - 1) {
-        this.cursorPosition = this.options.domain[this.options.domain.length - 1];
+        this.cursorPosition = this.options.domain[1];
         this.moveCursor(this.cursorPosition);
-      } else {
-        this.moveCursor(this.options.data[this.currentDataIndex].date);
       }
     }
   }
@@ -167,17 +166,16 @@ class TimelineView extends Backbone.View {
     /* The first time the animation is requested, we place the cursor on the
      * first date we have data for */
     if(this.currentDataIndex === null || this.currentDataIndex === undefined ||
-      this.currentDataIndex === this.options.data.length - 1) {
+      this.cursorPosition === this.options.domain[1]) {
       this.currentDataIndex = 0;
       this.cursorPosition = this.options.data[this.currentDataIndex].date;
       this.moveCursor(this.cursorPosition);
     } else {
       this.cursorPosition = this.dayOffset(this.cursorPosition, this.dayPerFrame);
 
-      /* We don't want to overpass the date last data to not go outside of the
-       * range */
-      if(this.cursorPosition > this.options.data[this.options.data.length - 1]) {
-        this.cursorPosition = this.options.data[this.options.data.length - 1];
+      /* We don't want to overpass the domain */
+      if(this.cursorPosition > this.options.domain[1]) {
+        this.cursorPosition = this.options.domain[1];
       }
 
       this.moveCursor(this.cursorPosition);
@@ -185,17 +183,15 @@ class TimelineView extends Backbone.View {
 
     /* If the cursor has been moved above the next date with data, we set the
      * next data as the current ones and trigger them */
-    if(this.currentDataIndex <= this.options.data.length - 1 &&
+    if(this.currentDataIndex < this.options.data.length - 1 &&
       this.cursorPosition >= this.options.data[this.currentDataIndex + 1].date) {
       this.currentDataIndex++;
       this.triggerCurrentData();
     }
 
-    // console.log(this.cursorPosition);
-
     /* If we don't reach the end, we request another animation, otherwise we move
      * the cursor to its last position on the timeline */
-    if(this.currentDataIndex < this.options.data.length - 1) {
+    if(this.cursorPosition < this.options.domain[1]) {
       this.animationFrame = requestAnimationFrame(this.renderAnimationFrame.bind(this));
     } else {
       this.togglePlay();
