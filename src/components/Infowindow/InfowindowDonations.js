@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react';
-import DonorsModel from './../../scripts/models/DonorsModel';
+import DonorModel from './../../scripts/models/DonorModel';
 
 import InfoWindow from './index';
 
@@ -14,7 +14,7 @@ class InfoWindowDonations extends InfoWindow {
       visibility: null
     }
 
-    this.model = new DonorsModel( {lat: this.props.latLong.lat, lng: this.props.latLong.lng });
+    this.model = new DonorModel( {lat: this.props.latLong.lat, lng: this.props.latLong.lng });
   }
 
   render() {
@@ -22,8 +22,8 @@ class InfoWindowDonations extends InfoWindow {
 
     return(
       <div className={ infowindowClasses } style={ this.props.position }>
-        <button 
-          onClick={ this.props.closeFn } 
+        <button
+          onClick={ this.props.closeFn }
           className="btn-close"
         >
           <svg className="icon icon-close"><use xlinkHref="#icon-close"></use></svg>
@@ -35,7 +35,7 @@ class InfoWindowDonations extends InfoWindow {
       </div>
     )
   }
-  
+
 }
 
 export default InfoWindowDonations;

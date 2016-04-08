@@ -4,9 +4,8 @@ import './styles.postcss';
 import React from 'react';
 import DonorsModel from './../../scripts/models/DonorsModel';
 
-
 class Infowindow extends React.Component {
-  
+
   constructor(props) {
     super(props);
 
@@ -14,27 +13,26 @@ class Infowindow extends React.Component {
       city: null,
       visibility: null
     }
-
-    this.model = null;
   }
 
   componentWillMount() {
-    this.model.fetch().done( () => {
-      this.setState({ 
-        city: this.model.attributes[0].city, 
-        amount: this.model.attributes[0].amount,
-        visibility: true,
+    this.model.fetch().done(() => {
+      this.setState({
+        city: this.model.attributes.city,
+        amount: this.model.attributes.amount,
+        visibility: true
       });
     });
   }
 
   render() {
-    const infowindowClasses = this.state.visibility ? 'm-infowindow' : 'm-infowindow is-hidden'
+    const infowindowClasses = this.state.visibility ?
+      'm-infowindow' : 'm-infowindow is-hidden';
 
     return(
       <div className={ infowindowClasses } style={ this.props.position }>
-        <button 
-          onClick={ this.props.closeFn } 
+        <button
+          onClick={ this.props.closeFn }
           className="btn-close"
         >
           <svg className="icon icon-close"><use xlinkHref="#icon-close"></use></svg>
@@ -45,6 +43,7 @@ class Infowindow extends React.Component {
       </div>
     )
   }
-};
+
+}
 
 export default Infowindow;

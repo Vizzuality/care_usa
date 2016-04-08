@@ -25,6 +25,6 @@ class MenuDevice extends React.Component {
     )
   }
 
-};
+}
 
 export default MenuDevice;

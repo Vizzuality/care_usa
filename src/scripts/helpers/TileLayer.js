@@ -62,7 +62,6 @@ class CreateTileLayer {
     this.layer.addTo(map);
   }
 
-
 }
 
 export default CreateTileLayer;
