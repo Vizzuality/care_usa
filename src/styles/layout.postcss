@@ -143,17 +143,32 @@ $l-margin-vt: 50;
     margin-bottom: 34px;
     line-height: 25px;
   }
+  aside {
+    display: flex;
+    justify-content: center;
+  }
+  a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 200px;
+      height: 45px;
+      text-decoration: none;
+      text-transform: uppercase;
+  }
 }
-.cares-package {
+#cares-package {
   background-image: url("images/backgroundmodules_anniversary01.jpg");
-  background-size: 950px 520px;
   background-repeat: no-repeat;
   background-position: top left;
-}
-
-.power-box {
-  img {
-    width: 216px;
+  @media screen and (min-width: $screen-xs) {
+    background-size: 800px 550px;
+  }
+  @media screen and (min-width: $screen-m) {
+    background-size: 100% 100%;
+  }
+  @media screen and (min-width: $screen-xl) {
+    background-size: 100% 100%;
   }
 }
 
