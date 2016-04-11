@@ -13,8 +13,24 @@
 
     button {
       @extend %clean-button-or-input;
+      text-align: center;
       width: 100%;
       height: rem(35);
+      border: 1px solid rgba($color-1, 0.5);
+      margin-right: rem(5);
+      color: $font-color-4;
+      font-family: $font-family-2;
+      font-size: rem(11);
+      font-weight: 700;
+      letter-spacing: 2.1px;
+      text-transform: uppercase;
+      background-color: rgba($white, .3);
+
+      &.is-active {
+        color: $font-color-2;
+        border: 0;
+        background-color: $color-6;
+      }
     }
   }
 

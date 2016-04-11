@@ -92,14 +92,15 @@ $l-margin-vt: 50;
 .l-dash-tabs {
   position: fixed;
   top: rem($header-height-mb);
-  left: 0;
-  right: 0;
+  left: $wrap-padding-mobile;
+  right: $wrap-padding-mobile;
   height: rem($timeline-height);
-  background-color: #ddd;
 
   @media screen and (min-width: $screen-m) {
    position: relative;
    top: 0;
+   left: 0;
+   right: 0;
   }
 }
 
