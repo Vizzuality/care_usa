@@ -116,9 +116,9 @@ class App extends React.Component {
           </svg>
           <div className="svg-container js-svg-container"></div>
         </div>
-        <div id="donate" className="l-donate">
-          <button className="btn -secondary"></button>
-        </div>
+        <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
+          Donate
+        </a>
 
         { menuDevice }
         { infoWindow }
