@@ -4,6 +4,7 @@ import React  from 'react';
 import MainMenu from '../MainMenu';
 import MenuDevice from '../MenuDevice';
 import TimelineView from '../Timeline';
+import Modal from '../Modal';
 import InfowindowDonations from '../Infowindow/InfowindowDonations';
 import InfowindowProjects from '../Infowindow/InfowindowProjects';
 
@@ -119,6 +120,52 @@ class App extends React.Component {
         <div id="donate" className="l-donate">
           <button className="btn -secondary"></button>
         </div>
+
+        <Modal isOpen={false}>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+          <br/>
+          <br/>
+          <p>I'm a modal</p>
+        </Modal>
 
         { menuDevice }
         { infoWindow }
