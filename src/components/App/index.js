@@ -6,6 +6,7 @@ import MenuDevice from '../MenuDevice';
 import TimelineView from '../Timeline';
 import InfowindowDonations from '../Infowindow/InfowindowDonations';
 import InfowindowProjects from '../Infowindow/InfowindowProjects';
+import Dashboard from '../Dashboard';
 
 import MapView from '../Map';
 
@@ -42,7 +43,7 @@ class App extends React.Component {
     this.setState({ menuDeviceOpen: !this.state.menuDeviceOpen });
   }
 
-  changeTab(page, e) {
+  changePage(page, e) {
     this.setState({ currentPage: page });
   }
 
@@ -56,6 +57,10 @@ class App extends React.Component {
       infowindowPosition: position,
       latLong: latLong
     });
+  }
+
+  changeMap(map, e) {
+    this.setState({ currentMap: map });
   }
 
   render() {
@@ -103,14 +108,18 @@ class App extends React.Component {
             <MainMenu
               currentTab = { this.state.currentTab }
               toggleMenuFn = { this.toggleMenu.bind(this) }
-              changeTabFn = { this.changeTab.bind(this) }
+              changePageFn = { this.changePage.bind(this) }
             />
           </div>
         </div>
 
         <div id="map" className="l-map" ref="Map"></div>
 
-        <div id="dashboard" className="l-dashboard"></div>
+        <Dashboard
+          changeMapFn={ this.changeMap.bind(this) }
+          currentMap={ this.state.currentMap }
+        />
+
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
           <svg className="btn js-button">
             <use xlinkHref="#icon-play" className="js-button-icon"></use>

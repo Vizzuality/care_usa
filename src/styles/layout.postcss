@@ -31,6 +31,7 @@ $l-margin-vt: 50;
   height: 100%;
 }
 
+
 .l-map {
   position: absolute;
   top: 0;
@@ -64,15 +65,17 @@ $l-margin-vt: 50;
 }
 
 
-.l-dashboard {
+.l-dashboard {  
+
   position: absolute;
-  background-color: grey;
-  top: rem($header-height-mb);
   left: 0;
   right: 0;
-  height: rem($timeline-height);
+  bottom: rem(115);
+  height: rem(40);
+  background-color: #ddd;
 
   @media screen and (min-width: $screen-m) {
+    position: absolute;
     left: $wrap-padding-desktop;
     top: rem(110);
     height: auto;
@@ -84,6 +87,27 @@ $l-margin-vt: 50;
   @media screen and (min-width: $screen-xl) {
     left: $wrap-padding-desktop-xl;
   }
+}
+
+.l-dash-tabs {
+  position: fixed;
+  top: rem($header-height-mb);
+  left: 0;
+  right: 0;
+  height: rem($timeline-height);
+  background-color: #ddd;
+
+  @media screen and (min-width: $screen-m) {
+   position: relative;
+   top: 0;
+  }
+}
+
+.l-dash-filters {
+
+}
+
+.l-dash-legend {
 }
 
 

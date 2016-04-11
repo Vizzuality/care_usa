@@ -1,0 +1,21 @@
+@import'../../styles/settings.postcss';
+@import'../../styles/helpers.postcss';
+
+.m-dashboard-tabs {
+
+  .tab {
+    display: inline-block;
+    width: 50%;
+
+    &.is-active {
+      background-color: red;
+    }
+
+    button {
+      @extend %clean-button-or-input;
+      width: 100%;
+      height: rem(35);
+    }
+  }
+
+}
