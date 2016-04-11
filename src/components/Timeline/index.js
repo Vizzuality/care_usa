@@ -2,8 +2,10 @@
 
 import Backbone from 'backbone';
 import _ from 'underscore';
+import $ from 'jquery';
 import d3 from 'd3';
 
+import utils from '../../scripts/helpers/utils';
 import './styles.postcss';
 
 const defaults = {
@@ -46,9 +48,17 @@ class TimelineView extends Backbone.View {
     this.cursorPosition = this.options.domain[this.options.domain.length - 1];
 
     this.render();
+    this.setListeners();
+  }
+
+  setListeners() {
+    $(window).resize(_.debounce(this.render, 50).bind(this));
   }
 
   render() {
+    const smallScreen = utils.checkDevice().mobile ||
+      utils.checkDevice().tablet;
+
     const svgContainerDimensions = this.svgContainer.getBoundingClientRect();
 
     const svgWidth = svgContainerDimensions.width - this.options.svgPadding.left
@@ -66,6 +76,8 @@ class TimelineView extends Backbone.View {
       /* TODO: should accept non yearly domains */
       .ticks(this.options.domain[1].getYear() - this.options.domain[0].getYear())
       .outerTickSize(0);
+
+    this.svgContainer.innerHTML = null;
 
     this.svg = d3.select(this.svgContainer)
       .append('svg')
@@ -105,16 +117,16 @@ class TimelineView extends Backbone.View {
     /* We add the ticks for the report */
     d3Axis.selectAll('.tick')
       .append('rect')
-      .attr('width', 6)
-      .attr('height', 6)
-      .attr('x', -3)
-      .attr('y', -3)
+      .attr('width', smallScreen ? 5 : 6)
+      .attr('height', smallScreen ? 5 : 6)
+      .attr('x', smallScreen ? -2.5 : -3)
+      .attr('y', smallScreen ? -2.5 : -3)
       .attr('transform', 'rotate(45)')
       .attr('class', 'report');
 
     /* We slightly move the ticks' text to the top and center it */
     d3Axis.selectAll('.tick text')
-      .attr('y', -15)
+      .attr('y', smallScreen ? -11 : -15)
       .style('text-anchor', 'middle');
 
     /* We add the milestones */
@@ -141,7 +153,7 @@ class TimelineView extends Backbone.View {
       .append('circle')
       .attr('cx', d => this.scale(this.cursorPosition))
       .attr('cy', 0)
-      .attr('r', 10)
+      .attr('r', smallScreen ? 6 : 10)
       .attr('class', 'cursor');
 
     this.cursor = this.d3Cursor[0][0];

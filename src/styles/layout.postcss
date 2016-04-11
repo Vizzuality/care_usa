@@ -28,7 +28,7 @@ $l-margin-vt: 50;
   top: 0;
   left: 0;
   right: 0;
-  height: 100vh;
+  height: 100%;
 }
 
 .l-map {
@@ -36,7 +36,7 @@ $l-margin-vt: 50;
   top: 0;
   left: 0;
   right: 0;
-  height: 100vh;
+  height: 100%;
 }
 
 
@@ -92,10 +92,10 @@ $l-margin-vt: 50;
   bottom: rem($timeline-height);
   left: 0;
   right: 0;
-  height: rem($timeline-height);
-  background-color: #ddd;
+  height: rem(72);
 
   @media screen and (min-width: $screen-m) {
+    height: rem($timeline-height);
     right: 260px;
     left: $wrap-padding-desktop;
     bottom: rem($l-margin-vt);
@@ -117,7 +117,7 @@ $l-margin-vt: 50;
   @media screen and (min-width: $screen-m) {
     right: $wrap-padding-desktop;
     width: rem(160);
-    left: auto;    
+    left: auto;
     bottom: rem($l-margin-vt);
   }
 
