@@ -1,18 +1,21 @@
 @import'../../styles/settings.postcss';
 @import'../../styles/helpers.postcss';
 
-.m-infowindow {
+
+.m-popup {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 100vh;
   z-index: 5;
+  transform: translate3d(0) !important;
   padding: rem(50) $wrap-padding-mobile;
   color: $font-color-3;
   background-color: $color-2;
 
   @media screen and (min-width: $screen-m) {
+    position: static;
     right: auto;
     height: auto;
     /* transform: translate(-50%, -110%); */
@@ -20,29 +23,6 @@
     min-height: rem(100);
     padding: rem(30);
     box-shadow: 0 0 5px 0 rgba(40, 40, 42, 0.3);
-
-    &:after, 
-    &:before {
-      content: "";
-      position: absolute;
-      transform: translatex(-50%);
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-    }
-
-    &:after {
-      bottom: rem(-10);
-      left: 50%;
-      border-top: 10px solid $color-2;
-    }
-
-    &:before {
-      bottom: rem(-11);
-      left: 51%;
-      border-top: 10px solid rgba(40, 40, 42, 0.1);
-    }
   }
 
   .btn-close {
@@ -55,7 +35,7 @@
     margin: rem(20);
 
     @media screen and (min-width: $screen-m) {
-      margin: rem(20) rem(30);
+      display: none;
     }
 
     .icon-close {
@@ -65,4 +45,26 @@
     }
   }
 
+}
+
+.leaflet-popup-content-wrapper {
+  border: 0;
+  padding: 0;
+}
+
+.leaflet-popup-content {
+  padding: 0 !important;
+  background-color: transparent;
+}
+
+.leaflet-popup-tip {
+  border-top-color: $color-2;
+}
+
+.leaflet-popup-close-button {
+  /* background-image: url('../../images/close.svg'); */
+
+  &:hover {
+    background-color: transparent;
+  }
 }
