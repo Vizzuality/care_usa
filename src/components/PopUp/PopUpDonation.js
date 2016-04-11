@@ -5,14 +5,13 @@ import $ from 'jquery';
 import Backbone from 'backbone';
 import DonorModel from './../../scripts/models/DonorModel';
 
+import PopUp from './PopUp';
+
 import utils from '../../scripts/helpers/utils';
 
-class PopUpDonation extends Backbone.View {
+class PopUpDonation extends PopUp {
 
-  initialize(options) {
-    this.options = options;
-    this.options.device = utils.checkDevice();
-
+  _getData() {    
     this.model = new DonorModel( {lat: this.options.latLng.lat, lng: this.options.latLng.lng });
 
     this.model.fetch().done(() => {
@@ -21,25 +20,6 @@ class PopUpDonation extends Backbone.View {
         this.options.device.mobile ?  this._drawPopUpMobile() : this._drawPopUp();
       }
     });
-  }
-
-  _drawPopUpMobile() {
-    this.popUp = this._getContent()
-    
-    $('body').append(this.popUp);
-    $('.btn-close').on('click', this._closeInfowindow.bind(this));
-  }
-
-  _closeInfowindow() {
-    $('.btn-close').off('click');
-    $('.m-infowindow-mb').remove();
-  }
-
-  _drawPopUp() {
-    L.popup()
-      .setLatLng(this.options.latLng)
-      .setContent(this._getContent())
-      .openOn(this.options.map);
   }
 
   _getContent() {
@@ -54,7 +34,9 @@ class PopUpDonation extends Backbone.View {
             </div>
           </div>`
   }
-
 }
+
+PopUpDonation.prototype.model = new DonorModel();
+
 
 export default PopUpDonation;
