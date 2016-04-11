@@ -6,6 +6,8 @@ import _ from 'underscore';
 
 import TileLayer from './TileLayer';
 
+import PopUpContentView from './../PopUp/PopUpContentView';
+
 const defaults = {
   accessToken: 'pk.eyJ1IjoiZGhha2VsaWxhIiwiYSI6InRkODNmdzAifQ.1aPjRitXRLOeocZSZ5jqAw',
   style: 'mapbox://styles/mapbox/streets-v8',
@@ -17,7 +19,7 @@ class MapView extends Backbone.View {
 
   initialize(options) {
     this.options = _.extend(options, defaults);
-
+    
     this._createMap();
     this._addLayer();
   }
@@ -30,14 +32,17 @@ class MapView extends Backbone.View {
   }
 
   _setEvents() {
-    this.map.on('click', this._infowindowSetUp);
+    this.map.on('click', this._infowindowSetUp.bind(this));
   }
 
   _infowindowSetUp(e) {
-    //TODO. Adjust postion near to borders limits.
-    const latLong = e.latlng;
-    const position = { left: e.containerPoint.x + 'px', top: e.containerPoint.y + 'px' };
-    this.options.infowindowOpenFn(position, latLong)
+
+    new PopUpContentView({
+      currentMap: this.options.currentMap,
+      latLng: e.latlng,
+      map: this.map
+    }).getPopUp();
+
   }
 
   _addLayer(options) {

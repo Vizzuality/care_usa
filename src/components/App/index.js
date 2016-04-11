@@ -32,6 +32,7 @@ class App extends React.Component {
   componentDidMount() {
     this.map = new MapView({
       mapElement: this.refs.Map,
+      currentMap: this.state.currentMap,
       infowindowOpenFn: this.infowindowOpen.bind(this)
     });
     this.timeline = new TimelineView({ el: this.refs.Timeline });
