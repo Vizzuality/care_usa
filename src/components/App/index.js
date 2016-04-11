@@ -3,6 +3,7 @@
 import React  from 'react';
 import MainMenu from '../MainMenu';
 import MenuDevice from '../MenuDevice';
+import TimelineView from '../Timeline';
 import InfowindowDonations from '../Infowindow/InfowindowDonations';
 import InfowindowProjects from '../Infowindow/InfowindowProjects';
 
@@ -33,7 +34,7 @@ class App extends React.Component {
       mapElement: this.refs.Map,
       infowindowOpenFn: this.infowindowOpen.bind(this)
     });
-
+    this.timeline = new TimelineView({ el: this.refs.Timeline });
   }
 
   toggleMenu() {
@@ -109,7 +110,12 @@ class App extends React.Component {
         <div id="map" className="l-map" ref="Map"></div>
 
         <div id="dashboard" className="l-dashboard"></div>
-        <div id="timeline" className="l-timeline"></div>
+        <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
+          <svg className="btn js-button">
+            <use xlinkHref="#icon-play" className="js-button-icon"></use>
+          </svg>
+          <div className="svg-container js-svg-container"></div>
+        </div>
         <div id="donate" className="l-donate">
           <button className="btn -secondary"></button>
         </div>

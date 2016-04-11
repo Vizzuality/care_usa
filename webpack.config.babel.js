@@ -8,6 +8,7 @@ import postcssSimpleVars from 'postcss-simple-vars';
 import postcssNested from 'postcss-nested';
 import postcssImporter from 'postcss-import';
 import postcssFunctions from 'postcss-functions';
+import postcssHexRgba from 'postcss-hexrgba';
 import path from 'path';
 
 const prodPlugins = [
@@ -65,7 +66,8 @@ const config = {
       functions: {
         rem: (px) => (px / 16) + 'rem'
       }
-    })
+    }),
+    postcssHexRgba
   ]
 
 };

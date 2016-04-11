@@ -1,0 +1,54 @@
+@import'../../styles/settings.postcss';
+
+.m-timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  > .btn {
+    flex-basis: rem(16);
+    height: rem(21);
+    transform: translateY(rem(4));
+    padding: 0;
+    cursor: pointer;
+    > use { fill: $color-5; }
+  }
+
+  > .svg-container {
+    width: calc(100% - rem(45));
+    height: 100%;
+
+    .axis {
+      > .tick  {
+        > .report { fill: $color-4; }
+        > text {
+          font-size: rem(13);
+          line-height: 1.1;
+          letter-spacing: rem(.5);
+          font-family: $font-family-2;
+          color: $font-color-2;
+        }
+      }
+
+      > .milestone { fill: $color-5; }
+
+      > .domain {
+        stroke-width: 1px; /* rem value not supported for this property */
+        stroke: rgba($color-4, .3);
+        fill: none;
+      }
+
+      .cursor {
+        fill: $color-4;
+        cursor: -webkit-grab; /* Autoprefixer doesn't work for that */
+        cursor:    -moz-grab;
+        cursor:         grab;
+      }
+
+      .cursor-line {
+        stroke: $color-4;
+        stroke-width: 3px; /* rem value not supported for this property */
+      }
+    }
+  }
+}

@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Vizzuality/care_use#readme",
   "dependencies": {
+    "d3": "^3.5.16",
     "jquery": "^2.2.2",
     "leaflet": "^0.7.7",
     "normalize.css": "^3.0.3",
@@ -37,6 +38,7 @@
     "file-loader": "^0.8.5",
     "postcss-extend": "^1.0.1",
     "postcss-functions": "^2.1.0",
+    "postcss-hexrgba": "^0.2.0",
     "postcss-import": "^8.0.2",
     "postcss-loader": "^0.8.1",
     "postcss-mixins": "^4.0.1",
