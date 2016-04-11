@@ -2,7 +2,6 @@
 
 import './styles.postcss';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 class MenuDevice extends React.Component {
 
@@ -26,6 +25,6 @@ class MenuDevice extends React.Component {
     )
   }
 
-};
+}
 
 export default MenuDevice;
