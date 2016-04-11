@@ -1,14 +1,25 @@
 .btn {
  	padding: rem(5) rem(10);
-	&.-primary {
-		font-size: 11px;
+  
+	&.btn-primary {
 		background-color: $font-color-4;
 		color: $font-color-3;
+		@media screen and (min-width: $screen-xs) {
+		  font-size: rem(11);
+		}
+		@media screen and (min-width: $screen-xl) {
+		  font-size: rem(12);
+		}
 	}
-	&.-secondary {
-		font-size: 11px;
+	&.btn-secondary {
 		background-color: $font-color-3;
 		color: $font-color-4;
+		@media screen and (min-width: $screen-xs) {
+		  font-size: rem(11);
+		}
+		@media screen and (min-width: $screen-xl) {
+		  font-size: rem(12);
+		}
 	}
 }
 

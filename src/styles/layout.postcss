@@ -126,38 +126,7 @@ $l-margin-vt: 50;
   }
 }
 
-
-.wrap {
-  text-align: center;
-  padding-top: 46px;
-  padding-bottom: 40px;
-  h1 {
-    margin-bottom: 8px;
-    line-height: 30px;
-  }
-  h2 {
-    margin-bottom: 23px;
-    line-height: 53px;
-  }
-  p {
-    margin-bottom: 34px;
-    line-height: 25px;
-  }
-  aside {
-    display: flex;
-    justify-content: center;
-  }
-  a {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 200px;
-      height: 45px;
-      text-decoration: none;
-      text-transform: uppercase;
-  }
-}
-#cares-package {
+.l-cares-package {
   background-image: url("images/backgroundmodules_anniversary01.jpg");
   background-repeat: no-repeat;
   background-position: top left;
@@ -169,6 +138,50 @@ $l-margin-vt: 50;
   }
   @media screen and (min-width: $screen-xl) {
     background-size: 100% 100%;
+  }
+  
+  .wrap {
+    text-align: center;
+    padding-top: 46px;
+    padding-bottom: 40px;
+
+    aside {
+      display: flex;
+      justify-content: center;
+    }
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      text-transform: uppercase;
+
+      @media screen and (min-width: $screen-xs) {
+        width: rem(285);
+        height: rem(45);
+        margin-bottom: rem(40);
+      }
+      @media screen and (min-width: $screen-m) {
+        width: rem(200);
+        height: rem(45);
+        margin-bottom: rem(209);
+      }
+      @media screen and (min-width: $screen-m) {
+        width: rem(200);
+        height: rem(45);
+        margin-bottom: rem(209);
+      }
+      @media screen and (min-width: $screen-xl) {
+        width: rem(200);
+        height: rem(45);
+        margin-bottom: rem(40);
+      }
+      @media screen and (min-width: $screen-xxl) {
+        width: rem(200);
+        height: rem(45);
+        margin-bottom: rem(40);
+      }
+    }
   }
 }
 

@@ -1,10 +1,4 @@
 .text {
-	&.-claim {
-	  font-size: 42px;
-	}
-	&.-highlighted {
-	  font-size: 16px;
-	}
 	&.-dark {
 	  color: $font-color-2;
 	}
@@ -12,6 +6,83 @@
 	  color: $font-color-3;
 	}
 }
+
+.text-module-title {
+  font-family: 'OfficinaSerifStd-Bold';
+
+  @media screen and (min-width: $screen-xs) {
+    font-size: rem(20);
+    line-height: rem(20);
+    margin-bottom: rem(8);
+  }
+  @media screen and (min-width: $screen-m) {
+    font-size: rem(24);
+    line-height: rem(26);
+    margin-bottom: rem(74);
+  }
+  @media screen and (min-width: $screen-xl) {
+    font-size: rem(26);
+    margin-bottom: rem(78);
+  }
+  @media screen and (min-width: $screen-xxl) {
+    font-size: rem(27);
+    margin-bottom: rem(145);
+  }
+}
+
+.text-claim {
+  font-family: 'OfficinaSerifStd-Bold';
+
+  @media screen and (min-width: $screen-xs) {
+    font-size: rem(42);
+    line-height: rem(53);
+    margin-bottom: rem(23);
+  }
+  @media screen and (min-width: $screen-m) {
+    font-size: rem(70);
+    line-height: rem(88);
+    margin-bottom: rem(35);
+  }
+  @media screen and (min-width: $screen-xl) {
+    font-size: rem(82);
+    line-height: rem(100);
+    margin-bottom: rem(29);
+  }
+  @media screen and (min-width: $screen-xxl) {
+    font-size: rem(92);
+    line-height: rem(110);
+    margin-bottom: rem(51);
+  }
+}
+
+.text-highlighted {
+  font-family: 'OfficinaSerifStd-Book';
+  margin-bottom: rem();
+
+  @media screen and (min-width: $screen-xs) {
+    font-size: rem(16);
+    line-height: rem(25);
+    margin-bottom: rem(34);
+  }
+  @media screen and (min-width: $screen-m) {
+    font-size: rem(19);
+    line-height: rem(30);
+    margin-bottom: rem(53);
+  }
+  @media screen and (min-width: $screen-xl) {
+    font-size: rem(21);
+    line-height: rem(33);
+    margin-bottom: rem(52);
+  }
+  @media screen and (min-width: $screen-xxl) {
+    font-size: rem(26);
+    line-height: rem(39);
+    margin-bottom: rem(71);
+  }
+}
+
+
+
 
 
 
