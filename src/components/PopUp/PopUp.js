@@ -13,12 +13,10 @@ class PopUp extends Backbone.View {
     this.options = options;
     this.options.device = utils.checkDevice();
 
-    this.getData();
+    this._initData();
   }
 
-  getData() {    
-    this.model = new DonorModel( {lat: this.options.latLng.lat, lng: this.options.latLng.lng });
-
+  _initData() {  
     this.model.fetch().done(() => {
       if (this.model.get('city')) {
         this.options.data = this.model;

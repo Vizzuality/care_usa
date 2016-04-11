@@ -11,17 +11,6 @@ import utils from '../../scripts/helpers/utils';
 
 class PopUpDonation extends PopUp {
 
-  _getData() {    
-    this.model = new DonorModel( {lat: this.options.latLng.lat, lng: this.options.latLng.lng });
-
-    this.model.fetch().done(() => {
-      if (this.model.get('city')) {
-        this.options.data = this.model;
-        this.options.device.mobile ?  this._drawPopUpMobile() : this._drawPopUp();
-      }
-    });
-  }
-
   _getContent() {
    
     return `<div class=m-popup>
@@ -37,6 +26,5 @@ class PopUpDonation extends PopUp {
 }
 
 PopUpDonation.prototype.model = new DonorModel();
-
 
 export default PopUpDonation;
