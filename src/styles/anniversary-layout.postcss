@@ -1,0 +1,46 @@
+.l-anniversary {
+  position: relative;
+}
+
+.l-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(55, 53, 47, 0.5);
+}
+
+.background-image {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.l-cares-package {
+  background-image: url("images/backgroundmodules_anniversary01.jpg");
+  background-position: 11% 0%;
+  position: relative;
+  
+  .wrap {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    text-align: center;
+    padding-top: 20%;
+    padding-bottom: 20%;
+    max-height: rem(939);
+  
+    a {
+      display: inline-block;
+      text-decoration: none;
+      text-transform: uppercase;
+      width: 100%;
+      height: rem(45);
+      
+      @media screen and (min-width: $screen-s) {
+        max-width: rem(200);
+      }
+    }
+  }
+}

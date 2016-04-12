@@ -9,35 +9,34 @@
 
 .text-module-title {
   font-family: 'OfficinaSerifStd-Bold';
+  font-size: rem(20);
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  top: 8%;  
 
-  @media screen and (min-width: $screen-xs) {
-    font-size: rem(20);
-    line-height: rem(20);
-    margin-bottom: rem(8);
-  }
   @media screen and (min-width: $screen-m) {
     font-size: rem(24);
-    line-height: rem(26);
-    margin-bottom: rem(74);
+  }
+  @media screen and (min-width: $screen-l) {
+    font-size: rem(25);
   }
   @media screen and (min-width: $screen-xl) {
     font-size: rem(26);
-    margin-bottom: rem(78);
   }
   @media screen and (min-width: $screen-xxl) {
     font-size: rem(27);
-    margin-bottom: rem(145);
   }
 }
 
 .text-claim {
   font-family: 'OfficinaSerifStd-Bold';
-
-  @media screen and (min-width: $screen-xs) {
-    font-size: rem(42);
-    line-height: rem(53);
-    margin-bottom: rem(23);
-  }
+  font-size: rem(42);
+  line-height: rem(53);
+  margin-bottom: rem(23);
+  
   @media screen and (min-width: $screen-m) {
     font-size: rem(70);
     line-height: rem(88);
@@ -58,16 +57,17 @@
 .text-highlighted {
   font-family: 'OfficinaSerifStd-Book';
   margin-bottom: rem();
+  font-size: rem(16);
+  line-height: rem(25);
+  margin-bottom: rem(34);
 
-  @media screen and (min-width: $screen-xs) {
-    font-size: rem(16);
-    line-height: rem(25);
-    margin-bottom: rem(34);
-  }
   @media screen and (min-width: $screen-m) {
     font-size: rem(19);
     line-height: rem(30);
     margin-bottom: rem(53);
+  }
+  @media screen and (min-width: $screen-l) {
+    margin-bottom: rem(60);
   }
   @media screen and (min-width: $screen-xl) {
     font-size: rem(21);
