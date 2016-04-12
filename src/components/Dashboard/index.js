@@ -1,9 +1,10 @@
 'use strict';
 
-import './dash-tabs-styles.postcss';
+import './styles.postcss';
 import React from 'react';
 
 import DashTabs from './DashTabs';
+import DashSummary from './DashSummary';
 
 class Dashboard extends React.Component {
 
@@ -19,7 +20,13 @@ class Dashboard extends React.Component {
           currentMap = { this.props.currentMap }
           changeMapFn = { this.props.changeMapFn }
         />
-        <div className="l-dash-filters"></div>
+        <div className="m-dashboard-panel">
+          <div className="scroll-wrapper">
+            <DashSummary
+              currentMap = { this.props.currentMap }
+            />
+          </div>
+        </div>
       </div>
     );
   }
