@@ -10,4 +10,22 @@
   @media screen and (min-width: $screen-xxl) {
     padding: 0 rem(40);
   }
+
+  .dashboard-header {
+    display: flex; 
+    flex: 1 1 100%;
+    justify-content: space-between;
+    align-items: center;
+    height: rem(40);
+    border-bottom: 1px solid $color-7;
+
+    @media screen and (min-width: $screen-m) {
+      display: none;
+    }
+  }
+
+  .scroll-wrapper {
+    height: rem(180);
+    overflow-y: scroll;
+  }
 }

@@ -1,6 +1,7 @@
 $header-height: 90;
 $header-height-mb: 70;
 $timeline-height: 45;
+$timeline-height-mb: 70;
 $l-margin-vt: 50;
 
 .wrap {
@@ -69,9 +70,10 @@ $l-margin-vt: 50;
   position: absolute;
   left: 0;
   right: 0;
-  bottom: rem(115);
-  height: rem(40);
+  bottom: rem($timeline-height-mb);
+  height: rem(220);
   background-color: #ddd;
+  border-top: 1px solid $color-7;
 
   @media screen and (min-width: $screen-m) {
     position: absolute;
@@ -114,10 +116,10 @@ $l-margin-vt: 50;
 
 .l-timeline {
   position: absolute;
-  bottom: rem($timeline-height);
+  bottom: 0;
   left: 0;
   right: 0;
-  height: rem(72);
+  height: rem($timeline-height-mb);
 
   @media screen and (min-width: $screen-m) {
     height: rem($timeline-height);
@@ -132,23 +134,25 @@ $l-margin-vt: 50;
 }
 
 .l-donate {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: rem($timeline-height);
-  line-height: rem($timeline-height);
-  text-align: center;
-  background-color: $color-3;
-  text-transform: uppercase;
-  color: $font-color-3;
-  text-decoration: none;
-  font-family: $font-family-2;
-  font-weight: 700;
-  font-size: rem(11);
-  letter-spacing: rem(2.1);
+  display: none;
 
   @media screen and (min-width: $screen-m) {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: rem($timeline-height);
+    line-height: rem($timeline-height);
+    text-align: center;
+    background-color: $color-3;
+    text-transform: uppercase;
+    color: $font-color-3;
+    text-decoration: none;
+    font-family: $font-family-2;
+    font-weight: 700;
+    font-size: rem(11);
+    letter-spacing: rem(2.1);
     right: $wrap-padding-desktop;
     width: rem(160);
     left: auto;
