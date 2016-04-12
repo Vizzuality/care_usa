@@ -17,18 +17,18 @@ class DashSummary extends React.Component {
 
   render() {
     return (
-      <div className='m-dash-summary'>  
-        <div className='summary-item'>
-          <p className='text text-legend-title'>Donations </p>
-          <span className='number-l'>{ this.state.totalDonations }</span>
+      <div className="m-dash-summary">  
+        <div className="summary-item">
+          <p className="text text-legend-title">Donations </p>
+          <span className="number-l">{ this.state.totalDonations }</span>
         </div>
-        <div className='summary-item'>
-          <p className='text text-legend'>Amount donated </p>
-          <span className='number-m'> $ { this.state.donationsAmount }</span>
+        <div className="summary-item">
+          <p className="text text-legend">Amount donated </p>
+          <span className="number-m"> $ { this.state.donationsAmount }</span>
         </div>
-        <div className='summary-item'>
-          <p className='text text-legend'>Campaigns </p>
-          <span className='number-m'>{ this.state.totalCampaigns }</span>
+        <div className="summary-item">
+          <p className="text text-legend">Campaigns </p>
+          <span className="number-m">{ this.state.totalCampaigns }</span>
         </div>
       </div>
     )

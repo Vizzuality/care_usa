@@ -5,6 +5,7 @@ import React from 'react';
 
 import DashTabs from './DashTabs';
 import DashSummary from './DashSummary';
+import DashMapMode from './DashMapMode';
 
 class Dashboard extends React.Component {
 
@@ -29,6 +30,9 @@ class Dashboard extends React.Component {
           </div>
           <div className="scroll-wrapper">
             <DashSummary
+              currentMap = { this.props.currentMap }
+            />
+            <DashMapMode
               currentMap = { this.props.currentMap }
             />
           </div>

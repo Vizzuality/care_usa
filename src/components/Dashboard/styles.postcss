@@ -27,5 +27,9 @@
   .scroll-wrapper {
     height: rem(180);
     overflow-y: scroll;
+
+    @media screen and (min-width: $screen-m) {
+      height: auto;
+    }
   }
 }
