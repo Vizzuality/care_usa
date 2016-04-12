@@ -76,6 +76,12 @@ $l-margin-vt: 50;
   border-top: 1px solid $color-7;
   background-image: url('../src/images/mappattern.png');
   background-size: contain;
+  transition: transform .2s ease-out;
+  transform: translatex(-420px);
+
+  &.is-open {
+    transform: translatex(0);
+  }
 
 
   @media screen and (min-width: $screen-m) {

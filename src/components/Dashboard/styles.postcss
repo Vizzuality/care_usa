@@ -34,3 +34,40 @@
     }
   }
 }
+
+.btn-dashboard-switcher {
+  display: none;
+
+  @media screen and (min-width: $screen-m) {
+    display: flex;
+    flex: 1 1 100%;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: rem(54);
+    right: rem(-35);
+    width: rem(35);
+    height: rem(35);
+    background-image: url('../../images/mappattern.png');
+    background-size: contain;
+  }
+
+  .icon {
+    display: none;
+    transform: rotate(180deg);
+    transition: transform .2s ease-out;
+
+    @media screen and (min-width: $screen-m) {
+      display: block;
+      width: rem(10);
+      height: rem(10);
+    }
+  }
+
+  .is-open & {
+    .icon {
+      transform: rotate(0);
+    }
+  }
+
+}

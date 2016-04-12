@@ -12,7 +12,8 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mapMode: "moneyAmount"
+      mapMode: "moneyAmount",
+      dashboardOpen: true
     };
   }
 
@@ -20,9 +21,18 @@ class Dashboard extends React.Component {
     this.setState({ mapMode: mapCurrentMode })
   }
 
+  toogleDashboard() {
+    this.setState({ dashboardOpen: !(!!this.state.dashboardOpen) })
+  }
+
   render() {
     return (
-      <div className="l-dashboard">
+      <div className={ this.state.dashboardOpen ? "l-dashboard is-open" : "l-dashboard" }>
+        <button className="btn-dashboard-switcher"
+          onClick={ this.toogleDashboard.bind(this) }
+        >
+          <svg className="icon icon-arrowleft"><use xlinkHref="#icon-arrowleft"></use></svg>
+        </button>
         <DashTabs
           currentMap = { this.props.currentMap }
           changeMapFn = { this.props.changeMapFn }
