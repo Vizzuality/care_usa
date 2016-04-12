@@ -8,35 +8,30 @@
 }
 
 .text-module-title {
-  /* Usa mejor las variables para font family
-      y separa font-family de font-weight(bold)
-   */
-  font-family: 'OfficinaSerifStd-Bold';
+  font-family: $font-family-1;
+  font-weight: 700;
   font-size: rem(20);
-  /* las condiciones de entorno, mejor en layout o en module. */
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-  top: 8%;  
 
   @media screen and (min-width: $screen-m) {
     font-size: rem(24);
   }
+
   @media screen and (min-width: $screen-l) {
     font-size: rem(25);
   }
+
   @media screen and (min-width: $screen-xl) {
     font-size: rem(26);
   }
+
   @media screen and (min-width: $screen-xxl) {
     font-size: rem(27);
   }
 }
 
 .text-claim {
-  font-family: 'OfficinaSerifStd-Bold';
+  font-family: $font-family-1;
+  font-weight: 700;
   font-size: rem(42);
   line-height: rem(53);
   margin-bottom: rem(23);
@@ -46,11 +41,13 @@
     line-height: rem(88);
     margin-bottom: rem(35);
   }
+
   @media screen and (min-width: $screen-xl) {
     font-size: rem(82);
     line-height: rem(100);
     margin-bottom: rem(29);
   }
+  
   @media screen and (min-width: $screen-xxl) {
     font-size: rem(92);
     line-height: rem(110);
@@ -59,8 +56,8 @@
 }
 
 .text-highlighted {
-  font-family: 'OfficinaSerifStd-Book';
-  margin-bottom: rem();
+  font-family: $font-family-1;
+  font-weight: 400;
   font-size: rem(16);
   line-height: rem(25);
   margin-bottom: rem(34);
@@ -70,14 +67,17 @@
     line-height: rem(30);
     margin-bottom: rem(53);
   }
+
   @media screen and (min-width: $screen-l) {
     margin-bottom: rem(60);
   }
+
   @media screen and (min-width: $screen-xl) {
     font-size: rem(21);
     line-height: rem(33);
     margin-bottom: rem(52);
   }
+
   @media screen and (min-width: $screen-xxl) {
     font-size: rem(26);
     line-height: rem(39);
