@@ -96,6 +96,7 @@ class App extends React.Component {
           </svg>
           <div className="svg-container js-svg-container"></div>
         </div>
+
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
           Donate
         </a>
