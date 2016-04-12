@@ -4,6 +4,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 $wrap-padding-mobile;
+  background: url("../../images/mappattern.png") top left/50% repeat;
+
+  @media screen and (min-width: $screen-m) {
+    padding: 0;
+    background: none;
+  }
 
   > .btn {
     flex-basis: rem(16);
@@ -22,15 +29,31 @@
       > .tick  {
         > .report { fill: $color-4; }
         > text {
-          font-size: rem(13);
+          font-size: rem(10);
+          letter-spacing: .4px;
           line-height: 1.1;
-          letter-spacing: rem(.5);
           font-family: $font-family-2;
           color: $font-color-2;
+
+          @media screen and (min-width: $screen-s) {
+            font-size: rem(12);
+            letter-spacing: rem(.5);
+          }
+
+          @media screen and (min-width: $screen-m) {
+            font-size: rem(13);
+          }
         }
       }
 
-      > .milestone { fill: $color-5; }
+      > .milestone {
+        display: none;
+        fill: $color-5;
+
+        @media screen and (min-width: $screen-m) {
+          display: block;
+        }
+      }
 
       > .domain {
         stroke-width: 1px; /* rem value not supported for this property */
@@ -47,7 +70,11 @@
 
       .cursor-line {
         stroke: $color-4;
-        stroke-width: 3px; /* rem value not supported for this property */
+        stroke-width: 1px;  /* rem value not supported for this property */
+
+        @media screen and (min-width: $screen-m) {
+          stroke-width: 3px;
+        }
       }
     }
   }

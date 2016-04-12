@@ -19,7 +19,7 @@ class CartodbModel extends Backbone.Model {
   getQuery() {
     const latitude = 40.71427;
     const longitude = -74.00597;
-    return `SELECT * FROM care_donors
+    return `SELECT city, date FROM care_donors
       WHERE ST_Intersects(the_geom, CDB_LatLng('${latitude}','${longitude}'))`;
   }
 

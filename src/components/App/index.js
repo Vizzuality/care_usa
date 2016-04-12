@@ -5,8 +5,7 @@ import MainMenu from '../MainMenu';
 import MenuDevice from '../MenuDevice';
 import TimelineView from '../Timeline';
 import Modal from '../Modal';
-import InfowindowDonations from '../Infowindow/InfowindowDonations';
-import InfowindowProjects from '../Infowindow/InfowindowProjects';
+import Dashboard from '../Dashboard';
 
 import MapView from '../Map';
 
@@ -21,8 +20,6 @@ class App extends React.Component {
       currentMap: 'donations',
       device: null,
       menuDeviceOpen: false,
-      infowindowVisibility: false,
-      infowindowPosition: {}
     }
   }
 
@@ -33,8 +30,9 @@ class App extends React.Component {
   componentDidMount() {
     this.map = new MapView({
       mapElement: this.refs.Map,
-      infowindowOpenFn: this.infowindowOpen.bind(this)
+      currentMap: this.state.currentMap
     });
+
     this.timeline = new TimelineView({ el: this.refs.Timeline });
   }
 
@@ -42,25 +40,16 @@ class App extends React.Component {
     this.setState({ menuDeviceOpen: !this.state.menuDeviceOpen });
   }
 
-  changeTab(page, e) {
+  changePage(page, e) {
     this.setState({ currentPage: page });
   }
 
-  infowindowClose() {
-    this.setState({ infowindowVisibility: false });
-  }
-
-  infowindowOpen(position, latLong) {
-    this.setState({
-      infowindowVisibility: true,
-      infowindowPosition: position,
-      latLong: latLong
-    });
+  changeMap(map, e) {
+    this.setState({ currentMap: map });
   }
 
   render() {
     let menuDevice = null;
-    let infoWindow = null;
 
     if (this.state.mobile) {
       menuDevice = (
@@ -69,28 +58,6 @@ class App extends React.Component {
           toggleMenuFn = { this.toggleMenu.bind(this) }
         />
       );
-    }
-
-    if (this.state.infowindowVisibility) {
-      if (this.state.currentMap == 'donations') {
-        infoWindow = (
-          <InfowindowDonations
-            position = { !this.state.mobile ? this.state.infowindowPosition : null }
-            latLong = { this.state.latLong }
-            currentMap = { this.state.currentMap }
-            closeFn = { this.infowindowClose.bind(this) }
-          />
-        )
-      } else {
-        infoWindow = (
-          <InfowindowProjects
-            position = { !this.state.mobile ? this.state.infowindowPosition : null }
-            latLong = { this.state.latLong }
-            currentMap = { this.state.currentMap }
-            closeFn = { this.infowindowClose.bind(this) }
-          />
-        )
-      }
     }
 
     return (
@@ -103,24 +70,24 @@ class App extends React.Component {
             <MainMenu
               currentTab = { this.state.currentTab }
               toggleMenuFn = { this.toggleMenu.bind(this) }
-              changeTabFn = { this.changeTab.bind(this) }
+              changePageFn = { this.changePage.bind(this) }
             />
           </div>
         </div>
 
         <div id="map" className="l-map" ref="Map"></div>
 
-        <div id="dashboard" className="l-dashboard"></div>
+        <Dashboard
+          changeMapFn={ this.changeMap.bind(this) }
+          currentMap={ this.state.currentMap }
+        />
+
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
           <svg className="btn js-button">
             <use xlinkHref="#icon-play" className="js-button-icon"></use>
           </svg>
           <div className="svg-container js-svg-container"></div>
         </div>
-        <div id="donate" className="l-donate">
-          <button className="btn -secondary"></button>
-        </div>
-
         <Modal isOpen={false}>
           <p>I'm a modal</p>
           <br/>
@@ -167,8 +134,10 @@ class App extends React.Component {
           <p>I'm a modal</p>
         </Modal>
 
+        <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
+          Donate
+        </a>
         { menuDevice }
-        { infoWindow }
       </div>
     );
   }
