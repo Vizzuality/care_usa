@@ -5,6 +5,8 @@ import MainMenu from '../MainMenu';
 import MenuDevice from '../MenuDevice';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
+import FiltersView from '../Filters';
+import Modal from '../Modal';
 
 import MapView from '../Map';
 
@@ -33,6 +35,7 @@ class App extends React.Component {
     });
 
     this.timeline = new TimelineView({ el: this.refs.Timeline });
+    this.filters = new FiltersView({ el: this.refs.Filters });
   }
 
   toggleMenu() {
@@ -87,6 +90,68 @@ class App extends React.Component {
           </svg>
           <div className="svg-container js-svg-container"></div>
         </div>
+
+        <Modal isOpen={true}>
+          <div id="filters" className="m-filters" ref="Filters">
+            <fieldset className="date">
+              <legend>From</legend>
+              <div>
+                <select className="js-from-day">
+                  <option>TODO</option>
+                </select>
+                <select className="js-from-month">
+                  <option>TODO</option>
+                </select>
+                <select className="js-from-year">
+                  <option>TODO</option>
+                </select>
+              </div>
+            </fieldset>
+
+            <fieldset className="date">
+              <legend>To</legend>
+              <div>
+                <select className="js-to-day">
+                  <option>TODO</option>
+                </select>
+                <select className="js-to-month">
+                  <option>TODO</option>
+                </select>
+                <select className="js-to-year">
+                  <option>TODO</option>
+                </select>
+              </div>
+            </fieldset>
+
+            <fieldset className="regions">
+              <legend>Region of interest</legend>
+              <div>
+                <svg className="arrow">
+                  <use xlinkHref="#icon-arrow"></use>
+                </svg>
+                <select className="js-to-day">
+                  <option disabled="disabeld">All regions</option>
+                </select>
+              </div>
+            </fieldset>
+
+            <div className="sectors">
+              <fieldset>
+                <legend>Sectors</legend>
+                <div>
+                  <input type="checkbox" id="filtersSectorTest1" />
+                  <label htmlFor="filtersSectorTest1">
+                    Test 1
+                  </label>
+                  <input type="checkbox" id="filtersSectorTest2" />
+                  <label htmlFor="filtersSectorTest2">
+                    Test 2
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </Modal>
 
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
           Donate

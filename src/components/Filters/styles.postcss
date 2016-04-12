@@ -1,0 +1,114 @@
+@import'../../styles/settings.postcss';
+
+.m-filters {
+
+  fieldset {
+    margin: 0;
+    margin-top: 15px;
+    padding: 0;
+    border: none;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+
+    > legend {
+      font-weight: 700;
+      font-size: rem(14);
+      line-height: 1.29;
+      color: $font-color-2;
+      margin-bottom: rem(10);
+    }
+
+    select {
+      -webkit-appearance: none;
+              appearance: none;
+      background-color: transparent;
+      border-radius: 0;
+    }
+
+    &.date select {
+      border: rem(1) solid $color-6;
+      border-right: none;
+      width: 33.33%;
+      height: rem(50);
+
+      &:last-of-type {
+        border-right: rem(1) solid $color-6;
+      }
+    }
+
+    &.regions {
+      > legend {
+        margin-bottom: 0;
+      }
+
+      > div { position: relative; }
+
+      .arrow {
+        width: rem(10);
+        height: rem(6);
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        > use { fill: $color-1; }
+      }
+
+      select {
+        width: 100%;
+        height: rem(40);
+        border: none;
+        border-bottom: rem(1) solid $color-6;
+      }
+    }
+  }
+
+
+  > .sectors {
+
+    > fieldset {
+      margin-top: 15px;
+
+      input {
+        display: none;
+      }
+
+      label {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: rem(27);
+        padding-left: rem(31);
+        margin-bottom: rem(10);
+        text-transform: uppercase;
+        font-size: rem(11);
+        line-height: rem(17);
+        letter-spacing: rem(2.1);
+        color: $font-color-4;
+        font-family: "Oswald";
+        font-weight: 700;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+
+        &:before {
+          content: "";
+          display: block;
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: rem(15);
+          height: rem(15);
+          border: rem(1) solid $color-1;
+        }
+      }
+
+      input:checked + label:before {
+        background: url("../../images/check.svg") center center/10px no-repeat, $color-1;
+      }
+    }
+
+  }
+}
