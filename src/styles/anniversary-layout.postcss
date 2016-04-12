@@ -1,7 +1,11 @@
 .l-anniversary {
+  /* Necesitas esto? */
   position: relative;
 }
 
+/* Está bien aquí usar una clase para poner el velo, pero no se puede llamar .l-
+porque las clases .l- indican que tiene propiedades de layout
+yo lo llamaría algo así como .viel */
 .l-banner::before {
     content: "";
     position: absolute;
@@ -19,6 +23,7 @@
 
 .l-cares-package {
   background-image: url("images/backgroundmodules_anniversary01.jpg");
+  /* Preguntale a Elena  como debe posicionarse esa img según las diferentes resoluciones. */
   background-position: 11% 0%;
   position: relative;
   
@@ -27,11 +32,16 @@
     flex-flow: column;
     justify-content: center;
     text-align: center;
+    /* Los paddings mejor en px. Para que se adapten al diseño. */
     padding-top: 20%;
     padding-bottom: 20%;
+    /* max-height seguramente varíe según la resolución.
+    Además, debería ser min-height para que el elemento crezca si crece su contenid.  */
     max-height: rem(939);
   
     a {
+      /* Esto pertence a .btn aquí no deberías de tener ninguna instrucción para el botón. Que debería heredarse todo de btn y btn-primary.
+      Comprueba si de verdad necesitas un max-width: em; */
       display: inline-block;
       text-decoration: none;
       text-transform: uppercase;
