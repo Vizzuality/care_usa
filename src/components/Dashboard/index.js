@@ -11,7 +11,13 @@ class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      mapMode: "moneyAmount"
+    };
+  }
+
+  changeMapModeFn(mapCurrentMode, e) {
+    this.setState({ mapMode: mapCurrentMode })
   }
 
   render() {
@@ -34,11 +40,22 @@ class Dashboard extends React.Component {
             />
             <DashMapMode
               currentMap = { this.props.currentMap }
+              mapMode = "moneyAmount"
+              mapModeLiteral = "Amount of money"
+              changeMapModeFn = { this.changeMapModeFn.bind(this) }
+              checked = { this.state.mapMode == "moneyAmount" && true }
+            />
+            <DashMapMode
+              currentMap = { this.props.currentMap }
+              mapMode = "donorsNumber"
+              mapModeLiteral = "Number of donors"
+              changeMapModeFn = { this.changeMapModeFn.bind(this) }
+              checked = { this.state.mapMode == "donorsNumber" && true }
             />
           </div>
         </div>
       </div>
-    );
+    );  
   }
 
 }
