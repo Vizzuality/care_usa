@@ -2,9 +2,7 @@
 
 import Backbone from 'backbone';
 
-class ParamsModel extends Backbone.Model {
-
-}
+class ParamsModel extends Backbone.Model {}
 
 class Router extends Backbone.Router {
 
@@ -14,21 +12,46 @@ class Router extends Backbone.Router {
 
   initialize() {
     this.params = new ParamsModel();
-    this._setParams();
+  }
+
+  toWelcome() {
+    this.navigate('welcome', { trigger: true });
   }
 
   welcome() {
-
+    console.log(this.params.attributes);
   }
 
-  _setParams() {
-    
+  application() {
+    console.log(this.params.attributes);
+  }
+
+  _setParams(routeName, params) {
+    if (routeName === 'application') {
+      this.params.set({
+        zoom: params[0] && Number(params[0]),
+        lat: params[1] && Number(params[1]),
+        lon: params[2] && Number(params[2])
+      });
+    }
+  }
+
+  /**
+   * This function will be executed before route change
+   */
+  execute(callback, params, routeName) {
+    this._setParams(routeName, params);
+    if (callback) {
+      callback.apply(this, params);
+    }
   }
 
 }
 
 Router.prototype.routes = {
-  'map(/zoom:zoom)(/lat:lat)(/long:long)': 'welcome'
+  '(/)': 'toWelcome',
+  'welcome': 'welcome',
+  'map(/zoom::zoom)(/lat::lat)(/lon::lon)': 'application'
 };
 
 export default Router;
