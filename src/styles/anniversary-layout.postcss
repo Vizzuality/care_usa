@@ -1,4 +1,4 @@
-
+/* las clases viel y background-image prefiero ponerlas debajo de l-cares. Porque son clases que dependen de l-cares para funcionar. */
 .viel:before {
     content: "";
     position: absolute;
@@ -17,6 +17,7 @@
 .l-cares-package {
   position: relative;
   background-image: url("images/backgroundmodules_anniversary01.jpg");
+  /* preguntaste a Elena?  Es que me resulta muy rara esta position*/
   background-position: 11% 0%;
   
   .wrap {
@@ -47,6 +48,7 @@
 
   .btn-primary {
     width: 100%;
+    /* Sobra height debería coger la altura con los paddings. */
     height: rem(45);
     
     @media screen and (min-width: $screen-s) {
@@ -56,10 +58,12 @@
   
   .text-module-title {
     position: absolute;
+    /* Margin sobra */
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
+    /* Mejor pixeles */
     top: 6%; 
   }
 }
