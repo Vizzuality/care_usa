@@ -4,7 +4,6 @@ import React  from 'react';
 import MainMenu from '../MainMenu';
 import MenuDevice from '../MenuDevice';
 import TimelineView from '../Timeline';
-import Modal from '../Modal';
 import Dashboard from '../Dashboard';
 
 import MapView from '../Map';
@@ -88,51 +87,6 @@ class App extends React.Component {
           </svg>
           <div className="svg-container js-svg-container"></div>
         </div>
-        <Modal isOpen={false}>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-          <br/>
-          <br/>
-          <p>I'm a modal</p>
-        </Modal>
 
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
           Donate
