@@ -1,5 +1,6 @@
 'use strict';
 
+import './styles.postcss';
 import _ from 'underscore';
 import Backbone from 'backbone';
 
