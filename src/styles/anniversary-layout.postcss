@@ -1,4 +1,58 @@
-/* las clases viel y background-image prefiero ponerlas debajo de l-cares. Porque son clases que dependen de l-cares para funcionar. */
+.l-cares-package {
+  position: relative;
+  background-image: url("images/backgroundmodules_anniversary01.jpg");
+  background-position: 11% 0%;
+  
+  .wrap {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    text-align: center;
+    padding-top: rem(84);
+    padding-bottom: rem(40);
+    min-height: rem(482);
+
+    @media screen and (min-width: $screen-m) {
+      min-height: rem(800);
+    }
+
+    @media screen and (min-width: $screen-l) {
+      min-height: rem(580);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      min-height: rem(756);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      min-height: rem(939);
+    }
+  }
+
+  .btn-primary {
+    width: 100%;
+    
+    @media screen and (min-width: $screen-s) {
+      width: rem(200);
+    }
+  }
+  
+  .text-module-title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: rem(46);
+
+    @media screen and (min-width: $screen-m) {
+      top: rem(100);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      top: rem(120);
+    }
+  }
+}
+
 .viel:before {
     content: "";
     position: absolute;
@@ -12,58 +66,4 @@
 .background-image {
   background-repeat: no-repeat;
   background-size: cover;
-}
-
-.l-cares-package {
-  position: relative;
-  background-image: url("images/backgroundmodules_anniversary01.jpg");
-  /* preguntaste a Elena?  Es que me resulta muy rara esta position*/
-  background-position: 11% 0%;
-  
-  .wrap {
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    text-align: center;
-    padding-top: 84px;
-    padding-bottom: 40px;
-    min-height: 482px;
-
-    @media screen and (min-width: $screen-m) {
-      min-height: 800px;
-    }
-
-    @media screen and (min-width: $screen-l) {
-      min-height: 580px;
-    }
-
-    @media screen and (min-width: $screen-xl) {
-      min-height: 756px;
-    }
-
-    @media screen and (min-width: $screen-xxl) {
-      min-height: 939px;
-    }
-  }
-
-  .btn-primary {
-    width: 100%;
-    /* Sobra height debería coger la altura con los paddings. */
-    height: rem(45);
-    
-    @media screen and (min-width: $screen-s) {
-      width: auto;
-    }
-  }
-  
-  .text-module-title {
-    position: absolute;
-    /* Margin sobra */
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    /* Mejor pixeles */
-    top: 6%; 
-  }
 }
