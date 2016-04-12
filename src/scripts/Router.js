@@ -6,10 +6,6 @@ class ParamsModel extends Backbone.Model {}
 
 class Router extends Backbone.Router {
 
-  constructor() {
-    super();
-  }
-
   initialize() {
     this.params = new ParamsModel();
   }
@@ -19,20 +15,26 @@ class Router extends Backbone.Router {
   }
 
   welcome() {
-    console.log(this.params.attributes);
+    // console.log(this.params.attributes);
   }
 
   application() {
-    console.log(this.params.attributes);
+    // console.log(this.params.attributes);
   }
 
   _setParams(routeName, params) {
+    const result = {};
     if (routeName === 'application') {
-      this.params.set({
-        zoom: params[0] && Number(params[0]),
-        lat: params[1] && Number(params[1]),
-        lon: params[2] && Number(params[2])
-      });
+      if (params[0]) {
+        result.zoom = params[0] && Number(params[0]);
+      }
+      if (params[1]) {
+        result.lat = params[1] && Number(params[1]);
+      }
+      if (params[2]) {
+        result.lon = params[2] && Number(params[2]);
+      }
+      this.params.set(result);
     }
   }
 

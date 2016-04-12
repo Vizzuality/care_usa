@@ -5,8 +5,8 @@ import MainMenu from '../MainMenu';
 import MenuDevice from '../MenuDevice';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
-
 import MapView from '../Map';
+import Router from '../../scripts/Router';
 
 import utils from '../../scripts/helpers/utils';
 
@@ -15,23 +15,32 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: 'who-cares',
       currentMap: 'donations',
       device: null,
-      menuDeviceOpen: false,
+      menuDeviceOpen: false
     }
   }
 
   componentWillMount() {
+    this.router = new Router();
+    Backbone.history.start({ pushState: false });
     this.setState(utils.checkDevice());
   }
 
   componentDidMount() {
-    this.map = new MapView({
-      mapElement: this.refs.Map,
-      currentMap: this.state.currentMap
-    });
+    this.initMap();
+    this.initTimeline();
+  }
 
+  initMap() {
+    this.mapView = new MapView({
+      el: this.refs.Map,
+      currentMap: this.state.currentMap, // TODO: change name
+      state: this.router.params
+    });
+  }
+
+  initTimeline() {
     this.timeline = new TimelineView({ el: this.refs.Timeline });
   }
 
