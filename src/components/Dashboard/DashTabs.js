@@ -1,6 +1,6 @@
 'use strict';
 
-import './styles.postcss';
+import './dash-tabs-styles.postcss';
 import React from 'react';
 
 class DashboardTabs extends React.Component {

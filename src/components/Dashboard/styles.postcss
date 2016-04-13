@@ -1,0 +1,77 @@
+@import'../../styles/settings.postcss';
+@import'../../styles/helpers.postcss';
+
+.m-dashboard-panel {
+  padding: 0 $wrap-padding-mobile;
+
+  @media screen and (min-width: $screen-m) {
+    padding: 0 rem(30);
+  }
+
+  @media screen and (min-width: $screen-xxl) {
+    padding: 0 rem(40);
+  }
+
+  .dashboard-header {
+    display: flex; 
+    flex: 1 1 100%;
+    justify-content: space-between;
+    align-items: center;
+    height: rem(40);
+    border-bottom: 1px solid $color-7;
+
+    @media screen and (min-width: $screen-m) {
+      display: none;
+    }
+  }
+
+  .scroll-wrapper {
+    height: rem(180);
+    overflow-y: scroll;
+
+    @media screen and (min-width: $screen-m) {
+      height: auto;
+    }
+  }
+}
+
+.btn-dashboard-switcher {
+  display: none;
+
+  @media screen and (min-width: $screen-m) {
+    display: flex;
+    flex: 1 1 100%;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: rem(54);
+    right: rem(-35);
+    width: rem(35);
+    height: rem(35);
+    background-image: url('../../images/mappattern.png');
+    background-size: contain;
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    display: none;
+  }
+
+  .icon {
+    display: none;
+    transform: rotate(180deg);
+    transition: transform .2s ease-out;
+
+    @media screen and (min-width: $screen-m) {
+      display: block;
+      width: rem(10);
+      height: rem(10);
+    }
+  }
+
+  .is-open & {
+    .icon {
+      transform: rotate(0);
+    }
+  }
+
+}
