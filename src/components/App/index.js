@@ -107,62 +107,110 @@ class App extends React.Component {
 
         <Modal visible={this.state.filtersOpen} onClose={this.closeFilterModal.bind(this)}>
           <div id="filters" className="m-filters" ref="Filters">
-            <fieldset className="date">
-              <legend>From</legend>
-              <div>
-                <select className="js-from-day">
-                  <option>TODO</option>
-                </select>
-                <select className="js-from-month">
-                  <option>TODO</option>
-                </select>
-                <select className="js-from-year">
-                  <option>TODO</option>
-                </select>
-              </div>
-            </fieldset>
+            <div>
+              <fieldset className="date date-from">
+                <legend className="text -dark text-form-labels">From</legend>
+                <div>
+                  <div>
+                    <svg className="arrow">
+                      <use xlinkHref="#icon-arrow"></use>
+                    </svg>
+                    <select className="js-from-day">
+                      <option disabled="disabled">Day</option>
+                    </select>
+                  </div>
+                  <div>
+                    <svg className="arrow">
+                      <use xlinkHref="#icon-arrow"></use>
+                    </svg>
+                    <select className="js-from-month">
+                      <option disabled="disabled">Month</option>
+                    </select>
+                  </div>
+                  <div>
+                    <svg className="arrow">
+                      <use xlinkHref="#icon-arrow"></use>
+                    </svg>
+                    <select className="js-from-year">
+                      <option disabled="disabled">Year</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
 
-            <fieldset className="date">
-              <legend>To</legend>
-              <div>
-                <select className="js-to-day">
-                  <option>TODO</option>
-                </select>
-                <select className="js-to-month">
-                  <option>TODO</option>
-                </select>
-                <select className="js-to-year">
-                  <option>TODO</option>
-                </select>
-              </div>
-            </fieldset>
+              <fieldset className="date date-to">
+                <legend className="text -dark text-form-labels">To</legend>
+                <div>
+                  <div>
+                    <svg className="arrow">
+                      <use xlinkHref="#icon-arrow"></use>
+                    </svg>
+                    <select className="js-to-day">
+                      <option disabled="disabled">Day</option>
+                    </select>
+                  </div>
+                  <div>
+                    <svg className="arrow">
+                      <use xlinkHref="#icon-arrow"></use>
+                    </svg>
+                    <select className="js-to-month">
+                      <option disabled="disabled">Month</option>
+                    </select>
+                  </div>
+                  <div>
+                    <svg className="arrow">
+                      <use xlinkHref="#icon-arrow"></use>
+                    </svg>
+                    <select className="js-to-year">
+                      <option disabled="disabled">Year</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
 
-            <fieldset className="regions">
-              <legend>Region of interest</legend>
-              <div>
-                <svg className="arrow">
-                  <use xlinkHref="#icon-arrow"></use>
-                </svg>
-                <select className="js-to-day">
-                  <option disabled="disabeld">All regions</option>
-                </select>
-              </div>
-            </fieldset>
+              <fieldset className="regions">
+                <legend className="text -dark text-form-labels">Region of interest</legend>
+                <div>
+                  <svg className="arrow">
+                    <use xlinkHref="#icon-arrow"></use>
+                  </svg>
+                  <select className="js-region">
+                    <option disabled="disabeld">All regions</option>
+                  </select>
+                </div>
+              </fieldset>
+            </div>
 
             <div className="sectors">
               <fieldset>
-                <legend>Sectors</legend>
+                <legend className="text -dark text-form-labels">Sectors</legend>
                 <div>
                   <input type="checkbox" id="filtersSectorTest1" />
-                  <label htmlFor="filtersSectorTest1">
+                  <label className="text text-cta" htmlFor="filtersSectorTest1">
                     Test 1
                   </label>
                   <input type="checkbox" id="filtersSectorTest2" />
-                  <label htmlFor="filtersSectorTest2">
+                  <label className="text text-cta" htmlFor="filtersSectorTest2">
                     Test 2
+                  </label>
+                  <input type="checkbox" id="filtersSectorTest3" />
+                  <label className="text text-cta" htmlFor="filtersSectorTest3">
+                    Test 3
+                  </label>
+                  <input type="checkbox" id="filtersSectorTest4" />
+                  <label className="text text-cta" htmlFor="filtersSectorTest4">
+                    Test 4
+                  </label>
+                  <input type="checkbox" id="filtersSectorTest5" />
+                  <label className="text text-cta" htmlFor="filtersSectorTest5">
+                    Test 5
                   </label>
                 </div>
               </fieldset>
+            </div>
+            <div className="buttons">
+              <button type="button" className="button-apply js-apply">Apply filters</button>
+              <button type="button" className="button-clear js-clear">Clear filters</button>
             </div>
           </div>
         </Modal>
