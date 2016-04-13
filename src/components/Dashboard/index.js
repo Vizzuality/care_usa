@@ -5,7 +5,7 @@ import React from 'react';
 
 import DashTabs from './DashTabs';
 import DashSummary from './DashSummary';
-import DashMapMode from './DashMapMode';
+import DashLayerSwitcher from './DashLayerSwitcher';
 
 import utils from '../../scripts/helpers/utils';
 
@@ -72,14 +72,14 @@ class Dashboard extends React.Component {
               <DashSummary
                 currentLayer = { this.props.currentLayer }
               />
-              <DashMapMode
+              <DashLayerSwitcher
                 currentLayer = { this.props.currentLayer }
                 mapMode = "moneyAmount"
                 mapModeLiteral = "Amount of money"
                 changeMapModeFn = { this.changeMapModeFn.bind(this) }
                 checked = { this.state.mapMode == "moneyAmount" && true }
               />
-              <DashMapMode
+              <DashLayerSwitcher
                 currentLayer = { this.props.currentLayer }
                 mapMode = "donorsNumber"
                 mapModeLiteral = "Number of donors"

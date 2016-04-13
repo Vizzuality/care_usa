@@ -5,7 +5,7 @@ import React from 'react';
 
 import Legend from '../Legend';
 
-class DashMapMode extends React.Component {
+class DashLayerSwitcher extends React.Component {
 
   constructor(props) {
     super(props);
@@ -33,4 +33,4 @@ class DashMapMode extends React.Component {
 
 }
 
-export default DashMapMode;
+export default DashLayerSwitcher;
