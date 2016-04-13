@@ -9,12 +9,12 @@ class Modal extends React.Component {
     super(props);
 
     this.state = {
-      open: this.props.isOpen
+      open: this.props.visible
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ open: nextProps.isOpen });
+    this.setState({ open: nextProps.visible });
   }
 
   close(e) {
@@ -25,7 +25,7 @@ class Modal extends React.Component {
       node = node.parentNode;
     }
 
-    this.setState({ open: false });
+    this.props.onClose();
   }
 
 
@@ -46,7 +46,8 @@ class Modal extends React.Component {
 }
 
 Modal.propTypes = {
-  isOpen: React.PropTypes.bool.isRequired
+  visible: React.PropTypes.bool.isRequired,
+  onClose: React.PropTypes.func.isRequired
 };
 
 export default Modal;

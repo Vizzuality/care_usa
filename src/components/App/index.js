@@ -19,7 +19,8 @@ class App extends React.Component {
     this.state = {
       currentMap: 'donations',
       device: null,
-      menuDeviceOpen: false
+      menuDeviceOpen: false,
+      filtersOpen: true
     }
   }
 
@@ -57,6 +58,10 @@ class App extends React.Component {
 
   changeMap(map, e) {
     this.setState({ currentMap: map });
+  }
+
+  closeFilterModal() {
+    this.setState({ filtersOpen: false });
   }
 
   render() {
@@ -100,7 +105,7 @@ class App extends React.Component {
           <div className="svg-container js-svg-container"></div>
         </div>
 
-        <Modal isOpen={true}>
+        <Modal visible={this.state.filtersOpen} onClose={this.closeFilterModal.bind(this)}>
           <div id="filters" className="m-filters" ref="Filters">
             <fieldset className="date">
               <legend>From</legend>
