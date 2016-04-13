@@ -19,19 +19,19 @@ class Legend extends React.Component {
         <ul>
           <li className="legend-item">
             <span className="bucket"></span>
-            <span>$0 - 100</span>
+            <span className="text text-legend-s">$0 - 100</span>
           </li>
           <li className="legend-item">
             <span className="bucket"></span>
-            <span>$100 - 500</span>
+            <span className="text text-legend-s">$100 - 500</span>
           </li>
           <li className="legend-item">
             <span className="bucket"></span>
-            <span>$500 - 1000</span>
+            <span className="text text-legend-s">$500 - 1000</span>
           </li>
           <li className="legend-item">
             <span className="bucket"></span>
-            <span>More than $1000</span>
+            <span className="text text-legend-s">More than $1000</span>
           </li>
         </ul>
       </div>
