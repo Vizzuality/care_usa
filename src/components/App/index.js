@@ -17,6 +17,7 @@ class App extends React.Component {
 
     this.state = {
       currentLayer: 'donations',
+      currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false
     }
@@ -26,8 +27,6 @@ class App extends React.Component {
     this.router = new Router();
     Backbone.history.start({ pushState: false });
     this.setState(utils.checkDevice());
-
-    console.log(this.router.params)
   }
 
   componentDidMount() {
@@ -38,7 +37,7 @@ class App extends React.Component {
   initMap() {
     this.mapView = new MapView({
       el: this.refs.Map,
-      currentLayer: this.state.currentLayer, // TODO: change name
+      currentLayer: this.state.currentLayer,
       state: this.router.params
     });
   }
@@ -80,7 +79,7 @@ class App extends React.Component {
               <img className="icon icon-logo" src={"./src/images/logo.svg"}></img>
             </a>
             <MainMenu
-              currentTab = { this.state.currentTab }
+              currentTab = { this.state.currentPage }
               toggleMenuFn = { this.toggleMenu.bind(this) }
               changePageFn = { this.changePage.bind(this) }
             />
