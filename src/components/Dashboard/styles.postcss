@@ -7,7 +7,7 @@
   @media screen and (min-width: $screen-m) {
     position: absolute;
     top: rem(54);
-    bottom: rem(80);
+    bottom: 0;
     left: 0;
     right: 0;
     padding: 0 rem(30);
@@ -35,8 +35,15 @@
     height: rem(180);
     overflow-y: scroll;
 
+
     @media screen and (min-width: $screen-m) {
       height: auto;
+      position: absolute;
+      top: 0;
+      bottom: rem(80);
+      left: rem(30);
+      right: rem(10);
+      padding-right: rem(20);
     }
   }
 }
