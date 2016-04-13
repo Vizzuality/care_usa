@@ -1,6 +1,6 @@
 'use strict';
 
-import './dash-map-mode-styles.postcss';
+import './dash-layer-switcher-styles.postcss';
 import React from 'react';
 
 import Legend from '../Legend';
@@ -22,7 +22,7 @@ class DashLayerSwitcher extends React.Component {
 
   render() {
     return (
-      <div className="m-dash-map-mode"> 
+      <div className="m-dash-layer-switcher"> 
         <div className="map-mode">
           <div className="selector-wrapper">
             <input 
