@@ -35,7 +35,7 @@ class Router extends Backbone.Router {
         result.lon = params[2] && Number(params[2]);
       }
       if (params[3]) {
-        result.currentMap = params[3] && String(params[3]);
+        result.currentLayer = params[3] && String(params[3]);
       }
       this.params.set(result);
     }

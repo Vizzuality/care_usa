@@ -16,7 +16,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      currentMap: 'donations',
+      currentLayer: 'donations',
       device: null,
       menuDeviceOpen: false
     }
@@ -38,7 +38,7 @@ class App extends React.Component {
   initMap() {
     this.mapView = new MapView({
       el: this.refs.Map,
-      currentMap: this.state.currentMap, // TODO: change name
+      currentLayer: this.state.currentLayer, // TODO: change name
       state: this.router.params
     });
   }
@@ -56,8 +56,8 @@ class App extends React.Component {
   }
 
   changeMap(map, e) {
-    this.setState({ currentMap: map });
-    this.mapView.state.set({'currentMap': map});
+    this.setState({ currentLayer: map });
+    this.mapView.state.set({'currentLayer': map});
   }
 
   render() {
@@ -91,7 +91,7 @@ class App extends React.Component {
 
         <Dashboard
           changeMapFn={ this.changeMap.bind(this) }
-          currentMap={ this.router.params.attributes.currentMap }
+          currentLayer={ this.router.params.attributes.currentLayer || 'donations'}
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">

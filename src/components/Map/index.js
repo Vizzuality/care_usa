@@ -23,7 +23,7 @@ class MapView extends Backbone.View {
 
     this._createMap();
     this._setEvents();
-    this._addLayer(this.state.get('currentMap'));
+    this._addLayer(this.state.get('currentLayer') || 'donations');
   }
 
   _createMap() {
@@ -53,15 +53,15 @@ class MapView extends Backbone.View {
       this.map.setView(latlng, this.map.getZoom());
     });
 
-    this.state.on('change:currentMap', () => {
-      const currentMap = this.state.get('currentMap');
-      this.changeLayer(currentMap);
+    this.state.on('change:currentLayer', () => {
+      const currentLayer = this.state.get('currentLayer');
+      this.changeLayer(currentLayer);
     });
   }
 
   _infowindowSetUp(e) {
     new PopUpContentView({
-      currentMap: this.options.currentMap,
+      currentLayer: this.options.currentLayer,
       latLng: e.latlng,
       map: this.map
     }).getPopUp();
@@ -69,7 +69,7 @@ class MapView extends Backbone.View {
 
   _addLayer(layer) {
     let layerConfig;
-    
+
     //Temporary. Until we recive options from somewhere else.
     if (layer == 'donations') {
       layerConfig = {

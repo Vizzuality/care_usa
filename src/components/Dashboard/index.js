@@ -37,13 +37,13 @@ class Dashboard extends React.Component {
 
     if ( this.state.mobile ) {
       tabsMobile =  <DashTabs
-                      currentMap = { this.props.currentMap }
+                      currentLayer = { this.props.currentLayer }
                       changeMapFn = { this.props.changeMapFn }
                     />
       tabsDesktop = null;
     } else {
       tabsDesktop = <DashTabs
-                      currentMap = { this.props.currentMap }
+                      currentLayer = { this.props.currentLayer }
                       changeMapFn = { this.props.changeMapFn }
                     />
       tabsMobile = null;
@@ -70,17 +70,17 @@ class Dashboard extends React.Component {
             </div>
             <div className="scroll-wrapper">
               <DashSummary
-                currentMap = { this.props.currentMap }
+                currentLayer = { this.props.currentLayer }
               />
               <DashMapMode
-                currentMap = { this.props.currentMap }
+                currentLayer = { this.props.currentLayer }
                 mapMode = "moneyAmount"
                 mapModeLiteral = "Amount of money"
                 changeMapModeFn = { this.changeMapModeFn.bind(this) }
                 checked = { this.state.mapMode == "moneyAmount" && true }
               />
               <DashMapMode
-                currentMap = { this.props.currentMap }
+                currentLayer = { this.props.currentLayer }
                 mapMode = "donorsNumber"
                 mapModeLiteral = "Number of donors"
                 changeMapModeFn = { this.changeMapModeFn.bind(this) }
