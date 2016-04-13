@@ -46,9 +46,7 @@ class Dashboard extends React.Component {
                     />
       tabsMobile = null;
     }
-    
-    console.log('dash', this.props)
-    
+
     if( this.props.currentLayer == 'donations') {
       layersSwitcher = <DashLayerSwitcher
                 currentLayer = { this.props.currentLayer }

@@ -55,13 +55,25 @@ class App extends React.Component {
     this.setState({ currentPage: page });
   }
 
-  changeLayer(layer, e) {
-    this.setState({ currentLayer: layer });
-    this.mapView.state.set({'currentLayer': layer});
+  changeMapMode(mode, e) {
+    let sublayer;
+
+    if (mode == 'donations') {
+      sublayer = 'amountOfMoney';
+    } else {
+      sublayer = 'projects';
+    }
+
+    this.setState({ currentLayer: mode, currentSublayer: sublayer });
+    this._updateMap(sublayer);
   }
 
   changeSublayer(layer, e) {
     this.setState({ currentSublayer: layer });
+    this._updateMap(layer);
+  }
+
+  _updateMap(layer) {
     this.mapView.state.set({ 'currentLayer': layer });
   }
 
@@ -95,7 +107,7 @@ class App extends React.Component {
         <div id="map" className="l-map" ref="Map"></div>
 
         <Dashboard
-          changeLayerFn={ this.changeLayer.bind(this) }
+          changeLayerFn={ this.changeMapMode.bind(this) }
           changeSublayerFn={ this.changeSublayer.bind(this) }
           currentLayer={ this.state.currentLayer }
           currentSublayer={ this.state.currentSublayer }
