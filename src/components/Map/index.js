@@ -69,7 +69,7 @@ class MapView extends Backbone.View {
 
   _addLayer(layer) {
     let layerConfig;
-    console.log(layer)
+    
     //Temporary. Until we recive options from somewhere else.
     if (layer == 'donations') {
       layerConfig = {

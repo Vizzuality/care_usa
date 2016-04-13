@@ -19,7 +19,7 @@ class Router extends Backbone.Router {
   }
 
   application() {
-    console.log(this.params);
+    // console.log(this.params.attirbutes);
   }
 
   _setParams(routeName, params) {

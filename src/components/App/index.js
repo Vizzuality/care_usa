@@ -26,6 +26,8 @@ class App extends React.Component {
     this.router = new Router();
     Backbone.history.start({ pushState: false });
     this.setState(utils.checkDevice());
+
+    console.log(this.router.params)
   }
 
   componentDidMount() {
@@ -89,7 +91,7 @@ class App extends React.Component {
 
         <Dashboard
           changeMapFn={ this.changeMap.bind(this) }
-          currentMap={ this.state.currentMap }
+          currentMap={ this.router.params.attributes.currentMap }
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
