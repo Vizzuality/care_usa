@@ -249,6 +249,62 @@
   }
 }
 
+.l-box-video {
+  background-image: url("images/backgroundmodules_anniversary03.jpg");
+  background-position: center;
+
+  &.background-image {
+    background-size: auto 100%;
+
+    @media screen and (min-width: $screen-xl) {
+      background-size: auto 125%;
+    }
+  }
+  
+  .wrap {
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    justify-content: space-between;
+    min-height: rem(310);
+    padding-top: rem(51);
+    padding-bottom: rem(60);
+
+    @media screen and (min-width: $screen-m) {
+      min-height: rem(408);
+      flex-flow: row;
+      text-align: center;
+      align-items: flex-end;
+      min-height: rem(407.4);
+      padding-bottom: rem(30.1);
+    }
+
+    @media screen and (min-width: $screen-l) {
+      min-height: rem(544);
+      padding-bottom: rem(55);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      min-height: rem(680);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      min-height: rem(1062);
+      padding-bottom: rem(120);
+    }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+
+      @media screen and (min-width: $screen-m) {
+        min-width: rem(200);
+      }
+    }
+  }
+}
 
 .viel:before {
     content: "";
@@ -296,58 +352,57 @@
   }
   
   .box-image-container {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      margin-bottom: rem(20);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: rem(20);
 
-      @media screen and (min-width: $screen-m) {
-        margin-bottom: rem(27);
-      }
-
-      @media screen and (min-width: $screen-l) {
-        width: 48%;
-        margin-bottom: 0;
-      }
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: rem(27);
     }
 
-    .box-image {
-      max-width: 100%;
+    @media screen and (min-width: $screen-l) {
+      width: 48%;
+      margin-bottom: 0;
+    }
+  }
+
+  .box-image {
+    max-width: 100%;
+  }
+
+  .box-text-container {
+    max-width: 100%;
+
+    @media screen and (min-width: $screen-l) {
+      width: 52%;
+      padding-left: 10%;
+      padding-right: 5%;
+    }
+  }
+
+  .text-module-title {
+    margin-bottom: rem(30);
+    
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: rem(37);
     }
 
-    .box-text-container {
-      max-width: 100%;
-
-      @media screen and (min-width: $screen-l) {
-        width: 52%;
-        padding-left: 10%;
-        padding-right: 5%;
-      }
+    @media screen and (min-width: $screen-l) {
+      margin-bottom: rem(27);
     }
 
-    .text-module-title {
-      margin-bottom: rem(30);
-      
-      @media screen and (min-width: $screen-m) {
-        margin-bottom: rem(37);
-      }
-
-      @media screen and (min-width: $screen-l) {
-        margin-bottom: rem(27);
-      }
-
-      @media screen and (min-width: $screen-xl) {
-        margin-bottom: rem(38);
-      }
-
-      @media screen and (min-width: $screen-xxl) {
-        margin-bottom: rem(33);
-      }
+    @media screen and (min-width: $screen-xl) {
+      margin-bottom: rem(38);
     }
 
-    .text-highlighted {
-      margin-bottom: 0;    
+    @media screen and (min-width: $screen-xxl) {
+      margin-bottom: rem(33);
     }
-  
-  
+  }
+
+  .text-highlighted {
+    margin-bottom: 0;    
+  }
 }
+
