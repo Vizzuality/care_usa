@@ -7,6 +7,8 @@ import DashTabs from './DashTabs';
 import DashSummary from './DashSummary';
 import DashMapMode from './DashMapMode';
 
+import utils from '../../scripts/helpers/utils';
+
 class Dashboard extends React.Component {
 
   constructor(props) {
@@ -15,6 +17,10 @@ class Dashboard extends React.Component {
       mapMode: "moneyAmount",
       dashboardOpen: true
     };
+  }
+
+  componentWillMount() {
+    this.setState(utils.checkDevice());
   }
 
   changeMapModeFn(mapCurrentMode, e) {
@@ -26,42 +32,61 @@ class Dashboard extends React.Component {
   }
 
   render() {
+    let tabsMobile;
+    let tabsDesktop;
+
+    if ( this.state.mobile ) {
+      tabsMobile =  <DashTabs
+                      currentMap = { this.props.currentMap }
+                      changeMapFn = { this.props.changeMapFn }
+                    />
+      tabsDesktop = null;
+    } else {
+      tabsDesktop = <DashTabs
+                      currentMap = { this.props.currentMap }
+                      changeMapFn = { this.props.changeMapFn }
+                    />
+      tabsMobile = null;
+    }
+
     return (
-      <div className={ this.state.dashboardOpen ? "l-dashboard is-open" : "l-dashboard" }>
-        <button className="btn-dashboard-switcher"
-          onClick={ this.toogleDashboard.bind(this) }
-        >
-          <svg className="icon icon-arrowleft"><use xlinkHref="#icon-arrowleft"></use></svg>
-        </button>
-        <DashTabs
-          currentMap = { this.props.currentMap }
-          changeMapFn = { this.props.changeMapFn }
-        />
-        <div className="m-dashboard-panel">
-          <div className="dashboard-header">
-            <button className="text text-link">filters</button>
-            <a href="http://www.care.org/donate" rel="noreferrer" target="_blank"className="btn btn-secondary">
-              Donate
-            </a>
-          </div>
-          <div className="scroll-wrapper">
-            <DashSummary
-              currentMap = { this.props.currentMap }
-            />
-            <DashMapMode
-              currentMap = { this.props.currentMap }
-              mapMode = "moneyAmount"
-              mapModeLiteral = "Amount of money"
-              changeMapModeFn = { this.changeMapModeFn.bind(this) }
-              checked = { this.state.mapMode == "moneyAmount" && true }
-            />
-            <DashMapMode
-              currentMap = { this.props.currentMap }
-              mapMode = "donorsNumber"
-              mapModeLiteral = "Number of donors"
-              changeMapModeFn = { this.changeMapModeFn.bind(this) }
-              checked = { this.state.mapMode == "donorsNumber" && true }
-            />
+      <div>
+        { tabsMobile }
+        <div className={ this.state.dashboardOpen ? "l-dashboard is-open" : "l-dashboard" }>
+          <button className="btn-dashboard-switcher"
+            onClick={ this.toogleDashboard.bind(this) }
+          >
+            <svg className="icon icon-arrowleft"><use xlinkHref="#icon-arrowleft"></use></svg>
+          </button>
+
+          { tabsDesktop }
+
+          <div className="m-dashboard-panel">
+            <div className="dashboard-header">
+              <button className="text text-link">filters</button>
+              <a href="http://www.care.org/donate" rel="noreferrer" target="_blank"className="btn btn-secondary">
+                Donate
+              </a>
+            </div>
+            <div className="scroll-wrapper">
+              <DashSummary
+                currentMap = { this.props.currentMap }
+              />
+              <DashMapMode
+                currentMap = { this.props.currentMap }
+                mapMode = "moneyAmount"
+                mapModeLiteral = "Amount of money"
+                changeMapModeFn = { this.changeMapModeFn.bind(this) }
+                checked = { this.state.mapMode == "moneyAmount" && true }
+              />
+              <DashMapMode
+                currentMap = { this.props.currentMap }
+                mapMode = "donorsNumber"
+                mapModeLiteral = "Number of donors"
+                changeMapModeFn = { this.changeMapModeFn.bind(this) }
+                checked = { this.state.mapMode == "donorsNumber" && true }
+              />
+            </div>
           </div>
         </div>
       </div>
