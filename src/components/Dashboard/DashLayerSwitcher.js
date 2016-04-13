@@ -11,6 +11,13 @@ class DashLayerSwitcher extends React.Component {
     super(props);
     this.props = props;
     this.state = {};
+
+    this.layersOptions = {
+      donations: {
+        'amountOfMoney': 'Amount of money',
+        'donorsNumber': 'Number of donors' 
+      }
+    }
   }
 
   render() {

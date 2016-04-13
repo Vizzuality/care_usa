@@ -6,6 +6,7 @@ import React from 'react';
 import DashTabs from './DashTabs';
 import DashSummary from './DashSummary';
 import DashLayerSwitcher from './DashLayerSwitcher';
+import Legend from './../Legend';
 
 import utils from '../../scripts/helpers/utils';
 
@@ -34,6 +35,8 @@ class Dashboard extends React.Component {
   render() {
     let tabsMobile;
     let tabsDesktop;
+    let layersSwitcher;
+    let legend;
 
     if ( this.state.mobile ) {
       tabsMobile =  <DashTabs
@@ -48,6 +51,22 @@ class Dashboard extends React.Component {
                     />
       tabsMobile = null;
     }
+
+    if( this.props.currentLayer == 'donations') {
+      layersSwitcher = <DashLayerSwitcher
+                currentLayer = { this.props.currentLayer }
+                mapMode = "moneyAmount"
+                mapModeLiteral = "Amount of money"
+                changeMapModeFn = { this.changeMapModeFn.bind(this) }
+                checked = { this.state.mapMode == "moneyAmount" && true }
+              />
+    }
+
+    if( this.props.currentLayer == 'projects') {
+      legend = <Legend/>
+    }
+
+
 
     return (
       <div>
@@ -72,20 +91,8 @@ class Dashboard extends React.Component {
               <DashSummary
                 currentLayer = { this.props.currentLayer }
               />
-              <DashLayerSwitcher
-                currentLayer = { this.props.currentLayer }
-                mapMode = "moneyAmount"
-                mapModeLiteral = "Amount of money"
-                changeMapModeFn = { this.changeMapModeFn.bind(this) }
-                checked = { this.state.mapMode == "moneyAmount" && true }
-              />
-              <DashLayerSwitcher
-                currentLayer = { this.props.currentLayer }
-                mapMode = "donorsNumber"
-                mapModeLiteral = "Number of donors"
-                changeMapModeFn = { this.changeMapModeFn.bind(this) }
-                checked = { this.state.mapMode == "donorsNumber" && true }
-              />
+              { layersSwitcher }
+              { legend }
             </div>
           </div>
         </div>
