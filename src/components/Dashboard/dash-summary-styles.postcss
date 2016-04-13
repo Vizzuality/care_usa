@@ -15,10 +15,25 @@
     &:last-child {
       margin-bottom: 0;
     }
+
+    @media screen and (min-width: $screen-xl) {
+     flex-direction: column;
+     margin-bottom: rem(20);
+
+     &:last-child {
+       margin-bottom: 0;
+     }
+    }
   }
 
   .text {
     color: $font-color-1;
+  }
+
+  .text-legend-s {
+    @media screen and (min-width: $screen-xl) {
+     margin-bottom: rem(10);
+    }
   }
 
   .number {

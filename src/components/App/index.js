@@ -17,6 +17,7 @@ class App extends React.Component {
 
     this.state = {
       currentLayer: 'donations',
+      currentSublayer: 'amountOfMoney',
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false
@@ -54,9 +55,14 @@ class App extends React.Component {
     this.setState({ currentPage: page });
   }
 
-  changeLayer(map, e) {
-    this.setState({ currentLayer: map });
-    this.mapView.state.set({'currentLayer': map});
+  changeLayer(layer, e) {
+    this.setState({ currentLayer: layer });
+    this.mapView.state.set({'currentLayer': layer});
+  }
+
+  changeSublayer(layer, e) {
+    this.setState({ currentSublayer: layer });
+    this.mapView.state.set({ 'currentLayer': layer });
   }
 
   render() {
@@ -90,7 +96,9 @@ class App extends React.Component {
 
         <Dashboard
           changeLayerFn={ this.changeLayer.bind(this) }
-          currentLayer={ this.router.params.attributes.currentLayer || 'donations'}
+          changeSublayerFn={ this.changeSublayer.bind(this) }
+          currentLayer={ this.state.currentLayer }
+          currentSublayer={ this.state.currentSublayer }
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">

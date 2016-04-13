@@ -12,28 +12,36 @@ class DashLayerSwitcher extends React.Component {
     this.props = props;
     this.state = {};
 
-    this.layersOptions = {
-      donations: {
-        'amountOfMoney': 'Amount of money',
-        'donorsNumber': 'Number of donors' 
-      }
-    }
+    this.subLayers = [
+      { id: 'amountOfMoney', literal: 'Amount of money' },
+      { id: 'donorsNumber', literal: 'Number of donors' } 
+    ]
   }
 
   render() {
-    return (
-      <div className="m-dash-layer-switcher"> 
+    let switchers = [];
+
+    this.subLayers.forEach( (layer) => {
+
+      switchers.push( <div className="m-dash-layer-switcher" key={ layer.id }> 
         <div className="map-mode">
           <div className="selector-wrapper">
             <input 
-              type="radio" name="mapMode" checked={ this.props.checked }
-              id= { this.props.mapMode } 
-              onChange = { this.props.changeMapModeFn.bind(null, this.props.mapMode) }
+              type ="radio" name="mapMode" checked={ this.props.currentSublayer == layer.id }
+              id = { layer.id } 
+              onChange = { this.props.changeSublayerFn.bind(null, layer.id) }
             />
-            <label className="text text-legend">{ this.props.mapModeLiteral }</label>
+            <label className="text text-legend">{ layer.literal }</label>
           </div>
           <Legend/>
         </div> 
+      </div> )
+
+    })
+
+    return (
+      <div>
+        { switchers }
       </div>
     )
   }

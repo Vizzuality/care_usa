@@ -15,17 +15,12 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mapMode: "moneyAmount",
       dashboardOpen: true
     };
   }
 
   componentWillMount() {
     this.setState(utils.checkDevice());
-  }
-
-  changeMapModeFn(mapCurrentMode, e) {
-    this.setState({ mapMode: mapCurrentMode })
   }
 
   toogleDashboard() {
@@ -38,7 +33,7 @@ class Dashboard extends React.Component {
     let layersSwitcher;
     let legend;
 
-    if ( this.state.mobile ) {
+    if ( this.state.mobile || this.state.tablet ) {
       tabsMobile =  <DashTabs
                       currentLayer = { this.props.currentLayer }
                       changeLayerFn = { this.props.changeLayerFn }
@@ -51,21 +46,20 @@ class Dashboard extends React.Component {
                     />
       tabsMobile = null;
     }
-
+    
+    console.log('dash', this.props)
+    
     if( this.props.currentLayer == 'donations') {
       layersSwitcher = <DashLayerSwitcher
                 currentLayer = { this.props.currentLayer }
-                mapMode = "moneyAmount"
-                mapModeLiteral = "Amount of money"
-                changeMapModeFn = { this.changeMapModeFn.bind(this) }
-                checked = { this.state.mapMode == "moneyAmount" && true }
+                currentSublayer = { this.props.currentSublayer }
+                changeSublayerFn= { this.props.changeSublayerFn }
               />
     }
 
     if( this.props.currentLayer == 'projects') {
       legend = <Legend/>
     }
-
 
 
     return (
