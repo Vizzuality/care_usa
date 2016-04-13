@@ -19,7 +19,7 @@ class Router extends Backbone.Router {
   }
 
   application() {
-    // console.log(this.params.attributes);
+    console.log(this.params);
   }
 
   _setParams(routeName, params) {
@@ -33,6 +33,9 @@ class Router extends Backbone.Router {
       }
       if (params[2]) {
         result.lon = params[2] && Number(params[2]);
+      }
+      if (params[3]) {
+        result.currentMap = params[3] && String(params[3]);
       }
       this.params.set(result);
     }
@@ -53,7 +56,7 @@ class Router extends Backbone.Router {
 Router.prototype.routes = {
   '(/)': 'toWelcome',
   'welcome': 'welcome',
-  'map(/zoom::zoom)(/lat::lat)(/lon::lon)': 'application'
+  'map(/zoom::zoom)(/lat::lat)(/lon::lon)(/layer::layer)': 'application'
 };
 
 export default Router;

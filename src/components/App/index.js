@@ -14,6 +14,7 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       currentMap: 'donations',
       device: null,
@@ -54,6 +55,7 @@ class App extends React.Component {
 
   changeMap(map, e) {
     this.setState({ currentMap: map });
+    this.mapView.state.set({'currentMap': map});
   }
 
   render() {
