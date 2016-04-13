@@ -23,7 +23,7 @@ class DashMapMode extends React.Component {
               id= { this.props.mapMode } 
               onChange = { this.props.changeMapModeFn.bind(null, this.props.mapMode) }
             />
-            <label>{ this.props.mapModeLiteral }</label>
+            <label className="text text-legend">{ this.props.mapModeLiteral }</label>
           </div>
           <Legend/>
         </div> 

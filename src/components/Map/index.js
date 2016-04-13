@@ -76,7 +76,7 @@ class MapView extends Backbone.View {
 };
 
 MapView.prototype.defaults = {
-  style: 'mapbox.streets',
+  style: location.hostname === 'localhost' ? 'mapbox.streets' : 'jhanley.a25ffffe',
   lat: 40.41,
   lon: -3.7,
   zoom: 2
