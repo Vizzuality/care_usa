@@ -18,12 +18,12 @@ class DashboardTabs extends React.Component {
           <li className='tab'>
             <button
               className={ this.props.currentLayer == 'donations' && 'is-active' }
-              onClick={ this.props.changeMapFn.bind(null, 'donations') }
+              onClick={ this.props.changeLayerFn.bind(null, 'donations') }
             >Donations</button></li>
           <li className='tab'>
             <button
               className={ this.props.currentLayer == 'projects' && 'is-active' }
-              onClick={ this.props.changeMapFn.bind(null, 'projects') }
+              onClick={ this.props.changeLayerFn.bind(null, 'projects') }
             >Projects</button></li>
         </ul>
      </div>

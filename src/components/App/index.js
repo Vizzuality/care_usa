@@ -54,7 +54,7 @@ class App extends React.Component {
     this.setState({ currentPage: page });
   }
 
-  changeMap(map, e) {
+  changeLayer(map, e) {
     this.setState({ currentLayer: map });
     this.mapView.state.set({'currentLayer': map});
   }
@@ -89,7 +89,7 @@ class App extends React.Component {
         <div id="map" className="l-map" ref="Map"></div>
 
         <Dashboard
-          changeMapFn={ this.changeMap.bind(this) }
+          changeLayerFn={ this.changeLayer.bind(this) }
           currentLayer={ this.router.params.attributes.currentLayer || 'donations'}
         />
 

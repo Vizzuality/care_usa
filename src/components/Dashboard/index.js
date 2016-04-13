@@ -38,13 +38,13 @@ class Dashboard extends React.Component {
     if ( this.state.mobile ) {
       tabsMobile =  <DashTabs
                       currentLayer = { this.props.currentLayer }
-                      changeMapFn = { this.props.changeMapFn }
+                      changeLayerFn = { this.props.changeLayerFn }
                     />
       tabsDesktop = null;
     } else {
       tabsDesktop = <DashTabs
                       currentLayer = { this.props.currentLayer }
-                      changeMapFn = { this.props.changeMapFn }
+                      changeLayerFn = { this.props.changeLayerFn }
                     />
       tabsMobile = null;
     }
