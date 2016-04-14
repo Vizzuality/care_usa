@@ -6,6 +6,7 @@
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --hot --progress --colors --inline --host 0.0.0.0",
     "build": "./node_modules/.bin/webpack --progress --colors",
+    "postinstall": "npm run build",
     "test": ""
   },
   "repository": {
@@ -51,6 +52,6 @@
   },
   "engines": {
     "node": "5.x",
-    "npm": "2.1.x"
+    "npm": "3.8.3"
   }
 }
