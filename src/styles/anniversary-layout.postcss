@@ -94,7 +94,7 @@ body {
 }
 
 .l-cares-evolution {
-  background-image: url("images/fullwidthcontent_boxland01.png");
+  /* background-image: url("images/fullwidthcontent_boxland01.png");
   background-position: bottom left;
   
   &.background-image {
@@ -114,9 +114,9 @@ body {
 
     @media screen and (min-width: $screen-xxl) {
       background-size: 100%;
-    }
-  }
-
+    } 
+  }*/
+  
   .wrap {
     display: flex;
     flex-flow: column;
@@ -124,26 +124,27 @@ body {
     align-items: center;
     text-align: center;
     padding-top: rem(51);
-    padding-bottom: rem(430);
+
+    //padding-bottom: rem(430);
     
     @media screen and (min-width: $screen-m) {
       padding-top: rem(94);
-      padding-bottom: rem(535);
+      //padding-bottom: rem(535);
     }
 
     @media screen and (min-width: $screen-l) {
       padding-top: rem(100);
-      padding-bottom: rem(580);
+      //padding-bottom: rem(580);
     }
 
     @media screen and (min-width: $screen-xl) {
       padding-top: rem(105);
-      padding-bottom: rem(740);
+      //padding-bottom: rem(740);
     }
 
     @media screen and (min-width: $screen-xxl) {
       padding-top: rem(115);
-      padding-bottom: rem(990);
+      //padding-bottom: rem(990);
     }
   }
   
@@ -179,6 +180,11 @@ body {
     @media screen and (min-width: $screen-xxl) {
       max-width: rem(1174);
     }
+  }
+
+  .evolution-image {
+    width: 100%;
+    margin-bottom: rem(-10);
   }
 }
 
