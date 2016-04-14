@@ -115,24 +115,24 @@ class App extends React.Component {
                     <svg className="arrow">
                       <use xlinkHref="#icon-arrow"></use>
                     </svg>
-                    <select className="js-from-day">
-                      <option disabled="disabled">Day</option>
+                    <select className="js-from-day" name="from-day">
+                      <option value="" disabled="disabled">Day</option>
                     </select>
                   </div>
                   <div>
                     <svg className="arrow">
                       <use xlinkHref="#icon-arrow"></use>
                     </svg>
-                    <select className="js-from-month">
-                      <option disabled="disabled">Month</option>
+                    <select className="js-from-month" name="from-month">
+                      <option value="" disabled="disabled">Month</option>
                     </select>
                   </div>
                   <div>
                     <svg className="arrow">
                       <use xlinkHref="#icon-arrow"></use>
                     </svg>
-                    <select className="js-from-year">
-                      <option disabled="disabled">Year</option>
+                    <select className="js-from-year" name="from-year">
+                      <option value="" disabled="disabled">Year</option>
                     </select>
                   </div>
                 </div>
@@ -145,24 +145,24 @@ class App extends React.Component {
                     <svg className="arrow">
                       <use xlinkHref="#icon-arrow"></use>
                     </svg>
-                    <select className="js-to-day">
-                      <option disabled="disabled">Day</option>
+                    <select className="js-to-day" name="to-day">
+                      <option value="" disabled="disabled">Day</option>
                     </select>
                   </div>
                   <div>
                     <svg className="arrow">
                       <use xlinkHref="#icon-arrow"></use>
                     </svg>
-                    <select className="js-to-month">
-                      <option disabled="disabled">Month</option>
+                    <select className="js-to-month" name="to-month">
+                      <option value="" disabled="disabled">Month</option>
                     </select>
                   </div>
                   <div>
                     <svg className="arrow">
                       <use xlinkHref="#icon-arrow"></use>
                     </svg>
-                    <select className="js-to-year">
-                      <option disabled="disabled">Year</option>
+                    <select className="js-to-year" name="to-year">
+                      <option value="" disabled="disabled">Year</option>
                     </select>
                   </div>
                 </div>
@@ -174,8 +174,8 @@ class App extends React.Component {
                   <svg className="arrow">
                     <use xlinkHref="#icon-arrow"></use>
                   </svg>
-                  <select className="js-region">
-                    <option disabled="disabeld">All regions</option>
+                  <select className="js-region" name="region">
+                    <option value="" disabled="disabeld">All regions</option>
                   </select>
                 </div>
               </fieldset>
@@ -185,23 +185,23 @@ class App extends React.Component {
               <fieldset>
                 <legend className="text -dark text-form-labels">Sectors</legend>
                 <div>
-                  <input type="checkbox" id="filtersSectorTest1" />
+                  <input type="checkbox" id="filtersSectorTest1" name="sector-test1" />
                   <label className="text text-cta" htmlFor="filtersSectorTest1">
                     Test 1
                   </label>
-                  <input type="checkbox" id="filtersSectorTest2" />
+                  <input type="checkbox" id="filtersSectorTest2" name="sector-test2" />
                   <label className="text text-cta" htmlFor="filtersSectorTest2">
                     Test 2
                   </label>
-                  <input type="checkbox" id="filtersSectorTest3" />
+                  <input type="checkbox" id="filtersSectorTest3" name="sector-test3" />
                   <label className="text text-cta" htmlFor="filtersSectorTest3">
                     Test 3
                   </label>
-                  <input type="checkbox" id="filtersSectorTest4" />
+                  <input type="checkbox" id="filtersSectorTest4" name="sector-test4" />
                   <label className="text text-cta" htmlFor="filtersSectorTest4">
                     Test 4
                   </label>
-                  <input type="checkbox" id="filtersSectorTest5" />
+                  <input type="checkbox" id="filtersSectorTest5" name="sector-test5" />
                   <label className="text text-cta" htmlFor="filtersSectorTest5">
                     Test 5
                   </label>
