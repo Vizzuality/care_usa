@@ -9,9 +9,9 @@ class DashSummary extends React.Component {
     super(props);
     this.props = props;
     this.state = {
-      totalDonations: 19823743,
-      donationsAmount: 10645846,
-      totalCampaigns: 562430
+      totalDonations: '19,823,743',
+      donationsAmount: '10,645,846',
+      totalCampaigns: '562,430'
     };
   }
 
