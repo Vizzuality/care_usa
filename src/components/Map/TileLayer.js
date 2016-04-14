@@ -63,7 +63,9 @@ class CreateTileLayer {
   }
 
   removeLayer(map) {
-    map.removeLayer(this.layer);
+    if (this.layer) {
+      map.removeLayer(this.layer);
+    }
   }
 
 }
