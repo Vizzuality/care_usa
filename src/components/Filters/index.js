@@ -22,6 +22,7 @@ class FiltersView extends Backbone.View {
 
   initialize(options) {
     this.options = _.extend(options, defaults);
+    this.applyButton = this.el.querySelector('.js-apply');
     this.render();
   }
 
@@ -45,7 +46,7 @@ class FiltersView extends Backbone.View {
     this.$el.find('.js-from-month, .js-to-month')
       .append(() => {
         return moment.months().map((month, index) => {
-          return `<option value="${index}">${month}</option>`
+          return `<option value="${index + 1}">${month}</option>`
         });
       });
 
@@ -134,10 +135,8 @@ class FiltersView extends Backbone.View {
 
     /* If the start date is after the end date */
     if(res.valid && filledFromInputs.length === 3 && filledToInputs.length === 3) {
-      const startDate = moment(fromInputNames.map(name => serializedFilters[name]).join('-'), 'D-M-YYYY')
-        .add(1, 'months'); /* The month was 0 based */
-      const endDate = moment(toInputNames.map(name => serializedFilters[name]).join('-'), 'D-M-YYYY')
-        .add(1, 'months'); /* The month was 0 based */
+      const startDate = moment(fromInputNames.map(name => serializedFilters[name]).join('-'), 'D-M-YYYY');
+      const endDate = moment(toInputNames.map(name => serializedFilters[name]).join('-'), 'D-M-YYYY');
 
       if(!startDate.isBefore(endDate)) {
         res.valid = false;
@@ -146,12 +145,14 @@ class FiltersView extends Backbone.View {
       }
     }
 
+    /* TODO: check that the user enter both the start date and the end date or
+     * none of them */
+
     res.fields = _.uniq(res.fields);
 
     return res;
   }
 
-  /* TODO: let the possibility to make the date fields blank */
   /* TODO: check the available day, month, year depending on the user's choice */
 
   onApply(e) {
@@ -160,9 +161,18 @@ class FiltersView extends Backbone.View {
     const validation = this.validate(serializedFilters);
 
     if(!validation.valid) {
-      /* TODO: show error message and make the fields red */
+      const invalidInputs = [...this.inputs].filter(input => !!~validation.fields.indexOf(input.name));
+      for(let i = 0, j = invalidInputs.length; i < j; i++) {
+        invalidInputs[i].classList.add('-invalid');
+      }
+      this.applyButton.classList.add('-invalid');
+      /* TODO: show error message */
     }
     else {
+      for(let i = 0, j = this.inputs.length; i < j; i++) {
+        this.inputs[i].classList.remove('-invalid');
+      }
+      this.applyButton.classList.remove('-invalid');
       /* TODO: trigger */
     }
     /* TODO: close the modal */
