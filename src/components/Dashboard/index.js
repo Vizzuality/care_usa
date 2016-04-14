@@ -6,6 +6,7 @@ import React from 'react';
 import DashTabs from './DashTabs';
 import DashSummary from './DashSummary';
 import DashLayerSwitcher from './DashLayerSwitcher';
+import DashDates from './DashDates';
 import Legend from './../Legend';
 
 import utils from '../../scripts/helpers/utils';
@@ -79,6 +80,7 @@ class Dashboard extends React.Component {
               </a>
             </div>
             <div className="scroll-wrapper">
+              <DashDates/>
               <DashSummary
                 currentMode = { this.props.currentMode }
               />

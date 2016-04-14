@@ -10,10 +10,14 @@
     flex: 1 1 100%;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: rem(10);
+    margin-bottom: rem(15);
 
     &:last-child {
       margin-bottom: 0;
+    }
+
+    @media screen and (min-width: $screen-l) {
+      margin-bottom: rem(10);
     }
 
     @media screen and (min-width: $screen-xl) {
