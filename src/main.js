@@ -3,9 +3,9 @@
 import 'normalize.css';
 import './main.postcss';
 
-import App from './components/App';
 import React  from 'react';
 import ReactDOM from 'react-dom';
+import App from './components/App';
 
 const appElement = document.getElementById('app');
 

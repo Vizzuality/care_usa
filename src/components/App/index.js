@@ -3,10 +3,10 @@
 import React  from 'react';
 import MainMenu from '../MainMenu';
 import MenuDevice from '../MenuDevice';
-import InfowindowDonations from '../Infowindow/InfowindowDonations';
-import InfowindowProjects from '../Infowindow/InfowindowProjects';
-
+import TimelineView from '../Timeline';
+import Dashboard from '../Dashboard';
 import MapView from '../Map';
+import Router from '../../scripts/Router';
 
 import utils from '../../scripts/helpers/utils';
 
@@ -15,50 +15,49 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: 'who-cares',
       currentMap: 'donations',
       device: null,
-      menuDeviceOpen: false,
-      infowindowVisibility: false,
-      infowindowPosition: {}
+      menuDeviceOpen: false
     }
   }
 
   componentWillMount() {
+    this.router = new Router();
+    Backbone.history.start({ pushState: false });
     this.setState(utils.checkDevice());
   }
 
   componentDidMount() {
-    this.map = new MapView({
-      mapElement: this.refs.Map,
-      infowindowOpenFn: this.infowindowOpen.bind(this)
-    });
+    this.initMap();
+    this.initTimeline();
+  }
 
+  initMap() {
+    this.mapView = new MapView({
+      el: this.refs.Map,
+      currentMap: this.state.currentMap, // TODO: change name
+      state: this.router.params
+    });
+  }
+
+  initTimeline() {
+    this.timeline = new TimelineView({ el: this.refs.Timeline });
   }
 
   toggleMenu() {
     this.setState({ menuDeviceOpen: !this.state.menuDeviceOpen });
   }
 
-  changeTab(page, e) {
+  changePage(page, e) {
     this.setState({ currentPage: page });
   }
 
-  infowindowClose() {
-    this.setState({ infowindowVisibility: false });
-  }
-
-  infowindowOpen(position, latLong) {
-    this.setState({
-      infowindowVisibility: true,
-      infowindowPosition: position,
-      latLong: latLong
-    });
+  changeMap(map, e) {
+    this.setState({ currentMap: map });
   }
 
   render() {
     let menuDevice = null;
-    let infoWindow = null;
 
     if (this.state.mobile) {
       menuDevice = (
@@ -67,28 +66,6 @@ class App extends React.Component {
           toggleMenuFn = { this.toggleMenu.bind(this) }
         />
       );
-    }
-
-    if (this.state.infowindowVisibility) {
-      if (this.state.currentMap == 'donations') {
-        infoWindow = (
-          <InfowindowDonations
-            position = { !this.state.mobile ? this.state.infowindowPosition : null }
-            latLong = { this.state.latLong }
-            currentMap = { this.state.currentMap }
-            closeFn = { this.infowindowClose.bind(this) }
-          />
-        )
-      } else {
-        infoWindow = (
-          <InfowindowProjects
-            position = { !this.state.mobile ? this.state.infowindowPosition : null }
-            latLong = { this.state.latLong }
-            currentMap = { this.state.currentMap }
-            closeFn = { this.infowindowClose.bind(this) }
-          />
-        )
-      }
     }
 
     return (
@@ -101,21 +78,29 @@ class App extends React.Component {
             <MainMenu
               currentTab = { this.state.currentTab }
               toggleMenuFn = { this.toggleMenu.bind(this) }
-              changeTabFn = { this.changeTab.bind(this) }
+              changePageFn = { this.changePage.bind(this) }
             />
           </div>
         </div>
 
         <div id="map" className="l-map" ref="Map"></div>
 
-        <div id="dashboard" className="l-dashboard"></div>
-        <div id="timeline" className="l-timeline"></div>
-        <div id="donate" className="l-donate">
-          <button className="btn -secondary"></button>
+        <Dashboard
+          changeMapFn={ this.changeMap.bind(this) }
+          currentMap={ this.state.currentMap }
+        />
+
+        <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
+          <svg className="btn js-button">
+            <use xlinkHref="#icon-play" className="js-button-icon"></use>
+          </svg>
+          <div className="svg-container js-svg-container"></div>
         </div>
 
+        <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
+          Donate
+        </a>
         { menuDevice }
-        { infoWindow }
       </div>
     );
   }

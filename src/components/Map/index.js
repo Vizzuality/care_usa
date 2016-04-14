@@ -1,43 +1,65 @@
 'use strict';
 
-import React from 'react';
-import Backbone from 'backbone';
+import './styles.postcss';
 import _ from 'underscore';
+import Backbone from 'backbone';
 
 import TileLayer from './TileLayer';
-
-const defaults = {
-  accessToken: 'pk.eyJ1IjoiZGhha2VsaWxhIiwiYSI6InRkODNmdzAifQ.1aPjRitXRLOeocZSZ5jqAw',
-  style: 'mapbox://styles/mapbox/streets-v8',
-  center: [-3.7, 40.41],
-  zoom: 2
-};
+import PopUpContentView from './../PopUp/PopUpContentView';
+import config from '../../config';
 
 class MapView extends Backbone.View {
 
-  initialize(options) {
-    this.options = _.extend(options, defaults);
+  initialize(settings) {
+    // First configure mapbox
+    L.mapbox.accessToken = atob(config.mapboxToken);
+
+    // Setting default options
+    this.options = _.extend({}, this.defaults, settings.options);
+
+    // Setting first state
+    this.state = settings.state;
+    this.state.attributes = _.extend({}, this.options, this.state.attributes);
 
     this._createMap();
+    this._setEvents();
     this._addLayer();
   }
 
   _createMap() {
-    L.mapbox.accessToken = this.options.accessToken;
-    this.map = L.mapbox.map(this.options.mapElement, 'mapbox.streets', this.options);
-
-    this._setEvents();
+    const mapOptions = {
+      zoom: this.state.attributes.zoom,
+      center: [this.state.attributes.lat, this.state.attributes.lon]
+    };
+    this.map = L.mapbox.map(this.el, this.options.style, mapOptions);
   }
 
   _setEvents() {
-    this.map.on('click', this._infowindowSetUp);
+    this.map.on('click', this._infowindowSetUp.bind(this));
+
+    this.state.on('change:zoom', () => {
+      this.map.setZoom(this.state.attributes.zoom);
+    });
+
+    this.state.on('change:lat', () => {
+      const center = this.map.getCenter();
+      const latlng = L.latLng(this.state.attributes.lat, center.lng);
+      this.map.setView(latlng, this.map.getZoom());
+    });
+
+    this.state.on('change:lon', () => {
+      const center = this.map.getCenter();
+      const latlng = L.latLng(center.lat, this.state.attributes.lon);
+      this.map.setView(latlng, this.map.getZoom());
+    });
   }
 
   _infowindowSetUp(e) {
-    //TODO. Adjust postion near to borders limits.
-    const latLong = e.latlng;
-    const position = { left: e.containerPoint.x + 'px', top: e.containerPoint.y + 'px' };
-    this.options.infowindowOpenFn(position, latLong)
+    new PopUpContentView({
+      currentMap: this.options.currentMap,
+      latLng: e.latlng,
+      map: this.map
+    }).getPopUp();
   }
 
   _addLayer(options) {
@@ -51,6 +73,13 @@ class MapView extends Backbone.View {
     currentLayer.createLayer().then( () => { currentLayer.addLayer(this.map) } );
   }
 
+};
+
+MapView.prototype.defaults = {
+  style: location.hostname === 'localhost' ? 'mapbox.streets' : 'jhanley.a25ffffe',
+  lat: 40.41,
+  lon: -3.7,
+  zoom: 2
 };
 
 export default MapView;

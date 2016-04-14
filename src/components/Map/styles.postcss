@@ -1,0 +1,60 @@
+@import'../../styles/settings.postcss';
+
+.leaflet-container {
+  background-color: transparent;
+  background-image: url('../../images/mappattern.png');
+  background-repeat: repeat;
+}
+
+.leaflet-top.leaflet-left {
+  display: none;
+
+  @media screen and (min-width: $screen-m) {
+    display: block;
+    position: absolute;
+    top: rem(110);
+    left: auto;
+    z-index: 10;
+    right: $wrap-padding-desktop;
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    right: $wrap-padding-desktop-xl;
+  }
+
+  .leaflet-control {
+    @media screen and (min-width: $screen-m) {
+      margin: 0;
+    }
+  }
+
+  .leaflet-bar {
+    border: 0;
+    background-color: transparent;
+    border-radius: 0;
+
+    .leaflet-control-zoom-in,
+    .leaflet-control-zoom-out {
+      width: rem(35);
+      height: rem(35);
+      border: 1px solid $color-1;
+      background-size: rem(13);
+      background-position: center;
+
+      &:hover {
+        background-color: $white;
+      }
+    }
+
+    .leaflet-control-zoom-in {
+      background-image: url('../../images/plus.svg');
+      margin-bottom: rem(7);
+    }
+
+    .leaflet-control-zoom-out {
+      background-image: url('../../images/minus.svg');
+    }
+  }
+}
+
+

@@ -8,6 +8,7 @@ import postcssSimpleVars from 'postcss-simple-vars';
 import postcssNested from 'postcss-nested';
 import postcssImporter from 'postcss-import';
 import postcssFunctions from 'postcss-functions';
+import postcssHexRgba from 'postcss-hexrgba';
 import path from 'path';
 
 const prodPlugins = [
@@ -48,7 +49,7 @@ const config = {
       {test: /\.html$/, loader: 'file?name=[name].[ext]'},
       {test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},
       {test: /\.(postcss$|css$)/, loader: 'style-loader!css-loader!postcss-loader'},
-      {test: /\.(png|jpg|gif)$/, loader: 'url-loader?prefix=image/&limit=5000&context=./src/images'}
+      {test: /\.(png|jpg|gif|svg)$/, loader: 'url-loader?prefix=image/&limit=5000&context=./src/images'}
     ]
   },
 
@@ -65,7 +66,8 @@ const config = {
       functions: {
         rem: (px) => (px / 16) + 'rem'
       }
-    })
+    }),
+    postcssHexRgba
   ]
 
 };

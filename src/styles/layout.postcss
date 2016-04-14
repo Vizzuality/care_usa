@@ -1,12 +1,12 @@
 $header-height: 90;
 $header-height-mb: 70;
 $timeline-height: 45;
+$timeline-height-mb: 70;
 $l-margin-vt: 50;
 
 .wrap {
   position: relative;
   width: 100%;
-  /* max-width: $grid-max-width; */
   margin: 0 auto;
   padding: 0 $wrap-padding-mobile;
 
@@ -28,15 +28,16 @@ $l-margin-vt: 50;
   top: 0;
   left: 0;
   right: 0;
-  height: 100vh;
+  height: 100%;
 }
+
 
 .l-map {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 100vh;
+  height: 100%;
 }
 
 
@@ -64,15 +65,25 @@ $l-margin-vt: 50;
 }
 
 
-.l-dashboard {
+.l-dashboard {  
   position: absolute;
-  background-color: grey;
-  top: rem($header-height-mb);
   left: 0;
   right: 0;
-  height: rem($timeline-height);
+  bottom: rem($timeline-height-mb);
+  height: rem(220);
+  background-color: #ddd;
+  background-image: url('../src/images/legendpattern.png');
+  background-size: contain;
+  transition: transform .2s ease-out;
+  transform: translatex(-420px);
+
+  &.is-open {
+    transform: translatex(0);
+  }
+
 
   @media screen and (min-width: $screen-m) {
+    position: absolute;
     left: $wrap-padding-desktop;
     top: rem(110);
     height: auto;
@@ -86,16 +97,39 @@ $l-margin-vt: 50;
   }
 }
 
+.l-dash-tabs {
+  position: fixed;
+  top: rem($header-height-mb);
+  left: $wrap-padding-mobile;
+  right: rem(60);
+  height: rem($timeline-height);
+
+  @media screen and (min-width: $screen-m) {
+   position: relative;
+   top: 0;
+   left: 0;
+   right: 0;
+   height: auto;
+  }
+}
+
+.l-dash-panel {
+  
+}
+
+.l-dash-legend {
+}
+
 
 .l-timeline {
   position: absolute;
-  bottom: rem($timeline-height);
+  bottom: 0;
   left: 0;
   right: 0;
-  height: rem($timeline-height);
-  background-color: #ddd;
+  height: rem($timeline-height-mb);
 
   @media screen and (min-width: $screen-m) {
+    height: rem($timeline-height);
     right: 260px;
     left: $wrap-padding-desktop;
     bottom: rem($l-margin-vt);
@@ -107,17 +141,28 @@ $l-margin-vt: 50;
 }
 
 .l-donate {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: rem($timeline-height);
-  background-color: $color-3;
+  display: none;
 
   @media screen and (min-width: $screen-m) {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: rem($timeline-height);
+    line-height: rem($timeline-height);
+    text-align: center;
+    background-color: $color-3;
+    text-transform: uppercase;
+    color: $font-color-3;
+    text-decoration: none;
+    font-family: $font-family-2;
+    font-weight: 700;
+    font-size: rem(11);
+    letter-spacing: rem(2.1);
     right: $wrap-padding-desktop;
     width: rem(160);
-    left: auto;    
+    left: auto;
     bottom: rem($l-margin-vt);
   }
 
