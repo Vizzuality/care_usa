@@ -52,7 +52,7 @@ class FiltersView extends Backbone.View {
     this.$el.find('.js-from-day, .js-to-day')
       .append(() => {
         return _.range(31).map((day) => {
-          return `<option value="${day + 1}">${day + 1}</option>`
+          return `<option value="${day + 1}">${utils.pad(day + 1, 2, '0')}</option>`
         });
       });
   }
