@@ -27,9 +27,7 @@
     "normalize.css": "^3.0.3",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
-    "underscore": "^1.8.3"
-  },
-  "devDependencies": {
+    "underscore": "^1.8.3",
     "autoprefixer": "^6.3.3",
     "babel-core": "^6.7.4",
     "babel-loader": "^6.2.4",
