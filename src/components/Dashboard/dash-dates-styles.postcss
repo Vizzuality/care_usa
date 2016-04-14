@@ -1,0 +1,30 @@
+@import'../../styles/settings.postcss';
+@import'../../styles/helpers.postcss';
+
+.m-dash-dates {
+  height: rem(35);
+  display: flex;
+  flex: 1 1 100%;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid $color-7;
+
+  @media screen and (min-width: $screen-m) {
+    height: rem(55);
+  }
+
+  .icon {
+    width: rem(15);
+    height: rem(15);
+    margin-right: rem(10);
+
+    @media screen and (min-width: $screen-m) {
+      width: rem(20);
+      height: rem(20);
+    }
+  }
+
+  .text {
+    padding-top: rem(3);
+  }
+}
