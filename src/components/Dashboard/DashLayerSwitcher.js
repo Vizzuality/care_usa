@@ -48,7 +48,7 @@ class DashLayerSwitcher extends React.Component {
               id = { layer.id } 
               onChange = { this.props.changeLayerFn.bind(null, layer.id) }
             />
-            <label className="text text-legend">{ layer.literal }</label>
+            <label htmlFor={ layer.id } className="text text-legend">{ layer.literal }</label>
           </div>
           <div className={ 'legend-wrapper ' + legendState }>
             <Legend ref="legend"/>
