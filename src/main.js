@@ -23,7 +23,6 @@ class Main extends React.Component {
   }
 
   componentWillMount() {
-    Backbone.history.start({ pushState: false });
     this.setState(utils.checkDevice());
   }
 
@@ -43,9 +42,11 @@ class Main extends React.Component {
         <MenuDevice
           deviceMenuOpen = { this.state.menuDeviceOpen }
           toggleMenuFn = { this.toggleMenu.bind(this) }
+          currentPage = { this.props.currentPage }
         />
       );
     }
+    
     return (
     	<div>
 	  		<Header
@@ -63,7 +64,8 @@ class Main extends React.Component {
 const page = ['app', 'anniversary'].filter((page) => document.getElementById(page))[0];
 
 if (page.length > 0) {
-  ReactDOM.render(<Main currentTab={ page === 'app' ? 'who-cares' : page } 
+  ReactDOM.render(
+    <Main currentTab={ page === 'app' ? 'who-cares' : page }
   	currentPage={ page === 'app' ? 'who-cares' : page }/>,
   	document.getElementById(page));
 }
