@@ -1,3 +1,7 @@
+body {
+  overflow: auto;
+}
+
 .l-cares-package {
   position: relative;
   background-image: url("images/backgroundmodules_anniversary01.jpg");
@@ -267,7 +271,7 @@
     text-align: center;
     justify-content: space-between;
     min-height: rem(310);
-    padding-top: rem(51);
+    padding-top: rem(45);
     padding-bottom: rem(60);
 
     @media screen and (min-width: $screen-m) {
@@ -302,6 +306,17 @@
       @media screen and (min-width: $screen-m) {
         min-width: rem(200);
       }
+    }
+
+    .icon {
+      display: inline-block;
+      width: rem(11.2);
+      height: rem(14.8);
+      fill: currentColor;
+    }
+    .icon-play {
+      width: rem(10);
+      margin-right: rem(10);
     }
   }
 }
