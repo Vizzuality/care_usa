@@ -24,7 +24,7 @@ class MapView extends Backbone.View {
 
     this._createMap();
     this._setEvents();
-    this._addLayer(this.state.get('currentLayer') || 'donations');
+    this._addLayer(this.state.get('currentLayer') || 'amountOfMoney');
   }
 
   _createMap() {
