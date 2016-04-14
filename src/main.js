@@ -63,8 +63,10 @@ class Main extends React.Component {
 const page = ['app', 'anniversary'].filter((page) => document.getElementById(page))[0];
 
 if (page.length > 0) {
-  ReactDOM.render(<Main currentTab={ page === 'app' ? 'who-cares' : page } 
+  ReactDOM.render(
+    <Main currentTab={ page === 'app' ? 'who-cares' : page } 
   	currentPage={ page === 'app' ? 'who-cares' : page }/>,
+    
   	document.getElementById(page));
 }
 
