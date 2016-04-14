@@ -27,9 +27,9 @@ class DashLayerSwitcher extends React.Component {
         <div className="map-mode">
           <div className="selector-wrapper">
             <input 
-              type ="radio" name="mapMode" checked={ this.props.currentSublayer == layer.id }
+              type ="radio" name="mapMode" checked={ this.props.currentLayer == layer.id }
               id = { layer.id } 
-              onChange = { this.props.changeSublayerFn.bind(null, layer.id) }
+              onChange = { this.props.changeLayerFn.bind(null, layer.id) }
             />
             <label className="text text-legend">{ layer.literal }</label>
           </div>

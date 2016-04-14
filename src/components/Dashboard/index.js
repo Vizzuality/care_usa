@@ -35,30 +35,29 @@ class Dashboard extends React.Component {
 
     if ( this.state.mobile || this.state.tablet ) {
       tabsMobile =  <DashTabs
-                      currentLayer = { this.props.currentLayer }
-                      changeLayerFn = { this.props.changeLayerFn }
+                      currentMode = { this.props.currentMode }
+                      changeModeFn = { this.props.changeModeFn }
                     />
       tabsDesktop = null;
     } else {
       tabsDesktop = <DashTabs
-                      currentLayer = { this.props.currentLayer }
-                      changeLayerFn = { this.props.changeLayerFn }
+                      currentMode = { this.props.currentMode }
+                      changeModeFn = { this.props.changeModeFn }
                     />
       tabsMobile = null;
     }
 
-    if( this.props.currentLayer == 'donations') {
+    if( this.props.currentMode == 'donations') {
       layersSwitcher = <DashLayerSwitcher
+                currentMode = { this.props.currentMode }
                 currentLayer = { this.props.currentLayer }
-                currentSublayer = { this.props.currentSublayer }
-                changeSublayerFn= { this.props.changeSublayerFn }
+                changeLayerFn= { this.props.changeLayerFn }
               />
     }
 
-    if( this.props.currentLayer == 'projects') {
+    if( this.props.currentMode == 'projects') {
       legend = <Legend/>
     }
-
 
     return (
       <div>
@@ -81,7 +80,7 @@ class Dashboard extends React.Component {
             </div>
             <div className="scroll-wrapper">
               <DashSummary
-                currentLayer = { this.props.currentLayer }
+                currentMode = { this.props.currentMode }
               />
               { layersSwitcher }
               { legend }

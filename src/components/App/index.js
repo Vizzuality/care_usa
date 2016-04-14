@@ -16,8 +16,8 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      currentLayer: 'donations',
-      currentSublayer: 'amountOfMoney',
+      currentMode: 'donations',
+      currentLayer: 'amountOfMoney',
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false
@@ -64,12 +64,12 @@ class App extends React.Component {
       sublayer = 'projects';
     }
 
-    this.setState({ currentLayer: mode, currentSublayer: sublayer });
+    this.setState({ currentMode: mode, currentLayer: sublayer });
     this._updateMap(sublayer);
   }
 
-  changeSublayer(layer, e) {
-    this.setState({ currentSublayer: layer });
+  changeLayer(layer, e) {
+    this.setState({ currentLayer: layer });
     this._updateMap(layer);
   }
 
@@ -107,10 +107,10 @@ class App extends React.Component {
         <div id="map" className="l-map" ref="Map"></div>
 
         <Dashboard
-          changeLayerFn={ this.changeMapMode.bind(this) }
-          changeSublayerFn={ this.changeSublayer.bind(this) }
+          changeModeFn={ this.changeMapMode.bind(this) }
+          changeLayerFn={ this.changeLayer.bind(this) }
+          currentMode={ this.state.currentMode }
           currentLayer={ this.state.currentLayer }
-          currentSublayer={ this.state.currentSublayer }
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
