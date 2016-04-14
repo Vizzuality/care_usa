@@ -92,7 +92,7 @@ class Dashboard extends React.Component {
                 onClick={ this.props.toggleFiltersFn } >
                 filters
               </button>
-              <a href="http://www.care.org/donate" rel="noreferrer" target="_blank"className="btn btn-secondary">
+              <a href="http://www.care.org/donate" rel="noreferrer" target="_blank"className="btn btn-contrast">
                 Donate
               </a>
             </div>
