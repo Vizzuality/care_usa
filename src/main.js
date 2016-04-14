@@ -12,3 +12,4 @@ const appElement = document.getElementById('app');
 if (appElement) {
   ReactDOM.render(<App />, appElement);
 }
+

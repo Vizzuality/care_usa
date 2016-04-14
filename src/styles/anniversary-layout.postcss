@@ -255,14 +255,10 @@ body {
 
 .l-box-video {
   background-image: url("images/backgroundmodules_anniversary03.jpg");
-  background-position: center;
+  background-position:  center;
 
   &.background-image {
-    background-size: auto 100%;
-
-    @media screen and (min-width: $screen-xl) {
-      background-size: auto 125%;
-    }
+    background-size: cover;
   }
   
   .wrap {
@@ -271,11 +267,16 @@ body {
     text-align: center;
     justify-content: space-between;
     min-height: rem(310);
-    padding-top: rem(45);
+    padding-top: rem(41);
     padding-bottom: rem(60);
 
+    @media screen and (min-width: $screen-s) {
+      min-height: rem(420);
+      padding-top: rem(51);
+    }
+
     @media screen and (min-width: $screen-m) {
-      min-height: rem(408);
+      min-height: rem(308);
       flex-flow: row;
       text-align: center;
       align-items: flex-end;
@@ -320,6 +321,101 @@ body {
     }
   }
 }
+
+/*.anniversary-form {
+  background-color: $color-2;
+
+  .wrap {
+    display: flex;
+    flex-flow: column;
+    padding-top: rem(50);
+    padding-bottom: rem(60);
+
+    @media screen and (min-width: $screen-m) {
+      felx-flow: row;
+      padding-top: rem(69);
+      padding-bottom: rem(71);
+    }
+
+    @media screen and (min-width: $screen-l) {
+
+    }
+
+    @media screen and (min-width: $screen-xl) {
+
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+
+    }
+  }
+
+  .anniversary-input {
+    width: 100%;
+
+    @media screen and (min-width: $screen-m) {
+      width: 
+    }
+
+    input {
+      width: 100%;
+      background-color: $color-2;
+      border: none;
+      border-bottom: 1px solid $white;
+      margin-bottom: rem(20);
+
+      @media screen and (min-width: $screen-m) {
+        margin-bottom: rem(29);
+      }
+
+      @media screen and (min-width: $screen-l) {
+
+      }
+
+      @media screen and (min-width: $screen-xl) {
+
+      }
+
+      @media screen and (min-width: $screen-xxl) {
+
+      }
+    }
+
+    .btn-secondary {
+      text-align: center;
+      width: 100%;
+      margin-bottom: rem(49);
+
+      @media screen and (min-width: $screen-l) {
+        width: rem(274);
+      }
+    }
+
+  }
+
+
+
+  .text-module-title {
+    margin-bottom: rem(27);
+
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: rem(49);
+    }
+
+    @media screen and (min-width: $screen-l) {
+      margin-bottom: rem();
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      margin-bottom: rem();
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      margin-bottom: rem();
+    }
+  }
+
+}*/
 
 .viel:before {
     content: "";
