@@ -19,15 +19,15 @@ class DashSummary extends React.Component {
     return (
       <div className="m-dash-summary">  
         <div className="summary-item">
-          <p className="text text-module-title">Donations </p>
+          <p className="text text-legend-title">Donations </p>
           <span className="number number-l">{ this.state.totalDonations }</span>
         </div>
         <div className="summary-item">
-          <p className="text text-legend">Amount donated </p>
+          <p className="text text-legend-s">Amount donated </p>
           <span className="number number-m"> $ { this.state.donationsAmount }</span>
         </div>
         <div className="summary-item">
-          <p className="text text-legend">Campaigns </p>
+          <p className="text text-legend-s">Campaigns </p>
           <span className="number number-m">{ this.state.totalCampaigns }</span>
         </div>
       </div>

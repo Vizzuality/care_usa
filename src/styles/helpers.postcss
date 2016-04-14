@@ -75,22 +75,6 @@
   pointer-events: none;
 }
 
-/* Fonts includer */
-@define-mixin font-face $font-name, $font-file, $weight, $style: "normal" {
-  @font-face {
-    font-family: $font-name;
-    src: url("/src/fonts/$(font-file).eot");
-    src: url("/src/fonts/$(font-file).eot?#iefix") format("embedded-opentype"),
-         url("/src/fonts/$(font-file).woff2") format("woff2"),
-         url("/src/fonts/$(font-file).woff") format("woff"),
-         url("/src/fonts/$(font-file).ttf") format("truetype"),
-         url("/src/fonts/$(font-file).svg") format("svg");
-    font-weight: $weight;
-    font-style: $style;
-  }
-}
-
-
 /* Loader */
 @define-mixin spinner $size, $border-width {
 

@@ -7,6 +7,7 @@ import Backbone from 'backbone';
 import TileLayer from './TileLayer';
 import PopUpContentView from './../PopUp/PopUpContentView';
 import config from '../../config';
+import layersConfig from '../../layersConfig';
 
 class MapView extends Backbone.View {
 
@@ -23,7 +24,7 @@ class MapView extends Backbone.View {
 
     this._createMap();
     this._setEvents();
-    this._addLayer();
+    this._addLayer(this.state.get('currentLayer') || 'amountOfMoney');
   }
 
   _createMap() {
@@ -52,26 +53,39 @@ class MapView extends Backbone.View {
       const latlng = L.latLng(center.lat, this.state.attributes.lon);
       this.map.setView(latlng, this.map.getZoom());
     });
+
+    this.state.on('change:currentLayer', () => {
+      const currentLayer = this.state.get('currentLayer');
+      this.changeLayer(currentLayer);
+    });
   }
 
   _infowindowSetUp(e) {
     new PopUpContentView({
-      currentMap: this.options.currentMap,
+      currentLayer: this.options.currentLayer,
       latLng: e.latlng,
       map: this.map
     }).getPopUp();
   }
 
-  _addLayer(options) {
-    //Temporary. Until we recive options from somewhere else.
-    options = {
-      sql: 'with r as (SELECT count(iso), iso FROM care_donors group by iso) SELECT r.count, r.iso, s.the_geom_webmercator FROM r inner join borders_care s on r.iso=s.iso' ,
-      cartoCss: '#care_donors{marker-fill-opacity: 0.9;marker-line-color: #FFF;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;marker-type: ellipse;marker-width: 10;marker-fill: #FF6600;marker-allow-overlap: true;}'
-   }
+  _addLayer(layer) {
+    //We have layers into a different file until we will be able to get them from the API.
+    let layerConfig = layersConfig[layer];
 
-    const currentLayer = new TileLayer(options);
-    currentLayer.createLayer().then( () => { currentLayer.addLayer(this.map) } );
+    this.currentLayer = new TileLayer(layerConfig);
+    this.currentLayer.createLayer().then( () => { this.currentLayer.addLayer(this.map) } );
   }
+
+  _removeCurrentLayer() {
+    this.currentLayer.removeLayer(this.map);
+  }
+
+  changeLayer(layer) {
+    this._removeCurrentLayer();
+    this._addLayer(layer);
+  }
+
+
 
 };
 

@@ -47,7 +47,7 @@ const config = {
   module: {
     loaders: [
       {test: /\.html$/, loader: 'file?name=[name].[ext]'},
-      {test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},
+      {test: /\.(js$)/, loader: 'babel-loader', exclude: /node_modules/},
       {test: /\.(postcss$|css$)/, loader: 'style-loader!css-loader!postcss-loader'},
       {test: /\.(png|jpg|gif|svg)$/, loader: 'url-loader?prefix=image/&limit=5000&context=./src/images'}
     ]
