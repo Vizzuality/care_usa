@@ -16,8 +16,11 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
-      currentMap: 'donations',
+      currentMode: 'donations',
+      currentLayer: 'amountOfMoney',
+      currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false,
       filtersOpen: true
@@ -38,7 +41,7 @@ class App extends React.Component {
   initMap() {
     this.mapView = new MapView({
       el: this.refs.Map,
-      currentMap: this.state.currentMap, // TODO: change name
+      currentLayer: this.state.currentLayer,
       state: this.router.params
     });
   }
@@ -56,8 +59,26 @@ class App extends React.Component {
     this.setState({ currentPage: page });
   }
 
-  changeMap(map, e) {
-    this.setState({ currentMap: map });
+  changeMapMode(mode, e) {
+    let sublayer;
+
+    if (mode == 'donations') {
+      sublayer = 'amountOfMoney';
+    } else {
+      sublayer = 'projects';
+    }
+
+    this.setState({ currentMode: mode, currentLayer: sublayer });
+    this._updateMap(sublayer);
+  }
+
+  changeLayer(layer, e) {
+    this.setState({ currentLayer: layer });
+    this._updateMap(layer);
+  }
+
+  _updateMap(layer) {
+    this.mapView.state.set({ 'currentLayer': layer });
   }
 
   closeFilterModal() {
@@ -81,10 +102,10 @@ class App extends React.Component {
         <div id="header" className="l-header">
           <div className="wrap">
             <a href="/" className="logo">
-              <img className="icon icon-logo" src={"./src/images/logo.svg"}></img>
+              <img className="icon icon-logo" src={require('../../images/logo.svg')}></img>
             </a>
             <MainMenu
-              currentTab = { this.state.currentTab }
+              currentTab = { this.state.currentPage }
               toggleMenuFn = { this.toggleMenu.bind(this) }
               changePageFn = { this.changePage.bind(this) }
             />
@@ -94,8 +115,10 @@ class App extends React.Component {
         <div id="map" className="l-map" ref="Map"></div>
 
         <Dashboard
-          changeMapFn={ this.changeMap.bind(this) }
-          currentMap={ this.state.currentMap }
+          changeModeFn={ this.changeMapMode.bind(this) }
+          changeLayerFn={ this.changeLayer.bind(this) }
+          currentMode={ this.state.currentMode }
+          currentLayer={ this.state.currentLayer }
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
