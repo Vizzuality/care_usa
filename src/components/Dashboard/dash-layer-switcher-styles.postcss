@@ -1,7 +1,7 @@
 @import'../../styles/settings.postcss';
 @import'../../styles/helpers.postcss';
 
-.m-dash-map-mode {
+.m-dash-layer-switcher {
   padding: rem(15) 0;
   border-bottom: 1px solid $color-7;
 
@@ -10,7 +10,6 @@
     flex: 1 1 100%;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: rem(12);
   }
   
   input[type="radio"] {
@@ -30,5 +29,15 @@
 
   label {
     color: $font-color-2;
+  }
+
+  .legend-wrapper {
+    height: 0;
+    overflow: hidden;
+  }
+
+  .m-legend {
+    padding-left: rem(25);
+    padding-top: rem(12);
   }
 }

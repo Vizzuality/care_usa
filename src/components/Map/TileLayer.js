@@ -62,6 +62,12 @@ class CreateTileLayer {
     this.layer.addTo(map);
   }
 
+  removeLayer(map) {
+    if (this.layer) {
+      map.removeLayer(this.layer);
+    }
+  }
+
 }
 
 export default CreateTileLayer;

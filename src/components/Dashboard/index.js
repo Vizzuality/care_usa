@@ -5,7 +5,9 @@ import React from 'react';
 
 import DashTabs from './DashTabs';
 import DashSummary from './DashSummary';
-import DashMapMode from './DashMapMode';
+import DashLayerSwitcher from './DashLayerSwitcher';
+import DashDates from './DashDates';
+import Legend from './../Legend';
 
 import utils from '../../scripts/helpers/utils';
 
@@ -14,17 +16,12 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mapMode: "moneyAmount",
       dashboardOpen: true
     };
   }
 
   componentWillMount() {
     this.setState(utils.checkDevice());
-  }
-
-  changeMapModeFn(mapCurrentMode, e) {
-    this.setState({ mapMode: mapCurrentMode })
   }
 
   toogleDashboard() {
@@ -34,19 +31,33 @@ class Dashboard extends React.Component {
   render() {
     let tabsMobile;
     let tabsDesktop;
+    let layersSwitcher;
+    let legend;
 
-    if ( this.state.mobile ) {
+    if ( this.state.mobile || this.state.tablet ) {
       tabsMobile =  <DashTabs
-                      currentMap = { this.props.currentMap }
-                      changeMapFn = { this.props.changeMapFn }
+                      currentMode = { this.props.currentMode }
+                      changeModeFn = { this.props.changeModeFn }
                     />
       tabsDesktop = null;
     } else {
       tabsDesktop = <DashTabs
-                      currentMap = { this.props.currentMap }
-                      changeMapFn = { this.props.changeMapFn }
+                      currentMode = { this.props.currentMode }
+                      changeModeFn = { this.props.changeModeFn }
                     />
       tabsMobile = null;
+    }
+
+    if( this.props.currentMode == 'donations') {
+      layersSwitcher = <DashLayerSwitcher
+                currentMode = { this.props.currentMode }
+                currentLayer = { this.props.currentLayer }
+                changeLayerFn= { this.props.changeLayerFn }
+              />
+    }
+
+    if( this.props.currentMode == 'projects') {
+      legend = <Legend/>
     }
 
     return (
@@ -69,23 +80,12 @@ class Dashboard extends React.Component {
               </a>
             </div>
             <div className="scroll-wrapper">
+              <DashDates/>
               <DashSummary
-                currentMap = { this.props.currentMap }
+                currentMode = { this.props.currentMode }
               />
-              <DashMapMode
-                currentMap = { this.props.currentMap }
-                mapMode = "moneyAmount"
-                mapModeLiteral = "Amount of money"
-                changeMapModeFn = { this.changeMapModeFn.bind(this) }
-                checked = { this.state.mapMode == "moneyAmount" && true }
-              />
-              <DashMapMode
-                currentMap = { this.props.currentMap }
-                mapMode = "donorsNumber"
-                mapModeLiteral = "Number of donors"
-                changeMapModeFn = { this.changeMapModeFn.bind(this) }
-                checked = { this.state.mapMode == "donorsNumber" && true }
-              />
+              { layersSwitcher }
+              { legend }
             </div>
           </div>
         </div>

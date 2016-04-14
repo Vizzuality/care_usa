@@ -9,9 +9,9 @@ class DashSummary extends React.Component {
     super(props);
     this.props = props;
     this.state = {
-      totalDonations: 19823743,
-      donationsAmount: 10645846,
-      totalCampaigns: 562430
+      totalDonations: '19,823,743',
+      donationsAmount: '10,645,846',
+      totalCampaigns: '562,430'
     };
   }
 
@@ -19,15 +19,15 @@ class DashSummary extends React.Component {
     return (
       <div className="m-dash-summary">  
         <div className="summary-item">
-          <p className="text text-module-title">Donations </p>
+          <p className="text text-legend-title">Donations </p>
           <span className="number number-l">{ this.state.totalDonations }</span>
         </div>
         <div className="summary-item">
-          <p className="text text-legend">Amount donated </p>
+          <p className="text text-legend-s">Amount donated </p>
           <span className="number number-m"> $ { this.state.donationsAmount }</span>
         </div>
         <div className="summary-item">
-          <p className="text text-legend">Campaigns </p>
+          <p className="text text-legend-s">Campaigns </p>
           <span className="number number-m">{ this.state.totalCampaigns }</span>
         </div>
       </div>
