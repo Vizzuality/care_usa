@@ -28,8 +28,6 @@ class Modal extends React.Component {
     this.props.onClose();
   }
 
-
-
   render() {
     return (
       <div className={ 'm-modal ' + ( this.state.open ? '' : '-hidden') } onClick={this.close.bind(this)}>

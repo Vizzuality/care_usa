@@ -46,6 +46,28 @@
       padding-right: rem(20);
     }
   }
+
+  .btn-filters-switcher {
+
+    @media screen and (min-width: $screen-m) {
+      position: absolute;
+      bottom: rem(20);
+      left: rem(30);
+      right: rem(30);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .icon {
+      @media screen and (min-width: $screen-m) {
+        width: rem(20);
+        height: rem(20);
+        fill: $color-1;
+      }
+    }
+
+  }
 }
 
 .btn-dashboard-switcher {
@@ -86,5 +108,4 @@
       transform: rotate(0);
     }
   }
-
 }

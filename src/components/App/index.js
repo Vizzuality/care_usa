@@ -23,7 +23,7 @@ class App extends React.Component {
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false,
-      filtersOpen: true
+      filtersOpen: false
     }
   }
 
@@ -85,6 +85,10 @@ class App extends React.Component {
     this.setState({ filtersOpen: false });
   }
 
+  toogleModalFilter() {
+    this.setState({ filtersOpen: ! (!!this.state.filtersOpen) });
+  }
+
   render() {
     let menuDevice = null;
 
@@ -119,6 +123,7 @@ class App extends React.Component {
           changeLayerFn={ this.changeLayer.bind(this) }
           currentMode={ this.state.currentMode }
           currentLayer={ this.state.currentLayer }
+          toggleFiltersFn={ this.toogleModalFilter.bind(this) }
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
@@ -128,7 +133,7 @@ class App extends React.Component {
           <div className="svg-container js-svg-container"></div>
         </div>
 
-        <Modal visible={this.state.filtersOpen} onClose={this.closeFilterModal.bind(this)}>
+        <Modal visible={ this.state.filtersOpen } onClose={ this.closeFilterModal.bind(this) }>
           <div id="filters" className="m-filters" ref="Filters">
             <div>
               <fieldset className="date date-from">

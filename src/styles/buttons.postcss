@@ -1,7 +1,9 @@
 .btn {
+	@extend .text-cta;
  	padding: rem(15) rem(10);
  	display: inline-block;
 	text-decoration: none;
+	text-align: center;
 	text-transform: uppercase;
 
 	@media screen and (min-width: $screen-xs) {
@@ -20,5 +22,10 @@
 
 .btn-secondary {
 	background-color: $font-color-3;
+	color: $font-color-4;
+}
+
+.btn-third {
+	border: 1px solid $color-1;
 	color: $font-color-4;
 }
