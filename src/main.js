@@ -23,7 +23,6 @@ class Main extends React.Component {
   }
 
   componentWillMount() {
-    Backbone.history.start({ pushState: false });
     this.setState(utils.checkDevice());
   }
 
@@ -64,9 +63,9 @@ const page = ['app', 'anniversary'].filter((page) => document.getElementById(pag
 
 if (page.length > 0) {
   ReactDOM.render(
-    <Main currentTab={ page === 'app' ? 'who-cares' : page } 
+    <Main currentTab={ page === 'app' ? 'who-cares' : page }
   	currentPage={ page === 'app' ? 'who-cares' : page }/>,
-    
+
   	document.getElementById(page));
 }
 
