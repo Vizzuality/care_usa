@@ -42,9 +42,11 @@ class Main extends React.Component {
         <MenuDevice
           deviceMenuOpen = { this.state.menuDeviceOpen }
           toggleMenuFn = { this.toggleMenu.bind(this) }
+          currentPage = { this.props.currentPage }
         />
       );
     }
+    
     return (
     	<div>
 	  		<Header

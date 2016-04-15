@@ -22,6 +22,7 @@ class App extends React.Component {
   }
 
   componentWillMount() {
+    this.setState(utils.checkDevice());
     this.router = new Router();
     Backbone.history.start({ pushState: false });
   }
@@ -42,7 +43,6 @@ class App extends React.Component {
   initTimeline() {
     this.timeline = new TimelineView({ el: this.refs.Timeline });
   }
-
 
   changeMap(map, e) {
     this.setState({ currentMap: map });
