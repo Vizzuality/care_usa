@@ -12,25 +12,21 @@ dl, dd, ol, ul, figure {
     padding: 0;
 }
 
-html {
-  height: 100%;
-  overflow: hidden;
+html, 
+body {
+  overflow-x: hidden;
 }
 
 body {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  overflow: hidden;
-  background-color: #f5efe7;
-
+  background-image: url("images/mappattern.png");
   font-family: $font-family-1;
   font-weight: 400;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-overflow-scrolling: touch;
+
+  -webkit-overflow-scrolling: touch;
 
   &.-grabbing {
     cursor: -webkit-grabbing !important; /* Autoprefixer doesn't work for that */
