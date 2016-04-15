@@ -145,8 +145,13 @@ class FiltersView extends Backbone.View {
       }
     }
 
-    /* TODO: check that the user enter both the start date and the end date or
-     * none of them */
+    /* If the start date is set but not the end date, or the contrary */
+    if(filledFromInputs.length === 3 && filledToInputs.length === 0 ||
+      filledFromInputs.length === 0 && filledToInputs.length === 3) {
+      res.valid = false;
+      res.errors.push('Please ensure that you filled both the start date and end date.');
+      res.fields = res.fields.concat(filledFromInputs.length ? toInputNames : fromInputNames);
+    }
 
     res.fields = _.uniq(res.fields);
 
@@ -159,6 +164,15 @@ class FiltersView extends Backbone.View {
     e.preventDefault();
     const serializedFilters = this.serializeFilters();
     const validation = this.validate(serializedFilters);
+
+    /* We remove all the visual error elements */
+    for(let i = 0, j = this.inputs.length; i < j; i++) {
+      this.inputs[i].classList.remove('-invalid');
+    }
+    this.applyButton.classList.remove('-invalid');
+    if(this.el.querySelector('.js-error')) {
+      this.el.removeChild(this.el.querySelector('.js-error'));
+    }
 
     if(!validation.valid) {
       const invalidInputs = [...this.inputs].filter(input => !!~validation.fields.indexOf(input.name));
@@ -173,13 +187,6 @@ class FiltersView extends Backbone.View {
       this.$el.prepend(errorHtml);
     }
     else {
-      for(let i = 0, j = this.inputs.length; i < j; i++) {
-        this.inputs[i].classList.remove('-invalid');
-      }
-      this.applyButton.classList.remove('-invalid');
-      if(this.el.querySelector('.js-error')) {
-        this.el.removeChild(this.el.querySelector('.js-error'));
-      }
       /* TODO: trigger */
       /* TODO: close the modal */
     }
