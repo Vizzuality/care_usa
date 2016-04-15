@@ -13,6 +13,7 @@ class DashLayerSwitcher extends React.Component {
     this.props = props;
     this.state = {};
 
+    //TODO - take layers from layer config
     this.subLayers = [
       { id: 'amountOfMoney', literal: 'Amount of money' },
       { id: 'donorsNumber', literal: 'Number of donors' } 

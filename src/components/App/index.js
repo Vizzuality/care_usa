@@ -100,7 +100,6 @@ class App extends React.Component {
         />
       );
     }
-
     return (
       <div className="l-app">
         <div id="header" className="l-header">

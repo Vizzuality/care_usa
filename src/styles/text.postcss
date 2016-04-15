@@ -1,10 +1,34 @@
 .text {
+  &.-primary {
+    color: $font-color-4;
+  }
+
 	&.-dark {
 	  color: $font-color-2;
 	}
+
 	&.-light {
 	  color: $font-color-3;
 	}
+}
+
+/* MODULE TITLE */
+.text-module-title {
+  font-family: $font-family-1;
+  font-weight: 700;
+  font-size: rem(20);
+  @media screen and (min-width: $screen-m) {
+    font-size: rem(24);
+  }
+  @media screen and (min-width: $screen-l) {
+    font-size: rem(25);
+  }
+  @media screen and (min-width: $screen-xl) {
+    font-size: rem(26);
+  }
+  @media screen and (min-width: $screen-xxl) {
+    font-size: rem(27);
+  }
 }
 
 /* LEGEND MODULE TITLE */
@@ -58,24 +82,21 @@
   font-weight: 700;
   font-size: rem(42);
   line-height: rem(53);
-  margin-bottom: rem(23);
+  /* margin-bottom: rem(23); */
 
   @media screen and (min-width: $screen-m) {
     font-size: rem(70);
     line-height: rem(88);
-    margin-bottom: rem(35);
   }
 
   @media screen and (min-width: $screen-xl) {
     font-size: rem(82);
     line-height: rem(100);
-    margin-bottom: rem(29);
   }
 
   @media screen and (min-width: $screen-xxl) {
     font-size: rem(92);
     line-height: rem(110);
-    margin-bottom: rem(51);
   }
 }
 
@@ -84,28 +105,38 @@
   font-weight: 400;
   font-size: rem(16);
   line-height: rem(25);
-  margin-bottom: rem(34);
 
   @media screen and (min-width: $screen-m) {
     font-size: rem(19);
     line-height: rem(30);
-    margin-bottom: rem(53);
-  }
-
-  @media screen and (min-width: $screen-l) {
-    margin-bottom: rem(60);
   }
 
   @media screen and (min-width: $screen-xl) {
     font-size: rem(21);
     line-height: rem(33);
-    margin-bottom: rem(52);
   }
 
   @media screen and (min-width: $screen-xxl) {
     font-size: rem(26);
     line-height: rem(39);
-    margin-bottom: rem(71);
+  }
+}
+
+.text-input {
+  font-family: $font-family-1;
+  font-weight: 700;
+  font-style: italic;
+  font-size: rem(14);
+  line-height: rem(13);
+
+  @media screen and (min-width: $screen-xl) {
+    font-size: rem(15);
+    line-height: rem(13);
+  }
+
+  @media screen and (min-width: $screen-xxl) {
+    font-size: rem(16);
+    line-height: rem(16);
   }
 }
 

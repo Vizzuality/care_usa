@@ -1,3 +1,7 @@
+body {
+  overflow: auto;
+}
+
 .l-cares-package {
   position: relative;
   background-image: url("images/backgroundmodules_anniversary01.jpg");
@@ -51,7 +55,373 @@
       top: rem(120);
     }
   }
+
+  .text-claim {
+    margin-bottom: rem(23);
+    
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: rem(35);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      margin-bottom: rem(29);
+    }
+    
+    @media screen and (min-width: $screen-xxl) {
+      margin-bottom: rem(51);
+    }
+  }
+
+  .text-highlighted {
+    margin-bottom: rem(34);
+
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: rem(53);
+    }
+
+    @media screen and (min-width: $screen-l) {
+      margin-bottom: rem(60);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      margin-bottom: rem(52);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      margin-bottom: rem(71);
+    }
+  }
 }
+
+.l-cares-evolution {
+  /* background-image: url("images/fullwidthcontent_boxland01.png");
+  background-position: bottom left;
+  
+  &.background-image {
+    background-size: 170%;
+
+    @media screen and (min-width: $screen-m) {
+      background-size: 155%;
+    }
+
+    @media screen and (min-width: $screen-l) {
+      background-size: 130%;
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      background-size: 110%;
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      background-size: 100%;
+    } 
+  }*/
+  
+  .wrap {
+    display: flex;
+    flex-flow: column;
+    justify-content: top;
+    align-items: center;
+    text-align: center;
+    padding-top: rem(51);
+
+    //padding-bottom: rem(430);
+    
+    @media screen and (min-width: $screen-m) {
+      padding-top: rem(94);
+      //padding-bottom: rem(535);
+    }
+
+    @media screen and (min-width: $screen-l) {
+      padding-top: rem(100);
+      //padding-bottom: rem(580);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      padding-top: rem(105);
+      //padding-bottom: rem(740);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      padding-top: rem(115);
+      //padding-bottom: rem(990);
+    }
+  }
+  
+  .text-module-title {
+    margin-bottom: rem(25);
+    
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: rem(38);
+    }
+
+    @media screen and (min-width: $screen-l) {
+      margin-bottom: rem(34);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      margin-bottom: rem(48);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      margin-bottom: rem(67);
+    }
+  }
+
+  .text-highlighted {
+    @media screen and (min-width: $screen-l) {
+      max-width: rem(765);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      max-width: rem(760);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      max-width: rem(1174);
+    }
+  }
+
+  .evolution-image {
+    width: 100%;
+    margin-bottom: rem(-10);
+  }
+}
+
+.l-catalyst-women {
+  position: relative; 
+  background-image: url("images/backgroundmodules_anniversary02.jpg");
+  background-position: center;
+  
+  .wrap {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: rem(51);
+    padding-bottom: rem(65);
+    min-height: rem(448);
+
+    @media screen and (min-width: $screen-m) {
+      padding-top: rem(98);
+      padding-bottom: rem(205);
+    }
+
+    @media screen and (min-width: $screen-l) {
+      padding-top: rem(100);
+      padding-bottom: rem(220);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      padding-top: rem(110);
+      padding-bottom: rem(259);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      padding-top: rem(120);
+      padding-bottom: rem(385);
+    }
+  }
+  
+  .text-module-title {
+    margin-bottom: rem(22);
+
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: rem(90);
+    }
+
+    @media screen and (min-width: $screen-l) {
+      margin-bottom: rem(103);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      margin-bottom: rem(150);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      margin-bottom: rem(258.8);
+    }
+  }
+
+  .text-highlighted {
+    @media screen and (min-width: $screen-l) {
+      max-width: rem(765);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      max-width: rem(762);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      max-width: rem(1175);
+    }
+  }
+}
+
+.l-box-video {
+  background-image: url("images/backgroundmodules_anniversary03.jpg");
+  background-position:  center;
+
+  &.background-image {
+    background-size: cover;
+  }
+  
+  .wrap {
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    justify-content: space-between;
+    min-height: rem(310);
+    padding-top: rem(41);
+    padding-bottom: rem(60);
+
+    @media screen and (min-width: $screen-s) {
+      min-height: rem(420);
+      padding-top: rem(51);
+    }
+
+    @media screen and (min-width: $screen-m) {
+      min-height: rem(308);
+      flex-flow: row;
+      text-align: center;
+      align-items: flex-end;
+      min-height: rem(407.4);
+      padding-bottom: rem(30.1);
+    }
+
+    @media screen and (min-width: $screen-l) {
+      min-height: rem(544);
+      padding-bottom: rem(55);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      min-height: rem(680);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      min-height: rem(1062);
+      padding-bottom: rem(120);
+    }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+
+      @media screen and (min-width: $screen-m) {
+        min-width: rem(200);
+      }
+    }
+
+    .icon {
+      display: inline-block;
+      width: rem(11.2);
+      height: rem(14.8);
+      fill: currentColor;
+    }
+    .icon-play {
+      width: rem(10);
+      margin-right: rem(10);
+    }
+  }
+}
+
+/*.anniversary-form {
+  background-color: $color-2;
+
+  .wrap {
+    display: flex;
+    flex-flow: column;
+    padding-top: rem(50);
+    padding-bottom: rem(60);
+
+    @media screen and (min-width: $screen-m) {
+      felx-flow: row;
+      padding-top: rem(69);
+      padding-bottom: rem(71);
+    }
+
+    @media screen and (min-width: $screen-l) {
+
+    }
+
+    @media screen and (min-width: $screen-xl) {
+
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+
+    }
+  }
+
+  .anniversary-input {
+    width: 100%;
+
+    @media screen and (min-width: $screen-m) {
+      width: 
+    }
+
+    input {
+      width: 100%;
+      background-color: $color-2;
+      border: none;
+      border-bottom: 1px solid $white;
+      margin-bottom: rem(20);
+
+      @media screen and (min-width: $screen-m) {
+        margin-bottom: rem(29);
+      }
+
+      @media screen and (min-width: $screen-l) {
+
+      }
+
+      @media screen and (min-width: $screen-xl) {
+
+      }
+
+      @media screen and (min-width: $screen-xxl) {
+
+      }
+    }
+
+    .btn-secondary {
+      text-align: center;
+      width: 100%;
+      margin-bottom: rem(49);
+
+      @media screen and (min-width: $screen-l) {
+        width: rem(274);
+      }
+    }
+
+  }
+
+
+
+  .text-module-title {
+    margin-bottom: rem(27);
+
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: rem(49);
+    }
+
+    @media screen and (min-width: $screen-l) {
+      margin-bottom: rem();
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      margin-bottom: rem();
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      margin-bottom: rem();
+    }
+  }
+
+}*/
 
 .viel:before {
     content: "";
@@ -67,9 +437,6 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
-
-
-
 
 .l-power-box {
   .wrap {
@@ -102,60 +469,57 @@
   }
   
   .box-image-container {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      margin-bottom: rem(20);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: rem(20);
 
-      @media screen and (min-width: $screen-m) {
-        margin-bottom: rem(27);
-      }
-
-      @media screen and (min-width: $screen-l) {
-        width: 48%;
-        margin-bottom: 0;
-      }
-
-      .box-image {
-        max-width: 100%;
-      }
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: rem(27);
     }
 
-    .box-text-container {
-      max-width: 100%;
-      height: auto;
+    @media screen and (min-width: $screen-l) {
+      width: 48%;
+      margin-bottom: 0;
+    }
+  }
 
-      @media screen and (min-width: $screen-l) {
-        width: 62%;
-        padding-left: 10%;
-        padding-left: 5%;
-      }
+  .box-image {
+    max-width: 100%;
+  }
+
+  .box-text-container {
+    max-width: 100%;
+
+    @media screen and (min-width: $screen-l) {
+      width: 52%;
+      padding-left: 10%;
+      padding-right: 5%;
+    }
+  }
+
+  .text-module-title {
+    margin-bottom: rem(30);
+    
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: rem(37);
     }
 
-    .text-module-title {
-      margin-bottom: rem(30);
-      
-      @media screen and (min-width: $screen-m) {
-        margin-bottom: rem(37);
-      }
-
-      @media screen and (min-width: $screen-l) {
-        margin-bottom: rem(27);
-      }
-
-      @media screen and (min-width: $screen-xl) {
-        margin-bottom: rem(38);
-      }
-
-      @media screen and (min-width: $screen-xxl) {
-        margin-bottom: rem(33);
-      }
-
+    @media screen and (min-width: $screen-l) {
+      margin-bottom: rem(27);
     }
 
-    .text-highlighted {
-      margin-bottom: 0;    
+    @media screen and (min-width: $screen-xl) {
+      margin-bottom: rem(38);
     }
-  
-  
+
+    @media screen and (min-width: $screen-xxl) {
+      margin-bottom: rem(33);
+    }
+  }
+
+  .text-highlighted {
+    margin-bottom: 0;    
+  }
 }
+
