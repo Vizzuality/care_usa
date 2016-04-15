@@ -314,4 +314,23 @@
       }
     }
   }
+
+  > .error-message {
+    border: rem(1) solid $color-9;
+    background: url("../../images/alert.svg") top 20px left 15px/22px no-repeat, rgba($color-9, .1);
+    color: $font-color-6;
+    font-size: rem(15);
+    line-height: rem(18);
+    padding: rem(20) rem(20) rem(20) rem(50);
+    margin-top: rem(20);
+    margin-bottom: rem(20);
+
+    @media screen and (min-width: $screen-m) {
+      margin-top: 0;
+    }
+
+    @media screen and (min-width: $screen-l) {
+      flex-basis: 100%;
+    }
+  }
 }

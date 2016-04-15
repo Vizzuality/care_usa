@@ -119,7 +119,7 @@ class FiltersView extends Backbone.View {
 
     if(filledFromInputs.length > 0 && filledFromInputs.length < 3) {
       res.valid = false;
-      res.errors.push('Please ensure that you filled all of the start date fields or let them all blank.')
+      res.errors.push('Please ensure that you filled all of the start date fields.')
       res.fields = res.fields.concat(_.difference(fromInputNames, filledFromInputs));
     }
 
@@ -129,7 +129,7 @@ class FiltersView extends Backbone.View {
 
     if(filledToInputs.length > 0 && filledToInputs.length < 3) {
       res.valid = false;
-      res.errors.push('Please ensure that you filled all of the end date fields or let them all blank.')
+      res.errors.push('Please ensure that you filled all of the end date fields.')
       res.fields = res.fields.concat(_.difference(toInputNames, filledToInputs));
     }
 
@@ -166,23 +166,29 @@ class FiltersView extends Backbone.View {
         invalidInputs[i].classList.add('-invalid');
       }
       this.applyButton.classList.add('-invalid');
-      /* TODO: show error message */
+
+      let errorHtml = '<div class="error-message js-error">';
+      errorHtml += validation.errors.join('<br>');
+      errorHtml += '</div>';
+      this.$el.prepend(errorHtml);
     }
     else {
       for(let i = 0, j = this.inputs.length; i < j; i++) {
         this.inputs[i].classList.remove('-invalid');
       }
       this.applyButton.classList.remove('-invalid');
+      if(this.el.querySelector('.js-error')) {
+        this.el.removeChild(this.el.querySelector('.js-error'));
+      }
       /* TODO: trigger */
+      /* TODO: close the modal */
     }
-    /* TODO: close the modal */
   }
 
   onClear(e) {
     e.preventDefault();
     this.resetFilters();
     /* TODO: trigger */
-    /* TODO: close the modal? */
   }
 
 };
