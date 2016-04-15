@@ -22,9 +22,9 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    Backbone.history.start({ pushState: false });
-    this.router = new Router();
     this.setState(utils.checkDevice());
+    this.router = new Router();
+    Backbone.history.start({ pushState: false });
   }
 
   componentDidMount() {

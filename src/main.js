@@ -27,11 +27,11 @@ class Main extends React.Component {
   }
 
   toggleMenu() {
-	this.setState({ menuDeviceOpen: !this.state.menuDeviceOpen });
+	 this.setState({ menuDeviceOpen: !this.state.menuDeviceOpen });
   }
 
   changePage(page, e) {
-	this.setState({ currentPage: page });
+	 this.setState({ currentPage: page });
   }
 
   render() {
@@ -67,6 +67,7 @@ if (page.length > 0) {
   ReactDOM.render(
     <Main currentTab={ page === 'app' ? 'who-cares' : page }
   	currentPage={ page === 'app' ? 'who-cares' : page }/>,
+
   	document.getElementById(page));
 }
 
