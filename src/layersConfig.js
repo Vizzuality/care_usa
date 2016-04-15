@@ -2,16 +2,19 @@
 
 const layersConfig = {
   amountOfMoney: {
-    sql: "with r as (SELECT count(iso), iso FROM care_donors group by iso) SELECT r.count, r.iso, s.the_geom_webmercator FROM r inner join borders_care s on r.iso=s.iso" ,
-    cartoCss: "#care_donors{marker-fill-opacity: 0.9;marker-line-color: #FFF;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;marker-type: ellipse;marker-width: 10;marker-fill: #FF6600;marker-allow-overlap: true;}"
+    title: 'Amount of Money',
+    sql: "SELECT * FROM care_donors_v02" ,
+    cartoCss: "#care_donors_v02{  marker-fill-opacity: 0.7;  marker-line-color: #FFF;  marker-line-width: 0;  marker-line-opacity: 1;  marker-width: 3.5;  marker-fill: rgb(193,230,226);  marker-allow-overlap: true;  marker-comp-op: darken;  [zoom>7]{marker-width: 7;}}#care_donors_v02 [ amount <= 1000000] {   marker-fill: rgb(34,50,58);  }#care_donors_v02 [ amount <= 1000] {   marker-fill: rgb(91,135,153);}#care_donors_v02 [ amount <= 500] {   marker-fill: rgb(143,188,196);}#care_donors_v02 [ amount <= 100] {   marker-fill: rgb(193,230,226);}"
   },
   donorsNumber: {
-    sql: "with r as (SELECT count(iso), iso FROM care_donors group by iso) SELECT r.count, r.iso, s.the_geom_webmercator FROM r inner join borders_care s on r.iso=s.iso" ,
-    cartoCss: "#care_donors{marker-fill-opacity: 0.9;marker-line-color: #FFF;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;marker-type: ellipse;marker-width: 10;marker-fill: #EEE;marker-allow-overlap: true;}"
+    title: 'Number of donors',
+    sql: "with r as (SELECT count(country_iso), country_iso FROM care_donors_v02 group by country_iso) SELECT r.count, r.country_iso, s.the_geom_webmercator FROM r inner join borders_care s on r.country_iso=s.iso " ,
+    cartoCss: "#care_donors_v02{  polygon-fill: #e3e8e4;  polygon-opacity: 1;  line-color: #FFF;  line-width: 0.5;  line-opacity: 0.5;}#care_donors_v02 [ count <= 376008] {   polygon-fill: rgb(61,88,16);}#care_donors_v02 [ count <= 3000] {   polygon-fill: rgb(127,150,57);}#care_donors_v02 [ count <= 1500] {   polygon-fill: rgb(167,198,93);}#care_donors_v02 [ count <= 250] {   polygon-fill: rgb(207,230,141);}#care_donors_v02 [ count <= 50] {   polygon-fill:  #e3efc2;}"
   },
   projects: {
-   sql: "SELECT s.the_geom, s.the_geom_webmercator, r.country, r.sum_c_c_n_peo, year FROM care_projects r inner join borders_care s on s.iso=r.iso where year = 2014 order by sum_c_c_n_peo desc" ,
-   cartoCss: "#care_projects{ polygon-fill: #FFFFB2; polygon-opacity: 0.8; line-color: #FFF; line-width: 0.5; line-opacity: 1; } #care_projects [ sum_c_c_n_peo <= 1073767] { polygon-fill: #B10026; } #care_projects [ sum_c_c_n_peo <= 37118] { polygon-fill: #E31A1C; } #care_projects [ sum_c_c_n_peo <= 13599] { polygon-fill: #FC4E2A; } #care_projects [ sum_c_c_n_peo <= 7769] { polygon-fill: #FD8D3C; } #care_projects [ sum_c_c_n_peo <= 4443] { polygon-fill: #FEB24C; } #care_projects [ sum_c_c_n_peo <= 1842] { polygon-fill: #FED976; } #care_projects [ sum_c_c_n_peo <= 572] { polygon-fill: #FFFFB2; }"
+    title: 'projects',
+    sql: "with r as (SELECT total_peo,w_g_reached, case total_peo WHEN 0 THEN 0 else round((w_g_reached/total_peo)::numeric, 4) end  w_ratio, iso, year, country FROM care_projects where total_peo<>0 and iso !='') SELECT s.the_geom, s.the_geom_webmercator, r.country, r.w_ratio, r.year FROM  r left join borders_care s on s.iso=r.iso where year = '2014' order by w_ratio desc" ,
+    cartoCss: "#care_projects {  polygon-pattern-file: url(https://s3.amazonaws.com/com.cartodb.users-assets.production/production/simbiotica/assets/2014060408171614_2.jpg);   polygon-opacity: 0.7;  polygon-fill:rgb(201,200,182);   line-color: #FFF;   line-width: 0.5;   line-opacity: 1;  polygon-pattern-opacity: 0.7;}#care_projects[w_ratio>0.5] {   polygon-fill: rgb(240,213,104);}"
   }
 }
 
