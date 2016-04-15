@@ -18,13 +18,12 @@ class MenuDevice extends React.Component {
           onClick={ this.props.toggleMenuFn }
         />
         <ul className="menu">
-          <li><a href="/about" className="menu-link">who cares</a></li>
-          <li><a href="/aniversary" className="menu-link">CARE’s Anniversary</a></li>
+          <li><a href="/" className="menu-link">who cares</a></li>
+          <li><a href="anniversary.html" className="menu-link">CARE’s Anniversary</a></li>
         </ul>
       </div>
     )
   }
-
 }
 
 export default MenuDevice;
