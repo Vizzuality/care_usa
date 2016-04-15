@@ -1,0 +1,46 @@
+@import'../../styles/settings.postcss';
+
+.m-dash-summary {
+  padding: rem(15) 0 rem(25);
+  border-bottom: 1px solid $color-7;
+  
+ .summary-item {
+    width: 100%;
+    display: flex;
+    flex: 1 1 100%;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: rem(15);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @media screen and (min-width: $screen-l) {
+      margin-bottom: rem(10);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+     flex-direction: column;
+     margin-bottom: rem(20);
+
+     &:last-child {
+       margin-bottom: 0;
+     }
+    }
+  }
+
+  .text {
+    color: $font-color-1;
+  }
+
+  .text-legend-s {
+    @media screen and (min-width: $screen-xl) {
+     margin-bottom: rem(10);
+    }
+  }
+
+  .number {
+    color: $font-color-2;
+  }
+}

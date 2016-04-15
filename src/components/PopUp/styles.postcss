@@ -1,0 +1,76 @@
+@import'../../styles/settings.postcss';
+@import'../../styles/helpers.postcss';
+
+
+.m-popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  z-index: 5;
+  transform: translate3d(0) !important;
+  padding: rem(50) $wrap-padding-mobile;
+  color: $font-color-3;
+  background-color: $color-2;
+
+  @media screen and (min-width: $screen-m) {
+    position: static;
+    right: auto;
+    height: auto;
+    /* transform: translate(-50%, -110%); */
+    max-width: rem(400);
+    min-height: rem(100);
+    padding: rem(30);
+    box-shadow: 0 0 5px 0 rgba(40, 40, 42, 0.3);
+  }
+
+  .btn-close {
+    @extend %clean-button-or-input;
+    width: rem(15);
+    height: rem(15);
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: rem(20);
+
+    @media screen and (min-width: $screen-m) {
+      display: none;
+    }
+
+    .icon-close {
+      width: 100%;
+      height: 100%;
+      fill: $white;
+    }
+  }
+
+}
+
+.leaflet-popup-content-wrapper {
+  border: 0;
+  padding: 0;
+}
+
+.leaflet-popup-content {
+  padding: 0 !important;
+  background-color: transparent;
+}
+
+.leaflet-popup-tip {
+  border-top-color: $color-2;
+}
+
+.leaflet-popup-close-button {
+  width: rem(15);
+  height: rem(15);
+  margin: rem(15);
+
+  background-image: url('../../images/close.svg');
+  background-size: 100%;
+  background-position: 0;
+
+  &:hover {
+    background-color: transparent;
+  }
+}

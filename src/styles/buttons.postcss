@@ -1,0 +1,24 @@
+.btn {
+ 	padding: rem(15) rem(10);
+ 	display: inline-block;
+	text-decoration: none;
+	text-transform: uppercase;
+
+	@media screen and (min-width: $screen-xs) {
+	  font-size: rem(11);
+	}
+	
+	@media screen and (min-width: $screen-xl) {
+	  font-size: rem(12);
+	}	
+}
+
+.btn-primary {
+	background-color: $font-color-4;
+	color: $font-color-3;
+}
+
+.btn-secondary {
+	background-color: $font-color-3;
+	color: $font-color-4;
+}

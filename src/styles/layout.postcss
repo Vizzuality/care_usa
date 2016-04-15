@@ -1,0 +1,178 @@
+$header-height: 90;
+$header-height-mb: 70;
+$timeline-height: 45;
+$timeline-height-mb: 70;
+$l-margin-vt: 50;
+
+.wrap {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 $wrap-padding-mobile;
+
+  @media screen and (min-width: $screen-s) {
+    padding: 0 $wrap-padding-tablet;
+  }
+
+  @media screen and (min-width: $screen-m) {
+    padding: 0 $wrap-padding-desktop;
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    padding: 0 $wrap-padding-desktop-xl;
+  }
+}
+
+.l-app {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+}
+
+
+.l-map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+}
+
+
+.l-header {
+  display: flex;
+  flex: 1 1 100%;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: rem($header-height-mb);
+  z-index: 1;
+
+  @media screen and (min-width: $screen-m) {
+    height: rem($header-height);
+  }
+
+  > .wrap {
+    display: flex;
+    flex: 1 1 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+#app {
+  .l-header {
+    position: absolute;
+  }
+}
+
+.l-dashboard {  
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: rem($timeline-height-mb);
+  height: rem(220);
+  background-color: #ddd;
+  background-image: url('../src/images/legendpattern.png');
+  background-size: contain;
+  transition: transform .2s ease-out;
+  transform: translatex(-345px);
+
+  &.is-open {
+    transform: translatex(0);
+  }
+
+
+  @media screen and (min-width: $screen-m) {
+    position: absolute;
+    left: $wrap-padding-desktop;
+    top: rem(110);
+    height: auto;
+    bottom: 170px;
+    width: 285px;
+    max-height: 600px;
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    width: 360px;
+    left: $wrap-padding-desktop-xl;
+  }
+}
+
+.l-dash-tabs {
+  position: fixed;
+  top: rem($header-height-mb);
+  left: $wrap-padding-mobile;
+  right: rem(60);
+  height: rem($timeline-height);
+
+  @media screen and (min-width: $screen-m) {
+   position: relative;
+   top: 0;
+   left: 0;
+   right: 0;
+   height: auto;
+  }
+}
+
+.l-dash-panel {
+  
+}
+
+.l-dash-legend {
+}
+
+
+.l-timeline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: rem($timeline-height-mb);
+
+  @media screen and (min-width: $screen-m) {
+    height: rem($timeline-height);
+    right: 260px;
+    left: $wrap-padding-desktop;
+    bottom: rem($l-margin-vt);
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    left: $wrap-padding-desktop-xl;
+  }
+}
+
+.l-donate {
+  display: none;
+
+  @media screen and (min-width: $screen-m) {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: rem($timeline-height);
+    line-height: rem($timeline-height);
+    text-align: center;
+    background-color: $color-3;
+    text-transform: uppercase;
+    color: $font-color-3;
+    text-decoration: none;
+    font-family: $font-family-2;
+    font-weight: 700;
+    font-size: rem(11);
+    letter-spacing: rem(2.1);
+    right: $wrap-padding-desktop;
+    width: rem(160);
+    left: auto;
+    bottom: rem($l-margin-vt);
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    right: $wrap-padding-desktop-xl;
+  }
+}
