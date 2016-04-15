@@ -11,10 +11,10 @@ import './styles.postcss';
 const defaults = {
   domain: [new Date(2012, 0, 1), new Date(2015, 0, 1)],
   milestones: [
-    { date: new Date(2012, 3, 15) },
-    { date: new Date(2012, 4, 27) },
-    { date: new Date(2013, 2, 21) },
-    { date: new Date(2014, 8, 2)  }
+    // { date: new Date(2012, 3, 15) },
+    // { date: new Date(2012, 4, 27) },
+    // { date: new Date(2013, 2, 21) },
+    // { date: new Date(2014, 8, 2)  }
   ],
   svgPadding: {
     top: 0,
