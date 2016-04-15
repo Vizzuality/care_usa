@@ -1,7 +1,3 @@
-body {
-  overflow: auto;
-}
-
 .l-cares-package {
   position: relative;
   background-image: url("images/backgroundmodules_anniversary01.jpg");
@@ -91,6 +87,105 @@ body {
       margin-bottom: rem(71);
     }
   }
+}
+
+.l-retooling {
+  padding: rem(50) 0 rem(60);
+  background-image: url("images/orangepattern.png");
+
+  @media screen and (min-width: $screen-m) {
+    background-image: url("images/fullwidthcontent_illustration02.png"), url("images/orangepattern.png");
+    background-size: contain, auto;
+    background-repeat: no-repeat, repeat;
+    background-position: bottom, center;
+    padding: rem(110) 0 rem(340);
+  }
+
+  @media screen and (min-width: $screen-l) {
+    padding-bottom: rem(460);
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    padding-bottom: rem(470);
+  }
+
+  @media screen and (min-width: $screen-xxl) {
+    padding: rem(120) 0 rem(635);
+  }
+
+  .box-text-container {
+    text-align: center;
+
+    .text-module-title {
+      margin-bottom: rem(26);
+
+      @media screen and (min-width: $screen-m) {
+        margin-bottom: rem(40);
+      }
+
+      @media screen and (min-width: $screen-xl) {
+        margin-bottom: rem(50);
+      }
+
+      @media screen and (min-width: $screen-xxl) {
+        margin-bottom: rem(70);
+      }
+    }
+  }
+}
+
+.l-by-numbers {
+  background-image: url("images/orangepattern.png");
+  padding: rem(50) 0 rem(60);
+  text-align: center;
+
+  .wrap {
+    @media screen and (min-width: $screen-m) {
+      padding: 0;
+    }
+  }
+
+  .box-text-container {
+    text-align: center;
+
+    .text-module-title {
+      margin-bottom: rem(35);
+
+      @media screen and (min-width: $screen-m) {
+        margin-bottom: rem(100);
+      }
+
+      @media screen and (min-width: $screen-xxl) {
+        margin-bottom: rem(360);
+      }
+    }
+  }
+
+  .slider {
+    height: rem(350);
+    margin-bottom: rem(40);
+
+    @media screen and (min-width: $screen-m) {
+      height: rem(430);
+      margin-bottom: rem(60);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      height: rem(450);
+      margin-bottom: rem(65);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      height: rem(360);
+      margin-bottom: rem(120);
+    }
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+
 }
 
 .l-cares-evolution {
