@@ -1,3 +1,7 @@
+.l-header {
+  position: relative;
+}
+
 .l-cares-package {
   position: relative;
   background-image: url("images/backgroundmodules_anniversary01.jpg");
@@ -183,6 +187,10 @@
 
   .btn {
     width: 100%;
+
+    @media screen and (min-width: $screen-m) {
+      width: auto;
+    }
   }
 
 
@@ -416,6 +424,7 @@
       height: rem(14.8);
       fill: currentColor;
     }
+
     .icon-play {
       width: rem(10);
       margin-right: rem(10);

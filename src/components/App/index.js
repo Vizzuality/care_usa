@@ -1,13 +1,10 @@
 'use strict';
 
 import React  from 'react';
-import MainMenu from '../MainMenu';
-import MenuDevice from '../MenuDevice';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import MapView from '../Map';
 import Router from '../../scripts/Router';
-
 import utils from '../../scripts/helpers/utils';
 
 class App extends React.Component {
@@ -27,7 +24,6 @@ class App extends React.Component {
   componentWillMount() {
     this.router = new Router();
     Backbone.history.start({ pushState: false });
-    this.setState(utils.checkDevice());
   }
 
   componentDidMount() {
@@ -47,8 +43,9 @@ class App extends React.Component {
     this.timeline = new TimelineView({ el: this.refs.Timeline });
   }
 
-  toggleMenu() {
-    this.setState({ menuDeviceOpen: !this.state.menuDeviceOpen });
+
+  changeMap(map, e) {
+    this.setState({ currentMap: map });
   }
 
   changePage(page, e) {
@@ -78,30 +75,8 @@ class App extends React.Component {
   }
 
   render() {
-    let menuDevice = null;
-
-    if (this.state.mobile) {
-      menuDevice = (
-        <MenuDevice
-          deviceMenuOpen = { this.state.menuDeviceOpen }
-          toggleMenuFn = { this.toggleMenu.bind(this) }
-        />
-      );
-    }
     return (
       <div className="l-app">
-        <div id="header" className="l-header">
-          <div className="wrap">
-            <a href="/" className="logo">
-              <img className="icon icon-logo" src={require('../../images/logo.svg')}></img>
-            </a>
-            <MainMenu
-              currentTab = { this.state.currentPage }
-              toggleMenuFn = { this.toggleMenu.bind(this) }
-              changePageFn = { this.changePage.bind(this) }
-            />
-          </div>
-        </div>
 
         <div id="map" className="l-map" ref="Map"></div>
 
@@ -122,7 +97,6 @@ class App extends React.Component {
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
           Donate
         </a>
-        { menuDevice }
       </div>
     );
   }
