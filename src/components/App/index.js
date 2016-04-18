@@ -85,6 +85,10 @@ class App extends React.Component {
     this.setState({ filtersOpen: !this.state.filtersOpen });
   }
 
+  updateFilters(filters) {
+    this.setState({ filters: filters });
+  }
+
   render() {
     return (
       <div className="l-app">
@@ -106,7 +110,11 @@ class App extends React.Component {
           <div className="svg-container js-svg-container"></div>
         </div>
 
-        <ModalFilters visible={ this.state.filtersOpen } onClose={ this.closeFilterModal.bind(this) } />
+        <ModalFilters
+          visible={ this.state.filtersOpen }
+          onClose={ this.closeFilterModal.bind(this) }
+          onSave={ this.updateFilters.bind(this) }
+        />
 
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
           Donate

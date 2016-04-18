@@ -187,7 +187,7 @@ class FiltersView extends Backbone.View {
       this.$el.prepend(errorHtml);
     }
     else {
-      /* TODO: trigger */
+      this.triggerFilters();
       this.options.closeCallback();
     }
   }
@@ -195,7 +195,22 @@ class FiltersView extends Backbone.View {
   onClear(e) {
     e.preventDefault();
     this.resetFilters();
-    /* TODO: trigger */
+    this.triggerFilters();
+  }
+
+  triggerFilters() {
+    const serializedFilters = this.serializeFilters();
+    if(serializedFilters['from-day']) {
+      serializedFilters.from = new Date(`${utils.pad(serializedFilters['from-month'], 2, '0')}-${utils.pad(serializedFilters['from-day'], 2, '0')}-${serializedFilters['from-year']}`);
+      serializedFilters.to = new Date(`${utils.pad(serializedFilters['to-month'], 2, '0')}-${utils.pad(serializedFilters['to-day'], 2, '0')}-${serializedFilters['to-year']}`);
+    }
+    delete serializedFilters['from-day'];
+    delete serializedFilters['from-month'];
+    delete serializedFilters['from-year'];
+    delete serializedFilters['to-day'];
+    delete serializedFilters['to-month'];
+    delete serializedFilters['to-year'];
+    this.options.saveCallback(serializedFilters);
   }
 
 };

@@ -20,7 +20,8 @@ class ModalFilters extends Modal {
   componentDidMount() {
     this.filters = new FiltersView({
       el: this.refs.Filters,
-      closeCallback: this.props.onClose.bind(this)
+      closeCallback: this.props.onClose.bind(this),
+      saveCallback: this.props.onSave.bind(this)
     });
   }
 
@@ -147,7 +148,8 @@ class ModalFilters extends Modal {
 
 ModalFilters.propTypes = {
   visible: React.PropTypes.bool.isRequired,
-  onClose: React.PropTypes.func.isRequired
+  onClose: React.PropTypes.func.isRequired,
+  onSave: React.PropTypes.func.isRequired
 };
 
 export default ModalFilters;
