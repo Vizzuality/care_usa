@@ -132,6 +132,9 @@ class FiltersView extends Backbone.View {
         input.checked = false;
       }
     }
+
+    this.resetErrorState();
+    this.resetOptionsAvailability();
   }
 
   /* Return an object with the property valid set to true if the form is valid,
@@ -192,14 +195,8 @@ class FiltersView extends Backbone.View {
     return res;
   }
 
-  /* TODO: check the available day, month, year depending on the user's choice */
-
-  onApply(e) {
-    e.preventDefault();
-    const serializedFilters = this.serializeFilters();
-    const validation = this.validate(serializedFilters);
-
-    /* We remove all the visual error elements */
+  /* Remove the error message and the error state from the inputs */
+  resetErrorState() {
     for(let i = 0, j = this.inputs.length; i < j; i++) {
       this.inputs[i].classList.remove('-invalid');
     }
@@ -207,6 +204,15 @@ class FiltersView extends Backbone.View {
     if(this.el.querySelector('.js-error')) {
       this.el.removeChild(this.el.querySelector('.js-error'));
     }
+  }
+
+  onApply(e) {
+    e.preventDefault();
+    const serializedFilters = this.serializeFilters();
+    const validation = this.validate(serializedFilters);
+
+    /* We remove all the visual error elements */
+    this.resetErrorState();
 
     if(!validation.valid) {
       const invalidInputs = [...this.inputs].filter(input => !!~validation.fields.indexOf(input.name));
@@ -297,6 +303,17 @@ class FiltersView extends Backbone.View {
           const date = moment(`${year}-${utils.pad(month, 2, '0')}-${utils.pad(this.value, 2, '0')}`, 'YYYY-MM-DD');
           return !this.value || !date.isValid();
         });
+    }
+  }
+
+  resetOptionsAvailability() {
+    for(let dateType of ['from', 'to']) {
+      this.$el.find(`.js-${dateType}-day option`)
+        .attr('disabled', function() { return !this.value; });
+      this.$el.find(`.js-${dateType}-month option`)
+        .attr('disabled', function() { return !this.value; });
+      this.$el.find(`.js-${dateType}-year option`)
+        .attr('disabled', function() { return !this.value; });
     }
   }
 
