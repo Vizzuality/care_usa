@@ -19,7 +19,13 @@ class FiltersView extends Backbone.View {
   events() {
     return {
       'click .js-apply': 'onApply',
-      'click .js-clear': 'onClear'
+      'click .js-clear': 'onClear',
+      'input .js-from-day': 'onDateChange',
+      'input .js-from-month': 'onDateChange',
+      'input .js-from-year': 'onDateChange',
+      'input .js-to-day': 'onDateChange',
+      'input .js-to-month': 'onDateChange',
+      'input .js-to-year': 'onDateChange'
     };
   }
 
@@ -239,6 +245,59 @@ class FiltersView extends Backbone.View {
     delete serializedFilters['to-month'];
     delete serializedFilters['to-year'];
     this.options.saveCallback(serializedFilters);
+  }
+
+  onDateChange(e) {
+    const input = e.currentTarget;
+    const dateType = /from/.test(input.classList[0]) ? 'from' : 'to';
+    const serializedFilters = this.serializeFilters();
+
+    const day = serializedFilters[`${dateType}-day`];
+    const month = serializedFilters[`${dateType}-month`];
+    const year = serializedFilters[`${dateType}-year`];
+
+    /* We remove all the disabled options */
+    if(!month && !day) {
+      this.$el.find(`.js-${dateType}-day option`)
+        .attr('disabled', function() { return !this.value; });
+      this.$el.find(`.js-${dateType}-month option`)
+        .attr('disabled', function() { return !this.value; });
+      this.$el.find(`.js-${dateType}-year option`)
+        .attr('disabled', function() { return !this.value; });
+    }
+
+    /* We filter the available options for the years */
+    if(month && day) {
+      this.$el.find(`.js-${dateType}-year option`)
+        .attr('disabled', function() {
+          const date = moment(`${this.value}-${utils.pad(month, 2, '0')}-${utils.pad(day, 2, '0')}`, 'YYYY-MM-DD');
+          return !this.value || !date.isValid();
+        });
+    }
+
+    /* We filter the available options for the months */
+    if(day) {
+      /* 2016 is a year with 29 days in February */
+      const year = this.$el.find(`.js-${dateType}-year option:selected`).val() || '2016';
+
+      this.$el.find(`.js-${dateType}-month option`)
+        .attr('disabled', function() {
+          const date = moment(`${year}-${utils.pad(this.value, 2, '0')}-01`, 'YYYY-MM-DD');
+          return !this.value || date.daysInMonth() < +day;
+        });
+    }
+
+    /* We filter the available options for the days */
+    if(month) {
+      /* 2016 is a year with 29 days in February */
+      const year = this.$el.find(`.js-${dateType}-year option:selected`).val() || '2016';
+
+      this.$el.find(`.js-${dateType}-day option`)
+        .attr('disabled', function() {
+          const date = moment(`${year}-${utils.pad(month, 2, '0')}-${utils.pad(this.value, 2, '0')}`, 'YYYY-MM-DD');
+          return !this.value || !date.isValid();
+        });
+    }
   }
 
 };
