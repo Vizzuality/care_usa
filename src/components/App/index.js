@@ -4,6 +4,7 @@ import React  from 'react';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import MapView from '../Map';
+import Landing from '../Landing';
 import Router from '../../scripts/Router';
 import utils from '../../scripts/helpers/utils';
 
@@ -103,6 +104,8 @@ class App extends React.Component {
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
           Donate
         </a>
+        
+        <Landing />
       </div>
     );
   }
