@@ -11,25 +11,34 @@
     display: flex;
     flex-flow: column;
     justify-content: center;
+    align-items: center;
     text-align: center;
-    padding-top: rem(84);
+    padding-top: rem(100);
     padding-bottom: rem(40);
     min-height: rem(482);
 
     @media screen and (min-width: $screen-m) {
       min-height: rem(800);
+      padding-top: rem(150);
+      padding-bottom: rem(150);
     }
 
     @media screen and (min-width: $screen-l) {
       min-height: rem(580);
+      padding-top: rem(161);
+      padding-bottom: rem(101);
     }
 
     @media screen and (min-width: $screen-xl) {
       min-height: rem(756);
+      padding-top: rem(196);
+      padding-bottom: rem(135);
     }
 
     @media screen and (min-width: $screen-xxl) {
-      min-height: rem(939);
+      max-height: rem(939);
+      padding-top: rem(262);
+      padding-bottom: rem(262);
     }
   }
 
@@ -74,17 +83,21 @@
 
   .text-highlighted {
     margin-bottom: rem(34);
+    max-width: 100%;
 
     @media screen and (min-width: $screen-m) {
       margin-bottom: rem(53);
+      max-width: 65.5%;
     }
 
     @media screen and (min-width: $screen-l) {
       margin-bottom: rem(60);
+      max-width: 82.75%;
     }
 
     @media screen and (min-width: $screen-xl) {
       margin-bottom: rem(52);
+      max-width: 65.5%;
     }
 
     @media screen and (min-width: $screen-xxl) {
@@ -118,6 +131,9 @@
   }
 
   .box-text-container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
     text-align: center;
 
     .text-module-title {
@@ -135,10 +151,26 @@
         margin-bottom: rem(70);
       }
     }
+
+    .text-highlighted {
+      max-width: 100%;
+
+      @media screen and (min-width: $screen-m) {
+        max-width: 65.5%;
+      }
+
+      @media screen and (min-width: $screen-l) {
+        max-width: 82.75%;
+      }
+
+      @media screen and (min-width: $screen-xl) {
+        max-width: 65.5%;
+      }
+    }
   }
 }
 
-.l-by-numbers {
+/* .l-by-numbers {
   background-image: url("images/orangepattern.png");
   padding: rem(50) 0 rem(60);
   text-align: center;
@@ -194,61 +226,37 @@
   }
 
 
-}
+} */
 
 .l-cares-evolution {
-  /* background-image: url("images/fullwidthcontent_boxland01.png");
-  background-position: bottom left;
-  
-  &.background-image {
-    background-size: 170%;
-
-    @media screen and (min-width: $screen-m) {
-      background-size: 155%;
-    }
-
-    @media screen and (min-width: $screen-l) {
-      background-size: 130%;
-    }
-
-    @media screen and (min-width: $screen-xl) {
-      background-size: 110%;
-    }
-
-    @media screen and (min-width: $screen-xxl) {
-      background-size: 100%;
-    } 
-  }*/
-  
   .wrap {
     display: flex;
     flex-flow: column;
     justify-content: top;
-    align-items: center;
     text-align: center;
     padding-top: rem(51);
 
-    //padding-bottom: rem(430);
-    
     @media screen and (min-width: $screen-m) {
       padding-top: rem(94);
-      //padding-bottom: rem(535);
     }
 
     @media screen and (min-width: $screen-l) {
       padding-top: rem(100);
-      //padding-bottom: rem(580);
     }
 
     @media screen and (min-width: $screen-xl) {
       padding-top: rem(105);
-      //padding-bottom: rem(740);
     }
 
     @media screen and (min-width: $screen-xxl) {
       padding-top: rem(115);
-      //padding-bottom: rem(990);
     }
+  }
+
+  .box-text-container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
   }
   
   .text-module-title {
@@ -272,16 +280,18 @@
   }
 
   .text-highlighted {
+    max-width: 100%;
+
+    @media screen and (min-width: $screen-m) {
+      max-width: 65.5%;
+    }
+
     @media screen and (min-width: $screen-l) {
-      max-width: rem(765);
+      max-width: 82.75%;
     }
 
     @media screen and (min-width: $screen-xl) {
-      max-width: rem(760);
-    }
-
-    @media screen and (min-width: $screen-xxl) {
-      max-width: rem(1174);
+      max-width: 65.5%;
     }
   }
 
@@ -348,16 +358,18 @@
   }
 
   .text-highlighted {
+    max-width: 100%;
+
+    @media screen and (min-width: $screen-m) {
+      max-width: 65.5%;
+    }
+
     @media screen and (min-width: $screen-l) {
-      max-width: rem(765);
+      max-width: 82.75%;
     }
 
     @media screen and (min-width: $screen-xl) {
-      max-width: rem(762);
-    }
-
-    @media screen and (min-width: $screen-xxl) {
-      max-width: rem(1175);
+      max-width: 65.5%;
     }
   }
 }
