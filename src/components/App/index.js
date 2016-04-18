@@ -79,8 +79,6 @@ class App extends React.Component {
     return (
       <div className="l-app">
 
-        <Landing />
-
         <div id="map" className="l-map" ref="Map"></div>
 
         <button className="btn-share l-share">
@@ -106,6 +104,8 @@ class App extends React.Component {
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
           Donate
         </a>
+        
+        <Landing />
       </div>
     );
   }
