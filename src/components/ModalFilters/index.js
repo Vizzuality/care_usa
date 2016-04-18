@@ -100,7 +100,7 @@ class ModalFilters extends Modal {
                   <svg className="arrow">
                     <use xlinkHref="#icon-arrow"></use>
                   </svg>
-                  <select className="js-region" name="region">
+                  <select className="js-regions" name="region">
                     <option value="" disabled="disabeld">All regions</option>
                   </select>
                 </div>
@@ -110,28 +110,7 @@ class ModalFilters extends Modal {
             <div className="sectors">
               <fieldset>
                 <legend className="text -dark text-form-labels">Sectors</legend>
-                <div>
-                  <input type="checkbox" id="filtersSectorTest1" name="sector-test1" />
-                  <label className="text text-cta" htmlFor="filtersSectorTest1">
-                    Test 1
-                  </label>
-                  <input type="checkbox" id="filtersSectorTest2" name="sector-test2" />
-                  <label className="text text-cta" htmlFor="filtersSectorTest2">
-                    Test 2
-                  </label>
-                  <input type="checkbox" id="filtersSectorTest3" name="sector-test3" />
-                  <label className="text text-cta" htmlFor="filtersSectorTest3">
-                    Test 3
-                  </label>
-                  <input type="checkbox" id="filtersSectorTest4" name="sector-test4" />
-                  <label className="text text-cta" htmlFor="filtersSectorTest4">
-                    Test 4
-                  </label>
-                  <input type="checkbox" id="filtersSectorTest5" name="sector-test5" />
-                  <label className="text text-cta" htmlFor="filtersSectorTest5">
-                    Test 5
-                  </label>
-                </div>
+                <div className="js-sectors"></div>
               </fieldset>
             </div>
             <div className="buttons">

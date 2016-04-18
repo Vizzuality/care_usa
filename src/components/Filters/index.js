@@ -3,9 +3,12 @@
 import Backbone from 'backbone';
 import _ from 'underscore';
 import moment from 'moment';
+import $ from 'jquery';
 
 import './styles.postcss';
 import utils from '../../scripts/helpers/utils';
+import SectorsCollection from '../../scripts/collections/SectorsCollection';
+import RegionsCollection from '../../scripts/collections/RegionsCollection';
 
 const defaults = {
   rendered: false
@@ -23,19 +26,23 @@ class FiltersView extends Backbone.View {
   initialize(options) {
     this.options = _.extend(options, defaults);
     this.applyButton = this.el.querySelector('.js-apply');
-    this.render();
+    this.sectorsCollection = new SectorsCollection();
+    this.regionsCollection = new RegionsCollection();
+    $.when.apply(null, [this.sectorsCollection.fetch(), this.regionsCollection.fetch()])
+      .then(this.render.bind(this))
+      .fail(() => console.error('Unable to load the list of sectors and/or regions'));
   }
 
   render() {
     if(!this.rendered) {
-      this.populateDateSelectors();
+      this.populateSelectors();
       this.inputs = this.el.querySelectorAll('input, select');
     }
 
     if(!this.rendered) this.rendered = true;
   }
 
-  populateDateSelectors() {
+  populateSelectors() {
     this.$el.find('.js-from-year, .js-to-year')
       .append(() => {
         return [2012, 2013, 2014, 2015].map((year) => {
@@ -54,6 +61,27 @@ class FiltersView extends Backbone.View {
       .append(() => {
         return _.range(31).map((day) => {
           return `<option value="${day + 1}">${utils.pad(day + 1, 2, '0')}</option>`
+        });
+      });
+
+    this.$el.find('.js-sectors')
+      .append(() => {
+        return this.sectorsCollection.toJSON().map((sector) => {
+          return `
+            <input type="checkbox" id="filters-${sector.slug}" name="sector-${sector.slug}" />
+            <label class="text text-cta" for="filters-${sector.slug}">
+              ${sector.name}
+            </label>
+          `;
+        });
+      });
+
+    this.$el.find('.js-regions')
+      .append(() => {
+        return this.regionsCollection.toJSON().map((region) => {
+          return `
+            <option value="${region.iso}">${region.name}</option>
+          `;
         });
       });
   }
