@@ -80,6 +80,12 @@ class App extends React.Component {
 
         <div id="map" className="l-map" ref="Map"></div>
 
+        <button className="btn-share l-share">
+          <svg className="icon icon-share">
+            <use xlinkHref="#icon-share"></use>
+          </svg>
+        </button>
+
         <Dashboard
           changeModeFn={ this.changeMapMode.bind(this) }
           changeLayerFn={ this.changeLayer.bind(this) }
