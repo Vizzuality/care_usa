@@ -1,5 +1,7 @@
 'use strict';
 
+import Backbone from 'backbone';
+
 
 const layersConfig = {
   amountOfMoney: {
