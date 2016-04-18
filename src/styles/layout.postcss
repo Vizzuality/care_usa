@@ -40,18 +40,23 @@ $l-margin-vt: 50;
   height: 100%;
 }
 
+
 .l-share {
   position: absolute;
   top: rem(70);
-  right: rem(20);
+  right: $wrap-padding-mobile;
   width: rem(35);
   height: rem(35);
   background-color: $color-1;
   padding: rem(7);
 
   @media screen and (min-width: $screen-m) {
-    right: rem(60);
+    right: $wrap-padding-desktop;
     top: rem(203);
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    right: $wrap-padding-desktop-xl;
   }
 
   .icon {
