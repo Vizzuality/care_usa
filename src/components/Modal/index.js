@@ -18,6 +18,7 @@ class Modal extends React.Component {
   }
 
   close(e) {
+
     let node = e.target
     while(node) {
       if(node === this.refs.closeButton) break;
@@ -25,6 +26,7 @@ class Modal extends React.Component {
       node = node.parentNode;
     }
 
+    e.stopPropagation();
     this.props.onClose();
   }
 

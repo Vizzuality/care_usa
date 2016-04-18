@@ -188,7 +188,7 @@ class FiltersView extends Backbone.View {
     }
     else {
       /* TODO: trigger */
-      /* TODO: close the modal */
+      this.options.closeCallback();
     }
   }
 
