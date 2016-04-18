@@ -4,6 +4,7 @@ import React  from 'react';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import MapView from '../Map';
+import Landing from '../Landing';
 import Router from '../../scripts/Router';
 import utils from '../../scripts/helpers/utils';
 
@@ -77,6 +78,8 @@ class App extends React.Component {
   render() {
     return (
       <div className="l-app">
+
+        <Landing />
 
         <div id="map" className="l-map" ref="Map"></div>
 
