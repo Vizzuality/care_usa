@@ -170,7 +170,7 @@
   }
 }
 
-/* .l-by-numbers {
+.l-by-numbers {
   background-image: url("images/orangepattern.png");
   padding: rem(50) 0 rem(60);
   text-align: center;
@@ -224,9 +224,7 @@
       width: auto;
     }
   }
-
-
-} */
+}
 
 .l-cares-evolution {
   .wrap {
@@ -281,17 +279,25 @@
 
   .text-highlighted {
     max-width: 100%;
+    margin-bottom: rem(50);
 
     @media screen and (min-width: $screen-m) {
       max-width: 65.5%;
+      margin-bottom: rem(58);
     }
 
     @media screen and (min-width: $screen-l) {
       max-width: 82.75%;
+      margin-bottom: rem(46);
     }
 
     @media screen and (min-width: $screen-xl) {
       max-width: 65.5%;
+      margin-bottom: 0;
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      margin-bottom: rem(31);
     }
   }
 
