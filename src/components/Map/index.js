@@ -8,6 +8,7 @@ import TileLayer from './TileLayer';
 import PopUpContentView from './../PopUp/PopUpContentView';
 import config from '../../config';
 import layersConfig from '../../layersConfig';
+import layersCollection from '../../scripts/collections/layersCollection';
 
 class MapView extends Backbone.View {
 
@@ -25,6 +26,11 @@ class MapView extends Backbone.View {
     this._createMap();
     this._setEvents();
     this._addLayer(this.state.get('currentLayer') || 'amountOfMoney');
+
+    const layers = new layersCollection();
+    layers.fetch().done( () => {
+      console.log(layersCollection);
+    })
   }
 
   _createMap() {
@@ -85,15 +91,13 @@ class MapView extends Backbone.View {
     this._addLayer(layer);
   }
 
-
-
 };
 
 MapView.prototype.defaults = {
   style: location.hostname === 'localhost' ? 'mapbox.streets' : 'jhanley.a25ffffe',
   lat: 40.41,
-  lon: -3.7,
-  zoom: 2
+  lon: -50,
+  zoom: 3
 };
 
 export default MapView;
