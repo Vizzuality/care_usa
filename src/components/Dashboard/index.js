@@ -57,7 +57,9 @@ class Dashboard extends React.Component {
     }
 
     if( this.props.currentMode == 'projects') {
-      legend = <Legend/>
+      legend = <Legend ref="legend"
+        layer= { this.props.currentLayer }
+      />
     }
 
     return (

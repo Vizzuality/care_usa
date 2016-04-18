@@ -20,6 +20,12 @@ class DashLayerSwitcher extends React.Component {
     ]
   }
 
+  shouldComponentUpdate(nextProps) {
+    /* Just for optimization: don't render if nothing changed */
+    if(nextProps.currentLayer !==  this.state.currentLayer) return true;
+    return false;
+  }
+
   componentDidMount() {
     this._toogleLegend();
   }
@@ -40,7 +46,6 @@ class DashLayerSwitcher extends React.Component {
 
     this.subLayers.forEach( (layer) => {
       legendState = this.props.currentLayer == layer.id && 'is-open';
-
       switchers.push( <div className="m-dash-layer-switcher" key={ layer.id }> 
         <div className="map-mode">
           <div className="selector-wrapper">
@@ -52,7 +57,9 @@ class DashLayerSwitcher extends React.Component {
             <label htmlFor={ layer.id } className="text text-legend">{ layer.literal }</label>
           </div>
           <div className={ 'legend-wrapper ' + legendState }>
-            <Legend ref="legend"/>
+            <Legend ref="legend"
+              layer= { layer.id }
+            />
           </div>
         </div> 
       </div> )
