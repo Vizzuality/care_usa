@@ -20,6 +20,12 @@ class DashLayerSwitcher extends React.Component {
     ]
   }
 
+  shouldComponentUpdate(nextProps) {
+    /* Just for optimization: don't render if nothing changed */
+    if(nextProps.currentLayer !==  this.state.currentLayer) return true;
+    return false;
+  }
+
   componentDidMount() {
     this._toogleLegend();
   }
