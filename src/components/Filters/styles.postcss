@@ -253,7 +253,6 @@
         background: url("../../images/check.svg") center center/10px no-repeat, $color-1;
       }
     }
-
   }
 
   .buttons {
@@ -271,46 +270,22 @@
       flex-basis: 100%;
     }
 
-    > .button-apply,
-    > .button-clear {
+    > .btn {
       width: 100%;
-      height: rem(45);
-      line-height: rem(45);
-      font-family: $font-family-2;
-      font-weight: 700;
-      font-size: rem(11);
-      letter-spacing: rem(2.1);
-      text-transform: uppercase;
+      margin-bottom: rem(20);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
 
       @media screen and (min-width: $screen-m) {
         width: auto;
-        padding: 0 rem(55);
-        display: inline-block;
-      }
-    }
-
-    > .button-apply {
-      margin-bottom: rem(20);
-      color: $font-color-3;
-      background-color: $color-1;
-      border: 1px solid $color-1; /* We give the buttons the exact same height */
-
-      &.-invalid {
-        border: 1px solid $color-9;
-      }
-
-      @media screen and (min-width: $screen-m) {
         margin-bottom: 0;
-      }
-    }
+        margin-left: rem(20);
 
-    > .button-clear {
-      color: $font-color-4;
-      background-color: transparent;
-      border: 1px solid $color-1;
-
-      @media screen and (min-width: $screen-m) {
-        margin-right: rem(20);
+        &:last-child {
+          margin-left: 0;
+        }
       }
     }
   }

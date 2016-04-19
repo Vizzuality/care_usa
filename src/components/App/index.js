@@ -117,6 +117,8 @@ class App extends React.Component {
           <div className="svg-container js-svg-container"></div>
         </div>
 
+        <div id="map-credits" className="l-map-credits"></div>
+
         <ModalFilters
           visible={ this.state.filtersOpen }
           onClose={ this.closeFilterModal.bind(this) }

@@ -114,8 +114,8 @@ class ModalFilters extends Modal {
               </fieldset>
             </div>
             <div className="buttons">
-              <button type="button" className="button-apply js-apply">Apply filters</button>
-              <button type="button" className="button-clear js-clear">Clear filters</button>
+              <button type="button" className="btn btn-primary js-apply is-disabled">Apply filters</button>
+              <button type="button" className="btn btn-third js-clear is-disabled">Clear filters</button>
             </div>
           </div>
         </div>
