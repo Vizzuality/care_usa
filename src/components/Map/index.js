@@ -8,6 +8,7 @@ import TileLayer from './TileLayer';
 import PopUpContentView from './../PopUp/PopUpContentView';
 import config from '../../config';
 import layersConfig from '../../layersConfig';
+import utils from '../../scripts/helpers/utils';
 
 class MapView extends Backbone.View {
 
@@ -18,13 +19,36 @@ class MapView extends Backbone.View {
     // Setting default options
     this.options = _.extend({}, this.defaults, settings.options);
 
+    //Checking for device
+    this.device = utils.checkDevice();
+
     // Setting first state
     this.state = settings.state;
     this.state.attributes = _.extend({}, this.options, this.state.attributes);
 
+    this._checkMapSettings();
+
     this._createMap();
     this._setEvents();
     this._addLayer(this.state.get('currentLayer') || 'amountOfMoney');
+  }
+
+  _checkMapSettings() {
+    if (this.device.mobile || this.device.tablet) {
+      this.state.attributes.zoom = 2;
+    }
+
+    // mobile
+    if (this.device.mobile) {
+      this.state.attributes.lat = 10;
+      this.state.attributes.lon = -100;
+    }
+
+    // Ipad landscape
+    if ( !this.device.tablet && this.device.device ) {
+      this.state.attributes.lat = 40;
+      this.state.attributes.lon = -120;
+    }
   }
 
   _createMap() {
@@ -89,9 +113,9 @@ class MapView extends Backbone.View {
 
 MapView.prototype.defaults = {
   style: location.hostname === 'localhost' ? 'mapbox.streets' : 'jhanley.a25ffffe',
-  lat: 40,
-  lon: -50,
-  zoom: 2
+  lat: 35,
+  lon: -80,
+  zoom: 3
 };
 
 export default MapView;
