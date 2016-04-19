@@ -1,0 +1,100 @@
+@import'../../styles/settings.postcss';
+@import'../../styles/helpers.postcss';
+
+.l-footer {
+  background-color: $white;
+
+  .wrap {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding-top: rem(40.9);
+    padding-bottom: rem(50);
+
+    @media screen and (min-width: $screen-m) {
+    	flex-flow: row;
+    	align-items: center;
+    	justify-content: space-between;
+    	min-height: rem(151);
+    	padding-top: rem(50);
+    }
+
+    @media screen and (min-width: $screen-l) {
+    	min-height: rem(105);
+	    padding-top: rem(27);
+	    padding-bottom: rem(27);
+    }
+  }
+
+  .logo {
+  	margin-bottom: rem(41.5);
+
+  	@media screen and (min-width: $screen-m) {
+		margin-bottom: 0;
+    }
+  }
+
+  .third-party-webs {
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+	margin-bottom: rem(46);
+
+	@media screen and (min-width: $screen-m) {
+		position: absolute;
+		right: rem(60);
+		justify-content: space-between;
+		align-items: center;
+		width: rem(300);
+		margin-bottom: 0;
+    }
+
+    @media screen and (min-width: $screen-l){
+		position: relative;
+		right: 0;
+		margin-left: rem(17); 
+	}
+  }
+
+  .own-web {
+  	width: 100%;
+  	text-align: center;
+
+	@media screen and (min-width: $screen-m){
+		width: fit-content;
+		position: absolute;
+		right: rem(60);
+		top: rem(95);
+	}
+
+	@media screen and (min-width: $screen-l){
+		position: relative;
+		right: 0;
+		top: 0;
+	}
+  }
+
+  .text-legend-s {
+	display: none;
+	font-style: italic;
+	font-weight: 700;
+	color: $beige-1;
+
+	@media screen and (min-width: $screen-m){
+		display:inherit;
+	}
+  }
+
+  .text-highlighted {
+  	color: $font-color-2;
+  	font-size: rem(14);
+	
+	@media screen and (min-width: $screen-l){
+		font-size: rem(15);
+	}
+  }
+
+  a {
+  	text-decoration: none;
+  }
+}
