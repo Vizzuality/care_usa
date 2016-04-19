@@ -14,9 +14,9 @@ class DashLayerSwitcher extends React.Component {
     this.state = {};
 
     //TODO - take layers from layer config
-    this.subLayers = [
-      { id: 'amountOfMoney', literal: 'Amount of money' },
-      { id: 'donorsNumber', literal: 'Number of donors' } 
+    this.layers = [
+      { id: 'amountOfMoney', literal: 'Amount of money', group: 'donations' },
+      { id: 'donorsNumber', literal: 'Number of donors', group: 'donations' } 
     ]
   }
 
@@ -44,7 +44,7 @@ class DashLayerSwitcher extends React.Component {
     let switchers = [];
     let legendState;
 
-    this.subLayers.forEach( (layer) => {
+    this.layers.forEach( (layer) => {
       legendState = this.props.currentLayer == layer.id && 'is-open';
       switchers.push( <div className="m-dash-layer-switcher" key={ layer.id }> 
         <div className="map-mode">

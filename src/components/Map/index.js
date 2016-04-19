@@ -91,11 +91,7 @@ class MapView extends Backbone.View {
       this.map.setView(latlng, this.map.getZoom());
     });
 
-    // this.state.on('change:currentLayer', () => {
-    //   const currentLayer = this.state.get('currentLayer');
-    //   this.changeLayer(currentLayer);
-    // });
-
+    this.state.on('change:mapMode', _.bind(this.changeLayer, this));
     layersCollection.on('change', _.bind(this.changeLayer, this));
   }
 
@@ -109,8 +105,8 @@ class MapView extends Backbone.View {
 
   _addLayer() {
     let layerConfig;
-    //I will draw only active layers;
-    let activeLayers = layersCollection.filter(model => model.attributes.active);
+    //I will draw only active layers for each group;
+    let activeLayers = layersCollection.filter(model => model.attributes.active && model.attributes.group === this.state.get('mapMode'));
 
     _.each(activeLayers, (activeLayer) => {
       layerConfig = activeLayer.toJSON();

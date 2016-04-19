@@ -9,6 +9,8 @@ import DashLayerSwitcher from './DashLayerSwitcher';
 import DashDates from './DashDates';
 import Legend from './../Legend';
 
+import layersCollection from '../../scripts/collections/layersCollection';
+
 import utils from '../../scripts/helpers/utils';
 
 class Dashboard extends React.Component {
@@ -18,6 +20,10 @@ class Dashboard extends React.Component {
     this.state = {
       dashboardOpen: true
     };
+
+    layersCollection.fetch().done( () => {
+      this.setState({ 'layers':layersCollection })
+    })
   }
 
   componentWillMount() {
@@ -62,6 +68,7 @@ class Dashboard extends React.Component {
 
     if( this.props.currentMode == 'donations') {
       layersSwitcher = <DashLayerSwitcher
+                layers = { this.state.layers }
                 currentMode = { this.props.currentMode }
                 currentLayer = { this.props.currentLayer }
                 changeLayerFn= { this.props.changeLayerFn }
@@ -70,7 +77,7 @@ class Dashboard extends React.Component {
 
     if( this.props.currentMode == 'projects') {
       legend = <Legend ref="legend"
-        layer= { this.props.currentLayer }
+        layer= 'projects'
       />
     }
 

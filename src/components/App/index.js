@@ -37,45 +37,38 @@ class App extends React.Component {
     this.initTimeline();
   }
 
-  initMap() {
-    this.mapView = new MapView({
-      el: this.refs.Map,
-      currentLayer: this.state.currentLayer,
-      state: this.router.params
-    });
-  }
-
-  initTimeline() {
-    this.timeline = new TimelineView({ el: this.refs.Timeline });
-  }
-
-  changeMap(map, e) {
-    this.setState({ currentMap: map });
-  }
-
+  //GENERAL METHODS
   changePage(page, e) {
     this.setState({ currentPage: page });
   }
 
+  // TIMELINE METHODS
+  initTimeline() {
+    this.timeline = new TimelineView({ el: this.refs.Timeline });
+  }
+
+  // MAP METHODS
+  initMap() {
+    //TODO - Include mapMode into router params
+    this.router.params.set('mapMode', this.state.currentMode);
+
+    this.mapView = new MapView({
+      el: this.refs.Map,
+      state: this.router.params
+    });
+  }
+
   changeMapMode(mode, e) {
-    let sublayer;
-
-    if (mode == 'donations') {
-      sublayer = 'amountOfMoney';
-    } else {
-      sublayer = 'projects';
-    }
-
-    this.setState({ currentMode: mode, currentLayer: sublayer });
-    this._updateMap(sublayer);
+    this.setState({ currentMode: mode });
+    this.mapView.state.set({ 'mapMode': mode });
   }
 
   changeLayer(layer, e) {
     this.setState({ currentLayer: layer });
     
-    // Inactive all layers
-    let activeLayers = layersCollection.filter(model => model.attributes.active);
-    _.each(activeLayers, (activeLayer) => {
+    // Inactive all layers ofthe same group
+    let cogroupLayers = layersCollection.filter(model => model.attributes.group === this.state.currentMode);
+    _.each(cogroupLayers, (activeLayer) => {
       activeLayer.set('active', false);
     })
 
@@ -84,10 +77,7 @@ class App extends React.Component {
     newLayer[0].set('active', true);
   }
 
-  _updateMap(layer) {
-    this.mapView.state.set({ 'currentLayer': layer });
-  }
-
+  // FILTERS METHODS
   closeFilterModal() {
     this.setState({ filtersOpen: false });
   }
