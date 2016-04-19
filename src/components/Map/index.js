@@ -57,6 +57,16 @@ class MapView extends Backbone.View {
       center: [this.state.attributes.lat, this.state.attributes.lon]
     };
     this.map = L.mapbox.map(this.el, this.options.style, mapOptions);
+
+    this._addAttributions();
+  }
+
+  _addAttributions() {
+    // Add attribution to Mapbox and OpenStreetMap.
+    let attribution = L.control.attribution();
+    attribution.setPrefix('');
+    attribution.addAttribution('<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="http://openstreetmap.org/copyright"> | © OpenStreetMap</a><a href="https://cartodb.com/attributions/"> | © CartoDB</a>');
+    attribution.addTo(this.map);
   }
 
   _setEvents() {
