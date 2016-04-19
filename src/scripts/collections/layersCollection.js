@@ -7,12 +7,8 @@ class LayersCollection extends Backbone.Collection {
   initialize() {
       
   };
-
-  parse(data) {
-    return data;
-  }
 }
 
 LayersCollection.prototype.url = './public/layersSpec.json';
 
-export default LayersCollection;
+export default new LayersCollection();

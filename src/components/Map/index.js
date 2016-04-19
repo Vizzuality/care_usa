@@ -6,7 +6,6 @@ import Backbone from 'backbone';
 import TileLayer from './TileLayer';
 import PopUpContentView from './../PopUp/PopUpContentView';
 import config from '../../config';
-import layersConfig from '../../layersConfig';
 import layersCollection from '../../scripts/collections/layersCollection';
 import utils from '../../scripts/helpers/utils';
 
@@ -28,14 +27,13 @@ class MapView extends Backbone.View {
 
     this._checkMapSettings();
 
-    this._createMap();
-    this._setEvents();
-    this._addLayer(this.state.get('currentLayer') || 'amountOfMoney');
 
-    const layers = new layersCollection();
-    layers.fetch().done( () => {
-      console.log(layers);
+    layersCollection.fetch().done( () => {
+      this._createMap();
+      this._addLayer();
+      this._setEvents();
     })
+
   }
 
   _checkMapSettings() {
@@ -75,7 +73,7 @@ class MapView extends Backbone.View {
   }
 
   _setEvents() {
-    // this.map.on('click', this._infowindowSetUp.bind(this));
+    this.map.on('click', this._infowindowSetUp.bind(this));
 
     this.state.on('change:zoom', () => {
       this.map.setZoom(this.state.attributes.zoom);
@@ -93,10 +91,12 @@ class MapView extends Backbone.View {
       this.map.setView(latlng, this.map.getZoom());
     });
 
-    this.state.on('change:currentLayer', () => {
-      const currentLayer = this.state.get('currentLayer');
-      this.changeLayer(currentLayer);
-    });
+    // this.state.on('change:currentLayer', () => {
+    //   const currentLayer = this.state.get('currentLayer');
+    //   this.changeLayer(currentLayer);
+    // });
+
+    layersCollection.on('change', _.bind(this.changeLayer, this));
   }
 
   _infowindowSetUp(e) {
@@ -107,21 +107,26 @@ class MapView extends Backbone.View {
     }).getPopUp();
   }
 
-  _addLayer(layer) {
-    //We have layers into a different file until we will be able to get them from the API.
-    let layerConfig = layersConfig[layer];
+  _addLayer() {
+    let layerConfig;
+    //I will draw only active layers;
+    let activeLayers = layersCollection.filter(model => model.attributes.active);
 
-    this.currentLayer = new TileLayer(layerConfig);
-    this.currentLayer.createLayer().then( () => { this.currentLayer.addLayer(this.map) } );
+    _.each(activeLayers, (activeLayer) => {
+      layerConfig = activeLayer.toJSON();
+      this.currentLayer = new TileLayer(layerConfig);
+
+      this.currentLayer.createLayer().then( () => { this.currentLayer.addLayer(this.map) } );
+    })
   }
 
   _removeCurrentLayer() {
     this.currentLayer.removeLayer(this.map);
   }
 
-  changeLayer(layer) {
+  changeLayer() {
     this._removeCurrentLayer();
-    this._addLayer(layer);
+    this._addLayer();
   }
 
 };

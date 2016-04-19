@@ -1,6 +1,7 @@
 'use strict';
 
 import React  from 'react';
+import _ from 'underscore';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
@@ -8,6 +9,7 @@ import MapView from '../Map';
 import Landing from '../Landing';
 import Router from '../../scripts/Router';
 import utils from '../../scripts/helpers/utils';
+import layersCollection from '../../scripts/collections/layersCollection';
 
 class App extends React.Component {
 
@@ -70,7 +72,16 @@ class App extends React.Component {
 
   changeLayer(layer, e) {
     this.setState({ currentLayer: layer });
-    this._updateMap(layer);
+    
+    // Inactive all layers
+    let activeLayers = layersCollection.filter(model => model.attributes.active);
+    _.each(activeLayers, (activeLayer) => {
+      activeLayer.set('active', false);
+    })
+
+    //Active new layer
+    let newLayer = layersCollection.filter(model => model.attributes.id === layer);
+    newLayer[0].set('active', true);
   }
 
   _updateMap(layer) {
