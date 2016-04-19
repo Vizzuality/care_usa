@@ -95,7 +95,7 @@ class App extends React.Component {
 
         <div id="map" className="l-map" ref="Map"></div>
 
-        <button className="btn-share l-share">
+        <button className="btn-share btn-primary l-share">
           <svg className="icon icon-share">
             <use xlinkHref="#icon-share"></use>
           </svg>
@@ -124,10 +124,10 @@ class App extends React.Component {
           onSave={ this.updateFilters.bind(this) }
         />
 
-        <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
+        <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
           Donate
         </a>
-        
+
         { !sessionStorage.getItem('session') ? <Landing /> : '' }
       </div>
     );
