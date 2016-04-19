@@ -28,10 +28,7 @@
   }
 
   .slider {
-    background-color: orange;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
+    width: 100%;
     height: rem(302);
     margin-bottom: rem(84);
 
@@ -54,6 +51,10 @@
       margin: 0 rem(20);
       padding: 0;
       bottom: rem(-12);
+
+      @media screen and (min-width: $screen-m) {
+        bottom: rem(60);
+      }
     }
 
     .slick-dots li button:before{
@@ -62,6 +63,32 @@
       background-color: $white;
       border-radius: rem(10);
       content: '';
+    }
+
+    .slider-element {
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      background-color: orange;
+      margin: 0 rem(50);
+      width: 100%;
+      height: rem(302);
+
+      @media screen and (min-width: $screen-m) {
+        width: rem(510);
+        height: rem(362);
+      }
+    }
+
+    .slider-element:hover {
+      //background-image: url();
+      width: 100%;
+      height: rem(302);
+
+      @media screen and (min-width: $screen-m) {
+        width: rem(530);
+        height: rem(382);
+      }
     }
   }
 

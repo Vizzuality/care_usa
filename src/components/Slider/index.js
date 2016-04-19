@@ -19,7 +19,32 @@ class Slider extends React.Component {
       dots: true,
       customPaging: function(slider, i) {
         return '<button type="button" data-role="none" role="button" aria-required="false" tabindex="0"></button>';
-      }
+      },
+      centerMode: true,
+      centerPadding: '60px',
+      slidesToShow: 3,
+      responsive: [
+        {
+          breakpoint: 2000,
+          settings: {
+            arrows: false,
+            centerMode: true,
+            centerPadding: '40px',
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            variableWidth: true
+          }
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            arrows: false,
+            centerMode: true,
+            centerPadding: '40px',
+            slidesToShow: 1
+          }
+        }
+      ]
     });
   }
 
@@ -32,15 +57,15 @@ class Slider extends React.Component {
           </div>
           
           <div className="slider">
-            <div id="countries">
+            <div id="countries" className="slider-element">
               <p className="text text-numbers-xxl -light">95</p>
               <p className="text text-legend-title -light">Countries helped</p>
             </div>
-            <div id="projects">
+            <div id="projects" className="slider-element">
               <p className="text text-numbers-xxl -light">890</p>
               <p className="text text-legend-title -light">Projects</p>
             </div>
-            <div id="people">
+            <div id="people" className="slider-element">
               <p className="text text-numbers-xxl -light">65</p>
               <p className="text text-legend-title -light">Million people reached</p>
             </div>
