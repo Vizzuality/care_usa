@@ -3,7 +3,6 @@
 import React  from 'react';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
-import Modal from '../Modal';
 import ModalFilters from '../ModalFilters';
 import MapView from '../Map';
 import Landing from '../Landing';
