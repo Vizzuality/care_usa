@@ -22,7 +22,7 @@ class DashLayerSwitcher extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     /* Just for optimization: don't render if nothing changed */
-    if(nextProps.currentLayer !==  this.state.currentLayer) return true;
+    if(nextProps.currentLayer !==  this.props.currentLayer) return true;
     return false;
   }
 
@@ -54,6 +54,7 @@ class DashLayerSwitcher extends React.Component {
               id = { layer.id } 
               onChange = { this.props.changeLayerFn.bind(null, layer.id) }
             />
+            <span></span>
             <label htmlFor={ layer.id } className="text text-legend">{ layer.literal }</label>
           </div>
           <div className={ 'legend-wrapper ' + legendState }>

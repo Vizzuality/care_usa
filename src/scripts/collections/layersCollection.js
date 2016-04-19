@@ -5,8 +5,8 @@ import Backbone from 'backbone';
 class LayersCollection extends Backbone.Collection {
 
   initialize() {
-    console.log('hi!')
-  }
+      
+  };
 
   parse(data) {
     return data;

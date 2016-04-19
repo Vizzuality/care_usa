@@ -33,6 +33,7 @@ class Dashboard extends React.Component {
     let tabsDesktop;
     let layersSwitcher;
     let legend;
+    let filtersSwitcher;
 
     if ( this.state.mobile || this.state.tablet ) {
       tabsMobile =  <DashTabs
@@ -47,6 +48,17 @@ class Dashboard extends React.Component {
                     />
       tabsMobile = null;
     }
+
+    if (!this.state.mobile) {
+      filtersSwitcher = <div 
+              className= 'btn btn-third btn-filters-switcher'
+              onClick= { this.props.toggleFiltersFn } >
+              <svg className='icon'>
+                <use xlinkHref="#icon-filters"></use>
+              </svg>
+              filters
+            </div>
+    };
 
     if( this.props.currentMode == 'donations') {
       layersSwitcher = <DashLayerSwitcher
@@ -66,7 +78,8 @@ class Dashboard extends React.Component {
       <div>
         { tabsMobile }
         <div className={ this.state.dashboardOpen ? "l-dashboard is-open" : "l-dashboard" }>
-          <button className="btn-dashboard-switcher"
+          <button 
+            className="btn-dashboard-switcher"
             onClick={ this.toogleDashboard.bind(this) }
           >
             <svg className="icon icon-arrowleft"><use xlinkHref="#icon-arrowleft"></use></svg>
@@ -76,8 +89,12 @@ class Dashboard extends React.Component {
 
           <div className="m-dashboard-panel">
             <div className="dashboard-header">
-              <button className="text text-link">filters</button>
-              <a href="http://www.care.org/donate" rel="noreferrer" target="_blank"className="btn btn-secondary">
+              <button 
+                className="text text-cta btn-filters-switcher"
+                onClick={ this.props.toggleFiltersFn } >
+                filters
+              </button>
+              <a href="http://www.care.org/donate" rel="noreferrer" target="_blank"className="btn btn-contrast -small">
                 Donate
               </a>
             </div>
@@ -89,10 +106,11 @@ class Dashboard extends React.Component {
               { layersSwitcher }
               { legend }
             </div>
+            { filtersSwitcher }
           </div>
         </div>
       </div>
-    );  
+    );
   }
 
 }

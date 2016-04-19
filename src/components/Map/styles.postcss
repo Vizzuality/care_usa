@@ -14,7 +14,7 @@
     position: absolute;
     top: rem(110);
     left: auto;
-    z-index: 10;
+    z-index: 1;
     right: $wrap-padding-desktop;
   }
 
@@ -57,4 +57,18 @@
   }
 }
 
+.leaflet-control-attribution:last-child {
+  display: none;
+}
 
+.leaflet-left .leaflet-control {
+  margin: 0;
+}
+
+.mapbox-logo-true:before {
+  height: rem(15);
+}
+
+.leaflet-container .leaflet-control-attribution.leaflet-compact-attribution {
+  margin: 0;
+}

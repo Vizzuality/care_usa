@@ -49,19 +49,24 @@
         color: $font-color-2;
         border: 0;
         background-color: $color-6;
+        pointer-events: none;
 
         @media screen and (min-width: $screen-m) {
           background-color: transparent;
 
-          &:after {
-            content: "";
-            position: absolute;
-            bottom: rem(10);
-            left: 50%;
-            transform: translatex(-50%);
-            width: 40%;
-            height: rem(4);
-            background-color: $color-1;
+          span{
+            position: relative;
+            padding-bottom: rem(10);
+            &:after {
+              content: "";
+              position: absolute;
+              bottom: 0;
+              left: 50%;
+              transform: translatex(-50%);
+              width: 100%;
+              height: rem(4);
+              background-color: $color-1;
+            }
           }
         }
       }

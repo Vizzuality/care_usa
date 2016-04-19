@@ -3,7 +3,9 @@
 import React  from 'react';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
+import ModalFilters from '../ModalFilters';
 import MapView from '../Map';
+import Landing from '../Landing';
 import Router from '../../scripts/Router';
 import utils from '../../scripts/helpers/utils';
 
@@ -17,7 +19,8 @@ class App extends React.Component {
       currentLayer: 'amountOfMoney',
       currentPage: 'who-cares',
       device: null,
-      menuDeviceOpen: false
+      menuDeviceOpen: false,
+      filtersOpen: false
     }
   }
 
@@ -74,13 +77,25 @@ class App extends React.Component {
     this.mapView.state.set({ 'currentLayer': layer });
   }
 
+  closeFilterModal() {
+    this.setState({ filtersOpen: false });
+  }
+
+  toggleModalFilter() {
+    this.setState({ filtersOpen: !this.state.filtersOpen });
+  }
+
+  updateFilters(filters) {
+    this.setState({ filters: filters });
+  }
+
   render() {
     return (
       <div className="l-app">
 
         <div id="map" className="l-map" ref="Map"></div>
 
-        <button className="btn-share l-share">
+        <button className="btn-share btn-primary l-share">
           <svg className="icon icon-share">
             <use xlinkHref="#icon-share"></use>
           </svg>
@@ -91,6 +106,7 @@ class App extends React.Component {
           changeLayerFn={ this.changeLayer.bind(this) }
           currentMode={ this.state.currentMode }
           currentLayer={ this.state.currentLayer }
+          toggleFiltersFn={ this.toggleModalFilter.bind(this) }
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
@@ -100,9 +116,19 @@ class App extends React.Component {
           <div className="svg-container js-svg-container"></div>
         </div>
 
-        <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
+        <div id="map-credits" className="l-map-credits"></div>
+
+        <ModalFilters
+          visible={ this.state.filtersOpen }
+          onClose={ this.closeFilterModal.bind(this) }
+          onSave={ this.updateFilters.bind(this) }
+        />
+
+        <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
           Donate
         </a>
+
+        { !sessionStorage.getItem('session') ? <Landing /> : '' }
       </div>
     );
   }
