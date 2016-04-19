@@ -18,6 +18,20 @@ function checkDevice() {
   };
 }
 
+/* Polyfill for the matches DOM API method (IE 9+)
+ * Source: http://youmightnotneedjquery.com */
+function matches(el, selector) {
+  return (el.matches || el.matchesSelector || el.msMatchesSelector || el.mozMatchesSelector || el.webkitMatchesSelector || el.oMatchesSelector).call(el, selector);
+}
+
+function pad(number, times, char) {
+	let str = number + '';
+	while(str.length < times) str = char + str;
+	return str;
+}
+
 export default {
-  checkDevice: checkDevice
+  checkDevice,
+  matches,
+  pad
 };

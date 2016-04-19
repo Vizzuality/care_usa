@@ -2,6 +2,7 @@ $header-height: 90;
 $header-height-mb: 70;
 $timeline-height: 45;
 $timeline-height-mb: 70;
+$credits-height-mb: 25;
 $l-margin-vt: 50;
 
 .wrap {
@@ -96,11 +97,11 @@ $l-margin-vt: 50;
   }
 }
 
-.l-dashboard {  
+.l-dashboard {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: rem($timeline-height-mb);
+  bottom: rem(95);
   height: rem(220);
   background-color: #ddd;
   background-image: url('../src/images/legendpattern.png');
@@ -146,7 +147,6 @@ $l-margin-vt: 50;
 }
 
 .l-dash-panel {
-  
 }
 
 .l-dash-legend {
@@ -155,12 +155,14 @@ $l-margin-vt: 50;
 
 .l-timeline {
   position: absolute;
-  bottom: 0;
+  bottom: rem($credits-height-mb);
   left: 0;
   right: 0;
   height: rem($timeline-height-mb);
+  border-top: 1px solid $beige-7;
 
   @media screen and (min-width: $screen-m) {
+    border-top: 0;
     height: rem($timeline-height);
     right: 260px;
     left: $wrap-padding-desktop;
@@ -169,6 +171,20 @@ $l-margin-vt: 50;
 
   @media screen and (min-width: $screen-xl) {
     left: $wrap-padding-desktop-xl;
+  }
+}
+
+.l-map-credits {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: rem($credits-height-mb);
+  background-color: $beige-6;
+  border-top: 1px solid $beige-4;
+
+  @media screen and (min-width: $screen-m) {
+    display: none;
   }
 }
 

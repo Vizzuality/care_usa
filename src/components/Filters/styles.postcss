@@ -1,0 +1,304 @@
+@import'../../styles/settings.postcss';
+
+.m-filters {
+
+  @media screen and (min-width: $screen-l) {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  fieldset {
+    margin: 0;
+    margin-top: rem(20);
+    padding: 0;
+    border: none;
+
+    @media screen and (min-width: $screen-m) {
+      margin-top: rem(35);
+    }
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+
+    &:nth-child(3) {
+      margin-top: rem(30);
+
+      @media screen and (min-width: $screen-m) {
+        margin-top: rem(35);
+      }
+    }
+
+
+    > legend {
+      margin-bottom: rem(10);
+
+      @media screen and (min-width: $screen-m) {
+        margin-bottom: 0;
+      }
+    }
+
+    select {
+      -webkit-appearance: none;
+              appearance: none;
+      background-color: transparent;
+      border-radius: 0;
+
+      @media screen and (min-width: $screen-l) {
+        font-size: rem(15);
+        line-height: rem(15);
+        letter-spacing: rem(-.3);
+      }
+    }
+
+    &.date {
+
+      &.date-to {
+        @media screen and (min-width: $screen-l) {
+          margin-top: rem(35);
+          margin-right: 0;
+        }
+      }
+
+      > .legend {
+        @media screen and (min-width: $screen-m) {
+          margin-bottom: 0;
+        }
+      }
+
+      > div > div {
+        position: relative;
+        width: 33.33%;
+        display: inline-block;
+        border: rem(1) solid $color-6;
+        border-right: none;
+
+        &:last-of-type {
+          border-right: rem(1) solid $color-6;
+        }
+
+        &:nth-child(2) > select{
+          @media screen and (min-width: $screen-m) {
+            width: rem(180);
+          }
+        }
+
+        &:nth-child(3) > select{
+          @media screen and (min-width: $screen-m) {
+            width: rem(80);
+          }
+        }
+
+        @media screen and (min-width: $screen-m) {
+          width: auto;
+          margin-right: rem(30);
+          border: none;
+          &:last-of-type { border: none; }
+        }
+
+        > select {
+          display: block;
+          width: 100%;
+          height: rem(50);
+          border: none;
+          color: $color-1;
+          font-family: $font-family-1;
+          font-weight: 700;
+          font-style: italic;
+          padding-left: rem(10);
+
+          @media screen and (min-width: $screen-m) {
+            width: auto;
+            height: rem(40);
+            padding-right: rem(20);
+            border-bottom: rem(1) solid $color-6;
+            padding-left: 0;
+          }
+        }
+
+        > .arrow {
+          display: none;
+
+          @media screen and (min-width: $screen-m) {
+            display: block;
+            width: rem(10);
+            height: rem(6);
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            > use { fill: $color-1; }
+          }
+        }
+      }
+    }
+
+    &.regions {
+      > legend {
+        margin-bottom: 0;
+      }
+
+      > div {
+        position: relative;
+
+        @media screen and (min-width: $screen-m) {
+          display: inline-block;
+        }
+      }
+
+      .arrow {
+        width: rem(10);
+        height: rem(6);
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        > use { fill: $color-1; }
+      }
+
+      select {
+        width: 100%;
+        height: rem(40);
+        border: none;
+        border-bottom: rem(1) solid $color-6;
+        color: $color-1;
+        font-family: $font-family-1;
+        font-weight: 700;
+        font-style: italic;
+
+        @media screen and (min-width: $screen-m) {
+          width: rem(257);
+          padding-right: rem(20);
+        }
+      }
+    }
+  }
+
+
+  > .sectors {
+
+    @media screen and (min-width: $screen-l) {
+      flex-basis: calc(50% - rem(70));
+      margin-left: rem(70);
+    }
+
+    > fieldset {
+      margin-top: rem(30);
+
+      @media screen and (min-width: $screen-m) {
+        margin-top: rem(35);
+      }
+
+      @media screen and (min-width: $screen-l) {
+        margin-top: 0;
+      }
+
+      > legend {
+        @media screen and (min-width: $screen-m) {
+          margin-bottom: rem(25);
+        }
+      }
+
+      > div {
+        @media screen and (min-width: $screen-m) {
+          column-count: 2;
+          column-gap: rem(40);
+        }
+
+        @media screen and (min-width: $screen-l) {
+          column-count: auto;
+          column-gap: normal;
+        }
+      }
+
+      input {
+        display: none;
+      }
+
+      label {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: rem(27);
+        padding-left: rem(42);
+        margin-bottom: rem(10);
+        line-height: rem(27);
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+
+        &:before {
+          content: "";
+          display: block;
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: rem(25);
+          height: rem(25);
+          border: rem(1) solid $color-1;
+        }
+      }
+
+      input:checked + label:before {
+        background: url("../../images/check.svg") center center/10px no-repeat, $color-1;
+      }
+    }
+  }
+
+  .buttons {
+    margin-top: rem(40);
+
+    @media screen and (min-width: $screen-m) {
+      margin-top: rem(60);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row-reverse;
+    }
+
+    @media screen and (min-width: $screen-l) {
+      flex-basis: 100%;
+    }
+
+    > .btn {
+      width: 100%;
+      margin-bottom: rem(20);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      @media screen and (min-width: $screen-m) {
+        width: auto;
+        margin-bottom: 0;
+        margin-left: rem(20);
+
+        &:last-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
+  > .error-message {
+    border: rem(1) solid $color-11;
+    background: url("../../images/alert.svg") top 20px left 15px/22px no-repeat, rgba($color-11, .1);
+    color: $font-color-6;
+    font-size: rem(15);
+    line-height: rem(18);
+    padding: rem(20) rem(20) rem(20) rem(50);
+    margin-top: rem(20);
+    margin-bottom: rem(20);
+
+    @media screen and (min-width: $screen-m) {
+      margin-top: 0;
+    }
+
+    @media screen and (min-width: $screen-l) {
+      flex-basis: 100%;
+    }
+  }
+}
