@@ -1,5 +1,5 @@
 .btn {
- 	padding: rem(10) rem(35);
+ 	padding: rem(15) rem(55);
  	display: inline-block;
 	text-decoration: none;
 	text-align: center;
@@ -7,10 +7,24 @@
 	font-family: $font-family-2;
   font-weight: 700;
   font-size: rem(11);
-	letter-spacing: rem(2.1);
+  letter-spacing: rem(2.1);
+  cursor: pointer;
+
+  &.-small {
+		padding: rem(10) rem(35);
+  }
+	
+	&.is-disabled {
+	  opacity: .5;
+	  pointer-events: none;
+	}
+
+	&.-invalid {
+	  border: 1px solid $color-9;
+	}
 
 	@media screen and (min-width: $screen-m) {
-	  padding: rem(15) rem(10);
+	  padding: rem(15) rem(55);
 	}
 
 	@media screen and (min-width: $screen-xl) {
@@ -19,21 +33,25 @@
 	}
 }
 
+/* The orange one */
 .btn-primary {
 	background-color: $color-1;
 	color: $font-color-3;
 }
 
+/* The white one */
 .btn-secondary {
 	background-color: $white;
 	color: $font-color-4;
 }
 
+/* The transparent with orange border */
 .btn-third {
 	border: 1px solid $color-1;
 	color: $font-color-4;
 }
 
+/* The fucsia one */
 .btn-contrast {
 	background-color: $color-3;
 	color: $font-color-3;
