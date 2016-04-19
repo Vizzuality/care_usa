@@ -6,25 +6,35 @@
 	display:flex;
 	flex-flow: column;
 	justify-content: space-between;
-	align-items: stretch;
-	z-index: 15;
+	z-index: 1000;
 	overflow: hidden;
 	height: 100vh;
 
 	@media screen and (min-width: $screen-xl) {
 		display: block;
 	}
+
+	@media screen and (max-height: rem(600)) {
+	  display: block;
+	  min-height: 100vh;
+	  overflow: auto;
+	}
 	
 
 	.landing-background {
-		position: absolute;
+		position: fixed;
 		top: 0;
+		left: 0; 
 		background-image: url('../../images/mappattern.png');
 		width: 100%;
-		height: 100vh;
+		height: 100vh; 
 
 		@media screen and (min-width: $screen-m) {
 		  opacity: 0.8;
+		}
+
+		@media screen and (max-height: rem(700)) {
+		  min-height: 100vh;
 		}
 	}
 
@@ -69,23 +79,25 @@
 		}
 
 		@media screen and (min-width: $screen-l) {
+			margin-top: rem(30);
 		  margin-bottom: rem(35);
 		  width: 65.4%;
 		}
 
 		@media screen and (min-width: $screen-xl) {
 		  margin-bottom: rem(38);
-		  width: 48.27%;
+		  width: 48.2%;
 		}
 
 		@media screen and (min-width: $screen-xxl) {
 		  margin-bottom: rem(81);
-		  width: 65.46%;
+		  width: 65.4%;
 		}
 	}
 
 	.text-highlighted {
 		margin-bottom: rem(34);
+		z-index: 3;
 
 		@media screen and (min-width: $screen-m) {
 			width: 87%;
@@ -98,12 +110,12 @@
 
 		@media screen and (min-width: $screen-xl) {
 		  margin-bottom: rem(52);
-		  width: 48.27%;
+		  width: 48.2%;
 		}
 
 		@media screen and (min-width: $screen-xxl) {
 		  margin-bottom: rem(69);
-		  width: 65.46%;
+		  width: 65.4%;
 		}
 	}
 
@@ -112,9 +124,11 @@
 	}
 
 	.btn-primary {
+		position: relative;
 		cursor: pointer;
 		width: 100%;
 		padding: rem(15) rem(40);
+		z-index: 3;
 
 		@media screen and (min-width: $screen-m) {
 		  width: fit-content;
@@ -125,5 +139,6 @@
 		flex-grow: 0;
 		width: 100%;
 		position: relative;
+		bottom: 0;
 	}
 }
