@@ -150,15 +150,33 @@ class TimelineView extends Backbone.View {
       .remove();
 
     this.d3Cursor = d3Slider
+      .attr('transform', () => `translate(${this.scale(this.cursorPosition)})`);
+
+    /* We add the blurred shadow of the cursor */
+    this.svg
+      .append('defs')
+        .append('filter')
+        .attr('id', 'cursorShadow')
+          .append('feGaussianBlur')
+          .attr('stdDeviation', !~navigator.userAgent.toLowerCase().indexOf('firefox') ? 2 : 1);
+
+    this.cursorShadow = this.d3Cursor
       .append('circle')
-      .attr('cx', d => this.scale(this.cursorPosition))
+      .attr('cx', 0)
       .attr('cy', 0)
       .attr('r', smallScreen ? 6 : 10)
-      .attr('class', 'cursor');
+      .attr('fill', '#686354')
+      .attr('class', 'cursor-shadow');
 
-    this.cursor = this.d3Cursor[0][0];
-
+    /* We add the real cursor */
     this.d3Cursor
+      .append('circle')
+      .on('mouseover', () => this.cursorShadow.attr('filter', 'url(#cursorShadow)'))
+      .on('mouseout', () => this.cursorShadow.attr('filter', ''))
+      .attr('cx', 0)
+      .attr('cy', 0)
+      .attr('r', smallScreen ? 6 : 10)
+      .attr('class', 'cursor')
       .call(this.brush.event);
 
     /* TODO: use the real dates insteaf of these */
@@ -252,7 +270,7 @@ class TimelineView extends Backbone.View {
 
   moveCursor(date) {
     this.brush.extent([date, date]);
-    this.d3Cursor.attr('cx', this.scale(date));
+    this.d3Cursor.attr('transform', () => `translate(${this.scale(date)})`);
     this.d3CursorLine.attr('x2', this.scale(date));
   }
 
@@ -276,11 +294,14 @@ class TimelineView extends Backbone.View {
   }
 
   onCursorEndDrag() {
+    this.cursorShadow.attr('filter', '')
     document.body.classList.remove('-grabbing');
   }
 
   onCursorDrag() {
     if(!d3.event.sourceEvent) return;
+
+    this.cursorShadow.attr('filter', 'url(#cursorShadow)')
 
     let date = this.scale.invert(d3.mouse(this.axis)[0]);
     if(date > this.options.domain[1]) date = this.options.domain[1];

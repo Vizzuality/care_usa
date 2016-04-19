@@ -64,6 +64,8 @@
       cursor: pointer;
       > use { fill: $color-1; }
 
+      &:hover { fill: $color-9; }
+
       @media screen and (min-width: $screen-m) {
         top: rem(40);
         right: rem(30);
@@ -80,7 +82,7 @@
     transform: translateY(-100%);
 
     @media screen and (min-width: $screen-xl) {
-      transform: translateX(-50%, -100%);
+      transform: translate(-50%, -100%);
     }
   }
 }

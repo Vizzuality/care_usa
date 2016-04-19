@@ -10,18 +10,29 @@
     flex: 1 1 100%;
     justify-content: flex-start;
     align-items: center;
+    position: relative;
   }
   
   input[type="radio"] {
-    @extend %clean-button-or-input;
+    opacity: 0;
     width: rem(20);
     height: rem(20);
     border-radius: 50%;
     margin-right: rem(5);
-    border: 1px solid $beige-2;
-    background-color: $beige-5;
 
-    &:checked {
+    + span {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: rem(20);
+      height: rem(20);
+      border-radius: 50%;
+      border: 1px solid $beige-2;
+      background-color: $beige-5;
+      pointer-events: none;
+    }
+
+    &:checked + span {
       border: 6px solid $color-1;
       background-color: transparent;
     }
@@ -29,6 +40,7 @@
 
   label {
     color: $font-color-2;
+    cursor: pointer;
   }
 
   .legend-wrapper {

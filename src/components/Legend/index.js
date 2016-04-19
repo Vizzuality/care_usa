@@ -2,7 +2,7 @@
 
 import './styles.postcss';
 import React from 'react';
-
+import layersConfig from '../../layersConfig';
 
 class Legend extends React.Component {
 
@@ -14,25 +14,22 @@ class Legend extends React.Component {
   }
 
   render() {
+    let legend = [];
+
+    layersConfig[this.props.layer].legend.buckets.forEach( (bucket) => {
+      let style = { backgroundColor: bucket.color, borderColor: bucket.border }
+      legend.push(  
+        <li className="legend-item" key={ bucket.color }>
+          <span className="bucket" style={ style }></span>
+          <span className="text text-legend-s">{ bucket.literal }</span>
+        </li>
+      )
+    })
+
     return (
       <div className="m-legend">
         <ul>
-          <li className="legend-item">
-            <span className="bucket"></span>
-            <span className="text text-legend-s">$0 - 100</span>
-          </li>
-          <li className="legend-item">
-            <span className="bucket"></span>
-            <span className="text text-legend-s">$100 - 500</span>
-          </li>
-          <li className="legend-item">
-            <span className="bucket"></span>
-            <span className="text text-legend-s">$500 - 1000</span>
-          </li>
-          <li className="legend-item">
-            <span className="bucket"></span>
-            <span className="text text-legend-s">More than $1000</span>
-          </li>
+          { legend }
         </ul>
       </div>
     )
