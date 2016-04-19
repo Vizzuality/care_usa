@@ -60,7 +60,7 @@ class MapView extends Backbone.View {
   }
 
   _setEvents() {
-    this.map.on('click', this._infowindowSetUp.bind(this));
+    // this.map.on('click', this._infowindowSetUp.bind(this));
 
     this.state.on('change:zoom', () => {
       this.map.setZoom(this.state.attributes.zoom);
