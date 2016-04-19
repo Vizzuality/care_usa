@@ -6,6 +6,7 @@ import Dashboard from '../Dashboard';
 import Modal from '../Modal';
 import ModalFilters from '../ModalFilters';
 import MapView from '../Map';
+import Landing from '../Landing';
 import Router from '../../scripts/Router';
 import utils from '../../scripts/helpers/utils';
 
@@ -125,6 +126,8 @@ class App extends React.Component {
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
           Donate
         </a>
+        
+        <Landing />
       </div>
     );
   }

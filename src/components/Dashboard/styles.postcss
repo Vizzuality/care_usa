@@ -48,7 +48,7 @@
   }
 
   .btn-filters-switcher {
-
+    
     @media screen and (min-width: $screen-m) {
       position: absolute;
       bottom: rem(20);
@@ -60,7 +60,10 @@
     }
     
     .icon {
+      display: none;
+
       @media screen and (min-width: $screen-m) {
+        display: block;
         width: rem(20);
         height: rem(20);
         fill: $color-1;

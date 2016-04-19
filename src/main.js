@@ -7,6 +7,7 @@ import React  from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import Router from './scripts/Router';
 import utils from './scripts/helpers/utils';
 import MenuDevice from './components/MenuDevice';
@@ -70,5 +71,6 @@ if (page.length > 0) {
 
   	document.getElementById(page));
 }
+
 
 
