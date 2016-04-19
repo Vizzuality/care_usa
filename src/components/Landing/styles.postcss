@@ -140,5 +140,13 @@
 		width: 100%;
 		position: relative;
 		bottom: 0;
+
+		@media screen and (max-height: rem(600)) {
+		  bottom: rem(-100);
+		}
+
+		@media screen and (max-height: rem(400)) {
+		  bottom: 0;
+		}
 	}
 }
