@@ -19,7 +19,7 @@
   }
 
   .dashboard-header {
-    display: flex; 
+    display: flex;
     flex: 1 1 100%;
     justify-content: space-between;
     align-items: center;
@@ -51,6 +51,10 @@
 .btn-dashboard-switcher {
   display: none;
 
+  &:hover .icon > use {
+    fill: $color-9;
+  }
+
   @media screen and (min-width: $screen-m) {
     display: flex;
     flex: 1 1 100%;
@@ -78,6 +82,7 @@
       display: block;
       width: rem(10);
       height: rem(10);
+      > use { fill: $color-1; }
     }
   }
 
