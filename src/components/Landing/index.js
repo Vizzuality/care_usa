@@ -9,6 +9,10 @@ class Landing extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    sessionStorage.setItem('session', true);
+  }
+
   getStarted() {
     document.getElementsByClassName('l-landing')[0].style.display = 'none';
   }

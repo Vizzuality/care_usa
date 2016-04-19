@@ -105,7 +105,7 @@ class App extends React.Component {
           Donate
         </a>
         
-        <Landing />
+        { !sessionStorage.getItem('session') ? <Landing /> : '' }
       </div>
     );
   }
