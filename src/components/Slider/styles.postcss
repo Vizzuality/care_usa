@@ -28,8 +28,12 @@
   }
 
   .slider {
-    height: rem(350);
-    margin-bottom: rem(40);
+    background-color: orange;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    height: rem(302);
+    margin-bottom: rem(84);
 
     @media screen and (min-width: $screen-m) {
       height: rem(430);
@@ -45,13 +49,28 @@
       height: rem(360);
       margin-bottom: rem(120);
     }
+
+    .slick-dots li {
+      margin: 0 rem(20);
+      padding: 0;
+      bottom: rem(-12);
+    }
+
+    .slick-dots li button:before{
+      width: rem(35);
+      height: rem(4);
+      background-color: $white;
+      border-radius: rem(10);
+      content: '';
+    }
   }
 
-  .btn {
+  .btn-secondary {
     width: 100%;
-
-    @media screen and (min-width: $screen-m) {
-      width: auto;
+    
+    @media screen and (min-width: rem(500)) {
+      width: fit-content;
+      padding: rem(14) rem(47.5);
     }
   }
 

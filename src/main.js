@@ -73,11 +73,11 @@ if (page.length > 0) {
   	document.getElementById(page));
 }
 
-/*if (page === 'anniversary'){
+if (page === 'anniversary'){
    ReactDOM.render(
     <Slider/>,
 
     document.getElementById('l-by-numbers'));
-}*/
+}
 
 

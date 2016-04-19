@@ -9,8 +9,18 @@ class Slider extends React.Component {
     super(props);
   }
 
-  getSlider() {
-     
+  componentDidMount(){
+    this.setSlider();
+  }
+
+  setSlider() {
+    $('.slider').slick({
+      arrows: false,
+      dots: true,
+      customPaging: function(slider, i) {
+        return '<button type="button" data-role="none" role="button" aria-required="false" tabindex="0"></button>';
+      }
+    });
   }
 
   render() {
