@@ -3,7 +3,6 @@
 import './styles.postcss';
 import _ from 'underscore';
 import Backbone from 'backbone';
-
 import TileLayer from './TileLayer';
 import PopUpContentView from './../PopUp/PopUpContentView';
 import config from '../../config';
