@@ -11,12 +11,13 @@ class Legend extends React.Component {
     this.props = props;
     this.state = {
     };
+
   }
 
   render() {
     let legend = [];
 
-    layersConfig[this.props.layer].legend.buckets.forEach( (bucket) => {
+    this.props.layerLegend.buckets.forEach( (bucket) => {
       let style = { backgroundColor: bucket.color, borderColor: bucket.border }
       legend.push(  
         <li className="legend-item" key={ bucket.color }>

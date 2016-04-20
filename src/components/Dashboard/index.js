@@ -9,8 +9,6 @@ import DashLayerSwitcher from './DashLayerSwitcher';
 import DashDates from './DashDates';
 import Legend from './../Legend';
 
-import layersCollection from '../../scripts/collections/layersCollection';
-
 import utils from '../../scripts/helpers/utils';
 
 class Dashboard extends React.Component {
@@ -20,10 +18,6 @@ class Dashboard extends React.Component {
     this.state = {
       dashboardOpen: true
     };
-
-    layersCollection.fetch().done( () => {
-      this.setState({ 'layers':layersCollection })
-    })
   }
 
   componentWillMount() {
@@ -31,7 +25,7 @@ class Dashboard extends React.Component {
   }
 
   toogleDashboard() {
-    this.setState({ dashboardOpen: !(!!this.state.dashboardOpen) })
+    this.setState({ dashboardOpen: !this.state.dashboardOpen })
   }
 
   render() {
@@ -66,20 +60,12 @@ class Dashboard extends React.Component {
             </div>
     };
 
-    if( this.props.currentMode == 'donations') {
-      layersSwitcher = <DashLayerSwitcher
-                layers = { this.state.layers }
-                currentMode = { this.props.currentMode }
-                currentLayer = { this.props.currentLayer }
-                changeLayerFn= { this.props.changeLayerFn }
-              />
-    }
-
-    if( this.props.currentMode == 'projects') {
-      legend = <Legend ref="legend"
-        layer= 'projects'
-      />
-    }
+    layersSwitcher = <DashLayerSwitcher
+              layers = { this.state.layers }
+              currentMode = { this.props.currentMode }
+              currentLayer = { this.props.currentLayer }
+              changeLayerFn= { this.props.changeLayerFn }
+            />
 
     return (
       <div>
@@ -111,7 +97,6 @@ class Dashboard extends React.Component {
                 currentMode = { this.props.currentMode }
               />
               { layersSwitcher }
-              { legend }
             </div>
             { filtersSwitcher }
           </div>

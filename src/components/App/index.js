@@ -64,8 +64,7 @@ class App extends React.Component {
   }
 
   changeLayer(layer, e) {
-    this.setState({ currentLayer: layer });
-    
+    this.setState({ currentLayer: layer });    
     // Inactive all layers ofthe same group
     let cogroupLayers = layersCollection.filter(model => model.attributes.group === this.state.currentMode);
     _.each(cogroupLayers, (activeLayer) => {
