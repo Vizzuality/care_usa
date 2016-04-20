@@ -3,6 +3,7 @@
 //import './styles.postcss';
 import React from 'react';
 import CaresPackage from '../CaresPackage';
+import PowerBox from '../PowerBox';
 
 class Anniversary extends React.Component {
 
@@ -14,6 +15,7 @@ class Anniversary extends React.Component {
     return (
       <div>
         <CaresPackage />
+        <PowerBox />
 
       </div>
     )
