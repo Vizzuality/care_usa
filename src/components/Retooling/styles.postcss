@@ -48,6 +48,7 @@
 
     .text-highlighted {
       max-width: 100%;
+      margin-bottom: rem(27);
 
       @media screen and (min-width: $screen-m) {
         max-width: 65.5%;
@@ -63,5 +64,44 @@
     }
   }
 
+  .images-container {
+    position: relative;
+  }
+  
+  .retooling-image {
+    display: none;
+
+    @media screen and (min-width: $screen-m) {
+      display: inherit;
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+
+  .retooling-list {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    padding: 0 rem(18);
+
+    @media screen and (min-width: $screen-m) {
+      position: absolute;
+    }
+  }
+
+  .list-item {
+    display: flex;
+    align-items: center;
+
+  }
+
+  .retooling-avatar {
+    width: rem(55);
+    height: rem(55);
+    padding: rem(5);
+    margin: 0 rem(14) rem(10) 0;
+    background-color: $white;
+    border-radius: rem(30);
+  }
   
 }
