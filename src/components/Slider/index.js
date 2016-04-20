@@ -1,7 +1,11 @@
 'use strict';
 
+import '../../../node_modules/slick-carousel/slick/slick.css';
+import '../../../node_modules/slick-carousel/slick/slick-theme.css';
 import './styles.postcss';
 import React from 'react';
+import $ from 'jquery';
+import slick from 'slick-carousel';
 
 class Slider extends React.Component {
 
