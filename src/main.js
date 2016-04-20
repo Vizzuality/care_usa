@@ -6,6 +6,7 @@ import './main.postcss';
 import React  from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
+import Anniversary from './components/Anniversary';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Router from './scripts/Router';
@@ -55,7 +56,7 @@ class Main extends React.Component {
 	          toggleMenuFn = { this.toggleMenu.bind(this) }
 	          changePageFn = { this.changePage.bind(this) }
 	        />
-	        { this.props.currentPage === 'who-cares' ? <App />: '' }
+	        { this.props.currentPage === 'who-cares' ? <App />: <Anniversary /> }
 	       	{ menuDevice }
         </div>
     );
