@@ -1,0 +1,67 @@
+@import'../../styles/settings.postcss';
+@import'../../styles/helpers.postcss';
+
+.l-retooling {
+  padding: rem(50) 0 rem(60);
+  background-image: url("../../images/orangepattern.png");
+
+  @media screen and (min-width: $screen-m) {
+    padding: rem(110) 0 rem(340);
+  }
+
+  @media screen and (min-width: $screen-l) {
+    padding-bottom: rem(460);
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    padding-bottom: rem(580);
+  }
+
+  @media screen and (min-width: $screen-xxl) {
+    padding: rem(120) 0 rem(635);
+  }
+
+  .box-text-container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    text-align: center;
+
+    .text-module-title {
+      margin-bottom: rem(26);
+
+      @media screen and (min-width: $screen-m) {
+        margin-bottom: rem(40);
+        max-width: 65.5%;
+      }
+
+      @media screen and (min-width: $screen-xl) {
+        margin-bottom: rem(50);
+        max-width: 82.75%;
+      }
+
+      @media screen and (min-width: $screen-xxl) {
+        margin-bottom: rem(70);
+        max-width: 65.5%;
+      }
+    }
+
+    .text-highlighted {
+      max-width: 100%;
+
+      @media screen and (min-width: $screen-m) {
+        max-width: 65.5%;
+      }
+
+      @media screen and (min-width: $screen-l) {
+        max-width: 82.75%;
+      }
+
+      @media screen and (min-width: $screen-xl) {
+        max-width: 65.5%;
+      }
+    }
+  }
+
+  
+}
