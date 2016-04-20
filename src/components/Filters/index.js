@@ -6,10 +6,10 @@ import moment from 'moment';
 import $ from 'jquery';
 
 import './styles.postcss';
-import FiltersModel from './filtersModel';
+import filtersModel from '../../scripts/models/filtersModel';
 import utils from '../../scripts/helpers/utils';
-import SectorsCollection from '../../scripts/collections/SectorsCollection';
-import RegionsCollection from '../../scripts/collections/RegionsCollection';
+import sectorsCollection from '../../scripts/collections/sectorsCollection';
+import regionsCollection from '../../scripts/collections/regionsCollection';
 
 const defaults = {
   rendered: false
@@ -34,15 +34,23 @@ class FiltersView extends Backbone.View {
 
   initialize(options) {
     this.options = _.extend(options, defaults);
-    this.status = new FiltersModel();
-    this.status.on('change', () => console.log(this.status.toJSON()));
+    this.status = filtersModel;
     this.applyButton = this.el.querySelector('.js-apply');
     this.clearButton = this.el.querySelector('.js-clear');
-    this.sectorsCollection = new SectorsCollection();
-    this.regionsCollection = new RegionsCollection();
+    this.sectorsCollection =  sectorsCollection;
+    this.regionsCollection = regionsCollection;
+    this.rendered = false;
     $.when.apply(null, [this.sectorsCollection.fetch(), this.regionsCollection.fetch()])
-      .then(this.render.bind(this))
+      .then(() => {
+        this.render();
+        this.updateFilters();
+      })
       .fail(() => console.error('Unable to load the list of sectors and/or regions'));
+    this.setListeners();
+  }
+
+  setListeners() {
+    this.status.on('change', this.updateFilters.bind(this));
   }
 
   render() {
@@ -52,6 +60,47 @@ class FiltersView extends Backbone.View {
     }
 
     if(!this.rendered) this.rendered = true;
+  }
+
+  /* Set the state of the form elements as stored in this.status */
+  updateFilters() {
+    if(!this.rendered) return;
+
+    const status = this.status.toJSON();
+    for(let key in status) {
+      const value = status[key];
+
+      if(/^((from|to).*|region)/.test(key)) {
+
+        /* The filter is a select input */
+        const select = this.el.querySelector(`select[name="${key}"]`);
+
+        select.options[select.selectedIndex].selected = false;
+
+        if(!value) {
+          select.options[0].selected = true;
+        } else {
+          for(let i = 0, j = select.options.length; i < j; i++) {
+            if(select.options[i].value === value) {
+              select.options[i].selected = true;
+              break;
+            }
+          }
+        }
+
+      } else {
+
+        /* The filter is sectors, the checkboxes */
+        const checkboxes = this.el.querySelectorAll(`.js-sectors input[type="checkbox"]`);
+
+        for(let i = 0, j = checkboxes.length; i < j; i++) {
+          checkboxes[i].checked = value.length &&
+            !!~value.indexOf(checkboxes[i].name.replace('sector-', ''))
+        }
+      }
+    }
+
+    this.checkButtonsAvailability();
   }
 
   populateSelectors() {
@@ -99,8 +148,12 @@ class FiltersView extends Backbone.View {
   }
 
   onInputChange() {
-    /* We check whether the user activated/chose a filter to decide if we enable
-     * the clear and apply buttons */
+    this.checkButtonsAvailability();
+  }
+
+  /* We check whether the user activated/chose a filter to decide if we enable
+   * the clear and apply buttons */
+  checkButtonsAvailability() {
     let empty = true;
     const serializedFilters = this.serializeFilters();
     for(let key in serializedFilters) {
@@ -120,12 +173,12 @@ class FiltersView extends Backbone.View {
 
     if(serializedFilters['from-day'] && serializedFilters['from-month'] &&
       serializedFilters['from-year']) {
-      serializedFilters.from = new Date(`${utils.pad(serializedFilters['from-month'], 2, '0')}-${utils.pad(serializedFilters['from-day'], 2, '0')}-${serializedFilters['from-year']}`);
+      serializedFilters.from = new Date(`${serializedFilters['from-year']}-${utils.pad(serializedFilters['from-month'], 2, '0')}-${utils.pad(serializedFilters['from-day'], 2, '0')}`);
     }
 
     if(serializedFilters['to-day'] && serializedFilters['to-month'] &&
       serializedFilters['to-year']) {
-      serializedFilters.to = new Date(`${utils.pad(serializedFilters['to-month'], 2, '0')}-${utils.pad(serializedFilters['to-day'], 2, '0')}-${serializedFilters['to-year']}`);
+      serializedFilters.to = new Date(`${serializedFilters['to-year']}-${utils.pad(serializedFilters['to-month'], 2, '0')}-${utils.pad(serializedFilters['to-day'], 2, '0')}`);
     }
 
     this.status.clear({ silent: true });
@@ -229,7 +282,6 @@ class FiltersView extends Backbone.View {
       this.$el.prepend(errorHtml);
     }
     else {
-      this.triggerFilters();
       this.options.closeCallback();
     }
   }
@@ -237,12 +289,7 @@ class FiltersView extends Backbone.View {
   onClear(e) {
     e.preventDefault();
     this.resetFilters();
-    this.triggerFilters();
     this.toggleButtonsAvailability(false);
-  }
-
-  triggerFilters() {
-    // this.options.saveCallback(this.status.compactData());
   }
 
   onDateChange(e) {

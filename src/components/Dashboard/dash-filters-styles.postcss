@@ -1,0 +1,51 @@
+@import'../../styles/settings.postcss';
+@import'../../styles/helpers.postcss';
+
+.m-dash-filters {
+  > .region {
+    height: rem(45);
+    padding: rem(12) 0;
+    border-bottom: 1px solid $color-7;
+
+    > .icon { vertical-align: middle; }
+  }
+
+  > .sectors {
+    padding: rem(12) 0 rem(7) 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid $color-7;
+
+    > .icon { flex-basis: rem(25); }
+    > div { flex-basis: calc(100% - rem(25)); }
+
+    .text {
+      padding: rem(5) 0;
+    }
+  }
+
+  .icon {
+    width: rem(15);
+    height: rem(15);
+    margin-right: rem(10);
+
+    @media screen and (min-width: $screen-m) {
+      width: rem(20);
+      height: rem(20);
+    }
+  }
+
+  .icon-close {
+    width: rem(11);
+    height: rem(11);
+    margin-left: rem(5);
+    cursor: pointer;
+    > use { fill: $color-1; }
+    &:hover > use { fill: $color-9; }
+  }
+
+  .text {
+    // padding-top: rem(3);
+  }
+}

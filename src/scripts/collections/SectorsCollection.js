@@ -11,4 +11,4 @@ class SectorsCollection extends Backbone.Collection {
 
 };
 
-export default SectorsCollection;
+export default new SectorsCollection();

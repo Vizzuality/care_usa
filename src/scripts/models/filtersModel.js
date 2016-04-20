@@ -63,4 +63,4 @@ class FiltersModel extends Backbone.Model {
 
 }
 
-export default FiltersModel;
+export default new FiltersModel();
