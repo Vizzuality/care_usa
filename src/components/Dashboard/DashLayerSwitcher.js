@@ -15,19 +15,16 @@ class DashLayerSwitcher extends React.Component {
     this.state = {};
   }
 
-  componentWillMount() {
-    layersCollection.fetch().done( () => {
-      this.setState({ 'ready': true });
-    })
-  }
-
   componentDidMount() {
     this._toogleLegend();
-
   }
 
   componentDidUpdate() {
     this._toogleLegend();
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return this.props.currentLayer !== nextProps.currentLayer || this.props.currentMode !== nextProps.currentMode;
   }
 
   _toogleLegend() {
@@ -41,53 +38,48 @@ class DashLayerSwitcher extends React.Component {
     let legendState;
     let layer;
 
-    if (this.state.ready) {
-      let layers = layersCollection.filter(model => model.attributes.group === this.props.currentMode);
+    let layers = layersCollection.filter(model => model.attributes.group === this.props.currentMode);
 
-      if (this.props.currentMode === 'donations') {
+    if (this.props.currentMode === 'donations') {
 
-        layers.forEach( (model) => {
-          layer = model.toJSON();
-          legendState = layer.active && 'is-open';
-        
-          switchers.push( <div className="m-dash-layer-switcher" key={ layer.id }> 
-            <div className="map-mode">
-              <div className="selector-wrapper">
-                <input 
-                  type ="radio" name="mapMode" checked={ layer.active }
-                  id = { layer.id } 
-                  onChange = { this.props.changeLayerFn.bind(null, layer.id) }
-                />
-                <span></span>
-                <label htmlFor={ layer.id } className="text text-legend">{ layer.title }</label>
-              </div>
-              <div className={ 'legend-wrapper ' + legendState }>
-                <Legend ref="legend"
-                  layerLegend = { layer.legend }
-                />
-              </div>
-            </div> 
-          </div> )
-        })
+      layers.forEach( (model) => {
+        layer = model.toJSON();
+        legendState = layer.active && 'is-open';
+      
+        switchers.push( <div className="m-dash-layer-switcher" key={ layer.id }> 
+          <div className="map-mode">
+            <div className="selector-wrapper">
+              <input 
+                type ="radio" name="mapMode" checked={ layer.active }
+                id = { layer.id } 
+                onChange = { this.props.changeLayerFn.bind(null, layer.id) }
+              />
+              <span></span>
+              <label htmlFor={ layer.id } className="text text-legend">{ layer.title }</label>
+            </div>
+            <div className={ 'legend-wrapper ' + legendState }>
+              <Legend ref="legend"
+                layerLegend = { layer.legend }
+              />
+            </div>
+          </div> 
+        </div> )
+      })
 
-      } else {
+    } else {
 
-        layers.forEach( (model) => {
-          layer = model.toJSON();
-          legendState = layer.active && 'is-open';
-        
-          switchers.push( 
-              <div className={ 'legend-wrapper ' + legendState } key={ layer.id }>
-                <Legend ref="legend"
-                  layerLegend = { layer.legend }
-                />
-              </div>)
-
-        })
-      }
-
+      layers.forEach( (model) => {
+        layer = model.toJSON();
+        legendState = layer.active && 'is-open';
+      
+        switchers.push( 
+          <div className={ 'legend-wrapper ' + legendState } key={ layer.id }>
+            <Legend ref="legend"
+              layerLegend = { layer.legend }
+            />
+          </div>)
+      })
     }
-
 
     return (
       <div>

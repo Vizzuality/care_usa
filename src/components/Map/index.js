@@ -27,13 +27,9 @@ class MapView extends Backbone.View {
 
     this._checkMapSettings();
 
-
-    layersCollection.fetch().done( () => {
-      this._createMap();
-      this._addLayer();
-      this._setEvents();
-    })
-
+    this._createMap();
+    this._addLayer();
+    this._setEvents();
   }
 
   _checkMapSettings() {

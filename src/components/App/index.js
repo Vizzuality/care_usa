@@ -18,7 +18,7 @@ class App extends React.Component {
 
     this.state = {
       currentMode: 'donations',
-      currentLayer: 'amountOfMoney',
+      currentLayer: null,
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false,
@@ -33,8 +33,15 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.initMap();
+    this._initData();
     this.initTimeline();
+  }
+
+  _initData() {
+     layersCollection.fetch().done( () => {
+      this.setState({ 'ready': true, currentLayer: 'amountOfMoney' });
+      this.initMap();
+    })
   }
 
   //GENERAL METHODS
@@ -64,7 +71,8 @@ class App extends React.Component {
   }
 
   changeLayer(layer, e) {
-    this.setState({ currentLayer: layer });    
+    this.setState({ currentLayer: layer });  
+
     // Inactive all layers ofthe same group
     let cogroupLayers = layersCollection.filter(model => model.attributes.group === this.state.currentMode);
     _.each(cogroupLayers, (activeLayer) => {

@@ -7,7 +7,6 @@ import DashTabs from './DashTabs';
 import DashSummary from './DashSummary';
 import DashLayerSwitcher from './DashLayerSwitcher';
 import DashDates from './DashDates';
-import Legend from './../Legend';
 
 import utils from '../../scripts/helpers/utils';
 
@@ -32,7 +31,6 @@ class Dashboard extends React.Component {
     let tabsMobile;
     let tabsDesktop;
     let layersSwitcher;
-    let legend;
     let filtersSwitcher;
 
     if ( this.state.mobile || this.state.tablet ) {
@@ -46,6 +44,7 @@ class Dashboard extends React.Component {
                       currentMode = { this.props.currentMode }
                       changeModeFn = { this.props.changeModeFn }
                     />
+                    
       tabsMobile = null;
     }
 
