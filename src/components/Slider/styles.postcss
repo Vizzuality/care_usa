@@ -2,12 +2,13 @@
 
 .l-by-numbers {
   background-image: url("../../images/orangepattern.png");
-  padding: rem(50) 0 rem(60);
   text-align: center;
 
   .wrap {
+    padding: rem(51) 0 rem(61) 0;
+
     @media screen and (min-width: $screen-m) {
-      padding: 0;
+      padding: rem(99) 0;
     }
   }
 
@@ -34,7 +35,7 @@
 
     @media screen and (min-width: $screen-m) {
       height: rem(430);
-      margin-bottom: rem(60);
+      margin-bottom: rem(65);
     }
 
     @media screen and (min-width: $screen-xl) {
@@ -50,10 +51,11 @@
     .slick-dots li {
       margin: 0 rem(20);
       padding: 0;
-      bottom: rem(-12);
+      bottom: rem(-17);
+      left: rem(-5);
 
       @media screen and (min-width: $screen-m) {
-        bottom: rem(60);
+        bottom: rem(30);
       }
     }
 
@@ -69,10 +71,11 @@
       display: flex;
       flex-flow: column;
       justify-content: center;
-      background-color: orange;
+      background-color: orange; /* Eventual */
       margin: 0 rem(50);
       width: 100%;
       height: rem(302);
+      cursor: pointer;
 
       @media screen and (min-width: $screen-m) {
         width: rem(510);
@@ -82,13 +85,9 @@
 
     .slider-element:hover {
       //background-image: url();
-      width: 100%;
-      height: rem(302);
-
-      @media screen and (min-width: $screen-m) {
-        width: rem(530);
-        height: rem(382);
-      }
+      -ms-transform: scale(1.1); /* IE 9 */
+      -webkit-transform: scale(1.1); /* Safari */
+      transform: scale(1.1); /* Standard syntax */
     }
   }
 

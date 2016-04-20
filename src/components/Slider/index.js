@@ -23,9 +23,10 @@ class Slider extends React.Component {
       centerMode: true,
       centerPadding: '60px',
       slidesToShow: 3,
+      focusOnSelect: true,
       responsive: [
         {
-          breakpoint: 2000,
+          breakpoint: 1900,
           settings: {
             arrows: false,
             centerMode: true,
