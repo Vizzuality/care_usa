@@ -26,7 +26,7 @@ class Slider extends React.Component {
       focusOnSelect: true,
       responsive: [
         {
-          breakpoint: 1900,
+          breakpoint: 1720,
           settings: {
             arrows: false,
             centerMode: true,
@@ -58,15 +58,15 @@ class Slider extends React.Component {
           </div>
           
           <div className="slider">
-            <div id="countries" className="slider-element">
+            <div className="countries slider-element">
               <p className="text text-numbers-xxl -light">95</p>
               <p className="text text-legend-title -light">Countries helped</p>
             </div>
-            <div id="projects" className="slider-element">
+            <div className="projects slider-element">
               <p className="text text-numbers-xxl -light">890</p>
               <p className="text text-legend-title -light">Projects</p>
             </div>
-            <div id="people" className="slider-element">
+            <div className="people slider-element">
               <p className="text text-numbers-xxl -light">65</p>
               <p className="text text-legend-title -light">Million people reached</p>
             </div>

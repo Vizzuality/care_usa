@@ -75,8 +75,7 @@ if (page.length > 0) {
 
 if (page === 'anniversary'){
    ReactDOM.render(
-    <Slider/>,
-
+    <Slider />,
     document.getElementById('l-by-numbers'));
 }
 
