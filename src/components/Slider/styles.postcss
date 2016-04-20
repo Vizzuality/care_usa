@@ -5,7 +5,7 @@
   text-align: center;
 
   .wrap {
-    padding: rem(51) 0 rem(61) 0;
+    padding: 0;
 
     @media screen and (min-width: $screen-m) {
       padding: rem(99) 0;
@@ -72,12 +72,13 @@
       flex-flow: column;
       justify-content: center;
       background-color: $orange-tangerine;
-      margin: 0 rem(50);
+      margin: 0 rem(40);
       width: 100%;
       height: rem(302);
       cursor: pointer;
 
       @media screen and (min-width: $screen-m) {
+        margin: 0 rem(50);
         width: rem(510);
         height: rem(362);
       }
@@ -85,14 +86,17 @@
 
     .projects {
       background-image: url('../../images/slider02.png');
+      background-position: top;
     }
 
     .people {
       background-image: url('../../images/slider03.png');
+      background-position: bottom;
     }
 
     .countries {
       background-image: url('../../images/slider01.png');
+      background-position: center;
     }
 
     .slider-element:hover {
@@ -101,6 +105,11 @@
       -webkit-transform: scale(1.1); /* Safari */
       transform: scale(1.1); /* Standard syntax */
     }
+  }
+
+  .btn-container {
+    width: 100%;
+    padding: 0 rem(18);
   }
 
   .btn-secondary {

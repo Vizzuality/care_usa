@@ -71,8 +71,9 @@ class Slider extends React.Component {
               <p className="text text-legend-title -light">Million people reached</p>
             </div>
           </div>
-          <button className="btn btn-secondary">annual report</button>
-
+          <aside className="btn-container">
+            <button className="btn btn-secondary">annual report</button>
+          </aside>
         </div>
       </article>
     )
