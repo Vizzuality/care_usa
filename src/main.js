@@ -73,5 +73,11 @@ if (page.length > 0) {
   	document.getElementById(page));
 }
 
+if (page === 'anniversary'){
+   ReactDOM.render(
+    <Footer/>,
+
+    document.getElementById('footer'));
+}
 
 

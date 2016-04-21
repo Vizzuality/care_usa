@@ -16,14 +16,14 @@ class Anniversary extends React.Component {
 
   render() {
     return (
-      <div>
+      <section>
         <CaresPackage />
         <PowerBox />
         <CaresEvolution />
         <CatalystWomen />
         <BoxVideo />
 
-      </div>
+      </section>
     )
   }
 }
