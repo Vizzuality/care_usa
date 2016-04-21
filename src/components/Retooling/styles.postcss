@@ -99,62 +99,80 @@
   .list-item {
     display: flex;
     align-items: center;
-    cursor: pointer;
-
+    
     @media screen and (min-width: $screen-m) {
       position: absolute;
       display: block;
+      cursor: pointer;
     }
   }
 
   .list-item:hover {
-    z-index: 3;
+    @media screen and (min-width: $screen-m) {
+      z-index: 3;
+    }
   }
 
   .list-item:hover .text-legend {
-    visibility: visible;
-    display: block;
-    top: -50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    padding: rem(21) rem(29);
-    color: $font-color-2;
-    background-color: $white-bone;
-    border: rem(1) solid #EAE2D3;
-    white-space: nowrap;
+    @media screen and (min-width: $screen-m) {
+      visibility: visible;
+      position: absolute;
+      display: block;
+      top: -55%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      padding: rem(21) rem(29);
+      color: $font-color-2;
+      background-color: $white-bone;
+      border: rem(1) solid #E2D6C1;
+      white-space: nowrap;
+    }
+
+    @media screen and (min-width: $screen-l) {
+      top: -54%;
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      top: -39%;
+    }
   }
 
   /* Tooltip arrow */
   .list-item:hover .text-legend::after, .list-item:hover .text-legend:before {
-    content: " ";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: $white-bone transparent transparent transparent;
+    @media screen and (min-width: $screen-m) {
+      content: " ";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: rem(-5);
+      border-width: rem(8);
+      border-style: solid;
+      border-color: $white-bone transparent transparent transparent;
+    }
   }
 
-   .list-item:hover .text-legend:after {
-    border-width: rem(5);
-    border-top-color: $white-bone;
-    top: 100%;
+  .list-item:hover .text-legend:after {
+    @media screen and (min-width: $screen-m) {
+      border-width: rem(5);
+      border-top-color: $white-bone;
+      top: 100%;
+    }
   }
 
   .list-item:hover .text-legend:before {
-    border-width: rem(7);
-    border-top-color: #EAE2D3;
-    top: 100%;
-    margin-left: rem(-7);
+    @media screen and (min-width: $screen-m) {
+      border-width: rem(7);
+      border-top-color: #E2D6C1;
+      top: 100%;
+      margin-left: rem(-7);
+    }
   }
 
   .text-legend {
     @media screen and (min-width: $screen-m) {
       visibility: hidden;
       display: none;
-      position: absolute;
     }
   }
 
