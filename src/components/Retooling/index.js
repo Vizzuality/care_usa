@@ -39,12 +39,11 @@ class Retooling extends React.Component {
           </div>
         </div>
         <div className="images-container">
-          <img className="retooling-image" src={ require("../../images/fullwidthcontent_illustration01.png") } />
           <div className="retooling-list">
           { this.getImages().map((image, i) => {
             return (
-              <div className="list-item" key={i}>
-                <svg className={ `icon icon-${image} retooling-avatar` }>
+              <div className={ `${image} list-item` } key={i}>
+                <svg className={ `icon icon-${image} retooling-small-image` }>
                   <use xlinkHref={ `#icon-${image}` }></use>
                 </svg>
                 <p className="text text-legend -light">{ this.getTitles()[i] }</p>

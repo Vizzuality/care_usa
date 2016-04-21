@@ -6,19 +6,19 @@
   background-image: url("../../images/orangepattern.png");
 
   @media screen and (min-width: $screen-m) {
-    padding: rem(110) 0 rem(340);
+    padding: rem(109) 0 rem(55);
   }
 
   @media screen and (min-width: $screen-l) {
-    padding-bottom: rem(460);
+    padding-bottom: rem(70);
   }
 
   @media screen and (min-width: $screen-xl) {
-    padding-bottom: rem(580);
+    padding-bottom: rem(60);
   }
 
   @media screen and (min-width: $screen-xxl) {
-    padding: rem(120) 0 rem(635);
+    padding: rem(120) 0 rem(40);
   }
 
   .box-text-container {
@@ -66,15 +66,18 @@
 
   .images-container {
     position: relative;
-  }
-  
-  .retooling-image {
-    display: none;
+    width: 100%;
 
     @media screen and (min-width: $screen-m) {
-      display: inherit;
-      max-width: 100%;
-      width: 100%;
+      height: 0;
+      padding-bottom: 32.5%;
+      background-image: url('../../images/fullwidthcontent_illustration01.png');
+      background-size: 108%;
+      background-position: center;
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      background-size: 100%;
     }
   }
 
@@ -85,7 +88,11 @@
     padding: 0 rem(18);
 
     @media screen and (min-width: $screen-m) {
-      position: absolute;
+      display: inherit;
+      position: relative;
+      padding: 0;
+      width: 100%;
+      padding-bottom: 32.5%;
     }
   }
 
@@ -93,15 +100,121 @@
     display: flex;
     align-items: center;
 
+    @media screen and (min-width: $screen-m) {
+      position: absolute;
+      width: fit-content;
+    }
+
   }
 
-  .retooling-avatar {
+  .text-legend {
+    @media screen and (min-width: $screen-m) {
+      display: none;
+    }
+  }
+
+  .retooling-small-image {
     width: rem(55);
     height: rem(55);
     padding: rem(5);
     margin: 0 rem(14) rem(10) 0;
     background-color: $white;
-    border-radius: rem(30);
+    border-radius: rem(50);
+
+    @media screen and (min-width: $screen-m) {
+      width: rem(66);
+      height: rem(66);
+      padding: rem(10);
+    }
+
+    @media screen and (min-width: $screen-l) {
+      width: rem(66);
+      height: rem(66);
+      padding: rem(10);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      width: rem(82);
+      height: rem(82);
+      padding: rem(14);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      width: rem(103);
+      height: rem(103);
+      padding: rem(16);
+    }
   }
+
+  .infants {
+    @media screen and (min-width: $screen-m) {
+      top: 4.6%;
+      left: 4.9%;
+    }
+    
+  }
+
+  .household {
+    @media screen and (min-width: $screen-m) {
+      bottom: 0.5%;
+      left: 7%;
+    }
+  }
+
+  .cotton {
+    @media screen and (min-width: $screen-m) {
+      top: 34.5%;
+      left: 22%;
+    }
+  }
+
+  .kinitting {
+    @media screen and (min-width: $screen-m) {
+      top: 16%;
+      left: 33%;
+    }
+  }
+  
+  .babyfood {
+    @media screen and (min-width: $screen-m) {
+      bottom: 17.5%;
+      left: 36%;
+    }
+  }
+
+  .blanket {
+    @media screen and (min-width: $screen-m) {
+      bottom: 19%;
+      right: 33%;
+    }
+  }
+
+  .layette {
+    @media screen and (min-width: $screen-m) {
+      top: 15%;
+      right: 29%;
+    }
+  }
+
+  .woolensuitting {
+    @media screen and (min-width: $screen-m) {
+      bottom: 8%;
+      right: 16%;
+    }
+  }
+
+  .standardfood {
+    @media screen and (min-width: $screen-m) {
+      top: 1%;
+      right: 7%;
+    }
+  }
+
+
+
+/*   [ 'infants', 'household', 'cotton', 'kinitting', 
+      'babyfood', 'blanket', 'layette', 'woolensuitting', 'standardfood' */
+
+  
   
 }
