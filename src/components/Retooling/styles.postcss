@@ -114,18 +114,19 @@
   .list-item:hover .text-legend {
     visibility: visible;
     display: block;
-    bottom: 70%;
+    top: -50%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     padding: rem(21) rem(29);
     color: $font-color-2;
     background-color: $white-bone;
+    border: rem(1) solid #EAE2D3;
     white-space: nowrap;
   }
 
   /* Tooltip arrow */
-  .list-item:hover .text-legend::after {
+  .list-item:hover .text-legend::after, .list-item:hover .text-legend:before {
     content: " ";
     position: absolute;
     top: 100%;
@@ -133,8 +134,21 @@
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #EFE9DE transparent transparent transparent;
-}
+    border-color: $white-bone transparent transparent transparent;
+  }
+
+   .list-item:hover .text-legend:after {
+    border-width: rem(5);
+    border-top-color: $white-bone;
+    top: 100%;
+  }
+
+  .list-item:hover .text-legend:before {
+    border-width: rem(7);
+    border-top-color: #EAE2D3;
+    top: 100%;
+    margin-left: rem(-7);
+  }
 
   .text-legend {
     @media screen and (min-width: $screen-m) {
