@@ -79,7 +79,7 @@
           border-right: rem(1) solid $color-6;
         }
 
-        &:nth-child(2) > select{
+        &:nth-child(1) > select{
           @media screen and (min-width: $screen-m) {
             width: rem(180);
           }
@@ -115,6 +115,13 @@
             padding-right: rem(20);
             border-bottom: rem(1) solid $color-6;
             padding-left: 0;
+          }
+
+          &.-invalid {
+            color: $font-color-6;
+            @media screen and (min-width: $screen-m) {
+              border-bottom: rem(1) solid $color-11;
+            }
           }
         }
 
@@ -225,6 +232,7 @@
         padding-left: rem(42);
         margin-bottom: rem(10);
         line-height: rem(27);
+        cursor: pointer;
 
         &:last-of-type {
           margin-bottom: 0;

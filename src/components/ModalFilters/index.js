@@ -13,7 +13,10 @@ class ModalFilters extends Modal {
 
   shouldComponentUpdate(nextProps) {
     /* Just for optimization: don't render if nothing changed */
-    if(nextProps.visible !==  this.props.visible) return true;
+    if(nextProps.visible !==  this.props.visible) {
+      if(nextProps.visible) this.filters.updateFilters();
+      return true;
+    }
     return false;
   }
 
@@ -41,16 +44,16 @@ class ModalFilters extends Modal {
                     <svg className="arrow">
                       <use xlinkHref="#icon-arrow"></use>
                     </svg>
-                    <select className="js-from-day" name="from-day">
-                      <option value="" disabled="disabled">Day</option>
+                    <select className="js-from-month" name="from-month">
+                      <option value="" disabled="disabled">Month</option>
                     </select>
                   </div>
                   <div>
                     <svg className="arrow">
                       <use xlinkHref="#icon-arrow"></use>
                     </svg>
-                    <select className="js-from-month" name="from-month">
-                      <option value="" disabled="disabled">Month</option>
+                    <select className="js-from-day" name="from-day">
+                      <option value="" disabled="disabled">Day</option>
                     </select>
                   </div>
                   <div>
@@ -71,16 +74,16 @@ class ModalFilters extends Modal {
                     <svg className="arrow">
                       <use xlinkHref="#icon-arrow"></use>
                     </svg>
-                    <select className="js-to-day" name="to-day">
-                      <option value="" disabled="disabled">Day</option>
+                    <select className="js-to-month" name="to-month">
+                      <option value="" disabled="disabled">Month</option>
                     </select>
                   </div>
                   <div>
                     <svg className="arrow">
                       <use xlinkHref="#icon-arrow"></use>
                     </svg>
-                    <select className="js-to-month" name="to-month">
-                      <option value="" disabled="disabled">Month</option>
+                    <select className="js-to-day" name="to-day">
+                      <option value="" disabled="disabled">Day</option>
                     </select>
                   </div>
                   <div>

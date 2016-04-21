@@ -13,3 +13,5 @@
 
 # Generated
 /dist
+
+/src/config.js

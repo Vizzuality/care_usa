@@ -7,7 +7,7 @@ import DashTabs from './DashTabs';
 import DashSummary from './DashSummary';
 import DashLayerSwitcher from './DashLayerSwitcher';
 import DashDates from './DashDates';
-import Legend from './../Legend';
+import DashFilters from './DashFilters';
 
 import utils from '../../scripts/helpers/utils';
 
@@ -25,14 +25,13 @@ class Dashboard extends React.Component {
   }
 
   toogleDashboard() {
-    this.setState({ dashboardOpen: !(!!this.state.dashboardOpen) })
+    this.setState({ dashboardOpen: !this.state.dashboardOpen })
   }
 
   render() {
     let tabsMobile;
     let tabsDesktop;
     let layersSwitcher;
-    let legend;
     let filtersSwitcher;
 
     if ( this.state.mobile || this.state.tablet ) {
@@ -46,11 +45,12 @@ class Dashboard extends React.Component {
                       currentMode = { this.props.currentMode }
                       changeModeFn = { this.props.changeModeFn }
                     />
+                    
       tabsMobile = null;
     }
 
     if (!this.state.mobile) {
-      filtersSwitcher = <div 
+      filtersSwitcher = <div
               className= 'btn btn-third btn-filters-switcher'
               onClick= { this.props.toggleFiltersFn } >
               <svg className='icon'>
@@ -60,25 +60,18 @@ class Dashboard extends React.Component {
             </div>
     };
 
-    if( this.props.currentMode == 'donations') {
-      layersSwitcher = <DashLayerSwitcher
-                currentMode = { this.props.currentMode }
-                currentLayer = { this.props.currentLayer }
-                changeLayerFn= { this.props.changeLayerFn }
-              />
-    }
-
-    if( this.props.currentMode == 'projects') {
-      legend = <Legend ref="legend"
-        layer= { this.props.currentLayer }
-      />
-    }
+    layersSwitcher = <DashLayerSwitcher
+              layers = { this.state.layers }
+              currentMode = { this.props.currentMode }
+              currentLayer = { this.props.currentLayer }
+              changeLayerFn= { this.props.changeLayerFn }
+            />
 
     return (
       <div>
         { tabsMobile }
         <div className={ this.state.dashboardOpen ? "l-dashboard is-open" : "l-dashboard" }>
-          <button 
+          <button
             className="btn-dashboard-switcher"
             onClick={ this.toogleDashboard.bind(this) }
           >
@@ -89,7 +82,7 @@ class Dashboard extends React.Component {
 
           <div className="m-dashboard-panel">
             <div className="dashboard-header">
-              <button 
+              <button
                 className="text text-cta btn-filters-switcher"
                 onClick={ this.props.toggleFiltersFn } >
                 filters
@@ -99,12 +92,16 @@ class Dashboard extends React.Component {
               </a>
             </div>
             <div className="scroll-wrapper">
-              <DashDates/>
+              <DashDates filters={ this.props.filters } />
+              <DashFilters
+                filters={ this.props.filters }
+                sectors={ this.props.sectors }
+                regions={ this.props.regions }
+              />
               <DashSummary
                 currentMode = { this.props.currentMode }
               />
               { layersSwitcher }
-              { legend }
             </div>
             { filtersSwitcher }
           </div>
