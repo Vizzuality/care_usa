@@ -11,8 +11,8 @@ import Router from '../../scripts/Router';
 import utils from '../../scripts/helpers/utils';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
-import sectorsCollection from '../../scripts/collections/sectorsCollection';
-import regionsCollection from '../../scripts/collections/regionsCollection';
+import sectorsCollection from '../../scripts/collections/SectorsCollection';
+import regionsCollection from '../../scripts/collections/RegionsCollection';
 
 class App extends React.Component {
 

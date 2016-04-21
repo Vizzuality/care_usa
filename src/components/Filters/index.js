@@ -8,8 +8,8 @@ import $ from 'jquery';
 import './styles.postcss';
 import filtersModel from '../../scripts/models/filtersModel';
 import utils from '../../scripts/helpers/utils';
-import sectorsCollection from '../../scripts/collections/sectorsCollection';
-import regionsCollection from '../../scripts/collections/regionsCollection';
+import sectorsCollection from '../../scripts/collections/SectorsCollection';
+import regionsCollection from '../../scripts/collections/RegionsCollection';
 
 const defaults = {
   rendered: false
