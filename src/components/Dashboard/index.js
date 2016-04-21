@@ -100,7 +100,11 @@ class Dashboard extends React.Component {
               </a>
             </div>
             <div className="scroll-wrapper">
-              <DashDates filters={ this.props.filters } />
+              <DashDates
+                filters={ this.props.filters }
+                timelineDates={ this.props.timelineDates }
+                dateRange={ this.props.dateRange }
+              />
               <DashFilters
                 filters={ this.props.filters }
                 sectors={ this.props.sectors }

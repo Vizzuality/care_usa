@@ -44,7 +44,9 @@ class App extends React.Component {
           unit: d3.time.year,
           count: 1
         }
-      }
+      },
+      /* The range selected in the timeline */
+      timelineDates: {}
     }
   }
 
@@ -66,9 +68,19 @@ class App extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     /* Each time the mode changes, we need to update the timeline's range */
-    if(this.state.currentMode !== nextState.currentMode && this.timeline) {
+    if(this.timeline && (this.state.currentMode !== nextState.currentMode)) {
       this.timeline.setRange(this.state.ranges[nextState.currentMode],
         this.state.dataInterval[nextState.currentMode]);
+    }
+
+    /* Each time the user filters the map, we update the timeline to make sure
+     * the filter dates match the timeline's domain */
+    if(this.timeline && this.state.filters !== nextState.filters) {
+      if(nextState.filters.from && nextState.filters.to) {
+        this.timeline.setRange([ nextState.filters.from, nextState.filters.to ]);
+      } else {
+        this.timeline.setRange.call(this.timeline, nextState.ranges[nextState.currentMode]);
+      }
     }
 
     return true;
@@ -86,7 +98,9 @@ class App extends React.Component {
     this.timeline = new TimelineView({
       el: this.refs.Timeline,
       domain: this.state.ranges[this.state.currentMode],
-      interval: this.state.dataInterval[this.state.currentMode]
+      interval: this.state.dataInterval[this.state.currentMode],
+      filters: this.state.filters,
+      onTriggerDates: this.updateTimelineDates.bind(this)
     });
   }
 
@@ -132,6 +146,10 @@ class App extends React.Component {
     this.setState({ filters: filters });
   }
 
+  updateTimelineDates(dates) {
+    this.setState({ timelineDates: dates })
+  }
+
   render() {
     return (
       <div className="l-app">
@@ -153,6 +171,8 @@ class App extends React.Component {
           filters={ this.state.filters }
           sectors={ this.state.sectors }
           regions={ this.state.regions }
+          dateRange={ this.state.ranges[this.state.currentMode] }
+          timelineDates={ this.state.timelineDates }
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">

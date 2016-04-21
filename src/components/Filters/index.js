@@ -185,7 +185,11 @@ class FiltersView extends Backbone.View {
       serializedFilters.to = new Date(`${serializedFilters['to-year']}-${utils.pad(serializedFilters['to-month'], 2, '0')}-${utils.pad(serializedFilters['to-day'], 2, '0')}`);
     }
 
+    /* We need to silently clear the model to remove the properties "from" and
+     * "to" which aren't present in the object serializedFilters as they are
+     * virtual */
     this.status.clear({ silent: true });
+
     this.status.set(serializedFilters, { validate: true });
   }
 
