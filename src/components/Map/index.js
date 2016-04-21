@@ -120,9 +120,8 @@ class MapView extends Backbone.View {
 
   _addLayer() {
     let layerConfig;
-    //I will draw only active layers for each group;
-    let activeLayers = layersCollection.filter(model => model.attributes.active && model.attributes.group === this.state.get('mapMode'));
-
+    //I will draw only active layers for each category;
+    let activeLayers = layersCollection.filter(model => model.attributes.active && model.attributes.category === this.state.get('mapMode'));
     let filters = ! (filtersModel.filtersIsEmpty()) ? this.state.get('filters') : null;
 
     _.each(activeLayers, (activeLayer) => {

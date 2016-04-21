@@ -50,7 +50,7 @@ class App extends React.Component {
 
   _initData() {
      layersCollection.fetch().done( () => {
-      this.setState({ 'ready': true, currentLayer: 'amountOfMoney' });
+      this.setState({ 'ready': true, currentLayer: 'amount-of-money' });
       this.initMap();
     })
   }
@@ -82,16 +82,16 @@ class App extends React.Component {
   }
 
   changeLayer(layer, e) {
-    this.setState({ currentLayer: layer });  
+    this.setState({ currentLayer: layer });
 
     // Inactive all layers ofthe same group
-    let cogroupLayers = layersCollection.filter(model => model.attributes.group === this.state.currentMode);
+    let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.currentMode);
     _.each(cogroupLayers, (activeLayer) => {
       activeLayer.set('active', false);
     })
 
     //Active new layer
-    let newLayer = layersCollection.filter(model => model.attributes.id === layer);
+    let newLayer = layersCollection.filter(model => model.attributes.slug === layer);
     newLayer[0].set('active', true);
   }
 

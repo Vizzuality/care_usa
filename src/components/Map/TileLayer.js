@@ -2,6 +2,7 @@
 
 import config from './../../config';
 import $ from 'jquery';
+import _ from 'underscore';
 
 const defaults = {
   cartodbAccount: config.cartodbAccount,
@@ -25,8 +26,9 @@ class CreateTileLayer {
   _getQuery() {
     let sqlTemplate = this.options['sql_template'];
     let sql;
+    let whereStatment = _.indexOf(sqlTemplate.split(' '), '$WHERE') > 0 && true;
 
-    if (this.options.filters) {
+    if (this.options.filters && whereStatment) {
       sql = sqlTemplate.replace('$WHERE', this._getFiltersExp())
     } else {
       sql = sqlTemplate.replace('$WHERE','');
@@ -87,7 +89,9 @@ class CreateTileLayer {
     this.options.sql = this._getQuery();
     const cartoAccount = this.options.cartodbAccount;
     const cartoKey = this.options.cartodbKey;
-    console.log(this.options.sql);
+
+    // console.log(this.options.sql);
+
     // data layers parameterization
     const request = {
       layers: [{
@@ -95,7 +99,7 @@ class CreateTileLayer {
         'type': 'cartodb',
         'options': {
           'sql': this.options.sql,
-          'cartocss': this.options.cartoCss,
+          'cartocss': this.options['geo_cartocss'],
           'cartocss_version': '2.3.0'
         }
       }]

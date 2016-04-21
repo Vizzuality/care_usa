@@ -11,7 +11,6 @@ class Legend extends React.Component {
     this.props = props;
     this.state = {
     };
-
   }
 
   render() {
@@ -19,7 +18,7 @@ class Legend extends React.Component {
 
     this.props.layerLegend.buckets.forEach( (bucket) => {
       let style = { backgroundColor: bucket.color, borderColor: bucket.border }
-      legend.push(  
+      legend.push(
         <li className="legend-item" key={ bucket.color }>
           <span className="bucket" style={ style }></span>
           <span className="text text-legend-s">{ bucket.literal }</span>

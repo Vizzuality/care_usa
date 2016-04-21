@@ -38,31 +38,31 @@ class DashLayerSwitcher extends React.Component {
     let legendState;
     let layer;
 
-    let layers = layersCollection.filter(model => model.attributes.group === this.props.currentMode);
+    let layers = layersCollection.filter(model => model.attributes.category === this.props.currentMode);
 
     if (this.props.currentMode === 'donations') {
 
       layers.forEach( (model) => {
         layer = model.toJSON();
         legendState = layer.active && 'is-open';
-      
-        switchers.push( <div className="m-dash-layer-switcher" key={ layer.id }> 
+
+        switchers.push( <div className="m-dash-layer-switcher" key={ layer.slug }>
           <div className="map-mode">
             <div className="selector-wrapper">
-              <input 
+              <input
                 type ="radio" name="mapMode" checked={ layer.active }
-                id = { layer.id } 
-                onChange = { this.props.changeLayerFn.bind(null, layer.id) }
+                id = { layer.slug }
+                onChange = { this.props.changeLayerFn.bind(null, layer.slug) }
               />
               <span></span>
-              <label htmlFor={ layer.id } className="text text-legend">{ layer.title }</label>
+              <label htmlFor={ layer.slug } className="text text-legend">{ layer.name }</label>
             </div>
             <div className={ 'legend-wrapper ' + legendState }>
               <Legend ref="legend"
                 layerLegend = { layer.legend }
               />
             </div>
-          </div> 
+          </div>
         </div> )
       })
 
@@ -71,9 +71,9 @@ class DashLayerSwitcher extends React.Component {
       layers.forEach( (model) => {
         layer = model.toJSON();
         legendState = layer.active && 'is-open';
-      
-        switchers.push( 
-          <div className={ 'legend-wrapper ' + legendState } key={ layer.id }>
+
+        switchers.push(
+          <div className={ 'legend-wrapper ' + legendState } key={ layer.slug }>
             <Legend ref="legend"
               layerLegend = { layer.legend }
             />
