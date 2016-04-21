@@ -12,7 +12,7 @@ import postcssHexRgba from 'postcss-hexrgba';
 import path from 'path';
 
 const prodPlugins = [
-  // new webpack.HotModuleReplacementPlugin(),
+  new webpack.HotModuleReplacementPlugin()
   // new webpack.optimize.UglifyJsPlugin({
   //   compress: {
   //     warnings: false,
@@ -54,7 +54,7 @@ const config = {
     ]
   },
 
-  plugins: process.env.NODE_ENV === 'production' ? prodPlugins : [],
+  plugins: prodPlugins,
 
   postcss: (webpack) => [
     postcssImporter({ addDependencyTo: webpack }),
