@@ -68,6 +68,10 @@ class FiltersView extends Backbone.View {
 
     const status = this.status.toJSON();
     for(let key in status) {
+      /* Keys "from" and "to" don't match any select or checkbox, they are
+       * virtual keys used by the rest of the app */
+      if(key === 'from' || key === 'to') continue;
+
       const value = status[key];
 
       if(/^((from|to).*|region)/.test(key)) {

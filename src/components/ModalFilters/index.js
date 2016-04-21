@@ -13,7 +13,10 @@ class ModalFilters extends Modal {
 
   shouldComponentUpdate(nextProps) {
     /* Just for optimization: don't render if nothing changed */
-    if(nextProps.visible !==  this.props.visible) return true;
+    if(nextProps.visible !==  this.props.visible) {
+      if(nextProps.visible) this.filters.updateFilters();
+      return true;
+    }
     return false;
   }
 

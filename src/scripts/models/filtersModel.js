@@ -63,4 +63,18 @@ class FiltersModel extends Backbone.Model {
 
 }
 
+/* Defaults are necessary to ensure the modal of filters is resetted each time
+ * it's reopened. It's used to reset the filters whose changes haven't been
+ * applied before closing it. */
+FiltersModel.prototype.defaults = {
+  'from-day': null,
+  'from-month': null,
+  'from-year': null,
+  'to-day': null,
+  'to-month': null,
+  'to-year': null,
+  region: null,
+  sectors: []
+};
+
 export default new FiltersModel();
