@@ -4,7 +4,8 @@ import config from './../../config';
 import $ from 'jquery';
 
 const defaults = {
-  cartodbAccount: config.cartodbAccount
+  cartodbAccount: config.cartodbAccount,
+  cartodbKey: config.cartodbKey
 };
 
 class CreateTileLayer {
@@ -85,7 +86,8 @@ class CreateTileLayer {
   createLayer() {
     this.options.sql = this._getQuery();
     const cartoAccount = this.options.cartodbAccount;
-
+    const cartoKey = this.options.cartodbKey;
+    console.log(this.options.sql);
     // data layers parameterization
     const request = {
       layers: [{

@@ -23,7 +23,8 @@
     "id": "projects",
     "group":"projects",
     "title": "projects",
-    "sql": "with r as (SELECT total_peo,w_g_reached, case total_peo WHEN 0 THEN 0 else round((w_g_reached/total_peo)::numeric, 4) end  w_ratio, iso, year, country FROM care_projects where total_peo<>0 and iso !='') SELECT s.the_geom, s.the_geom_webmercator, r.country, r.w_ratio, r.year FROM  r left join borders_care s on s.iso=r.iso where year = '2014' order by w_ratio desc" ,
+    "sql": "with r as (SELECT total_peo,w_g_reached, case total_peo WHEN 0 THEN 0 else round((w_g_reached/total_peo)::numeric, 4) end  w_ratio, iso, year, country FROM projects where total_peo<>0 and iso !='') SELECT s.the_geom, s.the_geom_webmercator, r.country, r.w_ratio, r.year FROM  r left join borders s on s.iso=r.iso order by w_ratio desc",
+    "sql_template": "with r as (SELECT total_peo,w_g_reached, case total_peo WHEN 0 THEN 0 else round((w_g_reached/total_peo)::numeric, 4) end  w_ratio, iso, year, country FROM projects where total_peo<>0 and iso !='') SELECT s.the_geom, s.the_geom_webmercator, r.country, r.w_ratio, r.year FROM  r left join borders s on s.iso=r.iso order by w_ratio desc",
     "cartoCss": "#care_projects {  polygon-pattern-file: url(https://s3.amazonaws.com/com.cartodb.users-assets.production/production/simbiotica/assets/2014060408171614_2.jpg);   polygon-opacity: 0.7;  polygon-fill:rgb(201,200,182);   line-color: #FFF;   line-width: 0.5;   line-opacity: 1;  polygon-pattern-opacity: 0.7;}#care_projects[w_ratio>0.5] {   polygon-fill: rgb(240,213,104);}",
     "legend": { "type": "choroplet", "buckets": [{ "literal":"All Projects", "color":"#ddd"}, { "literal":"Women’s empowerment projects", "color":"#ffcd47"}] },
     "active": true
