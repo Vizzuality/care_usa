@@ -45,7 +45,7 @@ class Slider extends React.Component {
           settings: {
             arrows: false,
             centerMode: true,
-            centerPadding: '40px',
+            centerPadding: '0',
             slidesToShow: 1
           }
         }

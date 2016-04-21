@@ -72,10 +72,14 @@
       flex-flow: column;
       justify-content: center;
       background-color: $orange-tangerine;
-      margin: 0 rem(40);
+      margin: 0 rem(18);
       width: 100%;
       height: rem(302);
       cursor: pointer;
+
+      @media screen and (min-width: rem(548)) {
+        margin: 0 rem(127);
+      }
 
       @media screen and (min-width: $screen-m) {
         margin: 0 rem(50);
