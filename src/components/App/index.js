@@ -10,6 +10,9 @@ import Landing from '../Landing';
 import Router from '../../scripts/Router';
 import utils from '../../scripts/helpers/utils';
 import layersCollection from '../../scripts/collections/layersCollection';
+import filtersModel from '../../scripts/models/filtersModel';
+import sectorsCollection from '../../scripts/collections/sectorsCollection';
+import regionsCollection from '../../scripts/collections/regionsCollection';
 
 class App extends React.Component {
 
@@ -22,7 +25,10 @@ class App extends React.Component {
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false,
-      filtersOpen: false
+      filtersOpen: false,
+      filters: {},
+      sectors: [],
+      regions: []
     }
   }
 
@@ -30,11 +36,16 @@ class App extends React.Component {
     this.setState(utils.checkDevice());
     this.router = new Router();
     Backbone.history.start({ pushState: false });
+    sectorsCollection.fetch()
+      .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
+    regionsCollection.fetch()
+      .done(() => this.setState({ regions: regionsCollection.toJSON() }));
   }
 
   componentDidMount() {
     this._initData();
     this.initTimeline();
+    filtersModel.on('change', () => this.setState({ filters: filtersModel.toJSON() }));
   }
 
   _initData() {
@@ -115,6 +126,9 @@ class App extends React.Component {
           currentMode={ this.state.currentMode }
           currentLayer={ this.state.currentLayer }
           toggleFiltersFn={ this.toggleModalFilter.bind(this) }
+          filters={ this.state.filters }
+          sectors={ this.state.sectors }
+          regions={ this.state.regions }
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">

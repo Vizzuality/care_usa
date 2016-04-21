@@ -6,9 +6,10 @@ import moment from 'moment';
 import $ from 'jquery';
 
 import './styles.postcss';
+import filtersModel from '../../scripts/models/filtersModel';
 import utils from '../../scripts/helpers/utils';
-import SectorsCollection from '../../scripts/collections/SectorsCollection';
-import RegionsCollection from '../../scripts/collections/RegionsCollection';
+import sectorsCollection from '../../scripts/collections/sectorsCollection';
+import regionsCollection from '../../scripts/collections/regionsCollection';
 
 const defaults = {
   rendered: false
@@ -25,18 +26,31 @@ class FiltersView extends Backbone.View {
       'input .js-from-year': 'onDateChange',
       'input .js-to-day': 'onDateChange',
       'input .js-to-month': 'onDateChange',
-      'input .js-to-year': 'onDateChange'
+      'input .js-to-year': 'onDateChange',
+      'change input[type="checkbox"]': 'onInputChange',
+      'input select': 'onInputChange'
     };
   }
 
   initialize(options) {
     this.options = _.extend(options, defaults);
+    this.status = filtersModel;
     this.applyButton = this.el.querySelector('.js-apply');
-    this.sectorsCollection = new SectorsCollection();
-    this.regionsCollection = new RegionsCollection();
+    this.clearButton = this.el.querySelector('.js-clear');
+    this.sectorsCollection =  sectorsCollection;
+    this.regionsCollection = regionsCollection;
+    this.rendered = false;
     $.when.apply(null, [this.sectorsCollection.fetch(), this.regionsCollection.fetch()])
-      .then(this.render.bind(this))
+      .then(() => {
+        this.render();
+        this.updateFilters();
+      })
       .fail(() => console.error('Unable to load the list of sectors and/or regions'));
+    this.setListeners();
+  }
+
+  setListeners() {
+    this.status.on('change', this.updateFilters.bind(this));
   }
 
   render() {
@@ -46,6 +60,51 @@ class FiltersView extends Backbone.View {
     }
 
     if(!this.rendered) this.rendered = true;
+  }
+
+  /* Set the state of the form elements as stored in this.status */
+  updateFilters() {
+    if(!this.rendered) return;
+
+    const status = this.status.toJSON();
+    for(let key in status) {
+      /* Keys "from" and "to" don't match any select or checkbox, they are
+       * virtual keys used by the rest of the app */
+      if(key === 'from' || key === 'to') continue;
+
+      const value = status[key];
+
+      if(/^((from|to).*|region)/.test(key)) {
+
+        /* The filter is a select input */
+        const select = this.el.querySelector(`select[name="${key}"]`);
+
+        select.options[select.selectedIndex].selected = false;
+
+        if(!value) {
+          select.options[0].selected = true;
+        } else {
+          for(let i = 0, j = select.options.length; i < j; i++) {
+            if(select.options[i].value === value) {
+              select.options[i].selected = true;
+              break;
+            }
+          }
+        }
+
+      } else {
+
+        /* The filter is sectors, the checkboxes */
+        const checkboxes = this.el.querySelectorAll(`.js-sectors input[type="checkbox"]`);
+
+        for(let i = 0, j = checkboxes.length; i < j; i++) {
+          checkboxes[i].checked = value.length &&
+            !!~value.indexOf(checkboxes[i].name.replace('sector-', ''))
+        }
+      }
+    }
+
+    this.checkButtonsAvailability();
   }
 
   populateSelectors() {
@@ -92,6 +151,56 @@ class FiltersView extends Backbone.View {
       });
   }
 
+  onInputChange() {
+    this.checkButtonsAvailability();
+  }
+
+  /* We check whether the user activated/chose a filter to decide if we enable
+   * the clear and apply buttons */
+  checkButtonsAvailability() {
+    let empty = true;
+    const serializedFilters = this.serializeFilters();
+    for(let key in serializedFilters) {
+      let filter = serializedFilters[key];
+      if(!Array.isArray(filter) && filter ||
+        Array.isArray(filter) && filter.length) {
+        empty = false;
+        break;
+      }
+    }
+    this.toggleButtonsAvailability(!empty);
+  }
+
+  /* Update the status model with the serialized form */
+  setStatus() {
+    const serializedFilters = this.serializeFilters();
+
+    if(serializedFilters['from-day'] && serializedFilters['from-month'] &&
+      serializedFilters['from-year']) {
+      serializedFilters.from = new Date(`${serializedFilters['from-year']}-${utils.pad(serializedFilters['from-month'], 2, '0')}-${utils.pad(serializedFilters['from-day'], 2, '0')}`);
+    }
+
+    if(serializedFilters['to-day'] && serializedFilters['to-month'] &&
+      serializedFilters['to-year']) {
+      serializedFilters.to = new Date(`${serializedFilters['to-year']}-${utils.pad(serializedFilters['to-month'], 2, '0')}-${utils.pad(serializedFilters['to-day'], 2, '0')}`);
+    }
+
+    this.status.clear({ silent: true });
+    this.status.set(serializedFilters, { validate: true });
+  }
+
+  /* Toggle the availability of the buttons, force it to the "visible" value if
+   * present */
+  toggleButtonsAvailability(...visible) {
+    if(!visible.length) {
+      this.applyButton.classList.toggle('is-disabled');
+      this.clearButton.classList.toggle('is-disabled');
+    } else {
+      this.applyButton.classList.toggle('is-disabled', !visible[0]);
+      this.clearButton.classList.toggle('is-disabled', !visible[0]);
+    }
+  }
+
   /* Return the serialized form */
   serializeFilters() {
     var serialized = { sectors: [] };
@@ -135,64 +244,7 @@ class FiltersView extends Backbone.View {
 
     this.resetErrorState();
     this.resetOptionsAvailability();
-  }
-
-  /* Return an object with the property valid set to true if the form is valid,
-   * errors which is a string of the error messages and fields which is the list
-   * of the fields affected by the errors */
-  validate(serializedFilters) {
-    const res = {
-      valid: true,
-      errors: [],
-      fields: []
-    };
-
-    const fromInputNames = [ 'from-day', 'from-month', 'from-year' ];
-    const toInputNames = [ 'to-day', 'to-month', 'to-year' ];
-
-    /* If one of the start date filters is filled but not all of them */
-    const filledFromInputs = fromInputNames.map(name => serializedFilters[name] !== null ? name : null)
-      .filter(name => name !== null);
-
-    if(filledFromInputs.length > 0 && filledFromInputs.length < 3) {
-      res.valid = false;
-      res.errors.push('Please ensure that you filled all of the start date fields.')
-      res.fields = res.fields.concat(_.difference(fromInputNames, filledFromInputs));
-    }
-
-    /* If one of the end date filters is filled but not all of them */
-    const filledToInputs = toInputNames.map(name => serializedFilters[name] !== null ? name : null)
-      .filter(name => name !== null);
-
-    if(filledToInputs.length > 0 && filledToInputs.length < 3) {
-      res.valid = false;
-      res.errors.push('Please ensure that you filled all of the end date fields.')
-      res.fields = res.fields.concat(_.difference(toInputNames, filledToInputs));
-    }
-
-    /* If the start date is after the end date */
-    if(res.valid && filledFromInputs.length === 3 && filledToInputs.length === 3) {
-      const startDate = moment(fromInputNames.map(name => serializedFilters[name]).join('-'), 'D-M-YYYY');
-      const endDate = moment(toInputNames.map(name => serializedFilters[name]).join('-'), 'D-M-YYYY');
-
-      if(!startDate.isBefore(endDate)) {
-        res.valid = false;
-        res.errors.push('Please ensure that the start date is prior to the end one.')
-        res.fields = res.fields.concat(toInputNames);
-      }
-    }
-
-    /* If the start date is set but not the end date, or the contrary */
-    if(filledFromInputs.length === 3 && filledToInputs.length === 0 ||
-      filledFromInputs.length === 0 && filledToInputs.length === 3) {
-      res.valid = false;
-      res.errors.push('Please ensure that you filled both the start date and end date.');
-      res.fields = res.fields.concat(filledFromInputs.length ? toInputNames : fromInputNames);
-    }
-
-    res.fields = _.uniq(res.fields);
-
-    return res;
+    this.setStatus();
   }
 
   /* Remove the error message and the error state from the inputs */
@@ -208,26 +260,32 @@ class FiltersView extends Backbone.View {
 
   onApply(e) {
     e.preventDefault();
-    const serializedFilters = this.serializeFilters();
-    const validation = this.validate(serializedFilters);
+
+    this.setStatus();
 
     /* We remove all the visual error elements */
     this.resetErrorState();
 
-    if(!validation.valid) {
-      const invalidInputs = [...this.inputs].filter(input => !!~validation.fields.indexOf(input.name));
+    /* We can't use this.status.isValid() here because in case we try to set the
+     * model with invalid attributes, the model is not set, and then, at the
+     * time of calling isValid, the model will be valid because of its old
+     * state. Nevertheless, this.status.validationError is set to the value
+     * returned by the validate method (on the model) ie. or contain the error
+     * object or nothing if set was successful. */
+    const validationError = this.status.validationError;
+    if(validationError) {
+      const invalidInputs = [...this.inputs].filter(input => !!~validationError.fields.indexOf(input.name));
       for(let i = 0, j = invalidInputs.length; i < j; i++) {
         invalidInputs[i].classList.add('-invalid');
       }
       this.applyButton.classList.add('-invalid');
 
       let errorHtml = '<div class="error-message js-error">';
-      errorHtml += validation.errors.join('<br>');
+      errorHtml += validationError.errors.join('<br>');
       errorHtml += '</div>';
       this.$el.prepend(errorHtml);
     }
     else {
-      this.triggerFilters();
       this.options.closeCallback();
     }
   }
@@ -235,22 +293,7 @@ class FiltersView extends Backbone.View {
   onClear(e) {
     e.preventDefault();
     this.resetFilters();
-    this.triggerFilters();
-  }
-
-  triggerFilters() {
-    const serializedFilters = this.serializeFilters();
-    if(serializedFilters['from-day']) {
-      serializedFilters.from = new Date(`${utils.pad(serializedFilters['from-month'], 2, '0')}-${utils.pad(serializedFilters['from-day'], 2, '0')}-${serializedFilters['from-year']}`);
-      serializedFilters.to = new Date(`${utils.pad(serializedFilters['to-month'], 2, '0')}-${utils.pad(serializedFilters['to-day'], 2, '0')}-${serializedFilters['to-year']}`);
-    }
-    delete serializedFilters['from-day'];
-    delete serializedFilters['from-month'];
-    delete serializedFilters['from-year'];
-    delete serializedFilters['to-day'];
-    delete serializedFilters['to-month'];
-    delete serializedFilters['to-year'];
-    this.options.saveCallback(serializedFilters);
+    this.toggleButtonsAvailability(false);
   }
 
   onDateChange(e) {

@@ -7,6 +7,7 @@ import TileLayer from './TileLayer';
 import PopUpContentView from './../PopUp/PopUpContentView';
 import config from '../../config';
 import layersCollection from '../../scripts/collections/layersCollection';
+import filtersModel from '../../scripts/models/filtersModel';
 import utils from '../../scripts/helpers/utils';
 
 class MapView extends Backbone.View {
@@ -24,6 +25,7 @@ class MapView extends Backbone.View {
     // Setting first state
     this.state = settings.state;
     this.state.attributes = _.extend({}, this.options, this.state.attributes);
+    this.state.set({'filters': filtersModel.toJSON(), silent: true}) ;
 
     this._checkMapSettings();
 
@@ -87,8 +89,17 @@ class MapView extends Backbone.View {
       this.map.setView(latlng, this.map.getZoom());
     });
 
+    this.state.on('change:filters', () => {
+      this.changeLayer();
+    });
+
     this.state.on('change:mapMode', _.bind(this.changeLayer, this));
     layersCollection.on('change', _.bind(this.changeLayer, this));
+    filtersModel.on('change', _.bind(this._updateFilters, this));
+  }
+
+  _updateFilters() {
+    this.state.set({'filters': filtersModel.toJSON()});
   }
 
   _infowindowSetUp(e) {
@@ -97,6 +108,14 @@ class MapView extends Backbone.View {
       latLng: e.latlng,
       map: this.map
     }).getPopUp();
+  }
+
+  _setFilters() {
+    if ( !(filtersModel.filtersIsEmpty()) ) {
+      this.options.filters = filtersModel.toJSON();
+    } else {
+      this.options.filters = null;
+    }
   }
 
   _addLayer() {
@@ -117,6 +136,7 @@ class MapView extends Backbone.View {
   }
 
   changeLayer() {
+    console.log(this.state)
     this._removeCurrentLayer();
     this._addLayer();
   }

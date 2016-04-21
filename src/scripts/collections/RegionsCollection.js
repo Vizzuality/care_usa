@@ -15,4 +15,4 @@ class RegionsCollection extends Backbone.Collection {
 
 };
 
-export default RegionsCollection;
+export default new RegionsCollection();
