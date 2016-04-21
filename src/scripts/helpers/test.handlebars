@@ -1,12 +1,13 @@
 select * from donors 
 where date > '10-06-2012'::date  
 and date < '10-19-2012'::date 
-and countries like '%SYR%' OR countries like '%SPN%'
+and countries like '%SYR%'
 and sectors in ('','')
 
 SELECT * FROM donors
 {{#if filters}}
-WHERE 
+WHERE {{filters}}
+{{/if}}
   {{#if filters.from}}
     date >'{{from-month}}-{{from-day}}-{{from-year}}'::date AND
   {{/if}}
@@ -26,3 +27,4 @@ WHERE
 {{/if}}
 
 {"sectors":["clim","econ"],"from-day":"3","from-month":"3","from-year":"2015","to-day":"2","to-month":"6","to-year":"2015","region":"AGO","from":"2015-03-03T00:00:00.000Z","to":"2015-06-02T00:00:00.000Z"}
+
