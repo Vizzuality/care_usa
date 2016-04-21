@@ -43,7 +43,7 @@ class Retooling extends React.Component {
           { this.getImages().map((image, i) => {
             return (
               <div className={ `${image} list-item` } key={i}>
-                <svg className={ `icon icon-${image} retooling-small-image` }>
+                <svg className={ `icon icon-${image} small-image` }>
                   <use xlinkHref={ `#icon-${image}` }></use>
                 </svg>
                 <p className="text text-legend -light">{ this.getTitles()[i] }</p>
