@@ -7,25 +7,39 @@ class Retooling extends React.Component {
 
   constructor(props) {
     super(props);
-  }
-
-  getImages() {
-    return [ 'infants', 'household', 'cotton', 'kinitting', 
-      'babyfood', 'blanket', 'layette', 'woolensuitting', 'standardfood'
-    ];
-  }
-
-  getTitles() {
-    return [
-      'Infant Food Package',
-      'Household Linen Package',
-      'Cotton Package',
-      'Knitting Wool Package',
-      'Baby Food Package',
-      'Blanket Package',
-      'Layette Package',
-      'Woolen Suiting Package',
-      'Standard Food Package'
+    this.list = [
+      {
+        title: 'Infant Food Package',
+        image: 'infants'
+      },
+      {
+        title: 'Household Linen Package',
+        image: 'household'
+      },
+      {
+        title: 'Cotton Package',
+        image: 'cotton'
+      },
+      {
+        title: 'Knitting Wool Package',
+        image: 'kinitting'
+      },
+      {
+        title: 'Baby Food Package',
+        image: 'babyfood'
+      },
+      {
+        title: 'Layette Package',
+        image: 'layette'
+      },
+      {
+        title: 'Woolen Suiting Package',
+        image: 'woolensuitting'
+      },
+      {
+        title: 'Standard Food Package',
+        image: 'standardfood'
+      }
     ];
   }
 
@@ -40,17 +54,19 @@ class Retooling extends React.Component {
         </div>
         <div className="images-container">
           <div className="retooling-list">
-          { this.getImages().map((image, i) => {
+        
+          { this.list.map((listItem, i) => {
             return (
-              <div className={ `${image} list-item` } key={i}>
-                <svg className={ `icon icon-${image} small-image` }>
-                  <use xlinkHref={ `#icon-${image}` }></use>
+              <div className={ `${listItem['image']} list-item` } key={i}>
+                <svg className={ `icon icon-${listItem['image']} small-image` }>
+                  <use xlinkHref={ `#icon-${listItem['image']}` }></use>
                 </svg>
-                <p className="text text-legend -light">{ this.getTitles()[i] }</p>
+                <p className="text text-legend -light">{ listItem['title'] }</p>
               </div>
               );
             })
           }
+
           </div>
         </div>
       </article>
