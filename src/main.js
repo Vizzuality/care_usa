@@ -73,6 +73,7 @@ if (page.length > 0) {
   	document.getElementById(page));
 }
 
+/* Provisional */
 if (page === 'anniversary'){
    ReactDOM.render(
     <Footer/>,
