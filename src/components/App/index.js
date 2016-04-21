@@ -1,6 +1,7 @@
 'use strict';
 
 import React  from 'react';
+import d3  from 'd3';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
@@ -26,7 +27,24 @@ class App extends React.Component {
       filtersOpen: false,
       filters: {},
       sectors: [],
-      regions: []
+      regions: [],
+      /* Ranges for which we have data */
+      ranges: {
+        donations: [ new Date('2011-06-30'), new Date() ],
+        projects:  [ new Date('2011-12-30'), new Date() ]
+      },
+      /* Specify how often we should update the map when playing the timeline
+       * or moving the handle. Dates are rounded "nicely" to the interval. */
+      dataInterval: {
+        donations: {
+          unit: d3.time.week,
+          count: 2
+        },
+        projects: {
+          unit: d3.time.year,
+          count: 1
+        }
+      }
     }
   }
 
@@ -46,6 +64,16 @@ class App extends React.Component {
     filtersModel.on('change', () => this.setState({ filters: filtersModel.toJSON() }));
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    /* Each time the mode changes, we need to update the timeline's range */
+    if(this.state.currentMode !== nextState.currentMode && this.timeline) {
+      this.timeline.setRange(this.state.ranges[nextState.currentMode],
+        this.state.dataInterval[nextState.currentMode]);
+    }
+
+    return true;
+  }
+
   initMap() {
     this.mapView = new MapView({
       el: this.refs.Map,
@@ -55,7 +83,11 @@ class App extends React.Component {
   }
 
   initTimeline() {
-    this.timeline = new TimelineView({ el: this.refs.Timeline });
+    this.timeline = new TimelineView({
+      el: this.refs.Timeline,
+      domain: this.state.ranges[this.state.currentMode],
+      interval: this.state.dataInterval[this.state.currentMode]
+    });
   }
 
   changeMap(map, e) {
