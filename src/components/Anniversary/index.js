@@ -5,6 +5,7 @@ import React from 'react';
 import CaresPackage from '../CaresPackage';
 import PowerBox from '../PowerBox';
 import CaresEvolution from '../CaresEvolution';
+import CatalystWomen from '../CatalystWomen';
 
 class Anniversary extends React.Component {
 
@@ -18,6 +19,7 @@ class Anniversary extends React.Component {
         <CaresPackage />
         <PowerBox />
         <CaresEvolution />
+        <CatalystWomen />
 
       </div>
     )
