@@ -123,9 +123,11 @@ class MapView extends Backbone.View {
     //I will draw only active layers for each group;
     let activeLayers = layersCollection.filter(model => model.attributes.active && model.attributes.group === this.state.get('mapMode'));
 
+    let filters = ! (filtersModel.filtersIsEmpty()) ? this.state.get('filters') : null;
+
     _.each(activeLayers, (activeLayer) => {
       layerConfig = activeLayer.toJSON();
-      this.currentLayer = new TileLayer(layerConfig);
+      this.currentLayer = new TileLayer(layerConfig, filters);
 
       this.currentLayer.createLayer().then( () => { this.currentLayer.addLayer(this.map) } );
     })
@@ -136,7 +138,6 @@ class MapView extends Backbone.View {
   }
 
   changeLayer() {
-    console.log(this.state)
     this._removeCurrentLayer();
     this._addLayer();
   }
