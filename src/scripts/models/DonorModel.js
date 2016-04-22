@@ -12,8 +12,6 @@ class DonorModel extends CartodbModel {
   	const url = `${config.apiUrl}/donations?lat=${options.latLng.lat}&lng=${options.latLng.lng}`;
   	return this.fetch({ url: url });
   }
-
-
 }
 
 export default DonorModel;
