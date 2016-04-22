@@ -2,7 +2,6 @@
 
 import './styles.postcss';
 import React from 'react';
-import layersConfig from '../../layersConfig';
 
 class Legend extends React.Component {
 
@@ -16,9 +15,9 @@ class Legend extends React.Component {
   render() {
     let legend = [];
 
-    layersConfig[this.props.layer].legend.buckets.forEach( (bucket) => {
+    JSON.parse(this.props.layerLegend).buckets.forEach( (bucket) => {
       let style = { backgroundColor: bucket.color, borderColor: bucket.border }
-      legend.push(  
+      legend.push(
         <li className="legend-item" key={ bucket.color }>
           <span className="bucket" style={ style }></span>
           <span className="text text-legend-s">{ bucket.literal }</span>

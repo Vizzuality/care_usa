@@ -31,13 +31,15 @@ class Modal extends React.Component {
   }
 
   render() {
+    const content = this.getContent();
+
     return (
       <div className={ 'm-modal ' + ( this.state.open ? '' : '-hidden') } onClick={this.close.bind(this)}>
         <div className="content" ref="content">
           <svg className="close-button" onClick={this.close.bind(this)} ref="closeButton">
             <use xlinkHref="#icon-close"></use>
           </svg>
-          {this.props.children}
+          { content }
         </div>
       </div>
     )

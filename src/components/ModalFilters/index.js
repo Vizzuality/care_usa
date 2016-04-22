@@ -13,7 +13,10 @@ class ModalFilters extends Modal {
 
   shouldComponentUpdate(nextProps) {
     /* Just for optimization: don't render if nothing changed */
-    if(nextProps.visible !==  this.props.visible) return true;
+    if(nextProps.visible !==  this.props.visible) {
+      if(nextProps.visible) this.filters.updateFilters();
+      return true;
+    }
     return false;
   }
 
@@ -25,102 +28,93 @@ class ModalFilters extends Modal {
     });
   }
 
-  render() {
-    return (
-      <div className={ 'm-modal ' + ( this.state.open ? '' : '-hidden') } onClick={this.close.bind(this)}>
-        <div className="content" ref="content">
-          <svg className="close-button" onClick={this.close.bind(this)} ref="closeButton">
-            <use xlinkHref="#icon-close"></use>
-          </svg>
-          <div id="filters" className="m-filters" ref="Filters">
+  getContent() {
+    return <div id="filters" className="m-filters" ref="Filters">
+      <div>
+        <fieldset className="date date-from">
+          <legend className="text -dark text-form-labels">From</legend>
+          <div>
             <div>
-              <fieldset className="date date-from">
-                <legend className="text -dark text-form-labels">From</legend>
-                <div>
-                  <div>
-                    <svg className="arrow">
-                      <use xlinkHref="#icon-arrow"></use>
-                    </svg>
-                    <select className="js-from-day" name="from-day">
-                      <option value="" disabled="disabled">Day</option>
-                    </select>
-                  </div>
-                  <div>
-                    <svg className="arrow">
-                      <use xlinkHref="#icon-arrow"></use>
-                    </svg>
-                    <select className="js-from-month" name="from-month">
-                      <option value="" disabled="disabled">Month</option>
-                    </select>
-                  </div>
-                  <div>
-                    <svg className="arrow">
-                      <use xlinkHref="#icon-arrow"></use>
-                    </svg>
-                    <select className="js-from-year" name="from-year">
-                      <option value="" disabled="disabled">Year</option>
-                    </select>
-                  </div>
-                </div>
-              </fieldset>
-
-              <fieldset className="date date-to">
-                <legend className="text -dark text-form-labels">To</legend>
-                <div>
-                  <div>
-                    <svg className="arrow">
-                      <use xlinkHref="#icon-arrow"></use>
-                    </svg>
-                    <select className="js-to-day" name="to-day">
-                      <option value="" disabled="disabled">Day</option>
-                    </select>
-                  </div>
-                  <div>
-                    <svg className="arrow">
-                      <use xlinkHref="#icon-arrow"></use>
-                    </svg>
-                    <select className="js-to-month" name="to-month">
-                      <option value="" disabled="disabled">Month</option>
-                    </select>
-                  </div>
-                  <div>
-                    <svg className="arrow">
-                      <use xlinkHref="#icon-arrow"></use>
-                    </svg>
-                    <select className="js-to-year" name="to-year">
-                      <option value="" disabled="disabled">Year</option>
-                    </select>
-                  </div>
-                </div>
-              </fieldset>
-
-              <fieldset className="regions">
-                <legend className="text -dark text-form-labels">Region of interest</legend>
-                <div>
-                  <svg className="arrow">
-                    <use xlinkHref="#icon-arrow"></use>
-                  </svg>
-                  <select className="js-regions" name="region">
-                    <option value="" disabled="disabeld">All regions</option>
-                  </select>
-                </div>
-              </fieldset>
+              <svg className="arrow">
+                <use xlinkHref="#icon-arrow"></use>
+              </svg>
+              <select className="js-from-month" name="from-month">
+                <option value="" disabled="disabled">Month</option>
+              </select>
             </div>
-
-            <div className="sectors">
-              <fieldset>
-                <legend className="text -dark text-form-labels">Sectors</legend>
-                <div className="js-sectors"></div>
-              </fieldset>
+            <div>
+              <svg className="arrow">
+                <use xlinkHref="#icon-arrow"></use>
+              </svg>
+              <select className="js-from-day" name="from-day">
+                <option value="" disabled="disabled">Day</option>
+              </select>
             </div>
-            <div className="buttons">
-              <button type="button" className="btn btn-primary js-apply is-disabled">Apply filters</button>
-              <button type="button" className="btn btn-third js-clear is-disabled">Clear filters</button>
+            <div>
+              <svg className="arrow">
+                <use xlinkHref="#icon-arrow"></use>
+              </svg>
+              <select className="js-from-year" name="from-year">
+                <option value="" disabled="disabled">Year</option>
+              </select>
             </div>
           </div>
-        </div>
+        </fieldset>
+
+        <fieldset className="date date-to">
+          <legend className="text -dark text-form-labels">To</legend>
+          <div>
+            <div>
+              <svg className="arrow">
+                <use xlinkHref="#icon-arrow"></use>
+              </svg>
+              <select className="js-to-month" name="to-month">
+                <option value="" disabled="disabled">Month</option>
+              </select>
+            </div>
+            <div>
+              <svg className="arrow">
+                <use xlinkHref="#icon-arrow"></use>
+              </svg>
+              <select className="js-to-day" name="to-day">
+                <option value="" disabled="disabled">Day</option>
+              </select>
+            </div>
+            <div>
+              <svg className="arrow">
+                <use xlinkHref="#icon-arrow"></use>
+              </svg>
+              <select className="js-to-year" name="to-year">
+                <option value="" disabled="disabled">Year</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset className="regions">
+          <legend className="text -dark text-form-labels">Region of interest</legend>
+          <div>
+            <svg className="arrow">
+              <use xlinkHref="#icon-arrow"></use>
+            </svg>
+            <select className="js-regions" name="region">
+              <option value="" disabled="disabeld">All regions</option>
+            </select>
+          </div>
+        </fieldset>
       </div>
-    );
+
+      <div className="sectors">
+        <fieldset>
+          <legend className="text -dark text-form-labels">Sectors</legend>
+          <div className="js-sectors"></div>
+        </fieldset>
+      </div>
+      <div className="buttons">
+        <button type="button" className="btn btn-primary js-apply is-disabled">Apply filters</button>
+        <button type="button" className="btn btn-third js-clear is-disabled">Clear filters</button>
+      </div>
+    </div>;
   }
 
 }

@@ -12,18 +12,18 @@ import postcssHexRgba from 'postcss-hexrgba';
 import path from 'path';
 
 const prodPlugins = [
-  new webpack.HotModuleReplacementPlugin(),
-  new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false,
-      dead_code: true,
-      drop_debugger: true,
-      drop_console: true
-    },
-    comments: false
-  }),
-  new webpack.optimize.DedupePlugin(),
-  new webpack.optimize.OccurrenceOrderPlugin()
+  new webpack.HotModuleReplacementPlugin()
+  // new webpack.optimize.UglifyJsPlugin({
+  //   compress: {
+  //     warnings: false,
+  //     dead_code: true,
+  //     drop_debugger: true,
+  //     drop_console: true
+  //   },
+  //   comments: false
+  // }),
+  // new webpack.optimize.DedupePlugin(),
+  // new webpack.optimize.OccurrenceOrderPlugin()
 ];
 
 const config = {
@@ -44,6 +44,8 @@ const config = {
     filename: 'bundle.js'
   },
 
+  devtool: 'source-map',
+
   module: {
     loaders: [
       {test: /\.html$/, loader: 'file?name=[name].[ext]'},
@@ -54,7 +56,7 @@ const config = {
     ]
   },
 
-  plugins: process.env.NODE_ENV === 'production' ? prodPlugins : [],
+  plugins: prodPlugins,
 
   postcss: (webpack) => [
     postcssImporter({ addDependencyTo: webpack }),

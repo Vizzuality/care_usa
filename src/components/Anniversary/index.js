@@ -7,6 +7,9 @@ import PowerBox from '../PowerBox';
 import CaresEvolution from '../CaresEvolution';
 import CatalystWomen from '../CatalystWomen';
 import BoxVideo from '../BoxVideo';
+import Slider from '../Slider';
+import Retooling from '../Retooling';
+import Footer from '../Footer';
 
 class Anniversary extends React.Component {
 
@@ -19,10 +22,12 @@ class Anniversary extends React.Component {
       <section>
         <CaresPackage />
         <PowerBox />
+        <Retooling />
         <CaresEvolution />
         <CatalystWomen />
+        <Slider />
         <BoxVideo />
-
+        <Footer />
       </section>
     )
   }

@@ -29,7 +29,6 @@ class DashSummary extends React.Component {
       </div>
     )
   }
-
 }
 
 export default DashSummary;
