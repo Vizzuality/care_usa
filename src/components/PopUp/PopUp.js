@@ -17,7 +17,12 @@ class PopUp extends Backbone.View {
   }
 
   _initData() {
-    this.model.fetch().done(() => {
+    this.model.fetch({
+      data: {
+        lat: this.options.latLng['lat'],
+        lng: this.options.latLng['lng']
+      }
+    }).done(() => {
       if (this.model.get('location')) {
         this.options.data = this.model;
         this.options.device.mobile ?  this._drawPopUpMobile() : this._drawPopUp();
