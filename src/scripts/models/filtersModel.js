@@ -61,6 +61,20 @@ class FiltersModel extends Backbone.Model {
     if(!isValid) return res;
   }
 
+  filtersIsEmpty() {
+    let empty = true;
+    const serializedFilters = this.toJSON();
+    for(let key in serializedFilters) {
+      let filter = serializedFilters[key];
+      if(!Array.isArray(filter) && filter ||
+        Array.isArray(filter) && filter.length) {
+        empty = false;
+        break;
+      }
+    }
+    return empty;
+  }
+
 }
 
 /* Defaults are necessary to ensure the modal of filters is resetted each time

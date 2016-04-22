@@ -3,11 +3,11 @@
 import './styles.postcss';
 import _ from 'underscore';
 import Backbone from 'backbone';
-
 import TileLayer from './TileLayer';
 import PopUpContentView from './../PopUp/PopUpContentView';
 import config from '../../config';
-import layersConfig from '../../layersConfig';
+import layersCollection from '../../scripts/collections/layersCollection';
+import filtersModel from '../../scripts/models/filtersModel';
 import utils from '../../scripts/helpers/utils';
 
 class MapView extends Backbone.View {
@@ -25,12 +25,13 @@ class MapView extends Backbone.View {
     // Setting first state
     this.state = settings.state;
     this.state.attributes = _.extend({}, this.options, this.state.attributes);
+    this.state.set({'filters': filtersModel.toJSON(), silent: true}) ;
 
     this._checkMapSettings();
 
     this._createMap();
+    this._addLayer();
     this._setEvents();
-    this._addLayer(this.state.get('currentLayer') || 'amountOfMoney');
   }
 
   _checkMapSettings() {
@@ -70,7 +71,7 @@ class MapView extends Backbone.View {
   }
 
   _setEvents() {
-    // this.map.on('click', this._infowindowSetUp.bind(this));
+    this.map.on('click', this._infowindowSetUp.bind(this));
 
     this.state.on('change:zoom', () => {
       this.map.setZoom(this.state.attributes.zoom);
@@ -88,10 +89,17 @@ class MapView extends Backbone.View {
       this.map.setView(latlng, this.map.getZoom());
     });
 
-    this.state.on('change:currentLayer', () => {
-      const currentLayer = this.state.get('currentLayer');
-      this.changeLayer(currentLayer);
+    this.state.on('change:filters', () => {
+      this.changeLayer();
     });
+
+    this.state.on('change:mapMode', _.bind(this.changeLayer, this));
+    layersCollection.on('change', _.bind(this.changeLayer, this));
+    filtersModel.on('change', _.bind(this._updateFilters, this));
+  }
+
+  _updateFilters() {
+    this.state.set({'filters': filtersModel.toJSON()});
   }
 
   _infowindowSetUp(e) {
@@ -102,21 +110,35 @@ class MapView extends Backbone.View {
     }).getPopUp();
   }
 
-  _addLayer(layer) {
-    //We have layers into a different file until we will be able to get them from the API.
-    let layerConfig = layersConfig[layer];
+  _setFilters() {
+    if ( !(filtersModel.filtersIsEmpty()) ) {
+      this.options.filters = filtersModel.toJSON();
+    } else {
+      this.options.filters = null;
+    }
+  }
 
-    this.currentLayer = new TileLayer(layerConfig);
-    this.currentLayer.createLayer().then( () => { this.currentLayer.addLayer(this.map) } );
+  _addLayer() {
+    let layerConfig;
+    //I will draw only active layers for each category;
+    let activeLayers = layersCollection.filter(model => model.attributes.active && model.attributes.category === this.state.get('mapMode'));
+    let filters = ! (filtersModel.filtersIsEmpty()) ? this.state.get('filters') : null;
+
+    _.each(activeLayers, (activeLayer) => {
+      layerConfig = activeLayer.toJSON();
+      this.currentLayer = new TileLayer(layerConfig, filters);
+
+      this.currentLayer.createLayer().then( () => { this.currentLayer.addLayer(this.map) } );
+    })
   }
 
   _removeCurrentLayer() {
     this.currentLayer.removeLayer(this.map);
   }
 
-  changeLayer(layer) {
+  changeLayer() {
     this._removeCurrentLayer();
-    this._addLayer(layer);
+    this._addLayer();
   }
 
 };

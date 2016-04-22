@@ -26,14 +26,9 @@ class DashSummary extends React.Component {
           <p className="text text-legend-s">Amount donated </p>
           <span className="number number-m"> $ { this.state.donationsAmount }</span>
         </div>
-        <div className="summary-item">
-          <p className="text text-legend-s">Campaigns </p>
-          <span className="number number-m">{ this.state.totalCampaigns }</span>
-        </div>
       </div>
     )
   }
-
 }
 
 export default DashSummary;

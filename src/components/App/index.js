@@ -2,6 +2,7 @@
 
 import React  from 'react';
 import d3  from 'd3';
+import _ from 'underscore';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
@@ -9,9 +10,10 @@ import MapView from '../Map';
 import Landing from '../Landing';
 import Router from '../../scripts/Router';
 import utils from '../../scripts/helpers/utils';
+import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
-import sectorsCollection from '../../scripts/collections/sectorsCollection';
-import regionsCollection from '../../scripts/collections/regionsCollection';
+import sectorsCollection from '../../scripts/collections/SectorsCollection';
+import regionsCollection from '../../scripts/collections/RegionsCollection';
 
 class App extends React.Component {
 
@@ -20,7 +22,7 @@ class App extends React.Component {
 
     this.state = {
       currentMode: 'donations',
-      currentLayer: 'amountOfMoney',
+      currentLayer: null,
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false,
@@ -61,7 +63,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.initMap();
+    this._initData();
     this.initTimeline();
     filtersModel.on('change', () => this.setState({ filters: filtersModel.toJSON() }));
   }
@@ -86,14 +88,19 @@ class App extends React.Component {
     return true;
   }
 
-  initMap() {
-    this.mapView = new MapView({
-      el: this.refs.Map,
-      currentLayer: this.state.currentLayer,
-      state: this.router.params
-    });
+  _initData() {
+     layersCollection.fetch().done( () => {
+      this.setState({ 'ready': true, currentLayer: 'amount-of-money' });
+      this.initMap();
+    })
   }
 
+  //GENERAL METHODS
+  changePage(page, e) {
+    this.setState({ currentPage: page });
+  }
+
+  // TIMELINE METHODS
   initTimeline() {
     this.timeline = new TimelineView({
       el: this.refs.Timeline,
@@ -104,36 +111,37 @@ class App extends React.Component {
     });
   }
 
-  changeMap(map, e) {
-    this.setState({ currentMap: map });
-  }
+  // MAP METHODS
+  initMap() {
+    //TODO - Include mapMode into router params
+    this.router.params.set('mapMode', this.state.currentMode);
 
-  changePage(page, e) {
-    this.setState({ currentPage: page });
+    this.mapView = new MapView({
+      el: this.refs.Map,
+      state: this.router.params
+    });
   }
 
   changeMapMode(mode, e) {
-    let sublayer;
-
-    if (mode == 'donations') {
-      sublayer = 'amountOfMoney';
-    } else {
-      sublayer = 'projects';
-    }
-
-    this.setState({ currentMode: mode, currentLayer: sublayer });
-    this._updateMap(sublayer);
+    this.setState({ currentMode: mode });
+    this.mapView.state.set({ 'mapMode': mode });
   }
 
   changeLayer(layer, e) {
     this.setState({ currentLayer: layer });
-    this._updateMap(layer);
+
+    // Inactive all layers ofthe same group
+    let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.currentMode);
+    _.each(cogroupLayers, (activeLayer) => {
+      activeLayer.set('active', false);
+    })
+
+    //Active new layer
+    let newLayer = layersCollection.filter(model => model.attributes.slug === layer);
+    newLayer[0].set('active', true);
   }
 
-  _updateMap(layer) {
-    this.mapView.state.set({ 'currentLayer': layer });
-  }
-
+  // FILTERS METHODS
   closeFilterModal() {
     this.setState({ filtersOpen: false });
   }

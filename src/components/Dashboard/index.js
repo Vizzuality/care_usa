@@ -8,7 +8,6 @@ import DashSummary from './DashSummary';
 import DashLayerSwitcher from './DashLayerSwitcher';
 import DashDates from './DashDates';
 import DashFilters from './DashFilters';
-import Legend from './../Legend';
 
 import utils from '../../scripts/helpers/utils';
 
@@ -26,14 +25,13 @@ class Dashboard extends React.Component {
   }
 
   toogleDashboard() {
-    this.setState({ dashboardOpen: !(!!this.state.dashboardOpen) })
+    this.setState({ dashboardOpen: !this.state.dashboardOpen })
   }
 
   render() {
     let tabsMobile;
     let tabsDesktop;
     let layersSwitcher;
-    let legend;
     let filtersSwitcher;
 
     if ( this.state.mobile || this.state.tablet ) {
@@ -47,6 +45,7 @@ class Dashboard extends React.Component {
                       currentMode = { this.props.currentMode }
                       changeModeFn = { this.props.changeModeFn }
                     />
+                    
       tabsMobile = null;
     }
 
@@ -61,19 +60,12 @@ class Dashboard extends React.Component {
             </div>
     };
 
-    if( this.props.currentMode == 'donations') {
-      layersSwitcher = <DashLayerSwitcher
-                currentMode = { this.props.currentMode }
-                currentLayer = { this.props.currentLayer }
-                changeLayerFn= { this.props.changeLayerFn }
-              />
-    }
-
-    if( this.props.currentMode == 'projects') {
-      legend = <Legend ref="legend"
-        layer= { this.props.currentLayer }
-      />
-    }
+    layersSwitcher = <DashLayerSwitcher
+              layers = { this.state.layers }
+              currentMode = { this.props.currentMode }
+              currentLayer = { this.props.currentLayer }
+              changeLayerFn= { this.props.changeLayerFn }
+            />
 
     return (
       <div>
@@ -114,7 +106,6 @@ class Dashboard extends React.Component {
                 currentMode = { this.props.currentMode }
               />
               { layersSwitcher }
-              { legend }
             </div>
             { filtersSwitcher }
           </div>
