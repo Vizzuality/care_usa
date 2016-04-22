@@ -44,6 +44,8 @@ const config = {
     filename: 'bundle.js'
   },
 
+  devtool: 'source-map',
+
   module: {
     loaders: [
       {test: /\.html$/, loader: 'file?name=[name].[ext]'},
