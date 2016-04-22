@@ -36,7 +36,7 @@ const config = {
       {test: /\.(js$)/, loader: 'babel-loader', exclude: /node_modules/},
       {test: /\.(postcss$|css$)/, loader: 'style-loader!css-loader!postcss-loader'},
       {test: /\.(png|jpg|gif|svg)$/, loader: 'url-loader?prefix=image/&limit=5000&context=./src/images'},
-      {test: /\.(eot|ttf|woff2|woff)$/, loader: 'url-loader?prefix=fonts/&context=./src/fonts'},
+      {test: /\.(eot|ttf|woff2|woff)$/, loader: 'url-loader?prefix=fonts/&context=./src/fonts'}
     ]
   },
 
