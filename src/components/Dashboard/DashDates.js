@@ -3,6 +3,7 @@
 import './dash-dates-styles.postcss';
 import React from 'react';
 import moment from 'moment';
+import _ from 'underscore';
 
 class DashboardDates extends React.Component {
 
@@ -14,7 +15,16 @@ class DashboardDates extends React.Component {
 
   render() {
     let dates;
-    if(this.props.filters.from) {
+
+    if(!_.isEmpty(this.props.timelineDates)) {
+      dates = (
+        <div>
+          <span className="start-date text text-legend-s">{ this.props.timelineDates.from ? moment(this.props.timelineDates.from).format('MM·DD·YYYY') : 'NC' }</span>
+          <span className="text text-legend-s">&nbsp;-&nbsp;</span>
+          <span className="end-date text text-legend-s">{ this.props.timelineDates.to ? moment(this.props.timelineDates.to).format('MM·DD·YYYY') : 'NC' }</span>
+        </div>
+      );
+    } else if(!_.isEmpty(this.props.filters)) {
       dates = (
         <div>
           <span className="start-date text text-legend-s">{ this.props.filters.from ? moment(this.props.filters.from).format('MM·DD·YYYY') : 'NC' }</span>
@@ -23,13 +33,14 @@ class DashboardDates extends React.Component {
         </div>
       );
     } else {
-      /* TODO: display something else than 2015 if no date and remove the first
-       * part of the condition (maybe) */
       dates = (
-        <span className="text text-legend-s">{ this.props.timeline && this.props.timeline.date ? moment(this.props.timeline.date).format('MM·DD·YYYY') : '2015' }</span>
+        <div>
+          <span className="start-date text text-legend-s">{ moment(this.props.dateRange[0]).add(1, 'days').format('MM·DD·YYYY') }</span>
+          <span className="text text-legend-s">&nbsp;-&nbsp;</span>
+          <span className="end-date text text-legend-s">{ moment(this.props.dateRange[1]).format('MM·DD·YYYY') }</span>
+        </div>
       );
     }
-
 
     return (
       <div className="m-dash-dates">
