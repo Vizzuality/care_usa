@@ -13,6 +13,6 @@
 
 # Generated
 /dist/*
-!/dist/*.json
 
-/src/config.js
+# Enviroment variables
+.env

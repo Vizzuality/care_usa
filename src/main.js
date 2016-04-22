@@ -49,7 +49,7 @@ class Main extends React.Component {
         />
       );
     }
-    
+
     return (
     	<div>
 	  		<Header
@@ -78,7 +78,7 @@ if (page === 'anniversary'){
    ReactDOM.render(
     <Slider />,
     document.getElementById('l-by-numbers'));
-    
+
   ReactDOM.render(
     <Retooling/>,
     document.getElementById('l-retooling'));

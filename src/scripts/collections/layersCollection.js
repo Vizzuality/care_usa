@@ -1,10 +1,13 @@
 'use strict';
 
 import Backbone from 'backbone';
-import config from './../../config';
 
-class LayersCollection extends Backbone.Collection {}
+class LayersCollection extends Backbone.Collection {
 
-LayersCollection.prototype.url = config.apiUrl + '/layers';
+  url() {
+    return `${config.apiUrl}/layers`;
+  }
+
+}
 
 export default new LayersCollection();

@@ -1,7 +1,6 @@
 'use strict';
 
 import Backbone from 'backbone';
-import config from '../../config';
 
 class SectorsCollection extends Backbone.Collection {
 
