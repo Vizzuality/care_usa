@@ -10,8 +10,16 @@ class DonorModel extends CartodbModel {
       table: 'donors',
       query: 'iso=\'USA\''
     }
-    this.options = Object.assign(this.defaults, settings);
+    // this.options = Object.assign(this.defaults, settings, options);
   }
+
+  customFetch(options) {
+  	console.log('model', options);
+  	const url = `${config.apiUrl}/donations?lat=${options.latLng.lat}&lng=${options.latLng.lng}`;
+  	console.log(url);
+  	return this.fetch({ url: url });
+  }
+
 
 }
 
