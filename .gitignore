@@ -12,4 +12,7 @@
 *.log*
 
 # Generated
-/dist
+/dist/*
+!/dist/*.json
+
+/src/config.js

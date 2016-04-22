@@ -2,8 +2,9 @@
 
 import './dash-dates-styles.postcss';
 import React from 'react';
+import moment from 'moment';
 
-class DashboardTabs extends React.Component {
+class DashboardDates extends React.Component {
 
   constructor(props) {
     super(props);
@@ -12,18 +13,34 @@ class DashboardTabs extends React.Component {
   }
 
   render() {
+    let dates;
+    if(this.props.filters.from) {
+      dates = (
+        <div>
+          <span className="start-date text text-legend-s">{ this.props.filters.from ? moment(this.props.filters.from).format('MM·DD·YYYY') : 'NC' }</span>
+          <span className="text text-legend-s">&nbsp;-&nbsp;</span>
+          <span className="end-date text text-legend-s">{ this.props.filters.to ? moment(this.props.filters.to).format('MM·DD·YYYY') : 'NC' }</span>
+        </div>
+      );
+    } else {
+      /* TODO: display something else than 2015 if no date and remove the first
+       * part of the condition (maybe) */
+      dates = (
+        <span className="text text-legend-s">{ this.props.timeline && this.props.timeline.date ? moment(this.props.timeline.date).format('MM·DD·YYYY') : '2015' }</span>
+      );
+    }
+
+
     return (
       <div className="m-dash-dates">
         <svg className="icon icon-calendar">
           <use xlinkHref="#icon-calendar"></use>
         </svg>
-        <span className="start-date text text-legend-s">20·12·2012</span>
-        <span className="text text-legend-s"> - </span>
-        <span className="end-date text text-legend-s">20·12·2015</span>
+        { dates }
      </div>
     );
   }
 
 }
 
-export default DashboardTabs;
+export default DashboardDates;

@@ -1,12 +1,18 @@
 'use strict';
 
 import React  from 'react';
+import _ from 'underscore';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
+import ModalFilters from '../ModalFilters';
 import MapView from '../Map';
 import Landing from '../Landing';
 import Router from '../../scripts/Router';
 import utils from '../../scripts/helpers/utils';
+import layersCollection from '../../scripts/collections/layersCollection';
+import filtersModel from '../../scripts/models/filtersModel';
+import sectorsCollection from '../../scripts/collections/SectorsCollection';
+import regionsCollection from '../../scripts/collections/RegionsCollection';
 
 class App extends React.Component {
 
@@ -15,10 +21,14 @@ class App extends React.Component {
 
     this.state = {
       currentMode: 'donations',
-      currentLayer: 'amountOfMoney',
+      currentLayer: null,
       currentPage: 'who-cares',
       device: null,
-      menuDeviceOpen: false
+      menuDeviceOpen: false,
+      filtersOpen: false,
+      filters: {},
+      sectors: [],
+      regions: []
     }
   }
 
@@ -26,53 +36,76 @@ class App extends React.Component {
     this.setState(utils.checkDevice());
     this.router = new Router();
     Backbone.history.start({ pushState: false });
+    sectorsCollection.fetch()
+      .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
+    regionsCollection.fetch()
+      .done(() => this.setState({ regions: regionsCollection.toJSON() }));
   }
 
   componentDidMount() {
-    this.initMap();
+    this._initData();
     this.initTimeline();
+    filtersModel.on('change', () => this.setState({ filters: filtersModel.toJSON() }));
   }
 
-  initMap() {
-    this.mapView = new MapView({
-      el: this.refs.Map,
-      currentLayer: this.state.currentLayer,
-      state: this.router.params
-    });
+  _initData() {
+     layersCollection.fetch().done( () => {
+      this.setState({ 'ready': true, currentLayer: 'amount-of-money' });
+      this.initMap();
+    })
   }
 
-  initTimeline() {
-    this.timeline = new TimelineView({ el: this.refs.Timeline });
-  }
-
-  changeMap(map, e) {
-    this.setState({ currentMap: map });
-  }
-
+  //GENERAL METHODS
   changePage(page, e) {
     this.setState({ currentPage: page });
   }
 
+  // TIMELINE METHODS
+  initTimeline() {
+    this.timeline = new TimelineView({ el: this.refs.Timeline });
+  }
+
+  // MAP METHODS
+  initMap() {
+    //TODO - Include mapMode into router params
+    this.router.params.set('mapMode', this.state.currentMode);
+
+    this.mapView = new MapView({
+      el: this.refs.Map,
+      state: this.router.params
+    });
+  }
+
   changeMapMode(mode, e) {
-    let sublayer;
-
-    if (mode == 'donations') {
-      sublayer = 'amountOfMoney';
-    } else {
-      sublayer = 'projects';
-    }
-
-    this.setState({ currentMode: mode, currentLayer: sublayer });
-    this._updateMap(sublayer);
+    this.setState({ currentMode: mode });
+    this.mapView.state.set({ 'mapMode': mode });
   }
 
   changeLayer(layer, e) {
     this.setState({ currentLayer: layer });
-    this._updateMap(layer);
+
+    // Inactive all layers ofthe same group
+    let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.currentMode);
+    _.each(cogroupLayers, (activeLayer) => {
+      activeLayer.set('active', false);
+    })
+
+    //Active new layer
+    let newLayer = layersCollection.filter(model => model.attributes.slug === layer);
+    newLayer[0].set('active', true);
   }
 
-  _updateMap(layer) {
-    this.mapView.state.set({ 'currentLayer': layer });
+  // FILTERS METHODS
+  closeFilterModal() {
+    this.setState({ filtersOpen: false });
+  }
+
+  toggleModalFilter() {
+    this.setState({ filtersOpen: !this.state.filtersOpen });
+  }
+
+  updateFilters(filters) {
+    this.setState({ filters: filters });
   }
 
   render() {
@@ -81,7 +114,7 @@ class App extends React.Component {
 
         <div id="map" className="l-map" ref="Map"></div>
 
-        <button className="btn-share l-share">
+        <button className="btn-share btn-primary l-share">
           <svg className="icon icon-share">
             <use xlinkHref="#icon-share"></use>
           </svg>
@@ -92,6 +125,10 @@ class App extends React.Component {
           changeLayerFn={ this.changeLayer.bind(this) }
           currentMode={ this.state.currentMode }
           currentLayer={ this.state.currentLayer }
+          toggleFiltersFn={ this.toggleModalFilter.bind(this) }
+          filters={ this.state.filters }
+          sectors={ this.state.sectors }
+          regions={ this.state.regions }
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
@@ -101,11 +138,19 @@ class App extends React.Component {
           <div className="svg-container js-svg-container"></div>
         </div>
 
-        <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate">
+        <div id="map-credits" className="l-map-credits"></div>
+
+        <ModalFilters
+          visible={ this.state.filtersOpen }
+          onClose={ this.closeFilterModal.bind(this) }
+          onSave={ this.updateFilters.bind(this) }
+        />
+
+        <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
           Donate
         </a>
-        
-        <Landing />
+
+        { !sessionStorage.getItem('session') ? <Landing /> : '' }
       </div>
     );
   }
