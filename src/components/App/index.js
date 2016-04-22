@@ -68,7 +68,7 @@ class App extends React.Component {
   componentWillMount() {
     this.setState(utils.checkDevice());
     this.router = new AppRouter();
-    Backbone.history.start({ pushState: false });
+    this.router.start();
     sectorsCollection.fetch()
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
     regionsCollection.fetch()
@@ -102,7 +102,7 @@ class App extends React.Component {
   }
 
   _initData() {
-     layersCollection.fetch().done( () => {
+    layersCollection.fetch().done( () => {
       this.setState({ 'ready': true, currentLayer: 'amount-of-money' });
       this.initMap();
     })
