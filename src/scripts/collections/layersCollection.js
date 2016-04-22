@@ -10,6 +10,6 @@ class LayersCollection extends Backbone.Collection {
   };
 }
 
-LayersCollection.prototype.url = config.apiUrl + '/layers?category=category';
+LayersCollection.prototype.url = config.apiUrl + '/layers';
 
 export default new LayersCollection();
