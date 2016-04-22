@@ -1,15 +1,15 @@
 'use strict';
 
-import webpack from 'webpack';
-import autoprefixer from 'autoprefixer';
-import postcssMixins from 'postcss-mixins';
-import postcssExtend from 'postcss-extend';
-import postcssSimpleVars from 'postcss-simple-vars';
-import postcssNested from 'postcss-nested';
-import postcssImporter from 'postcss-import';
-import postcssFunctions from 'postcss-functions';
-import postcssHexRgba from 'postcss-hexrgba';
-import path from 'path';
+const path = require('path');
+const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
+const postcssMixins = require('postcss-mixins');
+const postcssExtend = require('postcss-extend');
+const postcssSimpleVars = require('postcss-simple-vars');
+const postcssNested = require('postcss-nested');
+const postcssImporter = require('postcss-import');
+const postcssFunctions = require('postcss-functions');
+const postcssHexRgba = require('postcss-hexrgba');
 
 const prodPlugins = [
   new webpack.HotModuleReplacementPlugin(),
@@ -31,7 +31,6 @@ const config = {
   context: path.join(__dirname, 'src'),
 
   entry: [
-    'webpack/hot/dev-server',
     './index.html',
     './anniversary.html',
     './main.js',
@@ -43,8 +42,6 @@ const config = {
     publicPath: '/'
   },
 
-  devtool: 'source-map',
-
   module: {
     loaders: [
       {test: /\.html$/, loader: 'file?name=[name].[ext]'},
@@ -55,7 +52,7 @@ const config = {
     ]
   },
 
-  plugins: [],
+  plugins: prodPlugins,
 
   postcss: (webpack) => [
     postcssImporter({ addDependencyTo: webpack }),

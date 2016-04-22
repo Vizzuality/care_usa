@@ -11,6 +11,8 @@ import Footer from './components/Footer';
 import Router from './scripts/Router';
 import utils from './scripts/helpers/utils';
 import MenuDevice from './components/MenuDevice';
+import Slider from './components/Slider';
+import Retooling from './components/Retooling';
 
 class Main extends React.Component {
 
@@ -72,5 +74,13 @@ if (page.length > 0) {
   	document.getElementById(page));
 }
 
-
+if (page === 'anniversary'){
+   ReactDOM.render(
+    <Slider />,
+    document.getElementById('l-by-numbers'));
+    
+  ReactDOM.render(
+    <Retooling/>,
+    document.getElementById('l-retooling'));
+}
 

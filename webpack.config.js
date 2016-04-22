@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const postcssMixins = require('postcss-mixins');
@@ -9,7 +10,6 @@ const postcssNested = require('postcss-nested');
 const postcssImporter = require('postcss-import');
 const postcssFunctions = require('postcss-functions');
 const postcssHexRgba = require('postcss-hexrgba');
-const path = require('path');
 
 const config = {
 
