@@ -30,7 +30,7 @@ class CartodbModel extends Backbone.Model {
 };
 
 CartodbModel.prototype.defaults = {
-  baseUrl: 'http://simbiotica.cartodb.com/api/v2/sql'
+  baseUrl: `http://${config.cartodbAccount}.cartodb.com/api/v2/sql`
 };
 
 export default CartodbModel;
