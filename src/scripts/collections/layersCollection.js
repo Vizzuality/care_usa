@@ -1,6 +1,7 @@
 'use strict';
 
 import Backbone from 'backbone';
+import config from './../../config';
 
 class LayersCollection extends Backbone.Collection {
 
@@ -9,6 +10,6 @@ class LayersCollection extends Backbone.Collection {
   };
 }
 
-LayersCollection.prototype.url = './public/layersSpec.json';
+LayersCollection.prototype.url = config.apiUrl + '/layers?category=category';
 
 export default new LayersCollection();
