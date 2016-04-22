@@ -12,7 +12,6 @@ import utils from '../../scripts/helpers/utils';
 class PopUpDonation extends PopUp {
 
   _getContent() {
-
     return `<div class=m-popup>
             <button class="btn-close">
               <svg class="icon icon-close"><use xlink:href="#icon-close"></use></svg>

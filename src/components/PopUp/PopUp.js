@@ -12,7 +12,6 @@ class PopUp extends Backbone.View {
   initialize(options) {
     this.options = options;
     this.options.device = utils.checkDevice();
-
     this._initData();
   }
 

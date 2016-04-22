@@ -101,8 +101,9 @@ class MapView extends Backbone.View {
   }
 
   _infowindowSetUp(e) {
+    console.log(this.state)
     new PopUpContentView({
-      currentLayer: this.options.currentLayer,
+      currentLayer: this.state.get('currentLayer'),
       latLng: e.latlng,
       map: this.map
     }).getPopUp();
@@ -127,6 +128,8 @@ class MapView extends Backbone.View {
       this.currentLayer = new TileLayer(layerConfig, filters);
 
       this.currentLayer.createLayer().then( () => { this.currentLayer.addLayer(this.map) } );
+
+      this.state.set('currentLayer', layerConfig.slug);
     })
   }
 
