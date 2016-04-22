@@ -1,6 +1,6 @@
 'use strict';
 
-//import './styles.postcss';
+import './styles.postcss';
 import React from 'react';
 import CaresPackage from '../CaresPackage';
 import PowerBox from '../PowerBox';
