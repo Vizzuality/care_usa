@@ -2,7 +2,6 @@
 
 import './styles.postcss';
 import React from 'react';
-import layersConfig from '../../layersConfig';
 
 class Legend extends React.Component {
 
