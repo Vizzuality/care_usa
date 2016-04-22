@@ -145,7 +145,7 @@ class App extends React.Component {
   changeMapMode(mode, e) {
     this.router.update({mode: mode});
     this.setState({ currentMode: mode });
-    this.mapView.state.set({ 'mapMode': mode });
+    this.mapView.state.set({ 'mode': mode });
   }
 
   changeLayer(layer, e) {
