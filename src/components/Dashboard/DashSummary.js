@@ -1,6 +1,7 @@
 'use strict';
 
 import './dash-summary-styles.postcss';
+import DashSummaryModel from './DashSummaryModel';
 import React from 'react';
 
 class DashSummary extends React.Component {
@@ -9,15 +10,27 @@ class DashSummary extends React.Component {
     super(props);
     this.props = props;
     this.state = {
-      totalDonations: '19,823,743',
-      donationsAmount: '10,645,846',
-      totalCampaigns: '562,430'
+      totalDonations: null,
+      donationsAmount: null
     };
+  }
+
+  componentDidMount() {
+    this.state = new DashSummaryModel();
+
+    this.state.fetch({
+    })
+    .done((result) => {
+      this.setState({
+        totalDonations: result.total_donations,
+        donationsAmount: result.total_funds
+      });
+    });
   }
 
   render() {
     return (
-      <div className="m-dash-summary">  
+      <div className="m-dash-summary">
         <div className="summary-item">
           <p className="text text-legend-title">Donations </p>
           <span className="number number-l">{ this.state.totalDonations }</span>
