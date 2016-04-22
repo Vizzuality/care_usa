@@ -2,12 +2,7 @@
 
 import Backbone from 'backbone';
 
-class LayersCollection extends Backbone.Collection {
-
-  initialize() {
-
-  };
-}
+class LayersCollection extends Backbone.Collection {}
 
 LayersCollection.prototype.url = '/layersSpec.json';
 
