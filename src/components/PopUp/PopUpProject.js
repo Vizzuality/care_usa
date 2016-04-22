@@ -12,7 +12,6 @@ import utils from '../../scripts/helpers/utils';
 class PopUpProject extends PopUp {
 
   _getContent() {
-    console.log(this.model)
    
     return `<div class=m-popup>
             <button class="btn-close">
