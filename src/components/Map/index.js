@@ -24,8 +24,7 @@ class MapView extends Backbone.View {
     // Setting first state
     this.state = settings.state;
     this.state.attributes = _.extend({}, this.options, this.state.attributes);
-    this.state.set({'filters': filtersModel.toJSON(), silent: true}) ;
-
+    this.state.set({'filters': filtersModel.toJSON(), silent: true});
     this._checkMapSettings();
 
     this._createMap();
@@ -92,7 +91,7 @@ class MapView extends Backbone.View {
       this.changeLayer();
     });
 
-    this.state.on('change:mapMode', _.bind(this.changeLayer, this));
+    this.state.on('change:mode', _.bind(this.changeLayer, this));
     layersCollection.on('change', _.bind(this.changeLayer, this));
     filtersModel.on('change', _.bind(this._updateFilters, this));
   }
@@ -120,7 +119,7 @@ class MapView extends Backbone.View {
   _addLayer() {
     let layerConfig;
     //I will draw only active layers for each category;
-    let activeLayers = layersCollection.filter(model => model.attributes.active && model.attributes.category === this.state.get('mapMode'));
+    let activeLayers = layersCollection.filter(model => model.attributes.active && model.attributes.category === this.state.get('mode'));
     let filters = ! (filtersModel.filtersIsEmpty()) ? this.state.get('filters') : null;
 
     _.each(activeLayers, (activeLayer) => {
