@@ -45,11 +45,12 @@ class MyDonationDashboard extends React.Component {
           <div className="m-dashboard-panel">
             <div className="scroll-wrapper">
               <div>
-                <h1>Thank you { this.state.name }! Lasting change is sending to the world</h1>
+                <h1>Thank you { this.state.name }! Lasting change is being sent to the world</h1>
               </div>
               <div className="m-dash-summary">
-                <div className="summary-item">
-                  <p className="text text-legend-s">Your donation </p>
+                <div className="summary-item-centered">
+                  <div className="text-legend-icon"></div>
+                  <p className="text text-legend-s">Your donation</p>
                 </div>
               </div>
               <div className="m-dash-summary">
@@ -86,6 +87,8 @@ class MyDonationDashboard extends React.Component {
                   </div>
                 </div>
               </div>
+
+              <a href="/" className="btn btn-primary">Explore lasting change</a>
 
             </div>
           </div>

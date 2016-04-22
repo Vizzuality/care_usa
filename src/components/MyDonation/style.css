@@ -2,3 +2,20 @@
   font-size: 23px;
   font-weight: normal;
 }
+
+.text-legend-icon {
+  display: block;
+  width: 21px;
+  height: 21px;
+  margin-right: 10px;
+  background-color: #dc0073;
+}
+
+.text-legend-icon + .text {
+  display: block;
+}
+
+.summary-item-centered {
+  display: flex;
+  align-items: center;
+}
