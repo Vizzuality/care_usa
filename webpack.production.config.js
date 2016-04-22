@@ -23,7 +23,17 @@ const prodPlugins = [
     comments: false
   }),
   new webpack.optimize.DedupePlugin(),
-  new webpack.optimize.OccurrenceOrderPlugin()
+  new webpack.optimize.OccurrenceOrderPlugin(),
+  new webpack.DefinePlugin({
+    ENVIRONMENT: JSON.stringify(process.env.NODE_ENV || 'development'),
+    VERSION: JSON.stringify(require('./package.json').version),
+    config: JSON.stringify({
+      apiUrl: process.env.API_URL,
+      cartodbAccount: process.env.CARTODB_ACCOUNT,
+      cartodbKey: process.env.CARTODB_KEY,
+      mapboxToken: process.env.MAPBOX_TOKEN
+    })
+  })
 ];
 
 const config = {

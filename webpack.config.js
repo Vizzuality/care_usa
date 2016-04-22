@@ -10,6 +10,7 @@ const postcssNested = require('postcss-nested');
 const postcssImporter = require('postcss-import');
 const postcssFunctions = require('postcss-functions');
 const postcssHexRgba = require('postcss-hexrgba');
+const envVariables = require('dotenv').config();
 
 const config = {
 
@@ -41,7 +42,17 @@ const config = {
   },
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      ENVIRONMENT: JSON.stringify(process.env.NODE_ENV || 'development'),
+      VERSION: JSON.stringify(require('./package.json').version),
+      config: JSON.stringify({
+        apiUrl: envVariables.API_URL,
+        cartodbAccount: envVariables.CARTODB_ACCOUNT,
+        cartodbKey: envVariables.CARTODB_KEY,
+        mapboxToken: envVariables.MAPBOX_TOKEN
+      })
+    })
   ],
 
   postcss: (webpack) => [

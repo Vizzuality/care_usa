@@ -5,7 +5,6 @@ import _ from 'underscore';
 import Backbone from 'backbone';
 import TileLayer from './TileLayer';
 import PopUpContentView from './../PopUp/PopUpContentView';
-import config from '../../config';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
 import utils from '../../scripts/helpers/utils';
@@ -14,7 +13,7 @@ class MapView extends Backbone.View {
 
   initialize(settings) {
     // First configure mapbox
-    L.mapbox.accessToken = atob(config.mapboxToken);
+    L.mapbox.accessToken = config.mapboxToken;
 
     // Setting default options
     this.options = _.extend({}, this.defaults, settings.options);
