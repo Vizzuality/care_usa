@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "build": "set NODE_ENV=production && webpack --config ./webpack.production.config.js --progress --profile --colors",
+    "postinstall": "npm run build",
     "test": ""
   },
   "repository": {
