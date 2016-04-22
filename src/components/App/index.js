@@ -8,12 +8,24 @@ import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
 import MapView from '../Map';
 import Landing from '../Landing';
-import Router from '../../scripts/Router';
 import utils from '../../scripts/helpers/utils';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
 import sectorsCollection from '../../scripts/collections/SectorsCollection';
 import regionsCollection from '../../scripts/collections/RegionsCollection';
+
+import Router from '../Router';
+
+/**
+ * Router definition
+ */
+class AppRouter extends Router {}
+// Overriding default routes
+AppRouter.prototype.routes = {
+  '': function() {
+    console.info('you are on map page');
+  }
+};
 
 class App extends React.Component {
 
@@ -54,7 +66,7 @@ class App extends React.Component {
 
   componentWillMount() {
     this.setState(utils.checkDevice());
-    this.router = new Router();
+    this.router = new AppRouter();
     Backbone.history.start({ pushState: false });
     sectorsCollection.fetch()
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
@@ -113,21 +125,25 @@ class App extends React.Component {
 
   // MAP METHODS
   initMap() {
-    //TODO - Include mapMode into router params
-    this.router.params.set('mapMode', this.state.currentMode);
+    this.router.update({
+      mode: this.state.currentMode,
+      layer: this.state.currentLayer
+    });
 
     this.mapView = new MapView({
       el: this.refs.Map,
-      state: this.router.params
+      state: _.clone(this.router.params)
     });
   }
 
   changeMapMode(mode, e) {
+    this.router.update({mode: mode});
     this.setState({ currentMode: mode });
     this.mapView.state.set({ 'mapMode': mode });
   }
 
   changeLayer(layer, e) {
+    this.router.update({layer: layer});
     this.setState({ currentLayer: layer });
 
     // Inactive all layers ofthe same group

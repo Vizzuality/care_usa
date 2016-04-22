@@ -8,7 +8,6 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Router from './scripts/Router';
 import utils from './scripts/helpers/utils';
 import MenuDevice from './components/MenuDevice';
 import Slider from './components/Slider';
@@ -83,4 +82,3 @@ if (page === 'anniversary'){
     <Retooling/>,
     document.getElementById('l-retooling'));
 }
-

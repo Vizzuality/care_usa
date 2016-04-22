@@ -132,7 +132,9 @@ class MapView extends Backbone.View {
   }
 
   _removeCurrentLayer() {
-    this.currentLayer.removeLayer(this.map);
+    if (this.currentLayer) {
+      this.currentLayer.removeLayer(this.map);
+    }
   }
 
   changeLayer() {
