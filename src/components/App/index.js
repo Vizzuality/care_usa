@@ -203,6 +203,7 @@ class App extends React.Component {
           visible={ this.state.filtersOpen }
           onClose={ this.closeFilterModal.bind(this) }
           onSave={ this.updateFilters.bind(this) }
+          range={ this.state.ranges[this.state.currentMode] }
         />
 
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">

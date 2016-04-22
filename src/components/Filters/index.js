@@ -110,7 +110,7 @@ class FiltersView extends Backbone.View {
   populateSelectors() {
     this.$el.find('.js-from-year, .js-to-year')
       .append(() => {
-        return [2012, 2013, 2014, 2015].map((year) => {
+        return this.getYearRange().map((year) => {
           return `<option value="${year}">${year}</option>`
         });
       });
@@ -149,6 +149,40 @@ class FiltersView extends Backbone.View {
           `;
         });
       });
+  }
+
+  /* Return an array of the available years for the date filters */
+  getYearRange() {
+    const startDate = moment(this.options.dateRange[0]).add(1, 'days');
+    const endDate   = moment(this.options.dateRange[1]);
+    return _.range(startDate.year(), endDate.year() + 1);
+  }
+
+  setYearRange(range) {
+    this.options.dateRange = range;
+    this.updateYearRange();
+  }
+
+  /* Update the list of available years and tries to reset the previously
+   * selected years*/
+  updateYearRange() {
+    const fromYear = this.el.querySelector('.js-from-year');
+    const toYear   = this.el.querySelector('.js-to-year');
+
+    const selectedFromYear = fromYear.options[fromYear.selectedIndex].value;
+    const selectedToYear   = toYear.options[toYear.selectedIndex].value;
+
+    [...fromYear.options].forEach(option => !!option.value && fromYear.remove(option.index));
+    [...toYear.options].forEach(option  => !!option.value && toYear.remove(option.index));
+
+    $(fromYear).append(this.getYearRange().map(year => {
+      return `<option value="${year}" ${year === selectedFromYear ? 'selected="selected"' : ''}>${year}</option>`;
+    }));
+    $(toYear).append(this.getYearRange().map(year => {
+      return `<option value="${year}" ${year === selectedToYear ? 'selected="selected"' : ''}>${year}</option>`;
+    }));
+
+    /* TODO, do a set on the model when year disappeared? */
   }
 
   onInputChange() {

@@ -347,9 +347,8 @@ class TimelineView extends Backbone.View {
     this.cursorPosition = this.cursorPosition < this.options.domain[0] ?
       this.options.domain[1] : this.cursorPosition;
 
-    this.triggerCursorDate(this.cursorPosition);
-
     this.render();
+    this.triggerCursorDate(this.cursorPosition);
   }
 
 };
