@@ -32,8 +32,8 @@ class App extends React.Component {
       regions: [],
       /* Ranges for which we have data */
       ranges: {
-        donations: [ new Date('2011-06-30'), new Date() ],
-        projects:  [ new Date('2011-12-30'), new Date() ]
+        donations: [ new Date('2011-07-01'), new Date() ],
+        projects:  [ new Date('2012-01-01'), new Date() ]
       },
       /* Specify how often we should update the map when playing the timeline
        * or moving the handle. Dates are rounded "nicely" to the interval. */
@@ -48,7 +48,9 @@ class App extends React.Component {
         }
       },
       /* The range selected in the timeline */
-      timelineDates: {}
+      timelineDates: {},
+      /* The range displayed on the map */
+      mapDates: {}
     }
   }
 
@@ -107,7 +109,8 @@ class App extends React.Component {
       domain: this.state.ranges[this.state.currentMode],
       interval: this.state.dataInterval[this.state.currentMode],
       filters: this.state.filters,
-      onTriggerDates: this.updateTimelineDates.bind(this)
+      triggerTimelineDates: this.updateTimelineDates.bind(this),
+      triggerMapDates: this.updateMapDates.bind(this)
     });
   }
 
@@ -156,6 +159,10 @@ class App extends React.Component {
 
   updateTimelineDates(dates) {
     this.setState({ timelineDates: dates })
+  }
+
+  updateMapDates(dates) {
+    this.setState({ mapDates: dates })
   }
 
   render() {

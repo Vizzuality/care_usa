@@ -68,8 +68,13 @@ class TimelineView extends Backbone.View {
     const svgHeight = svgContainerDimensions.height - this.options.svgPadding.top
       - this.options.svgPadding.bottom;
 
+    /* Because d3 doesn't display the first tick, we subtract 1 day to it.
+     * NOTE: concat and clone are used to not modify the original array */
+    const domain = this.options.domain.concat([]);
+    domain[0] = moment(domain[0]).clone().subtract(1, 'days');
+
     this.scale = d3.time.scale()
-      .domain(this.options.domain)
+      .domain(domain)
       .range([0, svgWidth]);
 
     this.axis = d3.svg.axis()
@@ -231,12 +236,12 @@ class TimelineView extends Backbone.View {
   }
 
   renderAnimationFrame() {
-    /* The first time the animation is requested, we place the cursor on the
-     * first date we have data for */
+    /* The first time the animation is requested, we place the cursor at the
+     * beginning of the timeline */
     if(this.currentDataIndex === null || this.currentDataIndex === undefined ||
       this.cursorPosition === this.options.domain[1]) {
       this.currentDataIndex = 0;
-      this.cursorPosition = this.options.data[this.currentDataIndex].date;
+      this.cursorPosition = this.options.domain[0];
       this.moveCursor(this.cursorPosition);
     } else {
       this.cursorPosition = this.dayOffset(this.cursorPosition, this.dayPerFrame);
@@ -256,6 +261,9 @@ class TimelineView extends Backbone.View {
       this.currentDataIndex++;
       this.triggerCurrentData();
     }
+
+    /* We trigger the new range shown with the cursor as the end */
+    this.triggerCursorDate(this.cursorPosition);
 
     /* If we don't reach the end, we request another animation, otherwise we move
      * the cursor to its last position on the timeline */
@@ -295,13 +303,18 @@ class TimelineView extends Backbone.View {
 
     this.cursorShadow.attr('filter', 'url(#cursorShadow)')
 
+
     let date = this.scale.invert(d3.mouse(this.axis)[0]);
     if(date > this.options.domain[1]) date = this.options.domain[1];
     if(date < this.options.domain[0]) date = this.options.domain[0];
 
+    /* We trigger the range currently selected in the timeline*/
+    this.triggerCursorDate(date);
+
     const dataIndex = this.getClosestDataIndex(date);
     if(dataIndex !== this.currentDataIndex) {
       this.currentDataIndex = this.getClosestDataIndex(date);
+      /* We trigger the range of the currently available data */
       this.triggerCurrentData();
     }
 
@@ -334,39 +347,49 @@ class TimelineView extends Backbone.View {
     this.cursorPosition = this.cursorPosition < this.options.domain[0] ?
       this.options.domain[1] : this.cursorPosition;
 
-    /* We need to trigger the new position of the cursor */
-    this.options.onTriggerDates({
-      from: this.options.domain[0],
-      to: this.cursorPosition
-    })
+    this.triggerCursorDate(this.cursorPosition);
 
     this.render();
   }
 
 };
 
-/* As the method needs to be debounce, we need to declare it outside of the
- * class or create it as an instance method */
-TimelineView.prototype.triggerCurrentData = (function() {
-  return _.debounce(function() {
-    let endDate = this.options.data[this.currentDataIndex].date;
+/* The method is stored ouside of the class to enable it to be an IIFE */
+TimelineView.prototype.triggerCursorDate = (function() {
+  let oldEndDate = null;
 
-    /* We lie for the end date because we want the user to see the last date
-     * with data as being today's date as the dashboard shows this end date by
-     * default */
-    if(this.currentDataIndex === this.options.data.length - 1) {
-      endDate = this.options.domain[1];
-    }
+  return function(endDate) {
+    if(+oldEndDate === +endDate) return;
 
-    this.options.onTriggerDates({
-      /* In the configuration of the ranges, we substracted one day so d3
-       * would draw the first tick, but we want to display the real first
-       * day */
-      from: moment(+this.scale.domain()[0]).add(1, 'days').toDate(),
+    const startDate  = moment(this.scale.domain()[0]).add(1, 'days').toDate();
+    this.options.triggerTimelineDates({
+      from: startDate,
       to: endDate
     });
 
+    oldEndDate = endDate;
+  };
+
+})();
+
+/* As the method needs to be debounce, we need to declare it outside of the
+ * class or create it as an instance method */
+TimelineView.prototype.triggerCurrentData = (function() {
+  const triggerMapDates = _.debounce(function(dates) {
+    console.log(dates);
+    this.options.triggerMapDates(dates);
   }, 30);
+
+  return function() {
+    const startDate  = moment(this.scale.domain()[0]).add(1, 'days').toDate();
+    const dataDate   = this.options.data[this.currentDataIndex].date;
+
+    /* We trigger the range show with the last date with data */
+    triggerMapDates.call(this, {
+      from: startDate,
+      to: dataDate
+    });
+  };
 })();
 
 export default TimelineView;

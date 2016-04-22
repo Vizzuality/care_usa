@@ -35,7 +35,7 @@ class DashboardDates extends React.Component {
     } else {
       dates = (
         <div>
-          <span className="start-date text text-legend-s">{ moment(this.props.dateRange[0]).add(1, 'days').format('MM·DD·YYYY') }</span>
+          <span className="start-date text text-legend-s">{ moment(this.props.dateRange[0]).format('MM·DD·YYYY') }</span>
           <span className="text text-legend-s">&nbsp;-&nbsp;</span>
           <span className="end-date text text-legend-s">{ moment(this.props.dateRange[1]).format('MM·DD·YYYY') }</span>
         </div>
