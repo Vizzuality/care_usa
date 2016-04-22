@@ -7,7 +7,7 @@ class DonorModel extends CartodbModel {
   constructor(options) {
     super(options);
     const settings = {
-      table: 'care_donors',
+      table: 'donors',
       query: 'iso=\'USA\''
     }
     this.options = Object.assign(this.defaults, settings);
