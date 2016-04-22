@@ -16,9 +16,9 @@ class PopUp extends Backbone.View {
     this._initData();
   }
 
-  _initData() {  
+  _initData() {
     this.model.fetch().done(() => {
-      if (this.model.get('city')) {
+      if (this.model.get('location')) {
         this.options.data = this.model;
         this.options.device.mobile ?  this._drawPopUpMobile() : this._drawPopUp();
       }
@@ -27,7 +27,7 @@ class PopUp extends Backbone.View {
 
   _drawPopUpMobile() {
     this.popUp = this._getContent()
-    
+
     $('body').append(this.popUp);
     $('.btn-close').on('click', this._closeInfowindow.bind(this));
   }
@@ -45,14 +45,16 @@ class PopUp extends Backbone.View {
   }
 
   _getContent() {
-   
     return `<div class=m-popup>
             <button class="btn-close">
               <svg class="icon icon-close"><use xlink:href="#icon-close"></use></svg>
             </button>
             <div class="wrapper">
-              <p>Donations</p>
-              <h2>${ this.model.get('city') }</h2>
+              <h2>${ this.model.get('location')['city'] },
+                ${ this.model.get('location')['state'] },
+                ${ this.model.get('location')['country'] }</h2>
+              <h2>Total funds: $${ this.model.get('total_funds') }</h2>
+              <h2>Total # donors: ${ this.model.get('total_donors') }</h2>
             </div>
           </div>`
   }
