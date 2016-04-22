@@ -19,7 +19,7 @@ class PopUpDonationDist extends PopUp {
             </button>
             <div class="wrapper">
               <h2>${ this.model.get('location')['country'] }</h2>
-              <h2>Total founds: $${ this.model.get('total_funds') }</h2>
+              <h2>Total funds: $${ this.model.get('total_funds') }</h2>
               <h2>Total # donors: ${ this.model.get('total_donors') }</h2>
             </div>
           </div>`
