@@ -1,0 +1,129 @@
+@import'../../styles/settings.postcss';
+
+.l-by-numbers {
+  background-image: url("../../images/orangepattern.png");
+  text-align: center;
+
+  .wrap {
+    padding: 0;
+
+    @media screen and (min-width: $screen-m) {
+      padding: rem(99) 0;
+    }
+  }
+
+  .box-text-container {
+    text-align: center;
+
+    .text-module-title {
+      margin-bottom: rem(35);
+
+      @media screen and (min-width: $screen-m) {
+        margin-bottom: rem(100);
+      }
+
+      @media screen and (min-width: $screen-xxl) {
+        margin-bottom: rem(360);
+      }
+    }
+  }
+
+  .slider {
+    width: 100%;
+    height: rem(302);
+    margin-bottom: rem(84);
+
+    @media screen and (min-width: $screen-m) {
+      height: rem(430);
+      margin-bottom: rem(65);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      height: rem(450);
+      margin-bottom: rem(65);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      height: rem(360);
+      margin-bottom: rem(120);
+    }
+
+    .slick-dots li {
+      margin: 0 rem(20);
+      padding: 0;
+      bottom: rem(-17);
+      left: rem(-5);
+
+      @media screen and (min-width: $screen-m) {
+        bottom: rem(30);
+      }
+    }
+
+    .slick-dots li button:before{
+      width: rem(35);
+      height: rem(4);
+      background-color: $white;
+      border-radius: rem(10);
+      content: '';
+    }
+
+    .slider-element {
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      background-color: $orange-tangerine;
+      margin: 0 rem(18);
+      width: 100%;
+      height: rem(302);
+      cursor: pointer;
+
+      @media screen and (min-width: rem(548)) {
+        margin: 0 rem(127);
+      }
+
+      @media screen and (min-width: $screen-m) {
+        margin: 0 rem(50);
+        width: rem(510);
+        height: rem(362);
+      }
+    }
+
+    .projects {
+      background-image: url('../../images/slider02.png');
+      background-position: top;
+    }
+
+    .people {
+      background-image: url('../../images/slider03.png');
+      background-position: bottom;
+    }
+
+    .countries {
+      background-image: url('../../images/slider01.png');
+      background-position: center;
+    }
+
+    .slider-element:hover {
+      background-color: $orange-yellow;
+      -ms-transform: scale(1.1); /* IE 9 */
+      -webkit-transform: scale(1.1); /* Safari */
+      transform: scale(1.1); /* Standard syntax */
+    }
+  }
+
+  .btn-container {
+    width: 100%;
+    padding: 0 rem(18);
+  }
+
+  .btn-secondary {
+    width: 100%;
+    
+    @media screen and (min-width: rem(500)) {
+      width: fit-content;
+      padding: rem(14) rem(47.5);
+    }
+  }
+
+
+}
