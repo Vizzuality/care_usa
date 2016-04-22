@@ -8,7 +8,6 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Router from './scripts/Router';
 import utils from './scripts/helpers/utils';
 import MenuDevice from './components/MenuDevice';
 import Slider from './components/Slider';
@@ -49,7 +48,7 @@ class Main extends React.Component {
         />
       );
     }
-    
+
     return (
     	<div>
 	  		<Header
@@ -78,9 +77,8 @@ if (page === 'anniversary'){
    ReactDOM.render(
     <Slider />,
     document.getElementById('l-by-numbers'));
-    
+
   ReactDOM.render(
     <Retooling/>,
     document.getElementById('l-retooling'));
 }
-
