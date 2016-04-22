@@ -15,6 +15,8 @@ class PopUpContentView extends Backbone.View {
   getPopUp() {
     if (this.options.currentLayer === 'amount-of-money') {
       new PopUpDonation(this.options);
+    } else if (this.options.currentLayer === 'amount-of-money') {
+
     } else {
       new PopUpProject(this.options);
     }
