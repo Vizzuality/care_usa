@@ -3,6 +3,7 @@
 import React  from 'react';
 import d3  from 'd3';
 import _ from 'underscore';
+import moment from 'moment';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
@@ -67,7 +68,7 @@ class App extends React.Component {
   componentWillMount() {
     this.setState(utils.checkDevice());
     this.router = new AppRouter();
-    Backbone.history.start({ pushState: false });
+    this.router.start();
     sectorsCollection.fetch()
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
     regionsCollection.fetch()
@@ -101,7 +102,7 @@ class App extends React.Component {
   }
 
   _initData() {
-     layersCollection.fetch().done( () => {
+    layersCollection.fetch().done( () => {
       this.setState({ 'ready': true, currentLayer: 'amount-of-money' });
       this.initMap();
     })
@@ -114,12 +115,17 @@ class App extends React.Component {
 
   // TIMELINE METHODS
   initTimeline() {
+    const domain = this.state.ranges[this.state.currentMode];
     this.timeline = new TimelineView({
       el: this.refs.Timeline,
-      domain: this.state.ranges[this.state.currentMode],
+      domain: domain,
       interval: this.state.dataInterval[this.state.currentMode],
       filters: this.state.filters,
       onTriggerDates: this.updateTimelineDates.bind(this)
+    });
+    this.router.update({
+      startDate: moment(domain[0]).format('YYYY-MM-DD'),
+      endDate: moment(domain[1]).format('YYYY-MM-DD')
     });
   }
 

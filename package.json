@@ -1,6 +1,6 @@
 {
   "name": "care",
-  "version": "1.0.0",
+  "version": "0.2.3",
   "description": "70 years of lasting change",
   "main": "webpack.config.js",
   "scripts": {

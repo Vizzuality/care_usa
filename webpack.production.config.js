@@ -31,7 +31,10 @@ const prodPlugins = [
       apiUrl: process.env.API_URL,
       cartodbAccount: process.env.CARTODB_ACCOUNT,
       cartodbKey: process.env.CARTODB_KEY,
-      mapboxToken: process.env.MAPBOX_TOKEN
+      mapboxToken: process.env.MAPBOX_TOKEN,
+      nokiaAppId: process.env.NOKIA_APP_ID,
+      nokiaAppCode: process.env.NOKIA_APP_CODE,
+      mapboxStyle: process.env.MAPBOX_STYLE
     })
   })
 ];
@@ -43,6 +46,7 @@ const config = {
   entry: [
     './index.html',
     './anniversary.html',
+    './my-donation.html',
     './main.js',
   ],
 
@@ -55,11 +59,15 @@ const config = {
   module: {
     loaders: [
       {test: /\.html$/, loader: 'file?name=[name].[ext]'},
-      {test: /\.(js$)/, loader: 'babel-loader', exclude: /node_modules/},
+      {test: /\.(js|jsx)$/, loader: 'babel-loader', exclude: /node_modules/},
       {test: /\.(postcss$|css$)/, loader: 'style-loader!css-loader!postcss-loader'},
       {test: /\.(png|jpg|gif|svg)$/, loader: 'url-loader?prefix=image/&limit=5000&context=./src/images'},
       {test: /\.(eot|ttf|woff2|woff)$/, loader: 'url-loader?prefix=fonts/&context=./src/fonts'}
     ]
+  },
+
+  resolve: {
+    extensions: ['', '.js', '.jsx']
   },
 
   plugins: prodPlugins,
