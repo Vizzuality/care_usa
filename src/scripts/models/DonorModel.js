@@ -1,8 +1,9 @@
 'use strict';
 
-import CartodbModel from './CartodbModel';
+import PopUpModel from './PopUpModel';
 
-class DonorModel extends CartodbModel {
+
+class DonorModel extends PopUpModel {
 
   constructor(options) {
     super(options);

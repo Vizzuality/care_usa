@@ -1,10 +1,10 @@
 'use strict';
 
 import $ from 'jquery';
-import CartodbModel from './CartodbModel';
+import PopUpModel from './PopUpModel';
 import filtersModel from '../../scripts/models/filtersModel';
 
-class ProjectModel extends CartodbModel {
+class ProjectModel extends PopUpModel {
 
   constructor(options) {
     super(options);
