@@ -2,22 +2,12 @@
 
 import './styles.postcss';
 import React from 'react';
-import ModalVideo from '../ModalVideo';
 
 class Footer extends React.Component {
 
   constructor(props) {
     super(props);
-    /*******/
-    this.state = {
-      videoOpen: true
-    };
   }
-
-  closeVideoModal() {
-    this.setState({ videoOpen: false });
-  }
-  /*****/
 
   render() {
     return (
@@ -35,12 +25,6 @@ class Footer extends React.Component {
           <a href="https://plus.google.com/+care"><svg className="icon icon-googleplus -primary"><use xlinkHref="#icon-googleplus"></use></svg></a>
         </div>
         <div className="own-web text text-highlighted">Also visit our page <a href="http://www.care.org" className="text -primary">www.care.org</a></div>
-        
-        <ModalVideo
-          visible={ this.state.videoOpen }
-          onClose={ this.closeVideoModal.bind(this) }
-        />
-
        </div>
       </div>
     );
