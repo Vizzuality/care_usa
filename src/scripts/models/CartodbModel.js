@@ -4,14 +4,6 @@ import Backbone from 'backbone';
 import $ from 'jquery';
 import filtersModel from '../../scripts/models/filtersModel';
 
-/*
- * Options: {
- *  baseUrl;
- *  table;
- *  whereClause;
- *  columns;
- * }
- */
 class CartodbModel extends Backbone.Model {
 
   customFetch(options) {
@@ -21,9 +13,12 @@ class CartodbModel extends Backbone.Model {
 
   _getUrl() {
     const noFilters = filtersModel.filtersIsEmpty();
+    const ditributionLayer = this.options.currentLayer === 'number-of-donors' ? '/distribution' : '';
+
+    this.baseUrl = `${config.apiUrl}/${this.options.currentMode}${ditributionLayer}?lat=${this.options.latLng.lat}&lng=${this.options.latLng.lng}`
 
     if (noFilters) {
-      return `${config.apiUrl}/${this.options.currentMode}?lat=${this.options.latLng.lat}&lng=${this.options.latLng.lng}`;
+      return this.baseUrl;
     } else {
       return this._getUrlWithFilters();
     }
@@ -35,8 +30,9 @@ class CartodbModel extends Backbone.Model {
 
     const startDate = filters['from'] ? ('&start_date=' + filters['from-year'] + '-' + filters['from-month'] + '-' + filters['from-day']): '';
     const endDate = filters['to'] ? ('&end_date=' + filters['to-year'] + '-' + filters['to-month'] + '-' + filters['to-day']): '';
+    const regions = filters['region'] ? '&countries_iso=' + filters['region'] : '';
 
-    if (filters['sectors']) {
+    if (filters['sectors'].length > 0) {
       let sectorsItems = [];
 
       $.each(filters['sectors'], function(i, sector) {
@@ -46,7 +42,7 @@ class CartodbModel extends Backbone.Model {
       sectors = '&sectors_slug=[' + sectorsItems + ']';
     }
 
-    return `${config.apiUrl}/${this.options.currentMode}?lat=${this.options.latLng.lat}&lng=${this.options.latLng.lng}${startDate}${endDate}${sectors}`;
+    return `${this.baseUrl}${startDate}${endDate}${sectors}${regions}`;
   }
 
   parse(data) {
@@ -55,8 +51,5 @@ class CartodbModel extends Backbone.Model {
 
 };
 
-CartodbModel.prototype.defaults = {
-  baseUrl: `http://${config.cartodbAccount}.cartodb.com/api/v2/sql`
-};
 
 export default CartodbModel;
