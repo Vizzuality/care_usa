@@ -3,7 +3,7 @@
 import './styles.postcss';
 import $ from 'jquery';
 import Backbone from 'backbone';
-import DonorModel from './../../scripts/models/DonorModel';
+import filtersModel from '../../scripts/models/filtersModel';
 
 import utils from '../../scripts/helpers/utils';
 
