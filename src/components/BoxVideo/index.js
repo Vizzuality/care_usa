@@ -15,10 +15,12 @@ class BoxVideo extends React.Component {
 
   openVideoModal() {
     this.setState({ videoOpen: true });
+    document.getElementsByTagName('html')[0].style.overflow = 'hidden';
   }
 
   closeVideoModal() {
     this.setState({ videoOpen: false });
+    document.getElementsByTagName('html')[0].style.overflow = 'auto';
   }
 
   render() {
