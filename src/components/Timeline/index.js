@@ -25,7 +25,8 @@ const defaults = {
   },
   cursor: {
     speed: 10 /* seconds per year */
-  }
+  },
+  ticksAtExtremities: false
 };
 
 class TimelineView extends Backbone.View {
@@ -63,6 +64,13 @@ class TimelineView extends Backbone.View {
 
     const svgContainerDimensions = this.svgContainer.getBoundingClientRect();
 
+    /* When we have ticks at the extremities (whose format is longer), we add
+     * more padding */
+    if(this.options.ticksAtExtremities) {
+      this.options.svgPadding.left  += 15;
+      this.options.svgPadding.right += 15;
+    }
+
     const svgWidth = svgContainerDimensions.width - this.options.svgPadding.left
       - this.options.svgPadding.right;
     const svgHeight = svgContainerDimensions.height - this.options.svgPadding.top
@@ -71,17 +79,36 @@ class TimelineView extends Backbone.View {
     /* Because d3 doesn't display the first tick, we subtract 1 day to it.
      * NOTE: concat and clone are used to not modify the original array */
     const domain = this.options.domain.concat([]);
-    domain[0] = moment(domain[0]).clone().subtract(1, 'days');
+    domain[0] = moment(domain[0]).clone().subtract(1, 'days').toDate();
 
     this.scale = d3.time.scale()
       .domain(domain)
       .range([0, svgWidth]);
 
+    /* List of the dates for which we want ticks */
+    let ticksDates = d3.time.year.range(domain[0], domain[1], 1);
+
+    if(this.options.ticksAtExtremities) {
+      ticksDates = ticksDates.concat(domain)
+        .sort((a, b) => (+a) - (+b)); /* Compulsory */
+    }
+
     this.axis = d3.svg.axis()
       .scale(this.scale)
       .orient('top')
       /* TODO: should accept non yearly domains */
-      .ticks(d3.time.year, 1)
+      .tickValues(ticksDates)
+      .tickFormat((d, i) => {
+        /* The ticks at the extremities are the whole date and not just the
+         * year */
+        if(this.options.ticksAtExtremities) {
+          if(i === 0 || i === ticksDates.length - 1) {
+            return moment(d).format('MM·DD·YYYY');
+          }
+          return;
+        }
+        return d.getFullYear();
+      })
       .outerTickSize(0);
 
     this.svgContainer.innerHTML = null;
@@ -336,9 +363,11 @@ class TimelineView extends Backbone.View {
     return this.options.data.length - 1;
   }
 
-  /* Update the range of the timeline and its interval */
-  setRange(domain, interval) {
+  /* Update the range of the timeline and its interval; shows ticks at the
+   * extremities if true */
+  setRange(domain, interval, extremityTicks) {
     this.options.domain = domain;
+    this.options.ticksAtExtremities = !!extremityTicks;
     if(interval) this.options.interval = interval;
     this.cursorPosition = this.options.domain[1];
     this.render();

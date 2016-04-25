@@ -84,7 +84,7 @@ class App extends React.Component {
     if(nextState.filters.from && nextState.filters.from !== this.state.filters.from ||
       nextState.filters.to && nextState.filters.to !== this.state.filters.to) {
       const range = [ nextState.filters.from, nextState.filters.to ];
-      this.timeline.setRange(range, interval);
+      this.timeline.setRange(range, interval, true);
     } else if(this.state.filters.from && !nextState.filters.from ||
       this.state.filters.to && !nextState.filters.to) {
       this.timeline.setRange(wholeRange, interval);
@@ -118,7 +118,8 @@ class App extends React.Component {
       interval: this.state.dataInterval[this.state.currentMode],
       filters: this.state.filters,
       triggerTimelineDates: this.updateTimelineDates.bind(this),
-      triggerMapDates: this.updateMapDates.bind(this)
+      triggerMapDates: this.updateMapDates.bind(this),
+      ticksAtExtremities: false
     });
   }
 
