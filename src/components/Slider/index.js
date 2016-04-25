@@ -1,7 +1,7 @@
 'use strict';
 
-import '../../../node_modules/slick-carousel/slick/slick.css';
-import '../../../node_modules/slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import './styles.postcss';
 import React from 'react';
 import $ from 'jquery';
@@ -60,7 +60,7 @@ class Slider extends React.Component {
           <div className="box-text-container">
             <h1 className="text text-module-title -light">2015 By the Numbers</h1>
           </div>
-          
+
           <div className="slider">
             <div className="countries slider-element">
               <p className="text text-numbers-xxl -light">95</p>

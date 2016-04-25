@@ -1,1 +1,1 @@
-web: ./node_modules/.bin/http-server dist
+web: node server.js

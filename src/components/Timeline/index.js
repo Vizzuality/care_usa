@@ -4,6 +4,7 @@ import Backbone from 'backbone';
 import _ from 'underscore';
 import $ from 'jquery';
 import d3 from 'd3';
+import moment from 'moment';
 
 import utils from '../../scripts/helpers/utils';
 import './styles.postcss';
@@ -36,7 +37,7 @@ class TimelineView extends Backbone.View {
   }
 
   initialize(options) {
-    this.options = _.extend(options, defaults);
+    this.options = _.extend(defaults, options);
 
     /* Cache */
     this.svgContainer = this.el.querySelector('.js-svg-container');
@@ -49,6 +50,7 @@ class TimelineView extends Backbone.View {
 
     this.render();
     this.setListeners();
+
   }
 
   setListeners() {
@@ -74,7 +76,7 @@ class TimelineView extends Backbone.View {
       .scale(this.scale)
       .orient('top')
       /* TODO: should accept non yearly domains */
-      .ticks(this.options.domain[1].getYear() - this.options.domain[0].getYear())
+      .ticks(d3.time.year, 1)
       .outerTickSize(0);
 
     this.svgContainer.innerHTML = null;
@@ -86,7 +88,7 @@ class TimelineView extends Backbone.View {
         .append('g')
           .attr('transform', `translate(${this.options.svgPadding.left}, ${this.options.svgPadding.top})`);
 
-    const d3Axis = this.svg
+    this.d3Axis = this.svg
         .append('g')
           .attr('class', 'axis')
           .style('stroke-dasharray', '6, 6')
@@ -94,7 +96,7 @@ class TimelineView extends Backbone.View {
           .call(this.axis);
 
     /* We need it to calculate the position of the brush */
-    this.axis = d3Axis[0][0];
+    this.axis = this.d3Axis[0][0];
 
     this.brush = d3.svg.brush()
       .x(this.scale)
@@ -105,17 +107,17 @@ class TimelineView extends Backbone.View {
       .on('brushend', this.onCursorEndDrag.bind(this));
 
     /* Cursor line - needs to be under the ticks */
-    this.d3CursorLine = d3Axis
+    this.d3CursorLine = this.d3Axis
       .append('line')
       .attr('x1', 0)
-      .attr('x2', this.scale(this.options.domain[1]))
+      .attr('x2', this.scale(this.cursorPosition))
       .attr('y1', 0)
       .attr('y2', 0)
       .style('stroke-dasharray', '0, 0')
       .attr('class', 'cursor-line');
 
     /* We add the ticks for the report */
-    d3Axis.selectAll('.tick')
+    this.d3Axis.selectAll('.tick')
       .append('rect')
       .attr('width', smallScreen ? 5 : 6)
       .attr('height', smallScreen ? 5 : 6)
@@ -125,12 +127,12 @@ class TimelineView extends Backbone.View {
       .attr('class', 'report');
 
     /* We slightly move the ticks' text to the top and center it */
-    d3Axis.selectAll('.tick text')
+    this.d3Axis.selectAll('.tick text')
       .attr('y', smallScreen ? -11 : -15)
       .style('text-anchor', 'middle');
 
     /* We add the milestones */
-    d3Axis.selectAll('.milestone')
+    this.d3Axis.selectAll('.milestone')
       .data(this.options.milestones)
       .enter()
         .append('rect')
@@ -141,7 +143,7 @@ class TimelineView extends Backbone.View {
         .attr('class', 'milestone');
 
     /* We add the cursor */
-    const d3Slider = d3Axis
+    const d3Slider = this.d3Axis
       .append('g')
       .attr('class', 'slider')
       .call(this.brush);
@@ -179,12 +181,8 @@ class TimelineView extends Backbone.View {
       .attr('class', 'cursor')
       .call(this.brush.event);
 
-    /* TODO: use the real dates insteaf of these */
-    if(!this.options.data) {
-      this.options.data = this.scale.ticks(d3.time.week, 2).map(date => {
-        return { date };
-      })
-    }
+    this.options.data = this.options.interval.unit.range.apply(null, this.scale.domain().concat(this.options.interval.count))
+      .map(date => ({ date }));
   }
 
   togglePlay() {
@@ -274,12 +272,6 @@ class TimelineView extends Backbone.View {
     this.d3CursorLine.attr('x2', this.scale(date));
   }
 
-  /* TODO */
-  /* TODO: should absolutely be debounced because of the brush */
-  triggerCurrentData() {
-    console.log('Trigger data for', this.options.data[this.currentDataIndex]);
-  }
-
   /* Compute and return date with the passed offset
    * NOTE: d3.time.day.offset can't be used because the use of float numbers are
    * not crossbrowser-standardized yet on d3 3.5.16:
@@ -321,19 +313,60 @@ class TimelineView extends Backbone.View {
    * as argument */
   getClosestDataIndex(date) {
     var current = 0;
-    while(current < this.options.data.length - 1) {
-      if(this.options.data[current].date > date) {
+    while(current <= this.options.data.length - 1) {
+      if(this.options.data[current].date >= date) {
         if(current === 0) return current;
-        const previousDiff = +date - (+this.options.data[current - 1].date);
-        const nextDiff = +this.options.data[current].date - (+date);
-        if(previousDiff <= nextDiff) return current - 1;
-        return current;
+        return current - 1;
       }
       current++;
     }
     return this.options.data.length - 1;
   }
 
+  /* Update the range of the timeline and its interval */
+  setRange(domain, interval) {
+    this.options.domain = domain;
+    if(interval) this.options.interval = interval;
+
+    /* We move the cursor within the new range: if the cursor is outside of it,
+     * set it to this.options.domain[1] */
+    this.cursorPosition = new Date(Math.min(this.options.domain[1], this.cursorPosition));
+    this.cursorPosition = this.cursorPosition < this.options.domain[0] ?
+      this.options.domain[1] : this.cursorPosition;
+
+    /* We need to trigger the new position of the cursor */
+    this.options.onTriggerDates({
+      from: this.options.domain[0],
+      to: this.cursorPosition
+    })
+
+    this.render();
+  }
+
 };
+
+/* As the method needs to be debounce, we need to declare it outside of the
+ * class or create it as an instance method */
+TimelineView.prototype.triggerCurrentData = (function() {
+  return _.debounce(function() {
+    let endDate = this.options.data[this.currentDataIndex].date;
+
+    /* We lie for the end date because we want the user to see the last date
+     * with data as being today's date as the dashboard shows this end date by
+     * default */
+    if(this.currentDataIndex === this.options.data.length - 1) {
+      endDate = this.options.domain[1];
+    }
+
+    this.options.onTriggerDates({
+      /* In the configuration of the ranges, we substracted one day so d3
+       * would draw the first tick, but we want to display the real first
+       * day */
+      from: moment(+this.scale.domain()[0]).add(1, 'days').toDate(),
+      to: endDate
+    });
+
+  }, 30);
+})();
 
 export default TimelineView;

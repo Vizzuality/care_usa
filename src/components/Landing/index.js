@@ -28,7 +28,7 @@ class Landing extends React.Component {
             <a className="btn btn-primary" onClick={ this.getStarted.bind(this) }>Get started</a>
           </aside>
         </div>
-        <img className="evolution-image" src="./src/images/fullwidthcontent_boxland01.png" />
+        <img className="evolution-image" src={ require('../../images/fullwidthcontent_boxland01.png') } />
      </div>
     );
   }
