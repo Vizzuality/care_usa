@@ -22,7 +22,7 @@ class Main extends React.Component {
     this.state = {
     	currentPage: 'who-cares',
     	device: null,
-      	menuDeviceOpen: false
+      menuDeviceOpen: false
     };
   }
 
@@ -50,7 +50,7 @@ class Main extends React.Component {
         />
       );
     }
-
+    
     return (
     	<div>
 	  		<Header
@@ -58,7 +58,8 @@ class Main extends React.Component {
 	          toggleMenuFn = { this.toggleMenu.bind(this) }
 	          changePageFn = { this.changePage.bind(this) }
 	        />
-	        { this.props.currentPage === 'who-cares' ? <App />: <Anniversary /> }
+	        { this.props.currentPage === 'who-cares' ? <App />: 
+            this.props.currentPage === 'anniversary' ? <Anniversary /> : ''}
 	       	{ menuDevice }
         </div>
     );
@@ -78,3 +79,5 @@ if (page.length > 0) {
 if (page === 'donation') {
   ReactDOM.render(<MyDonation />, document.getElementById('myDonation'));
 }
+
+
