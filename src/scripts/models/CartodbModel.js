@@ -13,24 +13,23 @@ import Backbone from 'backbone';
 class CartodbModel extends Backbone.Model {
 
   url() {
-    return `${this.options.baseUrl}?q=${this.getQuery()}`;
+    return `${config.apiUrl}/donations?${this.getQuery()}`;
   }
 
   getQuery() {
     const latitude = 40.71427;
     const longitude = -74.00597;
-    return `SELECT city, date FROM care_donors
-      WHERE ST_Intersects(the_geom, CDB_LatLng('${latitude}','${longitude}'))`;
+    return `lat=${latitude}&lng=${longitude}`;
   }
 
   parse(data) {
-    return data.rows[0];
+    return data;
   }
 
 };
 
 CartodbModel.prototype.defaults = {
-  baseUrl: 'http://simbiotica.cartodb.com/api/v2/sql'
+  baseUrl: `http://${config.cartodbAccount}.cartodb.com/api/v2/sql`
 };
 
 export default CartodbModel;

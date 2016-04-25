@@ -3,17 +3,30 @@
 import React  from 'react';
 import d3  from 'd3';
 import _ from 'underscore';
+import moment from 'moment';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
 import MapView from '../Map';
 import Landing from '../Landing';
-import Router from '../../scripts/Router';
 import utils from '../../scripts/helpers/utils';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
 import sectorsCollection from '../../scripts/collections/SectorsCollection';
 import regionsCollection from '../../scripts/collections/RegionsCollection';
+
+import Router from '../Router';
+
+/**
+ * Router definition
+ */
+class AppRouter extends Router {}
+// Overriding default routes
+AppRouter.prototype.routes = {
+  '': function() {
+    console.info('you are on map page');
+  }
+};
 
 class App extends React.Component {
 
@@ -54,8 +67,8 @@ class App extends React.Component {
 
   componentWillMount() {
     this.setState(utils.checkDevice());
-    this.router = new Router();
-    Backbone.history.start({ pushState: false });
+    this.router = new AppRouter();
+    this.router.start();
     sectorsCollection.fetch()
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
     regionsCollection.fetch()
@@ -89,7 +102,7 @@ class App extends React.Component {
   }
 
   _initData() {
-     layersCollection.fetch().done( () => {
+    layersCollection.fetch().done( () => {
       this.setState({ 'ready': true, currentLayer: 'amount-of-money' });
       this.initMap();
     })
@@ -102,32 +115,41 @@ class App extends React.Component {
 
   // TIMELINE METHODS
   initTimeline() {
+    const domain = this.state.ranges[this.state.currentMode];
     this.timeline = new TimelineView({
       el: this.refs.Timeline,
-      domain: this.state.ranges[this.state.currentMode],
+      domain: domain,
       interval: this.state.dataInterval[this.state.currentMode],
       filters: this.state.filters,
       onTriggerDates: this.updateTimelineDates.bind(this)
+    });
+    this.router.update({
+      startDate: moment(domain[0]).format('YYYY-MM-DD'),
+      endDate: moment(domain[1]).format('YYYY-MM-DD')
     });
   }
 
   // MAP METHODS
   initMap() {
-    //TODO - Include mapMode into router params
-    this.router.params.set('mapMode', this.state.currentMode);
+    this.router.update({
+      mode: this.state.currentMode,
+      layer: this.state.currentLayer
+    });
 
     this.mapView = new MapView({
       el: this.refs.Map,
-      state: this.router.params
+      state: _.clone(this.router.params)
     });
   }
 
   changeMapMode(mode, e) {
+    this.router.update({mode: mode});
     this.setState({ currentMode: mode });
-    this.mapView.state.set({ 'mapMode': mode });
+    this.mapView.state.set({ 'mode': mode });
   }
 
   changeLayer(layer, e) {
+    this.router.update({layer: layer});
     this.setState({ currentLayer: layer });
 
     // Inactive all layers ofthe same group

@@ -8,11 +8,11 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Router from './scripts/Router';
 import utils from './scripts/helpers/utils';
 import MenuDevice from './components/MenuDevice';
 import Slider from './components/Slider';
 import Retooling from './components/Retooling';
+import MyDonation from './components/MyDonation';
 
 class Main extends React.Component {
 
@@ -64,13 +64,13 @@ class Main extends React.Component {
   }
 }
 
-const page = ['app', 'anniversary'].filter((page) => document.getElementById(page))[0];
+const page = ['app', 'anniversary', 'donation']
+  .filter(page => document.getElementById(page))[0];
 
 if (page.length > 0) {
   ReactDOM.render(
     <Main currentTab={ page === 'app' ? 'who-cares' : page }
   	currentPage={ page === 'app' ? 'who-cares' : page }/>,
-
   	document.getElementById(page));
 }
 
@@ -88,3 +88,6 @@ if (page === 'anniversary'){
     document.getElementById('footer'));
 }
 
+if (page === 'donation') {
+  ReactDOM.render(<MyDonation />, document.getElementById('myDonation'));
+}
