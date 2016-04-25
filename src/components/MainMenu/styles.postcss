@@ -1,7 +1,8 @@
 @import'../../styles/settings.postcss';
 @import'../../styles/helpers.postcss';
 
-.m-main-menu { 
+.m-main-menu {
+  pointer-events: auto;
 
   .btn-menu-toggle {
     width: rem(30);
@@ -11,11 +12,11 @@
       display: none;
     }
   }
-  
+
   .menu {
     display: none;
     list-style: none;
-    
+
     @media screen and (min-width: $screen-m) {
       display: flex;
       flex: 1 1 auto;
