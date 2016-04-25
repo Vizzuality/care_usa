@@ -14,7 +14,7 @@ class PowerBox extends React.Component {
       <article className="l-power-box">
         <div className="wrap">
           <aside className="box-image-container">
-            <img className="box-image" src="./src/images/halfwidthcontent_box01.png" />
+            <img className="box-image" src={ require('../../images/halfwidthcontent_box01.png')} />
           </aside>
           <div className="box-text-container">
             <h1 className="text text-module-title -dark">The power of a box</h1>
