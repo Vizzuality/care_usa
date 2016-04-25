@@ -16,7 +16,6 @@ class PopUp extends Backbone.View {
   }
 
   _initData() {
-    console.log(filtersModel);
     this.model.customFetch(this.options).done(() => {
       if (this.model.get('location')) {
         this.options.data = this.model;
