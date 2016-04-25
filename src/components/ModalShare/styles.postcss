@@ -1,0 +1,64 @@
+@import'../../styles/settings.postcss';
+
+.wrap {
+
+}
+
+.text-module-title {
+	margin-bottom: rem(33);
+
+	@media screen and (min-width: $screen-l) {
+		margin-bottom: rem(69);
+	}
+}
+
+.text-highlighted {
+	margin-bottom: rem(27);
+
+	@media screen and (min-width: $screen-l) {
+		margin-bottom: rem(18);
+	}
+}
+
+.text-input {
+	padding-bottom: rem(15);
+	border-bottom: rem(1) solid #dfd7ce;
+	margin-bottom: rem(15);
+
+	@media screen and (min-width: $screen-l) {
+		margin-right: rem(30);
+		margin-bottom: rem(0);
+	}
+}
+
+.btn-container {
+	width: 100%;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	margin-bottom: rem(56);
+
+	@media screen and (min-width: $screen-l) {
+		flex-flow: row;
+		margin-bottom: rem(75);
+	}
+}
+
+.btn-copy {
+	width: 100%;
+
+	@media screen and (min-width: rem(500)) {
+	  width: fit-content;
+	  padding: rem(14) rem(47.5);
+	}
+}
+
+.share-links {
+	width: 100%;
+	display: flex;
+	padding-right: rem(52);
+
+	& a {
+		margin-left: rem(43);
+	}
+}
