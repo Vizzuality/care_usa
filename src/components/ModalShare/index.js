@@ -3,6 +3,7 @@
 import './styles.postcss';
 import Modal from '../Modal';
 import React from 'react';
+import Clipboard from 'clipboard';
 
 class ModalShare extends Modal {
 
@@ -13,13 +14,15 @@ class ModalShare extends Modal {
   getContent() {
   	const url = window.location.href;
   	const iframeLink = '<iframe width="600" height="600" src="' + url + '" frameborder="0" allowfullscreen></iframe>';
+    new Clipboard('.btn-copy');
+
     return (
     	<div className="wrap">
     		<h1 className="text text-module-title -dark">Share this view</h1>
     		<p className="text text-highlighted -dark">Click and paste HTML to embed in website</p>
     		<aside className="btn-container">
-    			<div className="embed-link text text-input -primary">{ iframeLink }</div>
-    			<a className="btn btn-primary btn-copy">Copy</a>
+    			<div id="embed-link" className="embed-link text text-input -primary">{ iframeLink }</div>
+    			<a className="btn btn-primary btn-copy" data-clipboard-target="#embed-link">Copy</a>
     		</aside>
     		<div className="share-links">
 				<span className="text text-hightlighted -dark">Share on</span>
