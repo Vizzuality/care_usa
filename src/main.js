@@ -82,5 +82,9 @@ if (page === 'anniversary'){
   ReactDOM.render(
     <Retooling/>,
     document.getElementById('l-retooling'));
+
+  ReactDOM.render(
+    <Footer/>,
+    document.getElementById('footer'));
 }
 
