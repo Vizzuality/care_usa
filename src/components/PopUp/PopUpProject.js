@@ -12,6 +12,7 @@ import utils from '../../scripts/helpers/utils';
 class PopUpProject extends PopUp {
 
   _getContent() {
+    //TODO - when filtering... what happens with girls/women men?
 
     return `<div class=m-popup>
             <button class="btn-close">
