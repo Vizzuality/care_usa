@@ -3,7 +3,7 @@
 import './styles.postcss';
 import $ from 'jquery';
 import Backbone from 'backbone';
-import DonorModel from './../../scripts/models/DonorModel';
+import filtersModel from '../../scripts/models/filtersModel';
 
 import utils from '../../scripts/helpers/utils';
 
@@ -16,6 +16,7 @@ class PopUp extends Backbone.View {
   }
 
   _initData() {
+    console.log(filtersModel);
     this.model.customFetch(this.options).done(() => {
       if (this.model.get('location')) {
         this.options.data = this.model;

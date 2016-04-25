@@ -12,17 +12,17 @@ import utils from '../../scripts/helpers/utils';
 class PopUpProject extends PopUp {
 
   _getContent() {
-   
+
     return `<div class=m-popup>
             <button class="btn-close">
               <svg class="icon icon-close"><use xlink:href="#icon-close"></use></svg>
             </button>
             <div class="wrapper">
               <h2>Country: ${ this.model.get('location')['name'] }</h2>
-              <h2>Total people reached: ${ this.model.get('people_reached') }</h2>
-              <h2>Total projects: ${ this.model.get('number_of_projects') }</h2>
-              <p>Total men reached: ${ this.model.get('men_total') } </p>
-              <p>Total women and girls reached: ${ this.model.get('women_and_girls_total') }</p>
+              <h2>Total people reached: ${ this.model.get('totals')['people'] }</h2>
+              <h2>Total projects: ${ this.model.get('totals')['projects'] }</h2>
+              <p>Total men reached: ${ this.model.get('totals')['men'] } </p>
+              <p>Total women and girls reached: ${ this.model.get('totals')['women_and_girls'] }</p>
             </div>
           </div>`
   }
