@@ -158,33 +158,6 @@ class FiltersView extends Backbone.View {
     return _.range(startDate.year(), endDate.year() + 1);
   }
 
-  setYearRange(range) {
-    this.options.dateRange = range;
-    this.updateYearRange();
-  }
-
-  /* Update the list of available years and tries to reset the previously
-   * selected years*/
-  updateYearRange() {
-    const fromYear = this.el.querySelector('.js-from-year');
-    const toYear   = this.el.querySelector('.js-to-year');
-
-    const selectedFromYear = fromYear.options[fromYear.selectedIndex].value;
-    const selectedToYear   = toYear.options[toYear.selectedIndex].value;
-
-    [...fromYear.options].forEach(option => !!option.value && fromYear.remove(option.index));
-    [...toYear.options].forEach(option  => !!option.value && toYear.remove(option.index));
-
-    $(fromYear).append(this.getYearRange().map(year => {
-      return `<option value="${year}" ${year === selectedFromYear ? 'selected="selected"' : ''}>${year}</option>`;
-    }));
-    $(toYear).append(this.getYearRange().map(year => {
-      return `<option value="${year}" ${year === selectedToYear ? 'selected="selected"' : ''}>${year}</option>`;
-    }));
-
-    /* TODO, do a set on the model when year disappeared? */
-  }
-
   onInputChange() {
     this.checkButtonsAvailability();
   }

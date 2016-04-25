@@ -12,10 +12,6 @@ class ModalFilters extends Modal {
   }
 
   shouldComponentUpdate(nextProps) {
-    if(nextProps.range !== this.props.range) {
-      this.filters.setYearRange(nextProps.range);
-    }
-
     /* Just for optimization: don't render if nothing changed */
     if(nextProps.visible !==  this.props.visible) {
       if(nextProps.visible) this.filters.updateFilters();

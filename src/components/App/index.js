@@ -33,7 +33,7 @@ class App extends React.Component {
       /* Ranges for which we have data */
       ranges: {
         donations: [ new Date('2011-07-01'), new Date() ],
-        projects:  [ new Date('2012-01-01'), new Date() ]
+        projects:  [ new Date('2012-01-01'), new Date('2015-01-01') ]
       },
       /* Specify how often we should update the map when playing the timeline
        * or moving the handle. Dates are rounded "nicely" to the interval. */
@@ -71,20 +71,23 @@ class App extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    /* Each time the mode changes, we need to update the timeline's range */
-    if(this.timeline && (this.state.currentMode !== nextState.currentMode)) {
-      this.timeline.setRange(this.state.ranges[nextState.currentMode],
-        this.state.dataInterval[nextState.currentMode]);
-    }
+    /* Basically, here, what we want to do is pass to the timeline the minimum
+     * range covering both the range of the donations and of the projects, or
+     * the filtering range if exists */
+    const wholeRange = [
+      new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
+      new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
+    ];
 
-    /* Each time the user filters the map, we update the timeline to make sure
-     * the filter dates match the timeline's domain */
-    if(this.timeline && this.state.filters !== nextState.filters) {
-      if(nextState.filters.from && nextState.filters.to) {
-        this.timeline.setRange([ nextState.filters.from, nextState.filters.to ]);
-      } else {
-        this.timeline.setRange.call(this.timeline, nextState.ranges[nextState.currentMode]);
-      }
+    const interval = this.state.dataInterval[nextState && nextState.currentMode || this.state.currentMode];
+
+    if(nextState.filters.from && nextState.filters.from !== this.state.filters.from ||
+      nextState.filters.to && nextState.filters.to !== this.state.filters.to) {
+      const range = [ nextState.filters.from, nextState.filters.to ];
+      this.timeline.setRange(range, interval);
+    } else if(this.state.filters.from && !nextState.filters.from ||
+      this.state.filters.to && !nextState.filters.to) {
+      this.timeline.setRange(wholeRange, interval);
     }
 
     return true;
@@ -104,9 +107,14 @@ class App extends React.Component {
 
   // TIMELINE METHODS
   initTimeline() {
+    const wholeRange = [
+      new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
+      new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
+    ];
+
     this.timeline = new TimelineView({
       el: this.refs.Timeline,
-      domain: this.state.ranges[this.state.currentMode],
+      domain: wholeRange,
       interval: this.state.dataInterval[this.state.currentMode],
       filters: this.state.filters,
       triggerTimelineDates: this.updateTimelineDates.bind(this),
@@ -166,6 +174,11 @@ class App extends React.Component {
   }
 
   render() {
+    const wholeRange = [
+      new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
+      new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
+    ];
+
     return (
       <div className="l-app">
 
@@ -203,7 +216,7 @@ class App extends React.Component {
           visible={ this.state.filtersOpen }
           onClose={ this.closeFilterModal.bind(this) }
           onSave={ this.updateFilters.bind(this) }
-          range={ this.state.ranges[this.state.currentMode] }
+          range={ wholeRange }
         />
 
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">

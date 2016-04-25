@@ -340,13 +340,7 @@ class TimelineView extends Backbone.View {
   setRange(domain, interval) {
     this.options.domain = domain;
     if(interval) this.options.interval = interval;
-
-    /* We move the cursor within the new range: if the cursor is outside of it,
-     * set it to this.options.domain[1] */
-    this.cursorPosition = new Date(Math.min(this.options.domain[1], this.cursorPosition));
-    this.cursorPosition = this.cursorPosition < this.options.domain[0] ?
-      this.options.domain[1] : this.cursorPosition;
-
+    this.cursorPosition = this.options.domain[1];
     this.render();
     this.triggerCursorDate(this.cursorPosition);
   }
