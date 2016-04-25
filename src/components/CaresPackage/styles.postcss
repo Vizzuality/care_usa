@@ -41,17 +41,9 @@
     }
   }
 
-  .find-more {
-    width: 100%;
-  }
-
-  .btn-primary {
-    width: 100%;
-    
-    @media screen and (min-width: $screen-s) {
-      width: fit-content;
-      padding: rem(14) rem(47.5);
-    }
+  .cares-package-header {
+    display: flex;
+    justify-content: center;
   }
   
   .text-module-title {
@@ -59,6 +51,7 @@
     left: 0;
     right: 0;
     top: rem(46);
+
 
     @media screen and (min-width: $screen-m) {
       top: rem(100);
@@ -74,14 +67,17 @@
     
     @media screen and (min-width: $screen-m) {
       margin-bottom: rem(35);
+      max-width: 65.5%;
     }
 
     @media screen and (min-width: $screen-xl) {
       margin-bottom: rem(29);
+      max-width: 82.75%;
     }
     
     @media screen and (min-width: $screen-xxl) {
       margin-bottom: rem(51);
+      max-width: 65.5%;
     }
   }
 
@@ -106,6 +102,19 @@
 
     @media screen and (min-width: $screen-xxl) {
       margin-bottom: rem(71);
+    }
+  }
+
+  .find-more {
+    width: 100%;
+  }
+
+  .btn-primary {
+    width: 100%;
+    
+    @media screen and (min-width: rem(500)) {
+      width: fit-content;
+      padding: rem(14) rem(47.5);
     }
   }
 }
