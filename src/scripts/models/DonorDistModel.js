@@ -8,10 +8,10 @@ class DonorsDistModel extends CartodbModel {
     super(options);
   }
 
-  customFetch(options) {
-  	const url = `${config.apiUrl}/donations/distribution?lat=${options.latLng.lat}&lng=${options.latLng.lng}`;
-  	return this.fetch({ url: url });
-  }
+  // customFetch(options) {
+  // 	const url = `${config.apiUrl}/donations/distribution?lat=${options.latLng.lat}&lng=${options.latLng.lng}`;
+  // 	return this.fetch({ url: url });
+  // }
 }
 
 export default DonorsDistModel;

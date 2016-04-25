@@ -15,10 +15,13 @@ class PopUp extends Backbone.View {
   }
 
   _initData() {
-    this.model.customFetch(this.options).done(() => {
-      if (this.model.get('location')) {
+    this.model.customFetch(this.options).done((response) => {
+      //We need to check if response is empty to not draw pop-up in that case.
+      if ( Object.keys(response).length ) {
         this.options.data = this.model;
         this.options.device.mobile ?  this._drawPopUpMobile() : this._drawPopUp();
+      } else {
+        this.model.clear();
       }
     });
   }

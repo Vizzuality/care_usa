@@ -102,6 +102,7 @@ class MapView extends Backbone.View {
 
   _infowindowSetUp(e) {
     new PopUpContentView({
+      currentMode: this.state.get('mode'),
       currentLayer: this.state.get('currentLayer'),
       latLng: e.latlng,
       map: this.map
