@@ -5,7 +5,6 @@ import _ from 'underscore';
 import Backbone from 'backbone';
 import TileLayer from './TileLayer';
 import PopUpContentView from './../PopUp/PopUpContentView';
-import config from '../../config';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
 import utils from '../../scripts/helpers/utils';
@@ -14,7 +13,7 @@ class MapView extends Backbone.View {
 
   initialize(settings) {
     // First configure mapbox
-    L.mapbox.accessToken = atob(config.mapboxToken);
+    L.mapbox.accessToken = config.mapboxToken;
 
     // Setting default options
     this.options = _.extend({}, this.defaults, settings.options);
@@ -25,8 +24,7 @@ class MapView extends Backbone.View {
     // Setting first state
     this.state = settings.state;
     this.state.attributes = _.extend({}, this.options, this.state.attributes);
-    this.state.set({'filters': filtersModel.toJSON(), silent: true}) ;
-
+    this.state.set({'filters': filtersModel.toJSON(), silent: true});
     this._checkMapSettings();
 
     this._createMap();
@@ -93,7 +91,7 @@ class MapView extends Backbone.View {
       this.changeLayer();
     });
 
-    this.state.on('change:mapMode', _.bind(this.changeLayer, this));
+    this.state.on('change:mode', _.bind(this.changeLayer, this));
     layersCollection.on('change', _.bind(this.changeLayer, this));
     filtersModel.on('change', _.bind(this._updateFilters, this));
   }
@@ -104,7 +102,7 @@ class MapView extends Backbone.View {
 
   _infowindowSetUp(e) {
     new PopUpContentView({
-      currentLayer: this.options.currentLayer,
+      currentLayer: this.state.get('currentLayer'),
       latLng: e.latlng,
       map: this.map
     }).getPopUp();
@@ -121,7 +119,7 @@ class MapView extends Backbone.View {
   _addLayer() {
     let layerConfig;
     //I will draw only active layers for each category;
-    let activeLayers = layersCollection.filter(model => model.attributes.active && model.attributes.category === this.state.get('mapMode'));
+    let activeLayers = layersCollection.filter(model => model.attributes.active && model.attributes.category === this.state.get('mode'));
     let filters = ! (filtersModel.filtersIsEmpty()) ? this.state.get('filters') : null;
 
     _.each(activeLayers, (activeLayer) => {
@@ -129,11 +127,16 @@ class MapView extends Backbone.View {
       this.currentLayer = new TileLayer(layerConfig, filters);
 
       this.currentLayer.createLayer().then( () => { this.currentLayer.addLayer(this.map) } );
+
+      this.state.set('currentLayer', layerConfig.slug);
     })
   }
 
   _removeCurrentLayer() {
-    this.currentLayer.removeLayer(this.map);
+    if (this.currentLayer && this.currentLayer.removeLayer) {
+      this.currentLayer.removeLayer(this.map);
+      this.currentLayer = null;
+    }
   }
 
   changeLayer() {
