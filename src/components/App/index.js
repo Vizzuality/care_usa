@@ -11,6 +11,7 @@ import ModalNoData from '../ModalNoData';
 import MapView from '../Map';
 import Landing from '../Landing';
 import utils from '../../scripts/helpers/utils';
+import ModalShare from '../ModalShare';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
 import sectorsCollection from '../../scripts/collections/SectorsCollection';
@@ -65,7 +66,8 @@ class App extends React.Component {
       /* The range selected in the timeline */
       timelineDates: {},
       /* The range displayed on the map */
-      mapDates: {}
+      mapDates: {},
+      shareOpen: false
     }
   }
 
@@ -210,6 +212,15 @@ class App extends React.Component {
     filtersModel.set(filtersModel.defaults);
   }
 
+  // SHARE METHODS
+  openShareModal() {
+    this.setState({ shareOpen: true });
+  }
+
+  closeShareModal() {
+    this.setState({ shareOpen: false });
+  }
+
   render() {
     const wholeRange = [
       new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
@@ -221,11 +232,16 @@ class App extends React.Component {
 
         <div id="map" className="l-map" ref="Map"></div>
 
-        <button className="btn-share btn-primary l-share">
+        <button className="btn-share btn-primary l-share" onClick={ () => this.openShareModal() }>
           <svg className="icon icon-share">
             <use xlinkHref="#icon-share"></use>
           </svg>
         </button>
+
+        <ModalShare
+          visible={ this.state.shareOpen }
+          onClose={ this.closeShareModal.bind(this) }
+        />
 
         <Dashboard
           changeModeFn={ this.changeMapMode.bind(this) }
