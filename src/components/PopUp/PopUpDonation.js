@@ -20,7 +20,7 @@ class PopUpDonation extends PopUp {
       i++;
     }
 
-    return `<span>Three top sectors of interest</span>
+    return `<span class="number">Three top sectors of interest</span>
             <ul>
               ${items}
             </ul>`
@@ -35,7 +35,7 @@ class PopUpDonation extends PopUp {
           i++;
         }
 
-        return `<span>Three top sectors of interest</span>
+        return `<span class="number">Three top sectors of interest</span>
                 <ul>
                   ${items}
                 </ul>`
@@ -50,8 +50,7 @@ class PopUpDonation extends PopUp {
     <h2 class="text">${this.model.get('location')['city']}</h2>
     </br>
     ${ sectorsItems }
-    ${ regionsItems }
-    `
+    ${ regionsItems }`
   }
 }
 
