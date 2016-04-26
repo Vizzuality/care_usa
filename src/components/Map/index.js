@@ -4,10 +4,12 @@ import './styles.postcss';
 import _ from 'underscore';
 import Backbone from 'backbone';
 import TileLayer from './TileLayer';
+import MarkerLayer from './layers/MarkerLayer';
 import PopUpContentView from './../PopUp/PopUpContentView';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
 import utils from '../../scripts/helpers/utils';
+
 
 class MapView extends Backbone.View {
 
@@ -24,7 +26,10 @@ class MapView extends Backbone.View {
     // Setting first state
     this.state = settings.state;
     this.state.attributes = _.extend({}, this.options, this.state.attributes);
-    this.state.set({'filters': filtersModel.toJSON(), silent: true});
+    this.state.set({
+      'filters': filtersModel.toJSON(),
+      'donation': true,
+      silent: true});
     this._checkMapSettings();
 
     this._createMap();
@@ -47,6 +52,12 @@ class MapView extends Backbone.View {
     if ( !this.device.tablet && this.device.device ) {
       this.state.attributes.lat = 40;
       this.state.attributes.lon = -120;
+    }
+
+    //Donation marker
+    if (this.state.donation) {
+      this.donation.options = {};
+      new MarkerLayer(this.donation.options);
     }
   }
 

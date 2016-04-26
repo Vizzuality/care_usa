@@ -77,6 +77,7 @@ class MyDonation extends React.Component {
   }
 
   render() {
+    console.log('mydonation', this.state)
     return (
       <div className="l-app">
         <MapC ref="MapC"

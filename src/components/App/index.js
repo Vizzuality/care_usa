@@ -17,18 +17,23 @@ import filtersModel from '../../scripts/models/filtersModel';
 import sectorsCollection from '../../scripts/collections/SectorsCollection';
 import regionsCollection from '../../scripts/collections/RegionsCollection';
 
+import GeoModel from './GeoModel';
+
 import Router from '../Router';
 
 /**
  * Router definition
  */
-class AppRouter extends Router {}
+class DonationRouter extends Router {}
 // Overriding default routes
-AppRouter.prototype.routes = {
+DonationRouter.prototype.routes = {
   '': function() {
-    console.info('you are on map page');
+    console.info('you are on donation page');
   }
 };
+const router = new DonationRouter();
+router.start();
+
 
 class App extends React.Component {
 
@@ -67,14 +72,15 @@ class App extends React.Component {
       timelineDates: {},
       /* The range displayed on the map */
       mapDates: {},
-      shareOpen: false
+      shareOpen: false,
+      /* Donation settings */
+      donation: true
     }
   }
 
   componentWillMount() {
     this.setState(utils.checkDevice());
-    this.router = new AppRouter();
-    this.router.start();
+
     sectorsCollection.fetch()
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
     regionsCollection.fetch()
@@ -85,6 +91,7 @@ class App extends React.Component {
     this._initData();
     this.initTimeline();
     filtersModel.on('change', () => this.setState({ filters: filtersModel.toJSON() }));
+    router.params.on('change', () => this.setState({ routerParams: router.params.attributes }));
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -138,33 +145,43 @@ class App extends React.Component {
       triggerMapDates: this.updateMapDates.bind(this),
       ticksAtExtremities: false
     });
-    this.router.update({
-      startDate: moment(wholeRange[0]).format('YYYY-MM-DD'),
-      endDate: moment(wholeRange[1]).format('YYYY-MM-DD')
-    });
+    // router.update({
+    //   startDate: moment(wholeRange[0]).format('YYYY-MM-DD'),
+    //   endDate: moment(wholeRange[1]).format('YYYY-MM-DD')
+    // });
   }
 
   // MAP METHODS
   initMap() {
-    this.router.update({
+    // router.update({
+    //   mode: this.state.currentMode,
+    //   layer: this.state.currentLayer
+    // });
+
+    this.mapView = new MapView({
+      el: this.refs.Map,
+      state: _.clone(router.params),
+      donation: this.state.donation,
       mode: this.state.currentMode,
       layer: this.state.currentLayer
     });
 
-    this.mapView = new MapView({
-      el: this.refs.Map,
-      state: _.clone(this.router.params)
-    });
+    //Donation
+    if (this.state.donation) {
+      this.geo = new GeoModel();
+      // this.updateBBox();
+      // router.params.on('change', this.updateBBox.bind(this));
+    }
   }
 
   changeMapMode(mode, e) {
-    this.router.update({mode: mode});
+    // router.update({mode: mode});
     this.setState({ currentMode: mode });
     this.mapView.state.set({ 'mode': mode });
   }
 
   changeLayer(layer, e) {
-    this.router.update({layer: layer});
+    // router.update({layer: layer});
     this.setState({ currentLayer: layer });
 
     // Inactive all layers ofthe same group
@@ -221,11 +238,57 @@ class App extends React.Component {
     this.setState({ shareOpen: false });
   }
 
+  //DONATION METHODS
+  componentDidUpdate() {
+    // if (this.state.donation) {    
+    //   const bbox = [
+    //     [this.state.bbox[1], this.state.bbox[0]],
+    //     [this.state.bbox[3], this.state.bbox[2]]
+    //   ];
+    //   this.refs.MapC.mapView.map.fitBounds(bbox);
+    //   this.refs.MapC.mapView.removeAllLayers();
+    //   this.refs.MapC.mapView.layersSpec.reset(this.state.layersData);
+    //   this.refs.MapC.mapView.layersSpec.instanceLayers();
+    //   this.refs.MapC.mapView.toggleLayers();
+    // }
+  }
+
+  updateBBox() {
+    $.when(
+      layersCollection.fetch(),
+      this.geo.fetch({
+        data: {q: router.params.get('city')}
+      })
+    ).done(() => {
+      const layerModel = layersCollection.find({slug: 'amount-of-money'});
+      const layersData = [{
+        type: 'marker',
+        position: this.geo.attributes.position,
+        title: router.params.attributes.name,
+        active: true
+      }, {
+        type: 'cartodb',
+        active: layerModel.attributes.active,
+        account: config.cartodbAccount,
+        sql: layerModel.attributes.geo_query.replace('$WHERE', ''),
+        cartocss: layerModel.attributes.geo_cartocss
+      }];
+      const nexState = _.extend({}, router.params.attributes, {
+        bbox: this.geo.attributes.bbox,
+        position: this.geo.attributes.position,
+        layersData: layersData
+      });
+      this.setState(nexState);
+    });
+  }
+
   render() {
     const wholeRange = [
       new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
+
+    // console.log(this.state)
 
     return (
       <div className="l-app">
@@ -254,6 +317,9 @@ class App extends React.Component {
           regions={ this.state.regions }
           dateRange={ this.state.ranges[this.state.currentMode] }
           timelineDates={ this.state.timelineDates }
+          donation={ this.state.donation }
+          donationName={ this.state.routerParams && this.state.routerParams.name ? this.state.routerParams.name : ''}
+          donationAmount={this.state.routerParams && this.state.routerParams.amount ? this.state.routerParams.amount : ''}
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">

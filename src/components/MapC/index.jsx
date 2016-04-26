@@ -21,6 +21,7 @@ class Map extends React.Component {
    * When DOM exists create map and add layers
    */
   componentDidMount() {
+    console.log(this.props.mapOptions);
     this.mapView = new MapView({
       el: this.refs.MapElement,
       options: this.props.mapOptions,

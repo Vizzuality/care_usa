@@ -8,6 +8,7 @@ import DashSummary from './DashSummary';
 import DashLayerSwitcher from './DashLayerSwitcher';
 import DashDates from './DashDates';
 import DashFilters from './DashFilters';
+import DashDonation from './DashDonation';
 
 import utils from '../../scripts/helpers/utils';
 
@@ -33,6 +34,9 @@ class Dashboard extends React.Component {
     let tabsDesktop;
     let layersSwitcher;
     let filtersSwitcher;
+    let donation;
+
+    console.log('dash' ,this.props)
 
     if ( this.state.mobile || this.state.tablet ) {
       tabsMobile =  <DashTabs
@@ -59,6 +63,13 @@ class Dashboard extends React.Component {
               filters
             </div>
     };
+
+    if (this.props.donation) {
+      donation = <DashDonation
+        donationAmount={ this.props.donationAmount}
+        donationName={this.props.donationName}
+      />
+    }
 
     layersSwitcher = <DashLayerSwitcher
               layers = { this.state.layers }
@@ -92,6 +103,7 @@ class Dashboard extends React.Component {
               </a>
             </div>
             <div className="scroll-wrapper">
+              { donation }
               <DashDates
                 filters={ this.props.filters }
                 timelineDates={ this.props.timelineDates }
