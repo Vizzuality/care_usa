@@ -177,6 +177,9 @@ $l-margin-vt: 50;
 }
 
 .l-map-credits {
+  display: flex;
+  
+  align-items: center;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -184,9 +187,36 @@ $l-margin-vt: 50;
   height: rem($credits-height-mb);
   background-color: $beige-6;
   border-top: 1px solid $beige-4;
+  padding: 0 $wrap-padding-mobile;
 
   @media screen and (min-width: $screen-m) {
+    justify-content: center;
+    padding: 0 $wrap-padding-desktop;
+    background: transparent;
+    border: 0;
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    justify-content: flex-start;
+    padding: 0 $wrap-padding-desktop-xl;
+  }
+
+  .text-cta {
     display: none;
+    
+    @media screen and (min-width: $screen-m) {
+      display: inherit;
+    }
+  } 
+
+  .btn-about {
+    cursor: pointer;
+    display:flex;
+    align-items: center;
+
+    @media screen and (min-width: $screen-xl) {
+      margin-left: rem(6);
+    }
   }
 }
 

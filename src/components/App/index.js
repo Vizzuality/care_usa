@@ -239,7 +239,19 @@ class App extends React.Component {
           <div className="svg-container js-svg-container"></div>
         </div>
 
-        <div id="map-credits" className="l-map-credits"></div>
+        <div id="map-credits" className="l-map-credits">
+          <p className="text text-cta">About the data</p>
+          <a className="btn-about" onClick={ () => this.openAboutModal() }>
+            <svg className="icon icon-info">
+              <use xlinkHref="#icon-info"></use>
+            </svg>
+          </a>
+        </div>
+
+        <ModalAbout
+          visible={ this.state.aboutOpen }
+          onClose={ this.closeAboutModal.bind(this) }
+        />
 
         <ModalFilters
           visible={ this.state.filtersOpen }
@@ -250,11 +262,6 @@ class App extends React.Component {
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
           Donate
         </a>
-
-        <ModalAbout
-          visible={ this.state.aboutOpen }
-          onClose={ this.closeAboutModal.bind(this) }
-        />
 
         { !sessionStorage.getItem('session') ? <Landing /> : '' }
       </div>
