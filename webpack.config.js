@@ -1,6 +1,5 @@
 'use strict';
 
-require('babel-polyfill');
 const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
@@ -22,7 +21,6 @@ const config = {
     './index.html',
     './my-donation.html',
     './anniversary.html',
-    'babel-polyfill',
     './main.js',
   ],
 
