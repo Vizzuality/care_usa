@@ -30,41 +30,35 @@ function pad(number, times, char) {
 	return str;
 }
 
+function numberNotation(number) {
+  if (!isNaN(parseFloat(number))) {
+
+    if (number % 1 != 0) {
+
+      if (parseInt(number).toString().length > 3) {
+        return parseFloat(number).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+      } else {
+        return parseFloat(number).toFixed(2);
+      }
+
+    } else {
+
+      if (parseInt(number).toString().length > 3) {
+        var d = parseFloat(number).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        return d.split('.')[0];
+      }
+    }
+  }
+
+  return number;
+}
+
 export default {
   checkDevice,
   matches,
-  pad
+  pad,
+  numberNotation
 };
 
 
-// Handlebars.registerHelper('compare', function(lvalue, operator, rvalue,
-//   options) {
-//   if(arguments.length < 4) {
-//     throw new Error('Handlerbars Helper "compare" needs 3 parameters');
-//   }
 
-//   var operators = {
-//     '==':     function (l, r) { return l        ==  r; },
-//     '===':    function (l, r) { return l        === r; },
-//     '!=':     function (l, r) { return l        !=  r; },
-//     '!==':    function (l, r) { return l        !== r; },
-//     '<':      function (l, r) { return l        <   r; },
-//     '>':      function (l, r) { return l        >   r; },
-//     '<=':     function (l, r) { return l        <=  r; },
-//     '>=':     function (l, r) { return l        >=  r; },
-//     'typeof': function (l, r) { return typeof l ==  r; }
-//   };
-
-//   if (!operators[operator]) {
-//     throw new Error('Handlerbars Helper "compare" doesn\'t know the operator ' +
-//       operator);
-//   }
-
-//   var res = operators[operator](lvalue, rvalue);
-
-//   if (res) {
-//       return options.fn(this);
-//   }
-
-//   return options.inverse(this);
-// });
