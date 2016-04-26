@@ -72,9 +72,7 @@ class App extends React.Component {
       timelineDates: {},
       /* The range displayed on the map */
       mapDates: {},
-      shareOpen: false,
-      /* Donation settings */
-      donation: true
+      shareOpen: false
     }
   }
 
@@ -91,7 +89,14 @@ class App extends React.Component {
     this._initData();
     this.initTimeline();
     filtersModel.on('change', () => this.setState({ filters: filtersModel.toJSON() }));
-    router.params.on('change', () => this.setState({ routerParams: router.params.attributes }));
+    router.params.on('change', () => this._updateRouterParams());
+  }
+
+  _updateRouterParams() {
+    this.setState({ 
+      routerParams: router.params.attributes,
+      donation: router.params.attributes.donation && true
+    })
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -145,25 +150,24 @@ class App extends React.Component {
       triggerMapDates: this.updateMapDates.bind(this),
       ticksAtExtremities: false
     });
-    // router.update({
-    //   startDate: moment(wholeRange[0]).format('YYYY-MM-DD'),
-    //   endDate: moment(wholeRange[1]).format('YYYY-MM-DD')
-    // });
+    router.update({
+      startDate: moment(wholeRange[0]).format('YYYY-MM-DD'),
+      endDate: moment(wholeRange[1]).format('YYYY-MM-DD')
+    });
   }
 
   // MAP METHODS
   initMap() {
-    // router.update({
-    //   mode: this.state.currentMode,
-    //   layer: this.state.currentLayer
-    // });
+    router.update({
+      mode: this.state.currentMode,
+      layer: this.state.currentLayer
+    });
 
     this.mapView = new MapView({
       el: this.refs.Map,
       state: _.clone(router.params),
       donation: this.state.donation,
       mode: this.state.currentMode,
-      layer: this.state.currentLayer
     });
 
     //Donation
@@ -287,8 +291,6 @@ class App extends React.Component {
       new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
-
-    // console.log(this.state)
 
     return (
       <div className="l-app">

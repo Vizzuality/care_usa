@@ -36,8 +36,6 @@ class Dashboard extends React.Component {
     let filtersSwitcher;
     let donation;
 
-    console.log('dash' ,this.props)
-
     if ( this.state.mobile || this.state.tablet ) {
       tabsMobile =  <DashTabs
                       currentMode = { this.props.currentMode }
