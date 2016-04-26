@@ -59,5 +59,8 @@
   },
   "engines": {
     "node": "5.x"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.7.4"
   }
 }
