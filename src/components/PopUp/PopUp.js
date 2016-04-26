@@ -27,7 +27,7 @@ class PopUp extends Backbone.View {
   }
 
   _drawPopUpMobile() {
-    this.popUp = this._getContent()
+    this.popUp = this._popUpLayer();
 
     $('body').append(this.popUp);
     $('.btn-close').on('click', this._closeInfowindow.bind(this));
@@ -41,21 +41,20 @@ class PopUp extends Backbone.View {
   _drawPopUp() {
     L.popup()
       .setLatLng(this.options.latLng)
-      .setContent(this._getContent())
+      .setContent(this._popUpLayer())
       .openOn(this.options.map);
   }
 
-  _getContent() {
+  _getContent() {}
+
+  _popUpLayer() {
+    let content = this._getContent();
     return `<div class=m-popup>
             <button class="btn-close">
               <svg class="icon icon-close"><use xlink:href="#icon-close"></use></svg>
             </button>
             <div class="wrapper">
-              <h2>${ this.model.get('location')['city'] },
-                ${ this.model.get('location')['state'] },
-                ${ this.model.get('location')['country'] }</h2>
-              <h2>Total funds: $${ this.model.get('total_funds') }</h2>
-              <h2>Total # donors: ${ this.model.get('total_donors') }</h2>
+              ${content}
             </div>
           </div>`
   }
