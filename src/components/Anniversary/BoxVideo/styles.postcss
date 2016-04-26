@@ -1,8 +1,8 @@
-@import'../../styles/settings.postcss';
-@import'../../styles/helpers.postcss';
+@import'../../../styles/settings.postcss';
+@import'../../../styles/helpers.postcss';
 
 .l-box-video {
-  background-image: url("../../images/backgroundmodules_anniversary03.jpg");
+  background-image: url("../../../images/backgroundmodules_anniversary03.jpg");
   background-position:  center;
 
   &.background-image {
@@ -44,6 +44,15 @@
     @media screen and (min-width: $screen-xxl) {
       min-height: rem(1062);
       padding-bottom: rem(120);
+    }
+
+    .text-module-title {
+      margin-bottom: 0;
+
+      @media screen and (min-width: $screen-m) {
+        margin-bottom: rem(5);
+      }
+      
     }
 
     .btn-primary {

@@ -33,12 +33,23 @@ class Modal extends React.Component {
   render() {
     const content = this.getContent();
 
+    let closeButton;
+    if(!this.state.locked) {
+      closeButton = (
+        <svg className="close-button" onClick={this.close.bind(this)} ref="closeButton">
+          <use xlinkHref="#icon-close"></use>
+        </svg>
+      );
+    }
+
+    let className = 'm-modal';
+    if(!this.state.open) className += ' -hidden';
+    if(this.state.className) className += ' ' + this.state.className;
+
     return (
-      <div className={ 'm-modal ' + ( this.state.open ? '' : '-hidden') } onClick={this.close.bind(this)}>
+      <div className={ className } onClick={ !this.state.locked ? this.close.bind(this) : () => {} }>
         <div className="content" ref="content">
-          <svg className="close-button" onClick={this.close.bind(this)} ref="closeButton">
-            <use xlinkHref="#icon-close"></use>
-          </svg>
+          { closeButton }
           { content }
         </div>
       </div>

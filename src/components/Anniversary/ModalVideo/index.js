@@ -1,7 +1,7 @@
 'use strict';
 
 import './styles.postcss';
-import Modal from '../Modal';
+import Modal from '../../Modal';
 import React from 'react';
 
 class ModalVideo extends Modal {
