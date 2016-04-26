@@ -37,6 +37,7 @@ class FiltersView extends Backbone.View {
     this.status = filtersModel;
     this.applyButton = this.el.querySelector('.js-apply');
     this.clearButton = this.el.querySelector('.js-clear');
+    this.availableRange = this.el.querySelector('.js-available-range');
     this.sectorsCollection =  sectorsCollection;
     this.regionsCollection = regionsCollection;
     this.rendered = false;
@@ -56,10 +57,22 @@ class FiltersView extends Backbone.View {
   render() {
     if(!this.rendered) {
       this.populateSelectors();
+      this.renderAvailableRange();
       this.inputs = this.el.querySelectorAll('input, select');
     }
 
     if(!this.rendered) this.rendered = true;
+  }
+
+  renderAvailableRange() {
+    const startDate = moment(this.options.availableRange[0]).format('MM·DD·YYYY');
+    const endDate = moment(this.options.availableRange[1]).format('MM·DD·YYYY');
+    this.availableRange.innerHTML = `Available dates <span>from ${startDate} to ${endDate}</span>`;
+  }
+
+  updateAvailableRange(availableRange) {
+    this.options.availableRange = availableRange;
+    this.renderAvailableRange();
   }
 
   /* Set the state of the form elements as stored in this.status */

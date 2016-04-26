@@ -254,6 +254,7 @@ class App extends React.Component {
           onClose={ this.closeFilterModal.bind(this) }
           onSave={ this.updateFilters.bind(this) }
           range={ wholeRange }
+          availableRange={ this.state.ranges[this.state.currentMode] }
         />
 
         <ModalNoData

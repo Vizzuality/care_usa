@@ -18,6 +18,10 @@ class ModalFilters extends Modal {
       return true;
     }
 
+    if(nextProps.availableRange !== this.props.availableRange) {
+      this.filters.updateAvailableRange(nextProps.availableRange);
+    }
+
     return false;
   }
 
@@ -26,13 +30,15 @@ class ModalFilters extends Modal {
       el: this.refs.Filters,
       closeCallback: this.props.onClose.bind(this),
       saveCallback: this.props.onSave.bind(this),
-      dateRange: this.props.range
+      dateRange: this.props.range,
+      availableRange: this.props.availableRange
     });
   }
 
   getContent() {
     return <div id="filters" className="m-filters" ref="Filters">
       <div>
+        <div className="available-range js-available-range text text-legend-s"></div>
         <fieldset className="date date-from">
           <legend className="text -dark text-form-labels">From</legend>
           <div>
