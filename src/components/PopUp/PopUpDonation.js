@@ -11,15 +11,51 @@ import utils from '../../scripts/helpers/utils';
 
 class PopUpDonation extends PopUp {
 
+  _getSectors() {
+    let items = '';
+    let i = 0;
+
+    while( i < 3 ) {
+      items = this.model.get('sectors')[i] && this.model.get('sectors')[i].name ? items + `<li class="sector"> ${this.model.get('sectors')[i].name} </li>` : items + '';
+      i++;
+    }
+
+    return `<span>Three top sectors of interest</span>
+            <ul>
+              ${items}
+            </ul>`
+  }
+
+  _getRegions() {
+    let items = '';
+        let i = 0;
+
+        while( i < 3 ) {
+          items = this.model.get('countries')[i] ? items + `<li class="sector"> ${this.model.get('countries')[i].name} </li>` : items + '';
+          i++;
+        }
+
+        return `<span>Three top sectors of interest</span>
+                <ul>
+                  ${items}
+                </ul>`
+  }
+
   _getContent() {
-    return `<h2>${ this.model.get('location')['city'] },
-                ${ this.model.get('location')['state'] },
-                ${ this.model.get('location')['country'] }</h2>
-              <h2>Total funds: $${ this.model.get('total_funds') }</h2>
-              <h2>Total # donors: ${ this.model.get('total_donors') }</h2>`
+    const sectorsItems = (this.model.get('sectors').length > 0) ? this._getSectors() : '';
+    const regionsItems = (this.model.get('countries').length > 0) ? this._getRegions() : '';
+
+    return `<h2 class="title"> ${ utils.numberNotation( (this.model.get('total_donors')) ) } donors - <span class="number">${ utils.numberNotation(  this.model.get('total_funds') )}$
+    </span></h2>
+    <h2 class="text">${this.model.get('location')['city']}</h2>
+    </br>
+    ${ sectorsItems }
+    ${ regionsItems }
+    `
   }
 }
 
 PopUpDonation.prototype.model = new DonorModel();
 
 export default PopUpDonation;
+
