@@ -1,0 +1,33 @@
+@import'../../styles/settings.postcss';
+
+
+
+.m-modal {
+	position: fixed;
+
+	.content {
+		max-height: 100% !important;
+		display: flex;
+		align-items: center;
+	}
+
+	.video-container {
+		width: 100%;
+		padding: rem(20) 0;
+		height: rem(300);
+
+		@media screen and (min-width: $screen-m) {
+	      max-height: rem(400);
+	    }
+
+	    @media screen and (min-width: $screen-l) {
+	      height: rem(650);
+	    }
+
+		.video {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+

@@ -15,31 +15,21 @@ class DashboardDates extends React.Component {
 
   render() {
     let dates;
-
-    if(!_.isEmpty(this.props.timelineDates)) {
-      dates = (
-        <div>
-          <span className="start-date text text-legend-s">{ this.props.timelineDates.from ? moment(this.props.timelineDates.from).format('MM·DD·YYYY') : 'NC' }</span>
-          <span className="text text-legend-s">&nbsp;-&nbsp;</span>
-          <span className="end-date text text-legend-s">{ this.props.timelineDates.to ? moment(this.props.timelineDates.to).format('MM·DD·YYYY') : 'NC' }</span>
-        </div>
-      );
-    } else if(!_.isEmpty(this.props.filters)) {
-      dates = (
-        <div>
-          <span className="start-date text text-legend-s">{ this.props.filters.from ? moment(this.props.filters.from).format('MM·DD·YYYY') : 'NC' }</span>
-          <span className="text text-legend-s">&nbsp;-&nbsp;</span>
-          <span className="end-date text text-legend-s">{ this.props.filters.to ? moment(this.props.filters.to).format('MM·DD·YYYY') : 'NC' }</span>
-        </div>
-      );
+    if(this.props.timelineDates.from && this.props.timelineDates.to) {
+      dates = [
+        moment(this.props.timelineDates.from).format('MM·DD·YYYY'),
+        moment(this.props.timelineDates.to).format('MM·DD·YYYY')
+      ];
+    } else if(this.props.filters.from && this.props.filters.to) {
+      dates = [
+        moment(this.props.filters.from).format('MM·DD·YYYY'),
+        moment(this.props.filters.to).format('MM·DD·YYYY')
+      ];
     } else {
-      dates = (
-        <div>
-          <span className="start-date text text-legend-s">{ moment(this.props.dateRange[0]).add(1, 'days').format('MM·DD·YYYY') }</span>
-          <span className="text text-legend-s">&nbsp;-&nbsp;</span>
-          <span className="end-date text text-legend-s">{ moment(this.props.dateRange[1]).format('MM·DD·YYYY') }</span>
-        </div>
-      );
+      dates = [
+        moment(this.props.dateRange[0]).format('MM·DD·YYYY'),
+        moment(this.props.dateRange[1]).format('MM·DD·YYYY')
+      ];
     }
 
     return (
@@ -47,7 +37,11 @@ class DashboardDates extends React.Component {
         <svg className="icon icon-calendar">
           <use xlinkHref="#icon-calendar"></use>
         </svg>
-        { dates }
+        <div>
+          <span className="start-date text text-legend-s">{ dates[0] }</span>
+          <span className="text text-legend-s">&nbsp;-&nbsp;</span>
+          <span className="end-date text text-legend-s">{ dates[1] }</span>
+        </div>
      </div>
     );
   }

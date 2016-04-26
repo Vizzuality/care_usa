@@ -7,9 +7,11 @@ import moment from 'moment';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
+import ModalNoData from '../ModalNoData';
 import MapView from '../Map';
 import Landing from '../Landing';
 import utils from '../../scripts/helpers/utils';
+import ModalShare from '../ModalShare';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
 import sectorsCollection from '../../scripts/collections/SectorsCollection';
@@ -40,13 +42,14 @@ class App extends React.Component {
       device: null,
       menuDeviceOpen: false,
       filtersOpen: false,
+      modalNoDataOpen: true,
       filters: {},
       sectors: [],
       regions: [],
       /* Ranges for which we have data */
       ranges: {
-        donations: [ new Date('2011-06-30'), new Date() ],
-        projects:  [ new Date('2011-12-30'), new Date() ]
+        donations: [ new Date('2011-07-01'), new Date() ],
+        projects:  [ new Date('2012-01-01'), new Date('2015-01-01') ]
       },
       /* Specify how often we should update the map when playing the timeline
        * or moving the handle. Dates are rounded "nicely" to the interval. */
@@ -61,7 +64,10 @@ class App extends React.Component {
         }
       },
       /* The range selected in the timeline */
-      timelineDates: {}
+      timelineDates: {},
+      /* The range displayed on the map */
+      mapDates: {},
+      shareOpen: false
     }
   }
 
@@ -82,20 +88,23 @@ class App extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    /* Each time the mode changes, we need to update the timeline's range */
-    if(this.timeline && (this.state.currentMode !== nextState.currentMode)) {
-      this.timeline.setRange(this.state.ranges[nextState.currentMode],
-        this.state.dataInterval[nextState.currentMode]);
-    }
+    /* Basically, here, what we want to do is pass to the timeline the minimum
+     * range covering both the range of the donations and of the projects, or
+     * the filtering range if exists */
+    const wholeRange = [
+      new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
+      new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
+    ];
 
-    /* Each time the user filters the map, we update the timeline to make sure
-     * the filter dates match the timeline's domain */
-    if(this.timeline && this.state.filters !== nextState.filters) {
-      if(nextState.filters.from && nextState.filters.to) {
-        this.timeline.setRange([ nextState.filters.from, nextState.filters.to ]);
-      } else {
-        this.timeline.setRange.call(this.timeline, nextState.ranges[nextState.currentMode]);
-      }
+    const interval = this.state.dataInterval[nextState && nextState.currentMode || this.state.currentMode];
+
+    if(nextState.filters.from && nextState.filters.from !== this.state.filters.from ||
+      nextState.filters.to && nextState.filters.to !== this.state.filters.to) {
+      const range = [ nextState.filters.from, nextState.filters.to ];
+      this.timeline.setRange(range, interval, true);
+    } else if(this.state.filters.from && !nextState.filters.from ||
+      this.state.filters.to && !nextState.filters.to) {
+      this.timeline.setRange(wholeRange, interval);
     }
 
     return true;
@@ -115,17 +124,23 @@ class App extends React.Component {
 
   // TIMELINE METHODS
   initTimeline() {
-    const domain = this.state.ranges[this.state.currentMode];
+    const wholeRange = [
+      new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
+      new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
+    ];
+
     this.timeline = new TimelineView({
       el: this.refs.Timeline,
-      domain: domain,
+      domain: wholeRange,
       interval: this.state.dataInterval[this.state.currentMode],
       filters: this.state.filters,
-      onTriggerDates: this.updateTimelineDates.bind(this)
+      triggerTimelineDates: this.updateTimelineDates.bind(this),
+      triggerMapDates: this.updateMapDates.bind(this),
+      ticksAtExtremities: false
     });
     this.router.update({
-      startDate: moment(domain[0]).format('YYYY-MM-DD'),
-      endDate: moment(domain[1]).format('YYYY-MM-DD')
+      startDate: moment(wholeRange[0]).format('YYYY-MM-DD'),
+      endDate: moment(wholeRange[1]).format('YYYY-MM-DD')
     });
   }
 
@@ -168,6 +183,10 @@ class App extends React.Component {
     this.setState({ filtersOpen: false });
   }
 
+  openFiltersModal() {
+    this.setState({ filtersOpen: true });
+  }
+
   toggleModalFilter() {
     this.setState({ filtersOpen: !this.state.filtersOpen });
   }
@@ -180,17 +199,49 @@ class App extends React.Component {
     this.setState({ timelineDates: dates })
   }
 
+  updateMapDates(dates) {
+    this.setState({ mapDates: dates })
+  }
+
+  setDonationsAsCurrentMode() {
+    this.setState({ currentMode: 'donations' });
+  }
+
+  resetFilters() {
+    filtersModel.clear({ silent: true });
+    filtersModel.set(filtersModel.defaults);
+  }
+
+  // SHARE METHODS
+  openShareModal() {
+    this.setState({ shareOpen: true });
+  }
+
+  closeShareModal() {
+    this.setState({ shareOpen: false });
+  }
+
   render() {
+    const wholeRange = [
+      new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
+      new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
+    ];
+
     return (
       <div className="l-app">
 
         <div id="map" className="l-map" ref="Map"></div>
 
-        <button className="btn-share btn-primary l-share">
+        <button className="btn-share btn-primary l-share" onClick={ () => this.openShareModal() }>
           <svg className="icon icon-share">
             <use xlinkHref="#icon-share"></use>
           </svg>
         </button>
+
+        <ModalShare
+          visible={ this.state.shareOpen }
+          onClose={ this.closeShareModal.bind(this) }
+        />
 
         <Dashboard
           changeModeFn={ this.changeMapMode.bind(this) }
@@ -218,6 +269,19 @@ class App extends React.Component {
           visible={ this.state.filtersOpen }
           onClose={ this.closeFilterModal.bind(this) }
           onSave={ this.updateFilters.bind(this) }
+          range={ wholeRange }
+          availableRange={ this.state.ranges[this.state.currentMode] }
+        />
+
+        <ModalNoData
+          filters={ this.state.filters }
+          filtersOpen ={ this.state.filtersOpen }
+          currentMode={ this.state.currentMode }
+          dateRange={ this.state.ranges[this.state.currentMode] }
+          timelineDates={ this.state.timelineDates }
+          onChangeFilters={ this.openFiltersModal.bind(this) }
+          onGoBack={ this.setDonationsAsCurrentMode.bind(this) }
+          onCancel={ this.resetFilters.bind(this) }
         />
 
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">

@@ -13,7 +13,7 @@ class CaresPackage extends React.Component {
     return (
       <article className="l-cares-package background-image viel">
         <div className="wrap">
-          <header>
+          <header className="cares-package-header">
             <h1 className="text text-module-title -light">Care's Package Anniversary</h1>
             <h2 className="text text-claim -light">70 years of Lasting Change</h2>
           </header>
