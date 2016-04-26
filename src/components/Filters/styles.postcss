@@ -9,6 +9,16 @@
     flex-wrap: wrap;
   }
 
+  .available-range {
+    margin-bottom: rem(25);
+    color: $font-color-1;
+    > span { display: block; }
+
+    @media screen and (min-width: $screen-m) {
+      > span { display: inline; }
+    }
+  }
+
   fieldset {
     margin: 0;
     margin-top: rem(20);

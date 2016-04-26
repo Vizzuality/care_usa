@@ -1,9 +1,9 @@
-@import'../../styles/settings.postcss';
-@import'../../styles/helpers.postcss';
+@import'../../../styles/settings.postcss';
+@import'../../../styles/helpers.postcss';
 
 .l-retooling {
   padding: rem(50) 0 rem(60);
-  background-image: url("../../images/orangepattern.png");
+  background-image: url("../../../images/orangepattern.png");
 
   @media screen and (min-width: $screen-m) {
     padding: rem(109) 0 rem(55);
@@ -21,23 +21,35 @@
     padding: rem(120) 0 rem(40);
   }
 
+  .wrap {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  }
+
+
   .box-text-container {
     display: flex;
     flex-flow: column;
     align-items: center;
     text-align: center;
+    width: 100%;
 
     .text-module-title {
       margin-bottom: rem(26);
+      width: 100%;
 
       @media screen and (min-width: $screen-m) {
         margin-bottom: rem(40);
-        max-width: 65.5%;
+      }
+
+      @media screen and (min-width: $screen-l) {
+        max-width: 82.75%;
       }
 
       @media screen and (min-width: $screen-xl) {
         margin-bottom: rem(50);
-        max-width: 82.75%;
+        max-width: 65.5%;
       }
 
       @media screen and (min-width: $screen-xxl) {
@@ -50,15 +62,15 @@
       max-width: 100%;
       margin-bottom: rem(27);
 
-      @media screen and (min-width: $screen-m) {
-        max-width: 65.5%;
-      }
-
       @media screen and (min-width: $screen-l) {
         max-width: 82.75%;
       }
 
       @media screen and (min-width: $screen-xl) {
+        max-width: 65.5%;
+      }
+
+      @media screen and (min-width: $screen-xxl) {
         max-width: 65.5%;
       }
     }
@@ -71,7 +83,7 @@
     @media screen and (min-width: $screen-m) {
       height: 0;
       padding-bottom: 32.5%;
-      background-image: url('../../images/fullwidthcontent_illustration01.png');
+      background-image: url('../../../images/fullwidthcontent_illustration01.png');
       background-size: 108%;
       background-position: center;
     }

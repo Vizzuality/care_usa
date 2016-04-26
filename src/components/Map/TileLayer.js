@@ -169,7 +169,6 @@ class CreateTileLayer {
     };
 
     const promise = new Promise( (resolve) => {
-
       $.ajax({
         type: 'POST',
         dataType: 'json',
