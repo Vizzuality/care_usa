@@ -64,17 +64,19 @@ class TimelineView extends Backbone.View {
 
     const svgContainerDimensions = this.svgContainer.getBoundingClientRect();
 
+    const svgPadding = Object.assign({}, this.options.svgPadding);
+
     /* When we have ticks at the extremities (whose format is longer), we add
      * more padding */
     if(this.options.ticksAtExtremities) {
-      this.options.svgPadding.left  += 15;
-      this.options.svgPadding.right += 15;
+      svgPadding.left  += 15;
+      svgPadding.right += 15;
     }
 
-    const svgWidth = svgContainerDimensions.width - this.options.svgPadding.left
-      - this.options.svgPadding.right;
-    const svgHeight = svgContainerDimensions.height - this.options.svgPadding.top
-      - this.options.svgPadding.bottom;
+    const svgWidth = svgContainerDimensions.width - svgPadding.left
+      - svgPadding.right;
+    const svgHeight = svgContainerDimensions.height - svgPadding.top
+      - svgPadding.bottom;
 
     /* Because d3 doesn't display the first tick, we subtract 1 day to it.
      * NOTE: concat and clone are used to not modify the original array */
@@ -118,7 +120,7 @@ class TimelineView extends Backbone.View {
         .attr('width', svgContainerDimensions.width)
         .attr('height', svgContainerDimensions.height)
         .append('g')
-          .attr('transform', `translate(${this.options.svgPadding.left}, ${this.options.svgPadding.top})`);
+          .attr('transform', `translate(${svgPadding.left}, ${svgPadding.top})`);
 
     this.d3Axis = this.svg
         .append('g')
