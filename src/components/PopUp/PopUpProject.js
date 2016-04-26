@@ -30,26 +30,18 @@ class PopUpProject extends PopUp {
     //TODO - we need percentage of reached people when filtering.
     const sectorsItems = (this.model.get('sectors').length > 0) ? this._getSectors() : '';
 
-    return `<h2 class="title"> ${this.model.get('location')['name']} - ${ utils.numberNotation(this.model.get('filtered')['projects'])} projects</h2>
+    return `<h2 class="title"> ${this.model.get('location')['name']} - ${ utils.numberNotation(this.model.get('totals')['projects'])} projects</h2>
             </br>
             ${ sectorsItems }
-            <p class="number"><span class="number">${ this.model.get('filtered')['people'] }</span> People reached </p>
+            <p class="number"><span class="number">${ this.model.get('totals')['people'] }</span> People reached </p>
             <p class="number"><span class="number">${ this.model.get('totals')['women_and_girls'] }</span> Women & girls</p>
             <p class="number"><span class="number">${ this.model.get('totals')['men'] }</span> Men</p>
             </br>
             <a class="link" href=#>explore country page</a>`
   }
-
 }
 
 PopUpProject.prototype.model = new ProjectModel();
 
 export default PopUpProject;
 
-
-
-// `<h2>Country: ${ this.model.get('location')['name'] }</h2>
-//               <h2>Total people reached: ${ this.model.get('totals')['people'] }</h2>
-//               <h2>Total projects: ${ this.model.get('totals')['projects'] }</h2>
-//               <p>Total men reached: ${ this.model.get('totals')['men'] } </p>
-//               <p>Total women and girls reached: ${ this.model.get('totals')['women_and_girls'] }</p>`
