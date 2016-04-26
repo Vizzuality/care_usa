@@ -2,6 +2,7 @@
 
 import $ from 'jquery';
 import _ from 'underscore';
+import moment from 'moment';
 
 const defaults = {
   cartodbAccount: config.cartodbAccount,
@@ -10,15 +11,15 @@ const defaults = {
 
 const optionalStatements = {
   donations: {
-    from:    filters => `date > '${filters['from-month']}-${filters['from-day']}-${filters['from-year']}'::date`,
-    to:      filters => `date < '${filters['to-month']}-${filters['to-day']}-${filters['to-year']}'::date`,
-    region:  filters => `countries like '%${filters.region}%'`,
-    sectors: filters => `sectors in (${filters.sectors.map(sector => `'${sector}'`).join(', ')})`
+    from:    (filters, timeline) => `date > '${moment(filters && filters.from || timeline.from).format('MM-DD-YYYY')}'::date`,
+    to:      (filters, timeline) => `date < '${moment(filters && filters.to || timeline.to).format('MM-DD-YYYY')}'::date`,
+    region:  filters => filters && filters.region ? `countries like '%${filters.region}%'` : '',
+    sectors: filters => filters && filters.sectors.length ? `sectors in (${filters.sectors.map(sector => `'${sector}'`).join(', ')})` : ''
   },
   projects: {
-    to:      filters => `year='${filters['to-year']}'`,
-    region:  filters => `iso in ('${filters.region}')`,
-    sectors: filters => `(${filters.sectors.map(sector => `${sector}_people<>0`).join(' OR ')})`
+    to:      (filters, timeline) => `year='${moment(filters && filters.to || timeline.to).format('YYYY')}'`,
+    region:  filters => filters && filters.region ? `iso in ('${filters.region}')` : '',
+    sectors: filters => filters && filters.sectors.length ? `(${filters.sectors.map(sector => `${sector}_people<>0`).join(' OR ')})` : ''
   }
 };
 
@@ -31,28 +32,31 @@ class CreateTileLayer {
    *  cartoCss
    * }
    */
-  constructor(options, filters) {
+  constructor(options, state) {
     this.options = Object.assign(defaults, options);
-    this.options.filters = filters;
+    this.options.state = state;
   }
 
   //TODO - validate date before send query.
   _getQuery() {
-    const filters = this.options.filters;
+    const filters = this.options.state.filters;
+    const timeline = this.options.state.timelineDates;
     const statements = optionalStatements[this.options.category]
     return this.options.sql_template.replace('$WHERE', () => {
-      if(filters) {
-        return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') +
-          Object.keys(statements).map(name => {
-            const filter = filters[name];
+      if(filters || timeline) {
+        const res = Object.keys(statements).map(name => {
+          const filter = filters[name];
             if(Array.isArray(filter) && filter.length ||
-              !Array.isArray(filter) && filter) {
-                if(name === 'sectors') debugger;
-              return statements[name](filters);
+              !Array.isArray(filter) && filter || timeline) {
+              return statements[name](filters, timeline);
             }
             return null;
           }).filter(statement => !!statement)
             .join(' AND ');
+
+        if(res.length) {
+          return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
+        }
       }
       return '';
     });

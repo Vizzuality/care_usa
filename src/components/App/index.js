@@ -197,6 +197,7 @@ class App extends React.Component {
 
   updateTimelineDates(dates) {
     this.setState({ timelineDates: dates })
+    this.mapView.state.set({ timelineDates: dates });
   }
 
   updateMapDates(dates) {
