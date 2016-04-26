@@ -33,9 +33,9 @@ class PopUpProject extends PopUp {
     return `<h2 class="title"> ${this.model.get('location')['name']}</h2>
             </br>
             ${ sectorsItems }
-            <p class="number"><span class="number">${ this.model.get('totals')['people'] }</span> People reached </p>
-            <p class="number"><span class="number">${ this.model.get('totals')['women_and_girls'] }</span> Women & girls</p>
-            <p class="number"><span class="number">${ this.model.get('totals')['men'] }</span> Men</p>
+            <p class="number"><span class="number">${ utils.numberNotation(this.model.get('totals')['people']) }</span> People reached </p>
+            <p class="number"><span class="number">${ utils.numberNotation(this.model.get('totals')['women_and_girls']) }</span> Women & girls</p>
+            <p class="number"><span class="number">${ utils.numberNotation(this.model.get('totals')['men']) }</span> Men</p>
             </br>
             <a class="link" href=#>explore country page</a>`
   }
