@@ -25,10 +25,22 @@ class ModalShare extends Modal {
     			<a className="btn btn-primary btn-copy" data-clipboard-target="#embed-link">Copy</a>
     		</aside>
     		<div className="share-links">
-				<span className="text text-hightlighted -dark">Share on</span>
-				<a href="https://www.facebook.com/carefans"><svg className="icon icon-facebook -primary"><use xlinkHref="#icon-facebook"></use></svg></a>
-	            <a href="https://twitter.com/CARE"><svg className="icon icon-twitter -primary"><use xlinkHref="#icon-twitter"></use></svg></a>
-	    		<a href="https://plus.google.com/+care"><svg className="icon icon-googleplus -primary"><use xlinkHref="#icon-googleplus"></use></svg></a>	
+				  <span className="text text-hightlighted -dark">Share on</span>
+				  <a href={ "http://www.facebook.com/sharer.php?u=" + url }>
+            <svg className="icon icon-facebook -primary">
+              <use xlinkHref="#icon-facebook"></use>
+            </svg>
+          </a>
+          <a href={ "http://twitter.com/share?text=CARE&url=" + url + "&hashtags=care" }>
+            <svg className="icon icon-twitter -primary">
+              <use xlinkHref="#icon-twitter"></use>
+            </svg>
+          </a>
+	    	  <a href={ "https://plus.google.com/share?url=" + url }>
+            <svg className="icon icon-googleplus -primary">
+              <use xlinkHref="#icon-googleplus"></use>
+            </svg>
+          </a>	
 	    	</div>
     	</div>
     );
