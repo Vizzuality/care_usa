@@ -29,6 +29,10 @@ class Retooling extends React.Component {
         image: 'babyfood'
       },
       {
+        title: 'Blanket Package',
+        image: 'blanket'
+      },
+      {
         title: 'Layette Package',
         image: 'layette'
       },

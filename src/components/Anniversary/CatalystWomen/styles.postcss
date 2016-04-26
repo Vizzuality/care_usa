@@ -1,9 +1,9 @@
-@import'../../styles/settings.postcss';
-@import'../../styles/helpers.postcss';
+@import'../../../styles/settings.postcss';
+@import'../../../styles/helpers.postcss';
 
 .l-catalyst-women {
   position: relative; 
-  background-image: url("../../images/backgroundmodules_anniversary02.jpg");
+  background-image: url("../../../images/backgroundmodules_anniversary02.jpg");
   background-position: center;
   
   .wrap {
@@ -46,29 +46,32 @@
 
     @media screen and (min-width: $screen-l) {
       margin-bottom: rem(103);
+      max-width: 82.75%;
     }
 
     @media screen and (min-width: $screen-xl) {
       margin-bottom: rem(150);
+      max-width: 65.5%;
     }
 
     @media screen and (min-width: $screen-xxl) {
       margin-bottom: rem(258.8);
+      max-width: 65.5%;
     }
   }
 
   .text-highlighted {
     max-width: 100%;
 
-    @media screen and (min-width: $screen-m) {
-      max-width: 65.5%;
-    }
-
     @media screen and (min-width: $screen-l) {
       max-width: 82.75%;
     }
 
     @media screen and (min-width: $screen-xl) {
+      max-width: 65.5%;
+    }
+
+    @media screen and (min-width: $screen-xxl) {
       max-width: 65.5%;
     }
   }

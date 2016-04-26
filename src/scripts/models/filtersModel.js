@@ -3,6 +3,7 @@
 import Backbone from 'backbone';
 import _ from 'underscore';
 import utils from '../../scripts/helpers/utils';
+import moment from 'moment';
 
 class FiltersModel extends Backbone.Model {
 
@@ -37,7 +38,7 @@ class FiltersModel extends Backbone.Model {
     }
 
     /* If the start date is after the end date */
-    if(res.valid && filledFromInputs.length === 3 && filledToInputs.length === 3) {
+    if(isValid && filledFromInputs.length === 3 && filledToInputs.length === 3) {
       const startDate = moment(fromInputNames.map(name => data[name]).join('-'), 'D-M-YYYY');
       const endDate = moment(toInputNames.map(name => data[name]).join('-'), 'D-M-YYYY');
 

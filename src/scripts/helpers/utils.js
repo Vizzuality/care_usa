@@ -30,6 +30,15 @@ function pad(number, times, char) {
 	return str;
 }
 
+/* Return true if the two passed ranges intersect, optionally a compare method
+ * can be passed */
+function rangesIntersect(range1, range2, compareFunc) {
+  const compare = compareFunc || ((a, b) => a - b);
+  const minRange = compare(range1[0], range2[0]) < 0 ? range1 : range2;
+  const maxRange = minRange === range1 ? range2 : range1;
+  return compare(minRange[1], maxRange[0]) > 0;
+}
+
 function numberNotation(number) {
   if (!isNaN(parseFloat(number))) {
 
@@ -57,8 +66,7 @@ export default {
   checkDevice,
   matches,
   pad,
+  rangesIntersect,
   numberNotation
 };
-
-
 

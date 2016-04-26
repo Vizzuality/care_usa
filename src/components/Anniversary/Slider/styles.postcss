@@ -1,14 +1,22 @@
-@import'../../styles/settings.postcss';
+@import'../../../styles/settings.postcss';
 
 .l-by-numbers {
-  background-image: url("../../images/orangepattern.png");
+  background-image: url("../../../images/orangepattern.png");
   text-align: center;
 
   .wrap {
-    padding: 0;
+    padding: rem(51) 0 rem(61) 0;
 
     @media screen and (min-width: $screen-m) {
-      padding: rem(99) 0;
+      padding: rem(100) 0;
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      padding: rem(110) 0;
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      padding: rem(120) 0 rem(158) 0;
     }
   }
 
@@ -89,17 +97,17 @@
     }
 
     .projects {
-      background-image: url('../../images/slider02.png');
+      background-image: url('../../../images/slider02.png');
       background-position: top;
     }
 
     .people {
-      background-image: url('../../images/slider03.png');
+      background-image: url('../../../images/slider03.png');
       background-position: bottom;
     }
 
     .countries {
-      background-image: url('../../images/slider01.png');
+      background-image: url('../../../images/slider01.png');
       background-position: center;
     }
 
@@ -112,6 +120,8 @@
   }
 
   .btn-container {
+    display: flex;
+    justify-content: center;
     width: 100%;
     padding: 0 rem(18);
   }
