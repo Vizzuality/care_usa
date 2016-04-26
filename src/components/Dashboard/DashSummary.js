@@ -5,6 +5,8 @@ import DashSummaryModel from './DashSummaryModel';
 import FiltersModel from '../../scripts/models/filtersModel';
 import React from 'react';
 
+import utils from '../../scripts/helpers/utils';
+
 class DashSummary extends React.Component {
 
   constructor(props) {
@@ -32,11 +34,11 @@ class DashSummary extends React.Component {
       <div className="m-dash-summary">
         <div className="summary-item">
           <p className="text text-legend-title">Donations </p>
-          <span className="number number-l">{ this.state.totalDonations }</span>
+          <span className="number number-l">{ utils.numberNotation(this.state.totalDonations) }</span>
         </div>
         <div className="summary-item">
           <p className="text text-legend-s">Amount donated </p>
-          <span className="number number-m"> ${ this.state.donationsAmount }</span>
+          <span className="number number-m"> ${ utils.numberNotation(this.state.donationsAmount) }</span>
         </div>
       </div>
     )

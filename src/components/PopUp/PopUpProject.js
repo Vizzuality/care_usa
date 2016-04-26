@@ -11,24 +11,37 @@ import utils from '../../scripts/helpers/utils';
 
 class PopUpProject extends PopUp {
 
-  _getContent() {
+  _getSectors() {
+    let items = '';
+    let i = 0;
 
-    return `<div class=m-popup>
-            <button class="btn-close">
-              <svg class="icon icon-close"><use xlink:href="#icon-close"></use></svg>
-            </button>
-            <div class="wrapper">
-              <h2>Country: ${ this.model.get('location')['name'] }</h2>
-              <h2>Total people reached: ${ this.model.get('totals')['people'] }</h2>
-              <h2>Total projects: ${ this.model.get('totals')['projects'] }</h2>
-              <p>Total men reached: ${ this.model.get('totals')['men'] } </p>
-              <p>Total women and girls reached: ${ this.model.get('totals')['women_and_girls'] }</p>
-            </div>
-          </div>`
+    while( i < 3 ) {
+      items = this.model.get('sectors')[i] && this.model.get('sectors')[i].name ? items + `<li class="sector"> ${this.model.get('sectors')[i].name} </li>` : items + '';
+      i++;
+    }
+
+    return `<span class="number">Sectors of interest</span>
+            <ul>
+              ${items}
+            </ul>`
   }
 
+  _getContent() {
+    //TODO - we need percentage of reached people when filtering.
+    const sectorsItems = (this.model.get('sectors').length > 0) ? this._getSectors() : '';
+
+    return `<h2 class="title"> ${this.model.get('location')['name']}</h2>
+            </br>
+            ${ sectorsItems }
+            <p class="number"><span class="number">${ utils.numberNotation(this.model.get('totals')['people']) }</span> People reached </p>
+            <p class="number"><span class="number">${ utils.numberNotation(this.model.get('totals')['women_and_girls']) }</span> Women & girls</p>
+            <p class="number"><span class="number">${ utils.numberNotation(this.model.get('totals')['men']) }</span> Men</p>
+            </br>
+            <a class="link" href=#>explore country page</a>`
+  }
 }
 
 PopUpProject.prototype.model = new ProjectModel();
 
 export default PopUpProject;
+

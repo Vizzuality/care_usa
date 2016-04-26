@@ -101,7 +101,8 @@ class MapView extends Backbone.View {
   }
 
   _infowindowSetUp(e) {
-    new PopUpContentView({
+    this.popUp = new PopUpContentView({
+      currentMode: this.state.get('mode'),
       currentLayer: this.state.get('currentLayer'),
       latLng: e.latlng,
       map: this.map
@@ -136,6 +137,12 @@ class MapView extends Backbone.View {
     if (this.currentLayer && this.currentLayer.removeLayer) {
       this.currentLayer.removeLayer(this.map);
       this.currentLayer = null;
+    }
+
+    //TODO - remove infowindow when change layer
+    if (this.popUp) {
+      console.log('remove')
+      this.popUp._closeInfowindow();
     }
   }
 
