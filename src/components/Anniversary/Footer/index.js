@@ -14,7 +14,7 @@ class Footer extends React.Component {
       <div id="footer" className="l-footer">
        <div className="wrap">
         <a href="/" className="logo">
-          <img className="icon icon-logo" src={ require('../../images/logo.svg') }></img>
+          <img className="icon icon-logo" src={ require('../../../images/logo.svg') }></img>
         </a>
         <div className="third-party-webs">
           <p className="text text-legend-s">Follow us</p>
