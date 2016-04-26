@@ -8,6 +8,20 @@ const defaults = {
   cartodbKey: config.cartodbKey
 };
 
+const optionalStatements = {
+  donations: {
+    from:    filters => `date > '${filters['from-month']}-${filters['from-day']}-${filters['from-year']}'::date`,
+    to:      filters => `date < '${filters['to-month']}-${filters['to-day']}-${filters['to-year']}'::date`,
+    region:  filters => `countries like '%${filters.region}%'`,
+    sectors: filters => `sectors in (${filters.sectors.map(sector => `'${sector}'`).join(', ')})`
+  },
+  projects: {
+    to:      filters => `year='${filters['to-year']}'`,
+    region:  filters => `iso in ('${filters.region}')`,
+    sectors: filters => `(${filters.sectors.map(sector => `${sector}_people<>0`).join(' OR ')})`
+  }
+};
+
 class CreateTileLayer {
 
   /*
@@ -24,136 +38,30 @@ class CreateTileLayer {
 
   //TODO - validate date before send query.
   _getQuery() {
-    let sqlTemplate = this.options['sql_template'];
-    let sql;
-    let whereStatment = _.indexOf(sqlTemplate.split(' '), '$WHERE') > 0 && true;
-
-    if ( whereStatment ) {
-      if (this.options.filters) {
-        this._getProjectsFiltersExp();
-        if (this.options.category === 'donations') {
-          sql = sqlTemplate.replace('$WHERE', this._getDonorsFiltersExp());
-        } else {
-          sql = sqlTemplate.replace('$WHERE', this._getProjectsFiltersExp());
-        }
-      } else {
-        sql = sqlTemplate.replace('$WHERE', '');
-      }
-    }
-
-    return sql;
-  }
-
-  _getProjectsFiltersExp() {
-    let to = '';
-    let region = '';
-    let sectors = '';
     const filters = this.options.filters;
-
-    // const sectorsKey = [
-    //   {"clim": ['clim_people', 'clim_projects']},
-    //   {"econ": ['econ_people', 'econ_projects']},
-    //   {"educ": ['educ_people', 'educ_projects']},
-    //   {"emer": ['emer_people', 'emer_projects']},
-    //   {"food": ['food_people', 'food_projects']},
-    //   {"heal": ['heal_people', 'heal_projects']},
-    //   {"wate": ['wate_people', 'wate_projects']}
-    // ];
-
-    const sectorsKey = {
-      "clim": 'clim_people',
-      "econ": 'econ_people',
-      "educ": 'educ_people',
-      "emer": 'emer_people',
-      "food": 'food_people',
-      "heal": 'heal_people',
-      "wate": 'wate_people'
-    };
-
-    if (filters.to) {
-      to = "year='" + filters['to-year'] + "'";
-
-      if (filters.region || filters.sectors.length > 0) {
-        to = to + " AND ";
+    const statements = optionalStatements[this.options.category]
+    return this.options.sql_template.replace('$WHERE', () => {
+      if(filters) {
+        return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') +
+          Object.keys(statements).map(name => {
+            const filter = filters[name];
+            if(Array.isArray(filter) && filter.length ||
+              !Array.isArray(filter) && filter) {
+                if(name === 'sectors') debugger;
+              return statements[name](filters);
+            }
+            return null;
+          }).filter(statement => !!statement)
+            .join(' AND ');
       }
-    }
-
-    if (filters.region) {
-      region = "iso in('" + filters.region + "')";
-
-      if ( filters.sectors.length > 0 ) {
-        region = region + " AND ";
-      }
-    }
-
-    if (filters.sectors.length > 0) {
-      const items = filters.sectors.length;
-      let sectorsItems = '';
-
-      $.each(filters.sectors, function(i, sector) {
-        const column = sectorsKey[sector];
-        sectorsItems = sectorsItems + column + "<>0";
-        if (i < (items - 1)) { sectorsItems = sectorsItems + " OR " }
-      })
-
-      sectors = '(' + sectorsItems + ')';
-    }
-
-    return 'AND ' + to + region + sectors;
-  }
-
-  _getDonorsFiltersExp() {
-    let from = '';
-    let to = '';
-    let region = '';
-    let sectors = '';
-    const filters = this.options.filters;
-
-    if (filters.from) {
-      from = "date > '" + filters['from-month'] + '-' + filters['from-day'] + '-' + filters['from-year'] + "'::date ";
-
-      if (filters.to || filters.region || filters.sectors.length > 0) {
-        from = from + "AND ";
-      }
-    }
-
-    if (filters.to) {
-      to = "date < '" + filters['to-month'] + '-' + filters['to-day'] + '-' + filters['to-year'] + "'::date ";
-
-      if (filters.region || filters.sectors.length > 0) {
-        to = to + "AND ";
-      }
-    }
-
-    if (filters.region) {
-      region = "countries like '%" + filters.region + "%' ";
-
-      if (filters.sectors.length > 0) {
-        region = region + "AND ";
-      }
-    }
-
-    if (filters.sectors.length > 0) {
-      let sectorsItems = "";
-      const items = filters.sectors.length;
-
-      $.each(filters.sectors, function(i, sector) {
-        sectorsItems = sectorsItems + "'" + sector + "'";
-        if (i < (items - 1)) { sectorsItems = sectorsItems + ", " }
-      })
-
-      sectors = "sectors in ("+ sectorsItems +") ";
-    }
-
-    return 'WHERE ' + from + to + region + sectors;
+      return '';
+    });
   }
 
   createLayer() {
     this.options.sql = this._getQuery();
     const cartoAccount = this.options.cartodbAccount;
     const cartoKey = this.options.cartodbKey;
-
-    // console.log(this.options.sql);
 
     // data layers parameterization
     const request = {
@@ -168,25 +76,21 @@ class CreateTileLayer {
       }]
     };
 
-    const promise = new Promise( (resolve) => {
+    const deferred = $.Deferred();
 
-      $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json; charset=UTF-8',
-        url: 'http://'+ cartoAccount +'.cartodb.com/api/v1/map/',
-        data: JSON.stringify(request),
-        success: (data) => {
-
-          const tileUrl = 'https://' + cartoAccount + '.cartodb.com/api/v1/map/' + data.layergroupid + '/{z}/{x}/{y}.png32';
-          this.layer = L.tileLayer(tileUrl);
-
-          resolve(this.layer);
-        }
-      });
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      contentType: 'application/json; charset=UTF-8',
+      url: `http://${cartoAccount}.cartodb.com/api/v1/map/`,
+      data: JSON.stringify(request),
+    }).done(data => {
+      const tileUrl = `https://${cartoAccount}.cartodb.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png32`;
+      this.layer = L.tileLayer(tileUrl);
+      return deferred.resolve(this.layer);
     });
 
-    return promise;
+    return deferred;
   }
 
   addLayer(map) {
