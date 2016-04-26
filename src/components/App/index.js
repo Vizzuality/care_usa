@@ -7,6 +7,7 @@ import moment from 'moment';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
+import ModalAbout from '../ModalAbout';
 import MapView from '../Map';
 import Landing from '../Landing';
 import utils from '../../scripts/helpers/utils';
@@ -63,7 +64,8 @@ class App extends React.Component {
       },
       /* The range selected in the timeline */
       timelineDates: {},
-      shareOpen: false
+      shareOpen: false,
+      aboutOpen: false
     }
   }
 
@@ -191,6 +193,15 @@ class App extends React.Component {
     this.setState({ shareOpen: false });
   }
 
+  // ABOUT METHODS
+  openAboutModal() {
+    this.setState({ aboutOpen: true });
+  }
+
+  closeAboutModal() {
+    this.setState({ aboutOpen: false });
+  }
+
   render() {
     return (
       <div className="l-app">
@@ -239,6 +250,11 @@ class App extends React.Component {
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
           Donate
         </a>
+
+        <ModalAbout
+          visible={ this.state.aboutOpen }
+          onClose={ this.closeAboutModal.bind(this) }
+        />
 
         { !sessionStorage.getItem('session') ? <Landing /> : '' }
       </div>
