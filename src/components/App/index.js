@@ -7,6 +7,7 @@ import moment from 'moment';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
+import ModalNoData from '../ModalNoData';
 import MapView from '../Map';
 import Landing from '../Landing';
 import utils from '../../scripts/helpers/utils';
@@ -40,6 +41,7 @@ class App extends React.Component {
       device: null,
       menuDeviceOpen: false,
       filtersOpen: false,
+      modalNoDataOpen: true,
       filters: {},
       sectors: [],
       regions: [],
@@ -179,6 +181,10 @@ class App extends React.Component {
     this.setState({ filtersOpen: false });
   }
 
+  openFiltersModal() {
+    this.setState({ filtersOpen: true });
+  }
+
   toggleModalFilter() {
     this.setState({ filtersOpen: !this.state.filtersOpen });
   }
@@ -193,6 +199,15 @@ class App extends React.Component {
 
   updateMapDates(dates) {
     this.setState({ mapDates: dates })
+  }
+
+  setDonationsAsCurrentMode() {
+    this.setState({ currentMode: 'donations' });
+  }
+
+  resetFilters() {
+    filtersModel.clear({ silent: true });
+    filtersModel.set(filtersModel.defaults);
   }
 
   render() {
@@ -239,6 +254,17 @@ class App extends React.Component {
           onClose={ this.closeFilterModal.bind(this) }
           onSave={ this.updateFilters.bind(this) }
           range={ wholeRange }
+        />
+
+        <ModalNoData
+          filters={ this.state.filters }
+          filtersOpen ={ this.state.filtersOpen }
+          currentMode={ this.state.currentMode }
+          dateRange={ this.state.ranges[this.state.currentMode] }
+          timelineDates={ this.state.timelineDates }
+          onChangeFilters={ this.openFiltersModal.bind(this) }
+          onGoBack={ this.setDonationsAsCurrentMode.bind(this) }
+          onCancel={ this.resetFilters.bind(this) }
         />
 
         <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
