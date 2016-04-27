@@ -4,9 +4,7 @@ import './styles.postcss';
 import $ from 'jquery';
 import Backbone from 'backbone';
 import ProjectModel from './../../scripts/models/ProjectModel';
-
 import PopUp from './PopUp';
-
 import utils from '../../scripts/helpers/utils';
 
 class PopUpProject extends PopUp {
@@ -16,12 +14,12 @@ class PopUpProject extends PopUp {
     let i = 0;
 
     while( i < 3 ) {
-      items = this.model.get('sectors')[i] && this.model.get('sectors')[i].name ? items + `<li class="sector"> ${this.model.get('sectors')[i].name} </li>` : items + '';
+      items = this.model.get('sectors')[i] && this.model.get('sectors')[i].name ? items + `<li class="sector text text-legend-s -light"> ${this.model.get('sectors')[i].name} </li>` : items + '';
       i++;
     }
 
-    return `<span class="number">Sectors of interest</span>
-            <ul>
+    return `<span class="title-sector text text-legend-s -light">Sectors of interest</span>
+            <ul class="sectors-container">
               ${items}
             </ul>`
   }
@@ -29,15 +27,19 @@ class PopUpProject extends PopUp {
   _getContent() {
     //TODO - we need percentage of reached people when filtering.
     const sectorsItems = (this.model.get('sectors').length > 0) ? this._getSectors() : '';
-
-    return `<h2 class="title"> ${this.model.get('location')['name']}</h2>
-            </br>
+    
+    return `<h1 class="text text-module-title -light"> ${this.model.get('location')['name']} - <span class="number-m">${ utils.numberNotation(  this.model.get('totals')['projects'] )} projects
+              </span></h1>
+            <hr></hr>
             ${ sectorsItems }
-            <p class="number"><span class="number">${ utils.numberNotation(this.model.get('totals')['people']) }</span> People reached </p>
-            <p class="number"><span class="number">${ utils.numberNotation(this.model.get('totals')['women_and_girls']) }</span> Women & girls</p>
-            <p class="number"><span class="number">${ utils.numberNotation(this.model.get('totals')['men']) }</span> Men</p>
-            </br>
-            <a class="link" href=#>explore country page</a>`
+            <div class="numbers-donation">
+              <p class="text-legend-s"><span class="number-m">${ utils.numberNotation(this.model.get('totals')['people']) }</span> People reached </p>
+              <p class="text-legend-s"><span class="number-m">${ utils.numberNotation(this.model.get('totals')['women_and_girls']) + '%' }</span> Women & girls</p>
+            </div>
+            <a class="text text-cta -light" href=${this.model.attributes.url}>Explore country page</a>
+            <svg class="icon icon-externallink -light">
+              <use xlink:href="#icon-externallink"></use>
+            </svg>`
   }
 }
 

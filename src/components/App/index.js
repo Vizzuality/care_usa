@@ -8,6 +8,7 @@ import moment from 'moment';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
+import ModalAbout from '../ModalAbout';
 import ModalNoData from '../ModalNoData';
 import MapView from '../Map';
 import Landing from '../Landing';
@@ -71,9 +72,10 @@ class App extends React.Component {
       },
       /* The range selected in the timeline */
       timelineDates: {},
+      shareOpen: false,
+      aboutOpen: false,
       /* The range displayed on the map */
-      mapDates: {},
-      shareOpen: false
+      mapDates: {}
     }
   }
 
@@ -203,15 +205,6 @@ class App extends React.Component {
     newLayer[0].set('active', true);
   }
 
-  // FILTERS METHODS
-  closeFilterModal() {
-    this.setState({ filtersOpen: false });
-  }
-
-  openFiltersModal() {
-    this.setState({ filtersOpen: true });
-  }
-
   toggleModalFilter() {
     this.setState({ filtersOpen: !this.state.filtersOpen });
   }
@@ -239,13 +232,10 @@ class App extends React.Component {
     filtersModel.set(filtersModel.defaults);
   }
 
-  // SHARE METHODS
-  openShareModal() {
-    this.setState({ shareOpen: true });
-  }
-
-  closeShareModal() {
-    this.setState({ shareOpen: false });
+  handleModal(state, modal) {
+    const obj = {};
+    obj[modal] = state === 'open';
+    this.setState(obj);
   }
 
   //DONATION METHODS
@@ -309,7 +299,7 @@ class App extends React.Component {
 
         <div id="map" className="l-map" ref="Map"></div>
 
-        <button className="btn-share btn-primary l-share" onClick={ () => this.openShareModal() }>
+        <button className="btn-share btn-primary l-share" onClick={ () => this.handleModal('open', 'shareOpen') }>
           <svg className="icon icon-share">
             <use xlinkHref="#icon-share"></use>
           </svg>
@@ -317,7 +307,7 @@ class App extends React.Component {
 
         <ModalShare
           visible={ this.state.shareOpen }
-          onClose={ this.closeShareModal.bind(this) }
+          onClose={ this.handleModal.bind(this, 'close', 'shareOpen') }
         />
 
         <Dashboard
@@ -340,11 +330,23 @@ class App extends React.Component {
           <div className="svg-container js-svg-container"></div>
         </div>
 
-        <div id="map-credits" className="l-map-credits"></div>
+        <div id="map-credits" className="l-map-credits">
+          <p className="about-label text text-cta" onClick={ () => this.handleModal('open', 'aboutOpen') }>About the data</p>
+          <a className="btn-about" onClick={ () => this.handleModal('open', 'aboutOpen') }>
+            <svg className="icon icon-info">
+              <use xlinkHref="#icon-info"></use>
+            </svg>
+          </a>
+        </div>
+
+        <ModalAbout
+          visible={ this.state.aboutOpen }
+          onClose={ this.handleModal.bind(this, 'close', 'aboutOpen') }
+        />
 
         <ModalFilters
           visible={ this.state.filtersOpen }
-          onClose={ this.closeFilterModal.bind(this) }
+          onClose={ this.handleModal.bind(this, 'close', 'filtersOpen') }
           onSave={ this.updateFilters.bind(this) }
           range={ wholeRange }
           availableRange={ this.state.ranges[this.state.currentMode] }
@@ -356,7 +358,7 @@ class App extends React.Component {
           currentMode={ this.state.currentMode }
           dateRange={ this.state.ranges[this.state.currentMode] }
           timelineDates={ this.state.timelineDates }
-          onChangeFilters={ this.openFiltersModal.bind(this) }
+          onChangeFilters={ this.handleModal.bind(this, 'open', 'filtersOpen') }
           onGoBack={ this.setDonationsAsCurrentMode.bind(this) }
           onCancel={ this.resetFilters.bind(this) }
         />
