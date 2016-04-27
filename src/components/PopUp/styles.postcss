@@ -7,7 +7,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 5;
+  z-index: 9999999 !important;
   height: 100vh;
 
   padding: rem(30);
@@ -18,7 +18,7 @@
 
   @media screen and (min-width: $screen-m) {
     width: rem(427);
-    padding-bottom: rem(6) !important;
+    padding-bottom: rem(16) !important;
   }
 
   .text-module-title {
@@ -69,15 +69,49 @@
     }
   }
 
-
-
   .sector {
     display: inline-block;
     width: fit-content;
     list-style-type: none;
-    padding: rem(8) rem(10);
+    padding: rem(7) rem(10);
     background-color: $orange-yellow;
     margin: 0 rem(10) rem(10) 0;
+  }
+
+  .numbers-donation {
+    display: flex;
+    flex-flow: column;
+    margin-top: rem(10);
+    margin-bottom: rem(15);
+
+    @media screen and (min-width: $screen-m) {
+      flex-flow: row;
+      justify-content: space-between;
+      margin-bottom: rem(20);
+    }
+  }
+
+  .numbers-donation p {
+    margin-bottom: rem(20) !important;
+
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: 0;
+    }
+  }
+
+  .text-cta {
+    margin-bottom: rem(25);
+  }
+
+  .text.cta:hover {
+    color: $orange-yellow;
+  }
+
+  hr {
+    background-color: transparent;
+    border: rem(1) solid transparent;
+    border-bottom: rem(1) solid $orange-yellow;
+    margin-bottom: rem(16);
   }
 
   .btn-close {
@@ -99,10 +133,14 @@
       fill: $white;
     }
   }
+}
 
+.leaflet-popup-pane {
+  z-index: 9999999999999 !important;
 }
 
 .leaflet-popup {
+  
   min-width: rem(250);
 
   @media screen and (min-width: $screen-m) {
