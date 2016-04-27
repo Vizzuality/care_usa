@@ -16,7 +16,7 @@
   background-color: $color-2;
 
   @media screen and (min-width: $screen-m) {
-    width: rem(427);
+    min-width: rem(250);
     padding-bottom: rem(16) !important;
   }
 
@@ -26,11 +26,12 @@
 
     @media screen and (min-width: $screen-m) {
       margin-top: rem(0);
+      padding-right: rem(30);
     }
   }
 
   h2.text-legend-s {
-    padding-bottom: rem(14);
+    padding-bottom: rem(15);
     margin-bottom: rem(15);
     border-bottom: rem(1) solid $orange-yellow;
   }
@@ -57,7 +58,7 @@
     position: static;
     right: auto;
     height: auto;
-    min-width: rem(250);
+    /* min-width: rem(250); */
     max-width: rem(400);
     min-height: rem(100);
     padding: rem(30);
@@ -149,11 +150,11 @@
 }
 
 .leaflet-popup {
-  
-  min-width: rem(250);
+
+  /* min-width: rem(250); */
 
   @media screen and (min-width: $screen-m) {
-    width: rem(400);
+    min-width: rem(250);
   }
 }
 
