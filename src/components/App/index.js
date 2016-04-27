@@ -93,7 +93,7 @@ class App extends React.Component {
   }
 
   _updateRouterParams() {
-    this.setState({ 
+    this.setState({
       routerParams: router.params.attributes,
       donation: router.params.attributes.donation && true
     })
@@ -179,13 +179,13 @@ class App extends React.Component {
   }
 
   changeMapMode(mode, e) {
-    // router.update({mode: mode});
+    router.update({mode: mode});
     this.setState({ currentMode: mode });
     this.mapView.state.set({ 'mode': mode });
   }
 
   changeLayer(layer, e) {
-    // router.update({layer: layer});
+    router.update({layer: layer});
     this.setState({ currentLayer: layer });
 
     // Inactive all layers ofthe same group
@@ -244,7 +244,7 @@ class App extends React.Component {
 
   //DONATION METHODS
   componentDidUpdate() {
-    // if (this.state.donation) {    
+    // if (this.state.donation) {
     //   const bbox = [
     //     [this.state.bbox[1], this.state.bbox[0]],
     //     [this.state.bbox[3], this.state.bbox[2]]

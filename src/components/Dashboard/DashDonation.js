@@ -25,12 +25,6 @@ class DashboardDonation extends React.Component {
             <p className="text text-legend-s">Your donation</p>
           </div>
         </div>
-        <div className="m-dash-summary">
-          <div>
-            <p className="text text-legend-title">Donations</p>
-            <p><span className="number number-l">{ this.props.donationAmount }</span></p>
-          </div>
-        </div>
       </div>
     );
   }
