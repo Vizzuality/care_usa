@@ -4,9 +4,7 @@ import './styles.postcss';
 import $ from 'jquery';
 import Backbone from 'backbone';
 import ProjectModel from './../../scripts/models/ProjectModel';
-
 import PopUp from './PopUp';
-
 import utils from '../../scripts/helpers/utils';
 
 class PopUpProject extends PopUp {
@@ -29,15 +27,16 @@ class PopUpProject extends PopUp {
   _getContent() {
     //TODO - we need percentage of reached people when filtering.
     const sectorsItems = (this.model.get('sectors').length > 0) ? this._getSectors() : '';
-
-    return `<h1 class="text text-module-title -light"> ${this.model.get('location')['name']}</h1>
+    
+    return `<h1 class="text text-module-title -light"> ${this.model.get('location')['name']} - <span class="number-m">${ utils.numberNotation(  this.model.get('totals')['projects'] )} projects
+              </span></h1>
             <hr></hr>
             ${ sectorsItems }
             <div class="numbers-donation">
               <p class="text-legend-s"><span class="number-m">${ utils.numberNotation(this.model.get('totals')['people']) }</span> People reached </p>
               <p class="text-legend-s"><span class="number-m">${ utils.numberNotation(this.model.get('totals')['women_and_girls']) + '%' }</span> Women & girls</p>
             </div>
-            <a class="text text-cta -light" href="#">Explore country page</a>
+            <a class="text text-cta -light" href=${this.model.attributes.url}>Explore country page</a>
             <svg class="icon icon-externallink -light">
               <use xlink:href="#icon-externallink"></use>
             </svg>`
