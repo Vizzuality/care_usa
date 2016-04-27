@@ -35,6 +35,7 @@ class CreateTileLayer {
   constructor(options, state) {
     this.options = Object.assign(defaults, options);
     this.options.state = state;
+    this.timestamp = +(new Date());
   }
 
   //TODO - validate date before send query.

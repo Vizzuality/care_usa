@@ -125,9 +125,12 @@ class MapView extends Backbone.View {
       const newLayer = new TileLayer(layerConfig, this.state.toJSON());
 
       newLayer.createLayer().then(() => {
-        this._removeCurrentLayer();
-        newLayer.addLayer(this.map)
-        this.currentLayer = newLayer;
+        /* We ensure to always display the latest tiles */
+        if(!this.currentLayer || newLayer.timestamp > this.currentLayer.timestamp) {
+          this._removeCurrentLayer();
+          newLayer.addLayer(this.map)
+          this.currentLayer = newLayer;
+        }
       });
 
       this.state.set('currentLayer', layerConfig.slug);
