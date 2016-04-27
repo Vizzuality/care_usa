@@ -50,7 +50,7 @@ class PopUpDonation extends PopUp {
     const regionsItems = (this.model.get('countries').length > 0) ? this._getRegions() : '';
 
     return `<h1 class="text text-module-title -light"> ${ utils.numberNotation( (this.model.get('total_donors')) ) } donors - <span class="number-m">${ utils.numberNotation(  this.model.get('total_funds') )}$
-    </span><span class="btn-donors" title="Donors" onclick="this._donorsModal()">+</span></h1>
+    </span></h1>
     <h2 class="text text-legend-s -light">${this.model.get('location')['city']}</h2>
     ${ sectorsItems }
     ${ regionsItems }`
