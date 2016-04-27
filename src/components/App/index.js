@@ -254,7 +254,7 @@ class App extends React.Component {
         </div>
 
         <div id="map-credits" className="l-map-credits">
-          <p className="text text-cta">About the data</p>
+          <p className="btn-about text text-cta" onClick={ () => this.handleModal('open', 'aboutOpen') }>About the data</p>
           <a className="btn-about" onClick={ () => this.handleModal('open', 'aboutOpen') }>
             <svg className="icon icon-info">
               <use xlinkHref="#icon-info"></use>
