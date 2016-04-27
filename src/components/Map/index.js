@@ -94,6 +94,13 @@ class MapView extends Backbone.View {
     this.state.on('change:mode', _.bind(this.changeLayer, this));
     layersCollection.on('change', _.bind(this.changeLayer, this));
     filtersModel.on('change', _.bind(this._updateFilters, this));
+
+    this.map.on('zoomend', _.bind(this._setStateZoom, this));
+  }
+
+  _setStateZoom(e) {
+    const zoom = this.map.getZoom();
+    this.state.set({zoom: this.map.getZoom()}, {silent: true});
   }
 
   _updateFilters() {
@@ -105,7 +112,8 @@ class MapView extends Backbone.View {
       currentMode: this.state.get('mode'),
       currentLayer: this.state.get('currentLayer'),
       latLng: e.latlng,
-      map: this.map
+      map: this.map,
+      zoom: this.state.get('zoom')
     }).getPopUp();
   }
 
