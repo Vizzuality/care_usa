@@ -14,7 +14,7 @@ class Header extends React.Component {
       <div id="header" className="l-header">
         <div className="wrap">
           <a href="/" className="logo">
-            <img className="icon icon-logo" src={ require('../../images/logo.svg') }></img>
+            <img className="icon icon-logo" src={ require('../../images/logoCARE.svg') }></img>
           </a>
           <div className="m-main-menu">
             <button

@@ -53,9 +53,6 @@ class Dashboard extends React.Component {
       filtersSwitcher = <div
               className= 'btn btn-third btn-filters-switcher'
               onClick= { this.props.toggleFiltersFn } >
-              <svg className='icon'>
-                <use xlinkHref="#icon-filters"></use>
-              </svg>
               filters
             </div>
     };
