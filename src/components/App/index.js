@@ -61,7 +61,7 @@ class App extends React.Component {
        * or moving the handle. Dates are rounded "nicely" to the interval. */
       dataInterval: {
         donations: {
-          unit: d3.time.week,
+          unit: d3.time.month,
           count: 2
         },
         projects: {
@@ -183,6 +183,7 @@ class App extends React.Component {
     router.update({mode: mode});
     this.setState({ currentMode: mode });
     this.mapView.state.set({ 'mode': mode });
+    this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
   }
 
   changeLayer(layer, e) {
@@ -218,11 +219,12 @@ class App extends React.Component {
   }
 
   updateTimelineDates(dates) {
-    this.setState({ timelineDates: dates })
+    this.setState({ timelineDates: dates });
   }
 
   updateMapDates(dates) {
-    this.setState({ mapDates: dates })
+    this.setState({ mapDates: dates });
+    this.mapView.state.set({ timelineDates: dates });
   }
 
   setDonationsAsCurrentMode() {
@@ -300,7 +302,7 @@ class App extends React.Component {
     ];
 
     return (
-      <div className="l-app">
+      <div className="l-app is-loading">
 
         <div id="map" className="l-map" ref="Map"></div>
 
