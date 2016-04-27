@@ -1,3 +1,12 @@
 .is-hidden {
-  @extend %hidden; 
+  @extend %hidden;
+}
+
+
+.is-loading {
+  @mixin spinner rem(40), rem(5), $color-1, $color-2;
+}
+
+.is-loading.-small {
+  @mixin spinner rem(30), rem(5), $color-1;
 }
