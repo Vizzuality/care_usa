@@ -27,7 +27,6 @@ class PopUp extends Backbone.View {
       });
     } else {
       //For donation mode
-      console.log('***', this.options)
       this.options.device.mobile ?  this._drawPopUpMobile(this.options) : this._drawPopUp();
     }
   }
@@ -45,7 +44,6 @@ class PopUp extends Backbone.View {
   }
 
   closePopUp() {
-    console.log(this);
     this.options.map.closePopup();
   }
 

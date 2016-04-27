@@ -58,8 +58,6 @@ class MapView extends Backbone.View {
     this.marker = new MarkerLayer(options);
     this.marker.addLayer(this.map);
 
-    console.log(options);
-
     this.myDonationPopUp = new PopUpContentView({
       currentMode: 'my-donation',
       currentLayer: 'my-donation',
@@ -107,7 +105,7 @@ class MapView extends Backbone.View {
     });
 
     this.state.on('change:filters', () => this.changeLayer());
-    this.state.on('change:timelineDates', () => this.changeLayer());
+    this.state.on('change:timelineDates', () => this.changeLayerTimeline());
 
     this.state.on('change:mode', _.bind(this.changeLayer, this));
     layersCollection.on('change', _.bind(this.changeLayer, this));
@@ -124,7 +122,9 @@ class MapView extends Backbone.View {
       currentLayer: this.state.get('currentLayer'),
       latLng: e.latlng,
       map: this.map
-    }).getPopUp();
+    })
+
+    this.popUp.getPopUp();
   }
 
   _setFilters() {
@@ -136,6 +136,11 @@ class MapView extends Backbone.View {
   }
 
   _addLayer() {
+    //Remove current pop up
+    if (this.popUp) {
+      this.popUp.closeCurrentPopup();
+    }
+
     let layerConfig;
     //I will draw only active layers for each category;
     let activeLayers = layersCollection.filter(model => model.attributes.active && model.attributes.category === this.state.get('mode'));
@@ -162,18 +167,18 @@ class MapView extends Backbone.View {
       this.currentLayer.removeLayer(this.map);
       this.currentLayer = null;
     }
+  }
 
-    if (this.popUp) {
-      this.popUp.closePopup();
-    }
+  changeLayer() {
+    this._addLayer();
   }
 
 };
 
-MapView.prototype.changeLayer = (function() {
+MapView.prototype.changeLayerTimeline = (function() {
   return _.throttle(function() {
     this._addLayer();
-  }, 500);
+  }, 200);
 })();
 
 MapView.prototype.defaults = {

@@ -175,13 +175,15 @@ class App extends React.Component {
     if (this.state.donation) {
       this.geo = new GeoModel();
       this.updateBBox();
-      router.params.on('change', this.updateBBox.bind(this));
+      //TODO - activate this to update map. But solve repetition
+      // router.params.on('change', this.updateBBox.bind(this));
     }
   }
 
   changeMapMode(mode, e) {
     router.update({mode: mode});
     this.setState({ currentMode: mode });
+    //MAP STATE CHANGE CHANGE
     this.mapView.state.set({ 'mode': mode });
     this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
   }
@@ -224,6 +226,7 @@ class App extends React.Component {
 
   updateMapDates(dates) {
     this.setState({ mapDates: dates });
+    //MAP STATE CHANGE
     this.mapView.state.set({ timelineDates: dates });
   }
 
@@ -263,7 +266,7 @@ class App extends React.Component {
 
   updateBBox() {
     $.when(
-      layersCollection.fetch(),
+      // layersCollection.fetch(),
       this.geo.fetch({
         data: {q: router.params.get('city')}
       })
@@ -302,7 +305,7 @@ class App extends React.Component {
     ];
 
     return (
-      <div className="l-app is-loading">
+      <div className="l-app">
 
         <div id="map" className="l-map" ref="Map"></div>
 

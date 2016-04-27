@@ -12,7 +12,7 @@ import utils from '../../scripts/helpers/utils';
 class PopUpMyDonation extends PopUp {
 
   _popUpLayer(myDonation) {
-    console.log('my donation', myDonation)
+    // console.log('my donation', myDonation)
     return `<div class="m-popup -my-donation">
             <button class="btn-close">
               <svg class="icon icon-close"><use xlink:href="#icon-close"></use></svg>
