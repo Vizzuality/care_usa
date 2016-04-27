@@ -269,8 +269,9 @@ class TimelineView extends Backbone.View {
      * beginning of the timeline */
     if(this.currentDataIndex === null || this.currentDataIndex === undefined ||
       this.cursorPosition === this.options.domain[1]) {
-      this.currentDataIndex = 0;
+      this.currentDataIndex = -1;
       this.cursorPosition = this.options.domain[0];
+      this.triggerCurrentData();
       this.moveCursor(this.cursorPosition);
     } else {
       this.cursorPosition = this.dayOffset(this.cursorPosition, this.dayPerFrame);
@@ -357,7 +358,7 @@ class TimelineView extends Backbone.View {
     var current = 0;
     while(current <= this.options.data.length - 1) {
       if(this.options.data[current].date >= date) {
-        if(current === 0) return current;
+        if(current === 0) return -1;
         return current - 1;
       }
       current++;
@@ -374,6 +375,21 @@ class TimelineView extends Backbone.View {
     this.cursorPosition = this.options.domain[1];
     this.render();
     this.triggerCursorDate(this.cursorPosition);
+  }
+
+  changeMode(interval, dataRange) {
+    this.options.interval = interval;
+
+    if(this.cursorPosition < dataRange[0]) {
+      this.cursorPosition = dataRange[0];
+    } else if(this.cursorPosition > dataRange[1]) {
+      this.cursorPosition = dataRange[1];
+    }
+
+    this.render();
+
+    this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
+    this.triggerCurrentData()
   }
 
 };
@@ -400,13 +416,17 @@ TimelineView.prototype.triggerCursorDate = (function() {
  * class or create it as an instance method */
 TimelineView.prototype.triggerCurrentData = (function() {
   const triggerMapDates = _.debounce(function(dates) {
-    console.log(dates);
     this.options.triggerMapDates(dates);
   }, 30);
 
   return function() {
     const startDate  = moment(this.scale.domain()[0]).add(1, 'days').toDate();
-    const dataDate   = this.options.data[this.currentDataIndex].date;
+    let dataDate;
+    if(this.currentDataIndex < 0) {
+      dataDate = this.options.domain[0];
+    } else {
+      dataDate   = this.options.data[this.currentDataIndex].date;
+    }
 
     /* We trigger the range show with the last date with data */
     triggerMapDates.call(this, {
