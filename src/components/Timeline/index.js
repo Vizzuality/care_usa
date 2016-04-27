@@ -418,7 +418,7 @@ TimelineView.prototype.triggerCursorDate = (function() {
 TimelineView.prototype.triggerCurrentData = (function() {
   const triggerMapDates = _.debounce(function(dates) {
     this.options.triggerMapDates(dates);
-  }, 30);
+  }, 100);
 
   return function() {
     const startDate  = moment(this.scale.domain()[0]).add(1, 'days').toDate();

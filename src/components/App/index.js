@@ -56,7 +56,7 @@ class App extends React.Component {
       dataInterval: {
         donations: {
           unit: d3.time.month,
-          count: 1
+          count: 2
         },
         projects: {
           unit: d3.time.year,
