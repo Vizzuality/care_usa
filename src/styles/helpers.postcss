@@ -76,7 +76,7 @@
 }
 
 /* Loader */
-@define-mixin spinner $size, $border-width {
+@define-mixin spinner $size, $border-width, $color, $color2 {
 
   &:before {
     content: '';
@@ -97,13 +97,13 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -($size/2) 0 0 -($size/2);
+    margin: calc(-1 * $size / 2 - $border-width) 0 0 calc(-1 * $size / 2);
     transition: all .75s ease 0s;
     border-radius: 100%;
-    border-top: $border-width solid #444;
-    border-right: $border-width solid #eee;
-    border-bottom: $border-width solid #eee;
-    border-left: $border-width solid #eee;
+    border-top: $border-width solid $color2;
+    border-right: $border-width solid $color2;
+    border-bottom: $border-width solid $color;
+    border-left: $border-width solid $color;
     animation: spinner .75s infinite linear;
     transform-origin: center;
   }
