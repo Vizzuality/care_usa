@@ -4,7 +4,7 @@ import Backbone from 'backbone';
 import $ from 'jquery';
 import filtersModel from '../../scripts/models/filtersModel';
 
-class CartodbModel extends Backbone.Model {
+class PopUpModel extends Backbone.Model {
 
   customFetch(options) {
     this.options = options;
@@ -33,13 +33,10 @@ class CartodbModel extends Backbone.Model {
     const regions = filters['region'] ? '&countries_iso=' + filters['region'] : '';
 
     if (filters['sectors'].length > 0) {
-      let sectorsItems = [];
 
       $.each(filters['sectors'], function(i, sector) {
-         return sectorsItems.push(sector);
+        sectors = sectors + '&sectors_slug[]=' + sector
       })
-
-      sectors = '&sectors_slug=[' + sectorsItems + ']';
     }
 
     return `${this.baseUrl}${startDate}${endDate}${sectors}${regions}`;
@@ -52,4 +49,4 @@ class CartodbModel extends Backbone.Model {
 };
 
 
-export default CartodbModel;
+export default PopUpModel;

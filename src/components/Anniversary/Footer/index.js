@@ -14,7 +14,7 @@ class Footer extends React.Component {
       <div id="footer" className="l-footer">
        <div className="wrap">
         <a href="/" className="logo">
-          <img className="icon icon-logo" src={ require('../../images/logo.svg') }></img>
+          <img className="icon icon-logo" src={ require('../../../images/logo.svg') }></img>
         </a>
         <div className="third-party-webs">
           <p className="text text-legend-s">Follow us</p>
@@ -24,7 +24,7 @@ class Footer extends React.Component {
           <a href="https://www.youtube.com/careusa"><svg className="icon icon-youtube -primary"><use xlinkHref="#icon-youtube"></use></svg></a>
           <a href="https://plus.google.com/+care"><svg className="icon icon-googleplus -primary"><use xlinkHref="#icon-googleplus"></use></svg></a>
         </div>
-        <div className="own-web text text-highlighted">Also visit our page <a href="http://www.care.org" className="text -primary">www.care.org</a></div>
+        <div className="own-web text text-highlighted">Visit us at <a href="http://www.care.org" className="text -primary">www.care.org</a></div>
        </div>
       </div>
     );

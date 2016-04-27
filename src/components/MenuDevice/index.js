@@ -20,8 +20,8 @@ class MenuDevice extends React.Component {
         </button>
         <div className="wrap">
           <ul className="menu">
-            <li className={ this.props.currentPage == "who-cares" && 'is-active' } ><a href="/" className='menu-link text text-module-title -dark'>Who cares</a></li>
-            <li className={ this.props.currentPage == "anniversary" && 'is-active' } ><a href="anniversary.html" className='menu-link text text-module-title -dark'>CARE’s Anniversary</a></li>
+            <li className={ this.props.currentPage == "who-cares" && 'is-active' } ><a href="/" className='menu-link text text-module-title -dark'>Donor Impact Map</a></li>
+            <li className={ this.props.currentPage == "anniversary" && 'is-active' } ><a href="anniversary.html" className='menu-link text text-module-title -dark'>CARE’s History</a></li>
           </ul>
         </div>
       </div>
