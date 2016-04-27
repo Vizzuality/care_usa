@@ -11,22 +11,53 @@ import utils from '../../scripts/helpers/utils';
 
 class PopUpDonation extends PopUp {
 
+  _getSectors() {
+    let items = '';
+    let i = 0;
+
+    while( i < 3 ) {
+      items = this.model.get('sectors')[i] && this.model.get('sectors')[i].name ? items + `<li class="sector text text-legend-s -light"> ${this.model.get('sectors')[i].name} </li>` : items + '';
+      i++;
+    }
+
+    return `<span class="title-sector text text-legend-s -light">Three top sectors of interest</span>
+            <ul class="sectors-container">
+              ${items}
+            </ul>`
+  }
+
+  _getRegions() {
+    let items = '';
+        let i = 0;
+
+        while( i < 3 ) {
+          items = this.model.get('countries')[i] ? items + `<li class="sector text text-legend-s -light"> ${this.model.get('countries')[i].name} </li>` : items + '';
+          i++;
+        }
+
+        return `<span class="title-sector text text-legend-s -light">Three top places of interest</span>
+                <ul class="sectors-container">
+                  ${items}
+                </ul>`
+  }
+
+  _donorsModal() {
+    document.getElementById('donors-modal').style.display = 'inherit';
+  }
+
   _getContent() {
-    return `<div class=m-popup>
-            <button class="btn-close">
-              <svg class="icon icon-close"><use xlink:href="#icon-close"></use></svg>
-            </button>
-            <div class="wrapper">
-              <h2>${ this.model.get('location')['city'] },
-                ${ this.model.get('location')['state'] },
-                ${ this.model.get('location')['country'] }</h2>
-              <h2>Total funds: $${ this.model.get('total_funds') }</h2>
-              <h2>Total # donors: ${ this.model.get('total_donors') }</h2>
-            </div>
-          </div>`
+    const sectorsItems = (this.model.get('sectors').length > 0) ? this._getSectors() : '';
+    const regionsItems = (this.model.get('countries').length > 0) ? this._getRegions() : '';
+
+    return `<h1 class="text text-module-title -light"> ${ utils.numberNotation( (this.model.get('total_donors')) ) } donors - <span class="number-m">${ utils.numberNotation(  this.model.get('total_funds') )}$
+    </span></h1>
+    <h2 class="text text-legend-s -light">${this.model.get('location')['city']}</h2>
+    ${ sectorsItems }
+    ${ regionsItems }`
   }
 }
 
 PopUpDonation.prototype.model = new DonorModel();
 
 export default PopUpDonation;
+

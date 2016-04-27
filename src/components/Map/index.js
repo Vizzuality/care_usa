@@ -87,13 +87,19 @@ class MapView extends Backbone.View {
       this.map.setView(latlng, this.map.getZoom());
     });
 
-    this.state.on('change:filters', () => {
-      this.changeLayer();
-    });
+    this.state.on('change:filters', () => this.changeLayer());
+    this.state.on('change:timelineDates', () => this.changeLayer());
 
     this.state.on('change:mode', _.bind(this.changeLayer, this));
     layersCollection.on('change', _.bind(this.changeLayer, this));
     filtersModel.on('change', _.bind(this._updateFilters, this));
+
+    this.map.on('zoomend', _.bind(this._setStateZoom, this));
+  }
+
+  _setStateZoom(e) {
+    const zoom = this.map.getZoom();
+    this.state.set({zoom: this.map.getZoom()}, {silent: true});
   }
 
   _updateFilters() {
@@ -101,10 +107,12 @@ class MapView extends Backbone.View {
   }
 
   _infowindowSetUp(e) {
-    new PopUpContentView({
+    this.popUp = new PopUpContentView({
+      currentMode: this.state.get('mode'),
       currentLayer: this.state.get('currentLayer'),
       latLng: e.latlng,
-      map: this.map
+      map: this.map,
+      zoom: this.state.get('zoom')
     }).getPopUp();
   }
 
@@ -120,13 +128,19 @@ class MapView extends Backbone.View {
     let layerConfig;
     //I will draw only active layers for each category;
     let activeLayers = layersCollection.filter(model => model.attributes.active && model.attributes.category === this.state.get('mode'));
-    let filters = ! (filtersModel.filtersIsEmpty()) ? this.state.get('filters') : null;
 
     _.each(activeLayers, (activeLayer) => {
       layerConfig = activeLayer.toJSON();
-      this.currentLayer = new TileLayer(layerConfig, filters);
+      const newLayer = new TileLayer(layerConfig, this.state.toJSON());
 
-      this.currentLayer.createLayer().then( () => { this.currentLayer.addLayer(this.map) } );
+      newLayer.createLayer().then(() => {
+        /* We ensure to always display the latest tiles */
+        if(!this.currentLayer || newLayer.timestamp > this.currentLayer.timestamp) {
+          this._removeCurrentLayer();
+          newLayer.addLayer(this.map)
+          this.currentLayer = newLayer;
+        }
+      });
 
       this.state.set('currentLayer', layerConfig.slug);
     })
@@ -137,14 +151,21 @@ class MapView extends Backbone.View {
       this.currentLayer.removeLayer(this.map);
       this.currentLayer = null;
     }
-  }
 
-  changeLayer() {
-    this._removeCurrentLayer();
-    this._addLayer();
+    //TODO - remove infowindow when change layer
+    if (this.popUp) {
+      console.log('remove')
+      this.popUp._closeInfowindow();
+    }
   }
 
 };
+
+MapView.prototype.changeLayer = (function() {
+  return _.throttle(function() {
+    this._addLayer();
+  }, 500);
+})();
 
 MapView.prototype.defaults = {
   style: location.hostname === 'localhost' ? 'mapbox.streets' : 'jhanley.a25ffffe',
