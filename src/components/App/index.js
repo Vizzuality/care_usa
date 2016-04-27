@@ -25,8 +25,8 @@ import Router from '../Router';
 class AppRouter extends Router {}
 // Overriding default routes
 AppRouter.prototype.routes = {
-  '': function() {
-    console.info('you are on map page');
+  '': function(args) {
+    this.params.set(this.parseParams(args));
   }
 };
 
@@ -74,6 +74,7 @@ class App extends React.Component {
   componentWillMount() {
     this.setState(utils.checkDevice());
     this.router = new AppRouter();
+    this.router.params.on('change', this.onRouterChange.bind(this));
     this.router.start();
     sectorsCollection.fetch()
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
@@ -111,6 +112,18 @@ class App extends React.Component {
     }
 
     return true;
+  }
+
+  onRouterChange() {
+    const params = this.router.params.toJSON();
+
+    /* Update the position of the cursor in the timeline */
+    if(this.timeline && params.timelineDate) {
+      const date = moment(params.timelineDate, 'YYYY-MM-DD');
+      if(date.isValid()) {
+        this.timeline.setCursorPosition(date.toDate());
+      }
+    }
   }
 
   _initData() {
@@ -153,7 +166,7 @@ class App extends React.Component {
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
 
-    this.timeline = new TimelineView({
+    const timelineParams = {
       el: this.refs.Timeline,
       domain: wholeRange,
       interval: this.state.dataInterval[this.state.currentMode],
@@ -161,11 +174,17 @@ class App extends React.Component {
       triggerTimelineDates: this.updateTimelineDates.bind(this),
       triggerMapDates: this.updateMapDates.bind(this),
       ticksAtExtremities: false
-    });
-    this.router.update({
-      startDate: moment(wholeRange[0]).format('YYYY-MM-DD'),
-      endDate: moment(wholeRange[1]).format('YYYY-MM-DD')
-    });
+    };
+
+    /* We retrieve the position of the cursor from the URL if exists */
+    if(this.router.params.toJSON().timelineDate) {
+      const date = moment(this.router.params.toJSON().timelineDate, 'YYYY-MM-DD');
+      if(date.isValid()) {
+        timelineParams.cursorPosition = date.toDate();
+      }
+    }
+
+    this.timeline = new TimelineView(timelineParams);
   }
 
   // MAP METHODS

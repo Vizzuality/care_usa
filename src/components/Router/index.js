@@ -10,16 +10,6 @@ class Router extends Backbone.Router {
     this.params = new ParamsModel();
   }
 
-  execute(callback, args, currentRoute) {
-    this.currentRoute = currentRoute;
-    if (args[0]) {
-      this.params.set(this.parseParams(args[0]));
-    }
-    if (callback) {
-      callback.apply(this, args);
-    }
-  }
-
   update(params) {
     this.params.set(params, { trigger: false });
     const routeString = this.serializeParams(this.params.attributes);
