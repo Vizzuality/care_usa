@@ -24,7 +24,7 @@ const defaults = {
     left: 15
   },
   cursor: {
-    speed: 10 /* seconds per year */
+    speed: 40 /* seconds per year */
   },
   ticksAtExtremities: false
 };
@@ -377,8 +377,9 @@ class TimelineView extends Backbone.View {
     this.triggerCursorDate(this.cursorPosition);
   }
 
-  changeMode(interval, dataRange) {
+  changeMode(mode, interval, dataRange) {
     this.options.interval = interval;
+    this.options.cursor.speed = mode === 'donations' ? 40 : 10;
 
     if(this.cursorPosition < dataRange[0]) {
       this.cursorPosition = dataRange[0];
