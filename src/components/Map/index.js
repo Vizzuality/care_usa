@@ -53,12 +53,11 @@ class MapView extends Backbone.View {
       this.state.attributes.lat = 40;
       this.state.attributes.lon = -120;
     }
+  }
 
-    //Donation marker
-    if (this.state.donation) {
-      this.donation.options = {};
-      new MarkerLayer(this.donation.options);
-    }
+  drawDonationMarker(options) {
+    this.marker = new MarkerLayer(options);
+    this.marker.addLayer(this.map);
   }
 
   _createMap() {
@@ -138,6 +137,7 @@ class MapView extends Backbone.View {
       layerConfig = activeLayer.toJSON();
       this.currentLayer = new TileLayer(layerConfig, filters);
 
+      console.log('addLayer')
       this.currentLayer.createLayer().then( () => { this.currentLayer.addLayer(this.map) } );
 
       this.state.set('currentLayer', layerConfig.slug);

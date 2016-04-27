@@ -1,6 +1,7 @@
 'use strict';
 
 import React  from 'react';
+import $ from 'jquery';
 import d3  from 'd3';
 import _ from 'underscore';
 import moment from 'moment';
@@ -173,8 +174,8 @@ class App extends React.Component {
     //Donation
     if (this.state.donation) {
       this.geo = new GeoModel();
-      // this.updateBBox();
-      // router.params.on('change', this.updateBBox.bind(this));
+      this.updateBBox();
+      router.params.on('change', this.updateBBox.bind(this));
     }
   }
 
@@ -244,17 +245,18 @@ class App extends React.Component {
 
   //DONATION METHODS
   componentDidUpdate() {
-    // if (this.state.donation) {
-    //   const bbox = [
-    //     [this.state.bbox[1], this.state.bbox[0]],
-    //     [this.state.bbox[3], this.state.bbox[2]]
-    //   ];
-    //   this.refs.MapC.mapView.map.fitBounds(bbox);
-    //   this.refs.MapC.mapView.removeAllLayers();
-    //   this.refs.MapC.mapView.layersSpec.reset(this.state.layersData);
-    //   this.refs.MapC.mapView.layersSpec.instanceLayers();
-    //   this.refs.MapC.mapView.toggleLayers();
-    // }
+    console.log(this.state)
+    if (this.state.donation && this.state.bbox) {
+      const bbox = [
+        [this.state.bbox[1], this.state.bbox[0]],
+        [this.state.bbox[3], this.state.bbox[2]]
+      ];
+      this.mapView.map.fitBounds(bbox);
+      // this.mapView.removeAllLayers();
+      // this.mapView.layersSpec.reset(this.state.layersData);
+      // this.mapView.layersSpec.instanceLayers();
+      // this.mapView.toggleLayers();
+    }
   }
 
   updateBBox() {
@@ -264,25 +266,30 @@ class App extends React.Component {
         data: {q: router.params.get('city')}
       })
     ).done(() => {
-      const layerModel = layersCollection.find({slug: 'amount-of-money'});
-      const layersData = [{
-        type: 'marker',
-        position: this.geo.attributes.position,
-        title: router.params.attributes.name,
-        active: true
-      }, {
-        type: 'cartodb',
-        active: layerModel.attributes.active,
-        account: config.cartodbAccount,
-        sql: layerModel.attributes.geo_query.replace('$WHERE', ''),
-        cartocss: layerModel.attributes.geo_cartocss
-      }];
-      const nexState = _.extend({}, router.params.attributes, {
+      // const layerModel = layersCollection.find({slug: 'amount-of-money'});
+      // const layersData = [{
+      //   type: 'marker',
+      //   position: this.geo.attributes.position,
+      //   title: router.params.attributes.name,
+      //   active: true
+      // }, {
+      //   type: 'cartodb',
+      //   active: layerModel.attributes.active,
+      //   account: config.cartodbAccount,
+      //   sql: layerModel.attributes.geo_query.replace('$WHERE', ''),
+      //   cartocss: layerModel.attributes.geo_cartocss
+      // }];
+      const nextState = _.extend({}, router.params.attributes, {
         bbox: this.geo.attributes.bbox,
         position: this.geo.attributes.position,
-        layersData: layersData
       });
-      this.setState(nexState);
+
+      this.setState(nextState);
+
+      //Here we tell the map to draw donation marker;
+      if (nextState.mode === 'donations') {
+        this.mapView.drawDonationMarker(nextState);
+      }
     });
   }
 

@@ -7,6 +7,7 @@ class MarkerLayer {
   }
 
   createLayer() {
+
     const latlng = [this.options.position[1], this.options.position[0]];
     // this.layer = L.marker(this.options.position || [0, 0]);
     this.layer = L.mapbox.featureLayer({

@@ -153,8 +153,6 @@ class CreateTileLayer {
     const cartoAccount = this.options.cartodbAccount;
     const cartoKey = this.options.cartodbKey;
 
-    // console.log(this.options.sql);
-
     // data layers parameterization
     const request = {
       layers: [{
