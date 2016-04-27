@@ -16,7 +16,8 @@ class DashSummary extends React.Component {
     this.props = props;
     this.state = {
       totalDonations: null,
-      donationsAmount: null
+      donationsAmount: null,
+      isLoading: false
     };
   }
 
@@ -27,14 +28,15 @@ class DashSummary extends React.Component {
 
   shouldComponentUpdate(nextState) {
     if(this.state.totalDonations !== nextState.totalDonations ||
-      this.state.donationsAmount !== nextState.donationsAmount) {
+      this.state.donationsAmount !== nextState.donationsAmount ||
+      this.state.isLoading !== nextState.isLoading) {
       return true;
     }
     return false;
   }
 
   componentWillReceiveProps(nextProps) {
-    const startDate = nextProps.filters && nextProps.filters.from;
+    const startDate = nextProps.timeline && nextProps.timeline.from || nextProps.filters && nextProps.filters.from;
     const endDate = nextProps.timeline && nextProps.timeline.to || nextProps.filters && nextProps.filters.to;
     const sectors = nextProps.filters && nextProps.filters.sectors || [];
     const region = nextProps.filters && nextProps.filters.region;
@@ -51,7 +53,7 @@ class DashSummary extends React.Component {
 
   render() {
     return (
-      <div className="m-dash-summary">
+      <div className={ 'm-dash-summary ' + (this.state.isLoading ? 'is-loading -small' : '') }>
         <div className="summary-item">
           <p className="text text-legend-title">Donations </p>
           <span className="number number-l">{ utils.numberNotation(this.state.totalDonations) }</span>
@@ -71,14 +73,16 @@ DashSummary.prototype.fetchData = (function() {
 
     if(state.startDate) params.start_date = moment(state.startDate).format('YYYY-MM-DD');
     if(state.endDate) params.end_date = moment(state.endDate).format('YYYY-MM-DD');
-    if(state.sectors && state.sectors.length) params.sectors = state.sectors;
+    if(state.sectors && state.sectors.length) params.sectors_slug = state.sectors;
     if(state.region) params.countries_iso = [ state.region ];
 
+    this.setState({ isLoading: true });
     this.dashSummary.fetch({ data: params })
       .done(res => {
         this.setState({
           totalDonations: res.total_donations,
-          donationsAmount: res.total_funds
+          donationsAmount: res.total_funds,
+          isLoading: false
         });
       });
   }, 500);
