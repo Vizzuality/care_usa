@@ -230,7 +230,7 @@ class App extends React.Component {
     ];
 
     return (
-      <div className="l-app is-loading">
+      <div className="l-app">
 
         <div id="map" className="l-map" ref="Map"></div>
 

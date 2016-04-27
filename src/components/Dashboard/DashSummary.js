@@ -16,8 +16,7 @@ class DashSummary extends React.Component {
     this.props = props;
     this.state = {
       totalDonations: null,
-      donationsAmount: null,
-      isLoading: false
+      donationsAmount: null
     };
   }
 
@@ -28,8 +27,7 @@ class DashSummary extends React.Component {
 
   shouldComponentUpdate(nextState) {
     if(this.state.totalDonations !== nextState.totalDonations ||
-      this.state.donationsAmount !== nextState.donationsAmount ||
-      this.state.isLoading !== nextState.isLoading) {
+      this.state.donationsAmount !== nextState.donationsAmount) {
       return true;
     }
     return false;
@@ -53,7 +51,7 @@ class DashSummary extends React.Component {
 
   render() {
     return (
-      <div className={ 'm-dash-summary ' + (this.state.isLoading ? 'is-loading -small' : '') }>
+      <div className="m-dash-summary">
         <div className="summary-item">
           <p className="text text-legend-title">Donations </p>
           <span className="number number-l">{ utils.numberNotation(this.state.totalDonations) }</span>
@@ -76,13 +74,11 @@ DashSummary.prototype.fetchData = (function() {
     if(state.sectors && state.sectors.length) params.sectors_slug = state.sectors;
     if(state.region) params.countries_iso = [ state.region ];
 
-    this.setState({ isLoading: true });
     this.dashSummary.fetch({ data: params })
       .done(res => {
         this.setState({
           totalDonations: res.total_donations,
-          donationsAmount: res.total_funds,
-          isLoading: false
+          donationsAmount: res.total_funds
         });
       });
   }, 500);
