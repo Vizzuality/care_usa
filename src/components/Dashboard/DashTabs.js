@@ -19,12 +19,12 @@ class DashboardTabs extends React.Component {
             <button
               className={ this.props.currentMode == 'donations' && 'is-active' }
               onClick={ this.props.changeModeFn.bind(null, 'donations') }
-            ><span>Donations</span></button></li>
+            >Donations</button></li>
           <li className='tab'>
             <button
               className={ this.props.currentMode == 'projects' && 'is-active' }
               onClick={ this.props.changeModeFn.bind(null, 'projects') }
-            ><span>Projects</span></button></li>
+            >Projects</button></li>
         </ul>
      </div>
     );
