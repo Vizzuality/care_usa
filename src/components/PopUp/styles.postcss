@@ -75,10 +75,47 @@
 
 
   &.-my-donation {
-    transform: translatey(-50px);
+    background-color: #f0ebe4;
+    transform: translatey(-30px);
+    color: $font-color-1;
+    font-family: $font-family-1;
+    font-weight: 400;
+    padding: rem(50);
+    /* width: rem(400); */
+
+    h1 {
+      font-size: rem(23);
+      line-height: rem(30);
+      font-weight: 400;
+      margin-bottom: rem(30);
+    }
+
+    .icon-close {
+      fill: $color-1;
+    }
+
+    .donation {
+      color: $font-color-1;
+
+      font-size: rem(15);
+      line-height: rem(18);
+    }
+
+    .text {
+      position: relative;
+      top: -5px;
+    }
+
+    .donation-box {
+      display: inline-block;
+      width: rem(20);
+      height: rem(20);
+      background-color: $color-3;
+      margin-right: rem(10);
+    }
 
     &:after {
-      display: none;
+      border-top-color: #f0ebe4;
     }
   }
 }

@@ -331,9 +331,6 @@ class App extends React.Component {
           regions={ this.state.regions }
           dateRange={ this.state.ranges[this.state.currentMode] }
           timelineDates={ this.state.timelineDates }
-          donation={ this.state.donation }
-          donationName={ this.state.routerParams && this.state.routerParams.name ? this.state.routerParams.name : ''}
-          donationAmount={this.state.routerParams && this.state.routerParams.amount ? this.state.routerParams.amount : ''}
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">

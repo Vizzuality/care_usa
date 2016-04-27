@@ -34,7 +34,6 @@ class Dashboard extends React.Component {
     let tabsDesktop;
     let layersSwitcher;
     let filtersSwitcher;
-    let donation;
 
     if ( this.state.mobile || this.state.tablet ) {
       tabsMobile =  <DashTabs
@@ -61,13 +60,6 @@ class Dashboard extends React.Component {
               filters
             </div>
     };
-
-    if (this.props.donation) {
-      donation = <DashDonation
-        donationAmount={ this.props.donationAmount}
-        donationName={this.props.donationName}
-      />
-    }
 
     layersSwitcher = <DashLayerSwitcher
               layers = { this.state.layers }
@@ -106,7 +98,6 @@ class Dashboard extends React.Component {
                 timelineDates={ this.props.timelineDates }
                 dateRange={ this.props.dateRange }
               />
-              { donation }
               <DashFilters
                 filters={ this.props.filters }
                 sectors={ this.props.sectors }

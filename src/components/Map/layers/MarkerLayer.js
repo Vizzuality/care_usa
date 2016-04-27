@@ -26,7 +26,7 @@ class MarkerLayer {
 
         // one can customize markers by adding simplestyle properties
         // https://www.mapbox.com/guides/an-open-platform/#simplestyle
-        'marker-size': 'large',
+        'marker-size': 'medium',
         'marker-color': '#f52c95'
       }
     });
