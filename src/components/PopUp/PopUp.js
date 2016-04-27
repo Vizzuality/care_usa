@@ -15,19 +15,25 @@ class PopUp extends Backbone.View {
   }
 
   _initData() {
-    this.model.customFetch(this.options).done((response) => {
-      //We need to check if response is empty to not draw pop-up in that case.
-      if ( Object.keys(response).length ) {
-        this.options.data = this.model;
-        this.options.device.mobile ?  this._drawPopUpMobile() : this._drawPopUp();
-      } else {
-        this.model.clear();
-      }
-    });
+    if ( !(this.options.currentMode === 'my-donation') ) {
+      this.model.customFetch(this.options).done((response) => {
+        //We need to check if response is empty to not draw pop-up in that case.
+        if ( Object.keys(response).length ) {
+          this.options.data = this.model;
+          this.options.device.mobile ?  this._drawPopUpMobile() : this._drawPopUp();
+        } else {
+          this.model.clear();
+        }
+      });
+    } else {
+      //For donation mode
+      console.log('***', this.options)
+      this.options.device.mobile ?  this._drawPopUpMobile(this.options) : this._drawPopUp();
+    }
   }
 
   _drawPopUpMobile() {
-    this.popUp = this._popUpLayer();
+    this.popUp = this._popUpLayer(this.options);
 
     $('body').append(this.popUp);
     $('.btn-close').on('click', this._closeInfowindow.bind(this));
@@ -41,13 +47,13 @@ class PopUp extends Backbone.View {
   _drawPopUp() {
     L.popup()
       .setLatLng(this.options.latLng)
-      .setContent(this._popUpLayer())
+      .setContent(this._popUpLayer(this.options))
       .openOn(this.options.map);
   }
 
   _getContent() {}
 
-  _popUpLayer() {
+  _popUpLayer(options) {
     let content = this._getContent();
     return `<div class=m-popup>
             <button class="btn-close">

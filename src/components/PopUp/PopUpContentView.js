@@ -4,6 +4,7 @@ import Backbone from 'backbone';
 import _ from 'underscore';
 
 import PopUpDonation from './PopUpDonation';
+import PopUpMyDonation from './PopUpMyDonation';
 import PopUpDonationDist from './PopUpDonationDist';
 import PopUpProject from './PopUpProject';
 
@@ -18,6 +19,8 @@ class PopUpContentView extends Backbone.View {
       new PopUpDonation(this.options);
     } else if (this.options.currentLayer === 'number-of-donors') {
       new PopUpDonationDist(this.options);
+    } else if (this.options.currentLayer === 'my-donation'){
+      new PopUpMyDonation(this.options);
     } else {
       new PopUpProject(this.options);
     }

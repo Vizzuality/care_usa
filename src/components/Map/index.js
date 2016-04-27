@@ -57,6 +57,16 @@ class MapView extends Backbone.View {
   drawDonationMarker(options) {
     this.marker = new MarkerLayer(options);
     this.marker.addLayer(this.map);
+
+    console.log(options);
+
+    this.myDonationPopUp = new PopUpContentView({
+      currentMode: 'my-donation',
+      currentLayer: 'my-donation',
+      latLng: options.position,
+      map: this.map,
+      name: options.name
+    }).getPopUp();
   }
 
   _createMap() {
@@ -151,7 +161,7 @@ class MapView extends Backbone.View {
     //TODO - remove infowindow when change layer
     if (this.popUp) {
       console.log('remove')
-      this.popUp._closeInfowindow();
+      this.popUp.closePopup();
     }
   }
 

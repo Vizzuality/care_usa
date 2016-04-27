@@ -32,7 +32,7 @@
   }
 
   @media screen and (min-width: $screen-m) {
-    position: static;
+    position: relative;
     right: auto;
     height: auto;
     min-width: rem(250);
@@ -40,6 +40,17 @@
     min-height: rem(100);
     padding: rem(30);
     box-shadow: 0 0 5px 0 rgba(40, 40, 42, 0.3);
+
+    &:after {
+      content: "";
+      @extend %centerx;
+      bottom: rem(-10);
+      width: 0;
+      height: 0;
+      border-left: rem(10) solid transparent;
+      border-right: rem(10) solid transparent;
+      border-top: rem(10) solid $color-2;
+    }
   }
 
   .btn-close {
@@ -62,6 +73,14 @@
     }
   }
 
+
+  &.-my-donation {
+    transform: translatey(-50px);
+
+    &:after {
+      display: none;
+    }
+  }
 }
 
 .leaflet-popup {
@@ -79,13 +98,14 @@
 }
 
 .leaflet-popup-tip {
-  border-top-color: $color-2;
+  border-top-color: transparent;
 }
 
 .leaflet-popup-close-button {
   width: rem(15);
   height: rem(15);
   margin: rem(15);
+  z-index: 10;
 
   background-image: url('../../images/close.svg');
   background-size: 100%;
@@ -94,4 +114,15 @@
   &:hover {
     background-color: transparent;
   }
+}
+
+.leaflet-popup-tip-container {
+
+}
+
+.leaflet-popup-content-wrapper,
+.map-legends,
+.map-tooltip {
+  background-color: transparent;
+  box-shadow: none;
 }

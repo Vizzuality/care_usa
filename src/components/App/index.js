@@ -25,14 +25,14 @@ import Router from '../Router';
 /**
  * Router definition
  */
-class DonationRouter extends Router {}
+// class DonationRouter extends Router {}
 // Overriding default routes
-DonationRouter.prototype.routes = {
+Router.prototype.routes = {
   '': function() {
-    console.info('you are on donation page');
+    console.info('you are on map page');
   }
 };
-const router = new DonationRouter();
+const router = new Router();
 router.start();
 
 
