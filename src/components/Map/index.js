@@ -28,7 +28,6 @@ class MapView extends Backbone.View {
     this.state.attributes = _.extend({}, this.options, this.state.attributes);
     this.state.set({
       'filters': filtersModel.toJSON(),
-      'donation': true,
       silent: true});
     this._checkMapSettings();
 
@@ -137,7 +136,6 @@ class MapView extends Backbone.View {
       layerConfig = activeLayer.toJSON();
       this.currentLayer = new TileLayer(layerConfig, filters);
 
-      console.log('addLayer')
       this.currentLayer.createLayer().then( () => { this.currentLayer.addLayer(this.map) } );
 
       this.state.set('currentLayer', layerConfig.slug);

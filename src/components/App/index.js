@@ -245,13 +245,13 @@ class App extends React.Component {
 
   //DONATION METHODS
   componentDidUpdate() {
-    console.log(this.state)
     if (this.state.donation && this.state.bbox) {
       const bbox = [
         [this.state.bbox[1], this.state.bbox[0]],
         [this.state.bbox[3], this.state.bbox[2]]
       ];
       this.mapView.map.fitBounds(bbox);
+      this.mapView.map.setZoom(this.state.zoom);
       // this.mapView.removeAllLayers();
       // this.mapView.layersSpec.reset(this.state.layersData);
       // this.mapView.layersSpec.instanceLayers();
