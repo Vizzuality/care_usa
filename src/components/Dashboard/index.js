@@ -47,7 +47,7 @@ class Dashboard extends React.Component {
                       currentMode = { this.props.currentMode }
                       changeModeFn = { this.props.changeModeFn }
                     />
-                    
+
       tabsMobile = null;
     }
 
@@ -101,12 +101,12 @@ class Dashboard extends React.Component {
               </a>
             </div>
             <div className="scroll-wrapper">
-              { donation }
               <DashDates
                 filters={ this.props.filters }
                 timelineDates={ this.props.timelineDates }
                 dateRange={ this.props.dateRange }
               />
+              { donation }
               <DashFilters
                 filters={ this.props.filters }
                 sectors={ this.props.sectors }

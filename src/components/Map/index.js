@@ -158,9 +158,7 @@ class MapView extends Backbone.View {
       this.currentLayer = null;
     }
 
-    //TODO - remove infowindow when change layer
     if (this.popUp) {
-      console.log('remove')
       this.popUp.closePopup();
     }
   }

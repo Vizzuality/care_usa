@@ -44,11 +44,22 @@ class PopUp extends Backbone.View {
     $('.m-popup').remove();
   }
 
+  closePopUp() {
+    console.log(this);
+    this.options.map.closePopup();
+  }
+
   _drawPopUp() {
-    L.popup()
+    this.popUp = L.popup({closeButton: false})
       .setLatLng(this.options.latLng)
       .setContent(this._popUpLayer(this.options))
       .openOn(this.options.map);
+
+    this.setEvents();
+  }
+
+  setEvents() {
+    $('.btn-close').on('click', this.closePopUp.bind(this))
   }
 
   _getContent() {}
