@@ -84,7 +84,10 @@ class App extends React.Component {
   componentDidMount() {
     this._initData();
     this.initTimeline();
-    filtersModel.on('change', () => this.setState({ filters: filtersModel.toJSON() }));
+    filtersModel.on('change', () => {
+      this.setState({ filters: filtersModel.toJSON() });
+      this.router.update(this.parseFiltersForRouter());
+    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -120,6 +123,27 @@ class App extends React.Component {
   //GENERAL METHODS
   changePage(page, e) {
     this.setState({ currentPage: page });
+  }
+
+  parseFiltersForRouter() {
+    var params = filtersModel.toJSON();
+    var res = {};
+
+    for(let key in params) {
+      const param = params[key];
+      if(Array.isArray(param)) {
+        if(param.length) res[key] = param;
+        else res[key] = null;
+      } else if(!Array.isArray(param)) {
+        if(param) res[key] = param;
+        else res[key] = null;
+      }
+    }
+
+    if(res.from) res.startDate = moment(res.from).format('YYYY-MM-DD');
+    if(res.to)   res.endDate = moment(res.to).format('YYYY-MM-DD');
+
+    return _.pick(res, 'startDate', 'endDate', 'region', 'sectors');
   }
 
   // TIMELINE METHODS
@@ -198,6 +222,9 @@ class App extends React.Component {
 
   updateTimelineDates(dates) {
     this.setState({ timelineDates: dates });
+    this.router.update({
+      timelineDate: moment(dates.to).format('YYYY-MM-DD')
+    });
   }
 
   updateMapDates(dates) {
@@ -230,7 +257,7 @@ class App extends React.Component {
     ];
 
     return (
-      <div className="l-app is-loading">
+      <div className="l-app">
 
         <div id="map" className="l-map" ref="Map"></div>
 
