@@ -45,7 +45,7 @@ class Dashboard extends React.Component {
                       currentMode = { this.props.currentMode }
                       changeModeFn = { this.props.changeModeFn }
                     />
-                    
+
       tabsMobile = null;
     }
 
@@ -100,7 +100,8 @@ class Dashboard extends React.Component {
                 regions={ this.props.regions }
               />
               <DashSummary
-                currentMode = { this.props.currentMode }
+                filters={ this.props.filters }
+                timeline={ this.props.timelineDates }
               />
               { layersSwitcher }
             </div>

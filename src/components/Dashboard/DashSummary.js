@@ -4,6 +4,8 @@ import './dash-summary-styles.postcss';
 import DashSummaryModel from './DashSummaryModel';
 import FiltersModel from '../../scripts/models/filtersModel';
 import React from 'react';
+import _ from 'underscore';
+import moment from 'moment';
 
 import utils from '../../scripts/helpers/utils';
 
@@ -20,13 +22,31 @@ class DashSummary extends React.Component {
 
   componentDidMount() {
     this.dashSummary = new DashSummaryModel();
-    this.dashSummary.fetch({})
-    .done((result) => {
-      this.setState({
-        totalDonations: result.total_donations,
-        donationsAmount: result.total_funds
-      });
-    });
+    this.fetchData(this.state);
+  }
+
+  shouldComponentUpdate(nextState) {
+    if(this.state.totalDonations !== nextState.totalDonations ||
+      this.state.donationsAmount !== nextState.donationsAmount) {
+      return true;
+    }
+    return false;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const startDate = nextProps.timeline && nextProps.timeline.from || nextProps.filters && nextProps.filters.from;
+    const endDate = nextProps.timeline && nextProps.timeline.to || nextProps.filters && nextProps.filters.to;
+    const sectors = nextProps.filters && nextProps.filters.sectors || [];
+    const region = nextProps.filters && nextProps.filters.region;
+
+    if(this.state.startDate !== startDate || this.state.endDate !== endDate ||
+      !this.state.sectors && sectors ||
+      this.state.sectors.toString() !== sectors.toString() ||
+      this.state.region !== region) {
+      this.fetchData({ startDate, endDate, sectors, region });
+    }
+
+    this.setState({ startDate, endDate, sectors, region });
   }
 
   render() {
@@ -44,5 +64,24 @@ class DashSummary extends React.Component {
     )
   }
 }
+
+DashSummary.prototype.fetchData = (function() {
+  return _.throttle(function(state) {
+    const params = {};
+
+    if(state.startDate) params.start_date = moment(state.startDate).format('YYYY-MM-DD');
+    if(state.endDate) params.end_date = moment(state.endDate).format('YYYY-MM-DD');
+    if(state.sectors && state.sectors.length) params.sectors_slug = state.sectors;
+    if(state.region) params.countries_iso = [ state.region ];
+
+    this.dashSummary.fetch({ data: params })
+      .done(res => {
+        this.setState({
+          totalDonations: res.total_donations,
+          donationsAmount: res.total_funds
+        });
+      });
+  }, 500);
+})();
 
 export default DashSummary;
