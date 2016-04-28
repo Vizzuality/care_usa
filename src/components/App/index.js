@@ -272,15 +272,16 @@ class App extends React.Component {
 
     //Donation
     //If unless we have not lat long, we avoid to use geolocation
-    if (this.state.donation && !this.router.params.get('lat')) {
-      this.geo = new GeoModel();
-      this.updateBBox();
-    } else {
-      const state = _.extend({}, this.router.params.attributes, {
-        position: [this.router.params.attributes.lat, this.router.params.attributes.lon]
-      });
-
-      this.mapView.drawDonationMarker(state);
+    if (this.state.donation) {
+      if ( !this.router.params.get('lat')) {
+        this.geo = new GeoModel();
+        this.updateBBox();
+      } else {
+        const state = _.extend({}, this.router.params.attributes, {
+          position: [this.router.params.attributes.lat, this.router.params.attributes.lon]
+        });
+        this.mapView.drawDonationMarker(state);
+      }
     }
 
     this.mapView.state.on('change:zoom', () => {
