@@ -42,7 +42,7 @@ class App extends React.Component {
 
     this.state = {
       mode: 'donations',
-      layer: null,
+      layer: 'amount-of-money',
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false,
@@ -267,10 +267,10 @@ class App extends React.Component {
 
   // MAP METHODS
   initMap() {
-    // this.router.update({
-    //   mode: this.state.mode,
-    //   layer: this.state.layer
-    // });
+    this.router.update({
+      mode: this.state.mode,
+      layer: this.state.layer
+    });
 
     this.mapView = new MapView({
       el: this.refs.Map,
