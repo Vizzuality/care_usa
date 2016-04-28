@@ -96,7 +96,6 @@ class App extends React.Component {
   }
 
   _updateRouterParams() {
-    console.log('update params');
     this.setState({
       routerParams: router.params.attributes,
       donation: router.params.attributes.donation && true

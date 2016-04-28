@@ -178,8 +178,6 @@ class MapView extends Backbone.View {
           this._removeCurrentLayer();
           newLayer.addLayer(this.map)
           this.currentLayer = newLayer;
-
-          console.log('addLayer')
         }
       });
 
