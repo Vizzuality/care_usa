@@ -44,6 +44,7 @@ $l-margin-vt: 50;
   right: 0;
   height: 100%;
 
+  z-index: 0; /* Hide the attributions behind any layer */
   cursor: pointer;
 }
 
@@ -183,7 +184,7 @@ $l-margin-vt: 50;
 
 .l-map-credits {
   display: flex;
-  
+
   align-items: center;
   position: absolute;
   bottom: 0;
@@ -208,11 +209,11 @@ $l-margin-vt: 50;
 
   .text-cta {
     display: none;
-    
+
     @media screen and (min-width: $screen-m) {
       display: inherit;
     }
-  } 
+  }
 
   .btn-about {
     cursor: pointer;
