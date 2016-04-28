@@ -7,19 +7,19 @@ class Landing extends React.Component {
 
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
-    sessionStorage.setItem('session', true);
+    this.state = {
+      visible: true
+    };
   }
 
   getStarted() {
-    document.getElementsByClassName('l-landing')[0].style.display = 'none';
+    sessionStorage.setItem('session', true);
+    this.setState({ visible: false });
   }
 
   render() {
     return (
-      <div className="l-landing">
+      <div className={ `l-landing ${ this.state.visible ? '' : 'is-hidden'}` }>
         <div className="landing-background"></div>
         <div className="wrap">
           <h1 className="text text-claim -dark">70 years of Lasting Change</h1>
