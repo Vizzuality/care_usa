@@ -41,6 +41,9 @@ class FiltersView extends Backbone.View {
     this.sectorsCollection =  sectorsCollection;
     this.regionsCollection = regionsCollection;
     this.rendered = false;
+
+    this.initFiltersModel();
+
     $.when.apply(null, [this.sectorsCollection.fetch(), this.regionsCollection.fetch()])
       .then(() => {
         this.render();
@@ -52,6 +55,10 @@ class FiltersView extends Backbone.View {
 
   setListeners() {
     this.status.on('change', this.updateFilters.bind(this));
+  }
+
+  initFiltersModel() {
+    filtersModel.set(this.options.initialFilters);
   }
 
   render() {
@@ -97,11 +104,21 @@ class FiltersView extends Backbone.View {
         if(!value) {
           select.options[0].selected = true;
         } else {
+          let found = false;
           for(let i = 0, j = select.options.length; i < j; i++) {
             if(select.options[i].value === value) {
+              found = true;
               select.options[i].selected = true;
               break;
             }
+          }
+
+          /* In case we couldn't find the value, it's probably because it came
+           * from outside of the app and is incorrect, we then remove it */
+          if(!found) {
+            const o = {};
+            o[key] = null;
+            filtersModel.set(o);
           }
         }
 
@@ -110,10 +127,36 @@ class FiltersView extends Backbone.View {
         /* The filter is sectors, the checkboxes */
         const checkboxes = this.el.querySelectorAll(`.js-sectors input[type="checkbox"]`);
 
+        /* We reset all the checboxes */
         for(let i = 0, j = checkboxes.length; i < j; i++) {
-          checkboxes[i].checked = value.length &&
-            !!~value.indexOf(checkboxes[i].name.replace('sector-', ''))
+          checkboxes[i].checked = false;
         }
+
+        let unfoundSectors = [];
+
+        for(let i = 0, j = value.length; i < j; i++) {
+          let found = false;
+
+          for(let k = 0, l = checkboxes.length; k < l; k++) {
+            if(checkboxes[k].name.replace('sector-', '') === value[i]) {
+              checkboxes[k].checked = true;
+              found = true;
+              break;
+            }
+          }
+
+          if(!found) unfoundSectors.push(value[i]);
+        }
+
+        /* If some sectors couldn't be found, we remove them as they probably
+         * come from outside of the app (router for example) */
+        if(unfoundSectors.length) {
+          filtersModel.set({
+            sectors: _.difference(value, unfoundSectors)
+          });
+        }
+
+
       }
     }
 

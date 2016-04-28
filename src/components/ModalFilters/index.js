@@ -4,6 +4,7 @@ import './styles.postcss';
 import Modal from '../Modal';
 import FiltersView from '../Filters';
 import React from 'react';
+import moment from 'moment';
 
 class ModalFilters extends Modal {
 
@@ -25,13 +26,51 @@ class ModalFilters extends Modal {
     return false;
   }
 
+  getInitialFilters() {
+    const routerParams = this.props.routerParams;
+    if(!routerParams) return {};
+
+    const res = {};
+
+    if(routerParams.startDate) {
+      const date = moment(routerParams.startDate, 'YYYY-MM-DD');
+      if(date.isValid()) {
+        res['from-day']   = date.format('D');
+        res['from-month'] = date.format('M');
+        res['from-year']  = date.format('YYYY');
+        res.from          = date.toDate();
+      }
+    }
+
+    if(routerParams.endDate) {
+      const date = moment(routerParams.endDate, 'YYYY-MM-DD');
+      if(date.isValid()) {
+        res['to-day']   = date.format('D');
+        res['to-month'] = date.format('M');
+        res['to-year']  = date.format('YYYY');
+        res.to          = date.toDate();
+      }
+    }
+
+    if(routerParams.region) {
+      res.region = routerParams.region;
+    }
+
+    if(routerParams.sectors && routerParams.sectors.length) {
+      res.sectors = routerParams.sectors;
+    }
+
+    return res;
+  }
+
   componentDidMount() {
     this.filters = new FiltersView({
       el: this.refs.Filters,
       closeCallback: this.props.onClose.bind(this),
       saveCallback: this.props.onSave.bind(this),
       dateRange: this.props.range,
-      availableRange: this.props.availableRange
+      availableRange: this.props.availableRange,
+      initialFilters: this.getInitialFilters()
     });
   }
 
