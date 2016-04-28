@@ -209,7 +209,7 @@ class App extends React.Component {
   //GENERAL METHODS
   changePage(page, e) {
     this.setState({ currentPage: page });
-  }
+  };
 
   parseFiltersForRouter() {
     var params = filtersModel.toJSON();

@@ -12,7 +12,6 @@ class DashboardTabs extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div className="l-dash-tabs">
         <ul className="m-dashboard-tabs">
