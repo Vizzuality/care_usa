@@ -105,6 +105,7 @@ class MapView extends Backbone.View {
 
     this.state.on('change:filters', () => this.changeLayer());
     this.state.on('change:timelineDates', () => this.changeLayerTimeline());
+    this.state.on('change:currentDate', () => this.updateCurrentLayer());
 
     this.state.on('change:mode', _.bind(this.changeLayer, this));
     layersCollection.on('change', _.bind(this.changeLayer, this));
@@ -155,9 +156,9 @@ class MapView extends Backbone.View {
     });
 
     _.each(activeLayers, activeLayer => {
-      // Selecting kind of layer by layer_type attribute
-      const layerClass = (activeLayer.get('layer_type') === 'torque') ? TorqueLayer : TileLayer;
       const layerConfig = activeLayer.attributes;
+      // Selecting kind of layer by layer_type attribute
+      const layerClass = (layerConfig.layer_type === 'torque') ? TorqueLayer : TileLayer;
       const newLayer = new layerClass(layerConfig, this.state.toJSON());
       newLayer.createLayer().done(() => {
         /* We ensure to always display the latest tiles */
@@ -166,6 +167,8 @@ class MapView extends Backbone.View {
           this._removeCurrentLayer();
           newLayer.addLayer(this.map);
           this.currentLayer = newLayer;
+          window.currentLayer = this.currentLayer;
+          this.currentLayerConfig = layerConfig;
         }
       });
       this.state.set('currentLayer', activeLayer.get('slug'));
@@ -179,21 +182,31 @@ class MapView extends Backbone.View {
     }
   }
 
+  updateCurrentLayer() {
+    if (this.currentLayerConfig.layer_type &&
+      this.currentLayerConfig.layer_type === 'torque') {
+      const currentDate = this.state.get('currentDate');
+      const step = Math.round(currentLayer.layer.timeToStep(currentDate));
+      // Doc: https://github.com/CartoDB/torque/blob/master/doc/torque_api.md
+      this.currentLayer.layer.setStep(step);
+    }
+  }
+
   changeLayer() {
     this._addLayer();
   }
 
 };
 
-// MapView.prototype.changeLayerTimeline = (function() {
-//   return _.throttle(function() {
-//     this._addLayer();
-//   }, 200);
-// })();
-
-MapView.prototype.changeLayerTimeline = function() {
-  console.log('timeline change');
-};
+MapView.prototype.changeLayerTimeline = (function() {
+  return _.throttle(function() {
+    if (this.currentLayerConfig.layer_type &&
+      this.currentLayerConfig.layer_type === 'torque') {
+      return;
+    }
+    this._addLayer();
+  }, 200);
+})();
 
 MapView.prototype.defaults = {
   style: location.hostname === 'localhost' ? 'mapbox.streets' : 'jhanley.a25ffffe',

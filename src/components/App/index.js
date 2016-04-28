@@ -229,6 +229,10 @@ class App extends React.Component {
     }
 
     this.timeline = new TimelineView(timelineParams);
+
+    this.timeline.on('playing', (date) => {
+      this.mapView.state.set({currentDate: date});
+    });
   }
 
   // MAP METHODS

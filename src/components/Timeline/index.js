@@ -312,6 +312,7 @@ class TimelineView extends Backbone.View {
     this.brush.extent([date, date]);
     this.d3Cursor.attr('transform', () => `translate(${this.scale(date)})`);
     this.d3CursorLine.attr('x2', this.scale(date));
+    this.trigger('playing', date);
   }
 
   /* Compute and return date with the passed offset
