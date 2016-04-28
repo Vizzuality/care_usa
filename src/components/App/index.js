@@ -346,9 +346,10 @@ class App extends React.Component {
   }
 
   changeMapMode(mode, e) {
-    this.router.update({mode: mode});
-    this.setState({ mode: mode });
-    //MAP STATE CHANGE CHANGE
+    let activeLayer = layersCollection.filter(model => model.attributes.category === mode && model.attributes.active )[0].attributes.slug;
+    this.router.update({mode: mode, layer: activeLayer});
+    this.setState({ mode: mode, layer: activeLayer });
+    
     this.mapView.state.set({ 'mode': mode });
     this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
   }
@@ -357,7 +358,7 @@ class App extends React.Component {
     this.router.update({layer: layer});
     this.setState({ layer: layer });
 
-    // Inactive all layers ofthe same group
+    // Inactive all layers of the same group
     let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.mode);
     _.each(cogroupLayers, (activeLayer) => {
       activeLayer.set('active', false);
@@ -405,6 +406,7 @@ class App extends React.Component {
   }
 
   render() {
+    // console.log('state', this.state);
     const wholeRange = [
       new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
