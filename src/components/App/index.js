@@ -107,8 +107,8 @@ class App extends React.Component {
 
   _updateRouterParams() {
     /* Here we update general state with roouter params and our device check. */
-    const newParams = _.extend({}, {donation: this.router.params.attributes.donation && true}, this.router.params.attributes);
-    this.setState(newParams)
+    const newParams = _.extend({}, { donation: this.router.params.attributes.donation && true }, this.router.params.attributes);
+    this.setState(newParams);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -198,7 +198,10 @@ class App extends React.Component {
 
   _initData() {
     layersCollection.fetch().done( () => {
-      this.setState({ 'ready': true, layer: this.state.layer });
+      if (this.router.params.attributes.layer) {
+        this._updateLayersCollection(this.router.params.attributes.layer);
+      }
+      this.setState({ 'ready': true });
       this.initMap();
     })
   }
@@ -358,7 +361,12 @@ class App extends React.Component {
     this.router.update({layer: layer});
     this.setState({ layer: layer });
 
+    this._updateLayersCollection(layer);
+  }
+
+  _updateLayersCollection(layer) {
     // Inactive all layers of the same group
+    console.log('***', layer);
     let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.mode);
     _.each(cogroupLayers, (activeLayer) => {
       activeLayer.set('active', false);
@@ -406,7 +414,6 @@ class App extends React.Component {
   }
 
   render() {
-    // console.log('state', this.state);
     const wholeRange = [
       new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
