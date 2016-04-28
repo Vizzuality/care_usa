@@ -23,7 +23,14 @@ class Router extends Backbone.Router {
    */
   parseParams(queryString) {
     // TODO: detect pushState
-    return URI.parseQuery(`?${queryString}`);
+    let params = URI.parseQuery(`?${queryString}`);
+    if(params.hasOwnProperty('sectors[]')) {
+      if(params['sectors[]']) {
+        params.sectors = Array.isArray(params['sectors[]']) ? params['sectors[]'] : [ params['sectors[]'] ];
+      }
+      delete params['sectors[]'];
+    }
+    return params;
   }
 
   /**
@@ -32,7 +39,8 @@ class Router extends Backbone.Router {
    * @return {String}
    */
   serializeParams(params) {
-    const queryString = URI.buildQuery(params);
+    let queryString = URI.buildQuery(params);
+    queryString = queryString.replace(/sectors=/g, 'sectors[]=');
     return `?${queryString}`;
   }
 
