@@ -266,11 +266,17 @@ class App extends React.Component {
     this.router.update({layer: layer});
     this.setState({ currentLayer: layer });
 
+    const currentMode = this.state.currentMode;
+    this.timeline.changeMode(currentMode,
+      this.state.dataInterval[currentMode],
+      this.state.ranges[currentMode],
+      /torque/gi.test(layer));
+
     // Inactive all layers ofthe same group
     let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.currentMode);
     _.each(cogroupLayers, (activeLayer) => {
       activeLayer.set('active', false);
-    })
+    });
 
     //Active new layer
     let newLayer = layersCollection.filter(model => model.attributes.slug === layer);
