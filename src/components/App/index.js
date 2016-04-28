@@ -1,12 +1,14 @@
 'use strict';
 
 import React  from 'react';
+import $ from 'jquery';
 import d3  from 'd3';
 import _ from 'underscore';
 import moment from 'moment';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
+import ModalAbout from '../ModalAbout';
 import ModalNoData from '../ModalNoData';
 import MapView from '../Map';
 import Landing from '../Landing';
@@ -17,18 +19,23 @@ import filtersModel from '../../scripts/models/filtersModel';
 import sectorsCollection from '../../scripts/collections/SectorsCollection';
 import regionsCollection from '../../scripts/collections/RegionsCollection';
 
+import GeoModel from './GeoModel';
+
 import Router from '../Router';
 
 /**
  * Router definition
  */
-class AppRouter extends Router {}
+// class DonationRouter extends Router {}
 // Overriding default routes
-AppRouter.prototype.routes = {
+Router.prototype.routes = {
   '': function() {
     console.info('you are on map page');
   }
 };
+const router = new Router();
+router.start();
+
 
 class App extends React.Component {
 
@@ -65,16 +72,16 @@ class App extends React.Component {
       },
       /* The range selected in the timeline */
       timelineDates: {},
+      shareOpen: false,
+      aboutOpen: false,
       /* The range displayed on the map */
-      mapDates: {},
-      shareOpen: false
+      mapDates: {}
     }
   }
 
   componentWillMount() {
     this.setState(utils.checkDevice());
-    this.router = new AppRouter();
-    this.router.start();
+
     sectorsCollection.fetch()
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
     regionsCollection.fetch()
@@ -85,6 +92,14 @@ class App extends React.Component {
     this._initData();
     this.initTimeline();
     filtersModel.on('change', () => this.setState({ filters: filtersModel.toJSON() }));
+    router.params.on('change', () => this._updateRouterParams());
+  }
+
+  _updateRouterParams() {
+    this.setState({
+      routerParams: router.params.attributes,
+      donation: router.params.attributes.donation && true
+    })
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -138,7 +153,7 @@ class App extends React.Component {
       triggerMapDates: this.updateMapDates.bind(this),
       ticksAtExtremities: false
     });
-    this.router.update({
+    router.update({
       startDate: moment(wholeRange[0]).format('YYYY-MM-DD'),
       endDate: moment(wholeRange[1]).format('YYYY-MM-DD')
     });
@@ -146,26 +161,37 @@ class App extends React.Component {
 
   // MAP METHODS
   initMap() {
-    this.router.update({
+    router.update({
       mode: this.state.currentMode,
       layer: this.state.currentLayer
     });
 
     this.mapView = new MapView({
       el: this.refs.Map,
-      state: _.clone(this.router.params)
+      state: _.clone(router.params),
+      donation: this.state.donation,
+      mode: this.state.currentMode,
     });
+
+    //Donation
+    if (this.state.donation) {
+      this.geo = new GeoModel();
+      this.updateBBox();
+      //TODO - activate this to update map. But solve repetition
+      // router.params.on('change', this.updateBBox.bind(this));
+    }
   }
 
   changeMapMode(mode, e) {
-    this.router.update({mode: mode});
+    router.update({mode: mode});
     this.setState({ currentMode: mode });
+    //MAP STATE CHANGE CHANGE
     this.mapView.state.set({ 'mode': mode });
     this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
   }
 
   changeLayer(layer, e) {
-    this.router.update({layer: layer});
+    router.update({layer: layer});
     this.setState({ currentLayer: layer });
 
     // Inactive all layers ofthe same group
@@ -177,15 +203,6 @@ class App extends React.Component {
     //Active new layer
     let newLayer = layersCollection.filter(model => model.attributes.slug === layer);
     newLayer[0].set('active', true);
-  }
-
-  // FILTERS METHODS
-  closeFilterModal() {
-    this.setState({ filtersOpen: false });
-  }
-
-  openFiltersModal() {
-    this.setState({ filtersOpen: true });
   }
 
   toggleModalFilter() {
@@ -202,6 +219,7 @@ class App extends React.Component {
 
   updateMapDates(dates) {
     this.setState({ mapDates: dates });
+    //MAP STATE CHANGE
     this.mapView.state.set({ timelineDates: dates });
   }
 
@@ -214,13 +232,60 @@ class App extends React.Component {
     filtersModel.set(filtersModel.defaults);
   }
 
-  // SHARE METHODS
-  openShareModal() {
-    this.setState({ shareOpen: true });
+  handleModal(state, modal) {
+    const obj = {};
+    obj[modal] = state === 'open';
+    this.setState(obj);
   }
 
-  closeShareModal() {
-    this.setState({ shareOpen: false });
+  //DONATION METHODS
+  componentDidUpdate() {
+    if (this.state.donation && this.state.bbox) {
+      const bbox = [
+        [this.state.bbox[1], this.state.bbox[0]],
+        [this.state.bbox[3], this.state.bbox[2]]
+      ];
+      this.mapView.map.fitBounds(bbox);
+      this.mapView.map.setZoom(this.state.zoom);
+      // this.mapView.removeAllLayers();
+      // this.mapView.layersSpec.reset(this.state.layersData);
+      // this.mapView.layersSpec.instanceLayers();
+      // this.mapView.toggleLayers();
+    }
+  }
+
+  updateBBox() {
+    $.when(
+      // layersCollection.fetch(),
+      this.geo.fetch({
+        data: {q: router.params.get('city')}
+      })
+    ).done(() => {
+      // const layerModel = layersCollection.find({slug: 'amount-of-money'});
+      // const layersData = [{
+      //   type: 'marker',
+      //   position: this.geo.attributes.position,
+      //   title: router.params.attributes.name,
+      //   active: true
+      // }, {
+      //   type: 'cartodb',
+      //   active: layerModel.attributes.active,
+      //   account: config.cartodbAccount,
+      //   sql: layerModel.attributes.geo_query.replace('$WHERE', ''),
+      //   cartocss: layerModel.attributes.geo_cartocss
+      // }];
+      const nextState = _.extend({}, router.params.attributes, {
+        bbox: this.geo.attributes.bbox,
+        position: this.geo.attributes.position,
+      });
+
+      this.setState(nextState);
+
+      //Here we tell the map to draw donation marker;
+      if (nextState.mode === 'donations') {
+        this.mapView.drawDonationMarker(nextState);
+      }
+    });
   }
 
   render() {
@@ -234,7 +299,7 @@ class App extends React.Component {
 
         <div id="map" className="l-map" ref="Map"></div>
 
-        <button className="btn-share btn-primary l-share" onClick={ () => this.openShareModal() }>
+        <button className="btn-share btn-primary l-share" onClick={ () => this.handleModal('open', 'shareOpen') }>
           <svg className="icon icon-share">
             <use xlinkHref="#icon-share"></use>
           </svg>
@@ -242,7 +307,7 @@ class App extends React.Component {
 
         <ModalShare
           visible={ this.state.shareOpen }
-          onClose={ this.closeShareModal.bind(this) }
+          onClose={ this.handleModal.bind(this, 'close', 'shareOpen') }
         />
 
         <Dashboard
@@ -265,11 +330,23 @@ class App extends React.Component {
           <div className="svg-container js-svg-container"></div>
         </div>
 
-        <div id="map-credits" className="l-map-credits"></div>
+        <div id="map-credits" className="l-map-credits">
+          <p className="about-label text text-cta" onClick={ () => this.handleModal('open', 'aboutOpen') }>About the data</p>
+          <a className="btn-about" onClick={ () => this.handleModal('open', 'aboutOpen') }>
+            <svg className="icon icon-info">
+              <use xlinkHref="#icon-info"></use>
+            </svg>
+          </a>
+        </div>
+
+        <ModalAbout
+          visible={ this.state.aboutOpen }
+          onClose={ this.handleModal.bind(this, 'close', 'aboutOpen') }
+        />
 
         <ModalFilters
           visible={ this.state.filtersOpen }
-          onClose={ this.closeFilterModal.bind(this) }
+          onClose={ this.handleModal.bind(this, 'close', 'filtersOpen') }
           onSave={ this.updateFilters.bind(this) }
           range={ wholeRange }
           availableRange={ this.state.ranges[this.state.currentMode] }
@@ -281,7 +358,7 @@ class App extends React.Component {
           currentMode={ this.state.currentMode }
           dateRange={ this.state.ranges[this.state.currentMode] }
           timelineDates={ this.state.timelineDates }
-          onChangeFilters={ this.openFiltersModal.bind(this) }
+          onChangeFilters={ this.handleModal.bind(this, 'open', 'filtersOpen') }
           onGoBack={ this.setDonationsAsCurrentMode.bind(this) }
           onCancel={ this.resetFilters.bind(this) }
         />

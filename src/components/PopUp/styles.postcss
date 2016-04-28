@@ -55,7 +55,7 @@
   }
 
   @media screen and (min-width: $screen-m) {
-    position: static;
+    position: relative;
     right: auto;
     height: auto;
     /* min-width: rem(250); */
@@ -63,6 +63,17 @@
     min-height: rem(100);
     padding: rem(30);
     box-shadow: 0 0 5px 0 rgba(40, 40, 42, 0.3);
+
+    &:after {
+      content: "";
+      @extend %centerx;
+      bottom: rem(-10);
+      width: 0;
+      height: 0;
+      border-left: rem(10) solid transparent;
+      border-right: rem(10) solid transparent;
+      border-top: rem(10) solid $color-2;
+    }
   }
 
   .title-sector {
@@ -137,14 +148,59 @@
     right: 0;
     margin: rem(20);
 
-    @media screen and (min-width: $screen-m) {
+    /* @media screen and (min-width: $screen-m) {
       display: none;
-    }
+    } */
 
     .icon-close {
       width: 100%;
       height: 100%;
       fill: $white;
+    }
+  }
+
+  &.-my-donation {
+    background-color: #f0ebe4;
+    transform: translatey(-30px);
+    color: $font-color-1;
+    font-family: $font-family-1;
+    font-weight: 400;
+    padding: rem(50);
+    /* width: rem(400); */
+
+    h1 {
+      font-size: rem(23);
+      line-height: rem(30);
+      font-weight: 400;
+      margin-bottom: rem(30);
+    }
+
+    .icon-close {
+      fill: $color-1;
+    }
+
+    .donation {
+      color: $font-color-1;
+
+      font-size: rem(15);
+      line-height: rem(18);
+    }
+
+    .text {
+      position: relative;
+      top: -5px;
+    }
+
+    .donation-box {
+      display: inline-block;
+      width: rem(20);
+      height: rem(20);
+      background-color: $color-3;
+      margin-right: rem(10);
+    }
+
+    &:after {
+      border-top-color: #f0ebe4;
     }
   }
 }
@@ -169,13 +225,14 @@
 }
 
 .leaflet-popup-tip {
-  border-top-color: $color-2;
+  border-top-color: transparent;
 }
 
 .leaflet-popup-close-button {
   width: rem(15);
   height: rem(15);
   margin: rem(15);
+  z-index: 10;
 
   background-image: url('../../images/close.svg');
   background-size: 100%;
@@ -188,4 +245,15 @@
   &:hover {
     background-color: transparent;
   }
+}
+
+.leaflet-popup-tip-container {
+
+}
+
+.leaflet-popup-content-wrapper,
+.map-legends,
+.map-tooltip {
+  background-color: transparent;
+  box-shadow: none;
 }
