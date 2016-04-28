@@ -39,7 +39,6 @@ class MapView extends Backbone.View {
     if (this.device.mobile || this.device.tablet) {
       this.state.attributes.zoom = 2;
     }
-    console.log('intial state', this.state.attributes);
 
     // mobile
     if (this.device.mobile) {
@@ -70,7 +69,6 @@ class MapView extends Backbone.View {
   }
 
   _createMap() {
-    console.log('createMap', this.state.attributes)
     const mapOptions = {
       zoom: this.state.attributes.zoom,
       center: [this.state.attributes.lat, this.state.attributes.lon]

@@ -101,6 +101,7 @@ class App extends React.Component {
     this._initData();
     this.initTimeline();
     this._updateRouterParams();
+    this.router.params.on('change', this.onRouterChangeMap.bind(this));
   }
 
   _updateRouterParams() {
@@ -175,6 +176,23 @@ class App extends React.Component {
     }
 
     filtersModel.set(newFiltersModel);
+  }
+
+  onRouterChangeMap() {
+    const params = this.router.params.toJSON();
+
+
+    if (params.zoom) {
+      this.mapView.state.set({zoom: params.zoom})
+    }
+
+    if (params.lat) {
+      this.mapView.state.set({lat: params.lat})
+    }
+
+    if (params.lon) {
+      this.mapView.state.set({lon: params.lon})
+    }
   }
 
   _initData() {
@@ -253,11 +271,16 @@ class App extends React.Component {
     });
 
     //Donation
-    if (this.state.donation) {
+    //If unless we have not lat long, we avoid to use geolocation
+    if (this.state.donation && !this.router.params.get('lat')) {
       this.geo = new GeoModel();
       this.updateBBox();
-      //TODO - activate this to update map. But solve repetition
-      // router.params.on('change', this.updateBBox.bind(this));
+    } else {
+      const state = _.extend({}, this.router.params.attributes, {
+        position: [this.router.params.attributes.lat, this.router.params.attributes.lon]
+      });
+
+      this.mapView.drawDonationMarker(state);
     }
 
     this.mapView.state.on('change:zoom', () => {
@@ -302,13 +325,13 @@ class App extends React.Component {
   }
 
   _updateMapWithRouterParams() {
-    if (this.state.donation) {
+    //Fit map to bbox of city.
+    if (this.state.donation && this.geo.attributes.bbox) {
       const bbox = [
         [this.geo.attributes.bbox[1], this.geo.attributes.bbox[0]],
         [this.geo.attributes.bbox[3], this.geo.attributes.bbox[2]]
       ];
       this.mapView.map.fitBounds(bbox);
-      this.mapView.map.setZoom(this.state.zoom);
     }
   }
 
