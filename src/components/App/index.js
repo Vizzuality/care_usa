@@ -259,6 +259,13 @@ class App extends React.Component {
       //TODO - activate this to update map. But solve repetition
       // router.params.on('change', this.updateBBox.bind(this));
     }
+
+    this.mapView.state.on('change:zoom', () => {
+      const mapZoom = this.mapView.state.get('zoom');
+      console.log(mapZoom);
+      this.router.update({ zoom: mapZoom });
+      this.setState({ zoom: mapZoom });
+    })
   }
 
   updateBBox() {

@@ -89,9 +89,9 @@ class MapView extends Backbone.View {
   _setEvents() {
     this.map.on('click', this._infowindowSetUp.bind(this));
 
-    this.state.on('change:zoom', () => {
-      this.map.setZoom(this.state.attributes.zoom);
-    });
+    // this.state.on('change:zoom', () => {
+    //   this.map.setZoom(this.state.attributes.zoom);
+    // });
 
     this.state.on('change:lat', () => {
       const center = this.map.getCenter();
@@ -117,12 +117,12 @@ class MapView extends Backbone.View {
   }
 
   _setStateZoom(e) {
-    this.state.set({zoom: this.map.getZoom()}, {silent: true});
+    this.state.set({ zoom: this.map.getZoom() });
   }
 
   _setStatePosition(e) {
     const position = this.map.getCenter();
-    this.state.set({ lat: position.lat, lon: position.lng }, {silent: true});
+    // this.state.set({ lat: position.lat, lon: position.lng }, {silent: true});
   }
 
   _updateFilters() {
@@ -182,8 +182,6 @@ class MapView extends Backbone.View {
       });
 
       this.state.set('currentLayer', layerConfig.slug);
-
-      console.log('add layer', layerConfig.slug)
     })
   }
 
