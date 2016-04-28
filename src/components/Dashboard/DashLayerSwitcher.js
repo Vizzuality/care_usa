@@ -16,16 +16,18 @@ class DashLayerSwitcher extends React.Component {
   }
 
   componentDidMount() {
-    this._toogleLegend();
+    // this._toogleLegend();
   }
 
   componentDidUpdate() {
-    this._toogleLegend();
+    // this._toogleLegend();
   }
 
-  shouldComponentUpdate(nextProps) {
-    return this.props.currentLayer !== nextProps.currentLayer || this.props.currentMode !== nextProps.currentMode;
-  }
+  // shouldComponentUpdate(nextProps) {
+  //   console.log(this.props, nextProps);
+  //   // debugger
+  //   return this.props.currentLayer !== nextProps.currentLayer || this.props.currentMode !== nextProps.currentMode;
+  // }
 
   _toogleLegend() {
     $('.legend-wrapper').animate({ 'height': 0 + 'px'}, 200 );

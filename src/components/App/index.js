@@ -41,8 +41,8 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      currentMode: 'donations',
-      currentLayer: null,
+      mode: 'donations',
+      layer: null,
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false,
@@ -78,7 +78,6 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.setState(utils.checkDevice());
 
     /* Needs to be done before the component is mounted and before the router
      * is instanciated */
@@ -90,6 +89,8 @@ class App extends React.Component {
     this.router = new Router();
     this.router.params.on('change', this.onRouterChange.bind(this));
     this.router.start();
+
+    this.setState(utils.checkDevice());
 
     sectorsCollection.fetch()
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
@@ -105,9 +106,9 @@ class App extends React.Component {
   }
 
   _updateRouterParams() {
-    this.setState({
-      donation: this.router.params.attributes.donation && true
-    })
+    /* Here we update general state with roouter params and our device check. */
+    const newParams = _.extend({}, {donation: this.router.params.attributes.donation && true}, this.router.params.attributes);
+    this.setState(newParams)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -119,7 +120,7 @@ class App extends React.Component {
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
 
-    const interval = this.state.dataInterval[nextState && nextState.currentMode || this.state.currentMode];
+    const interval = this.state.dataInterval[nextState && nextState.mode || this.state.mode];
 
     if(nextState.filters.from && nextState.filters.from !== this.state.filters.from ||
       nextState.filters.to && nextState.filters.to !== this.state.filters.to) {
@@ -197,7 +198,7 @@ class App extends React.Component {
 
   _initData() {
     layersCollection.fetch().done( () => {
-      this.setState({ 'ready': true, currentLayer: 'amount-of-money' });
+      this.setState({ 'ready': true, layer: this.state.layer });
       this.initMap();
     })
   }
@@ -238,7 +239,7 @@ class App extends React.Component {
     const timelineParams = {
       el: this.refs.Timeline,
       domain: wholeRange,
-      interval: this.state.dataInterval[this.state.currentMode],
+      interval: this.state.dataInterval[this.state.mode],
       filters: this.state.filters,
       triggerTimelineDates: this.updateTimelineDates.bind(this),
       triggerMapDates: this.updateMapDates.bind(this),
@@ -258,16 +259,16 @@ class App extends React.Component {
 
   // MAP METHODS
   initMap() {
-    this.router.update({
-      mode: this.state.currentMode,
-      layer: this.state.currentLayer
-    });
+    // this.router.update({
+    //   mode: this.state.mode,
+    //   layer: this.state.layer
+    // });
 
     this.mapView = new MapView({
       el: this.refs.Map,
       state: this.router.params.toJSON(),
       donation: this.state.donation,
-      mode: this.state.currentMode,
+      mode: this.state.mode,
     });
 
     //Donation
@@ -338,7 +339,7 @@ class App extends React.Component {
 
   changeMapMode(mode, e) {
     this.router.update({mode: mode});
-    this.setState({ currentMode: mode });
+    this.setState({ mode: mode });
     //MAP STATE CHANGE CHANGE
     this.mapView.state.set({ 'mode': mode });
     this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
@@ -346,10 +347,10 @@ class App extends React.Component {
 
   changeLayer(layer, e) {
     this.router.update({layer: layer});
-    this.setState({ currentLayer: layer });
+    this.setState({ layer: layer });
 
     // Inactive all layers ofthe same group
-    let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.currentMode);
+    let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.mode);
     _.each(cogroupLayers, (activeLayer) => {
       activeLayer.set('active', false);
     })
@@ -380,8 +381,8 @@ class App extends React.Component {
     this.mapView.state.set({ timelineDates: dates });
   }
 
-  setDonationsAsCurrentMode() {
-    this.setState({ currentMode: 'donations' });
+  setDonationsAsmode() {
+    this.setState({ mode: 'donations' });
   }
 
   resetFilters() {
@@ -420,13 +421,13 @@ class App extends React.Component {
         <Dashboard
           changeModeFn={ this.changeMapMode.bind(this) }
           changeLayerFn={ this.changeLayer.bind(this) }
-          currentMode={ this.state.currentMode }
-          currentLayer={ this.state.currentLayer }
+          currentMode={ this.state.mode }
+          currentLayer={ this.state.layer }
           toggleFiltersFn={ this.toggleModalFilter.bind(this) }
           filters={ this.state.filters }
           sectors={ this.state.sectors }
           regions={ this.state.regions }
-          dateRange={ this.state.ranges[this.state.currentMode] }
+          dateRange={ this.state.ranges[this.state.mode] }
           timelineDates={ this.state.timelineDates }
         />
 
@@ -456,18 +457,18 @@ class App extends React.Component {
           onClose={ this.handleModal.bind(this, 'close', 'filtersOpen') }
           onSave={ this.updateFilters.bind(this) }
           range={ wholeRange }
-          availableRange={ this.state.ranges[this.state.currentMode] }
+          availableRange={ this.state.ranges[this.state.mode] }
           routerParams={ this.router && this.router.params.toJSON() }
         />
 
         <ModalNoData
           filters={ this.state.filters }
           filtersOpen ={ this.state.filtersOpen }
-          currentMode={ this.state.currentMode }
-          dateRange={ this.state.ranges[this.state.currentMode] }
+          currentMode={ this.state.mode }
+          dateRange={ this.state.ranges[this.state.mode] }
           timelineDates={ this.state.timelineDates }
           onChangeFilters={ this.handleModal.bind(this, 'open', 'filtersOpen') }
-          onGoBack={ this.setDonationsAsCurrentMode.bind(this) }
+          onGoBack={ this.setDonationsAsmode.bind(this) }
           onCancel={ this.resetFilters.bind(this) }
         />
 
