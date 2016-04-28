@@ -262,9 +262,20 @@ class App extends React.Component {
 
     this.mapView.state.on('change:zoom', () => {
       const mapZoom = this.mapView.state.get('zoom');
-      console.log(mapZoom);
       this.router.update({ zoom: mapZoom });
       this.setState({ zoom: mapZoom });
+    })
+
+    this.mapView.state.on('change:lat', () => {
+      const mapLat = this.mapView.state.get('lat');
+      this.router.update({ lat: mapLat });
+      this.setState({ lat: mapLat });
+    })
+
+    this.mapView.state.on('change:lon', () => {
+      const mapLon = this.mapView.state.get('lon');
+      this.router.update({ lon: mapLon });
+      this.setState({ lon: mapLon });
     })
   }
 

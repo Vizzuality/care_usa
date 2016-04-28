@@ -28,17 +28,18 @@ class MapView extends Backbone.View {
     this.state = new Backbone.Model(settings.state);
     this.state.attributes = _.extend({}, this.options, this.state.attributes);
     this.state.set({ 'filters': filtersModel.toJSON() }, { silent: true });
-    this._checkMapSettings();
+    this._checkMapInitialSettings();
 
     this._createMap();
     this._addLayer();
     this._setEvents();
   }
 
-  _checkMapSettings() {
+  _checkMapInitialSettings() {
     if (this.device.mobile || this.device.tablet) {
       this.state.attributes.zoom = 2;
     }
+    console.log('intial state', this.state.attributes);
 
     // mobile
     if (this.device.mobile) {
@@ -69,6 +70,7 @@ class MapView extends Backbone.View {
   }
 
   _createMap() {
+    console.log('createMap', this.state.attributes)
     const mapOptions = {
       zoom: this.state.attributes.zoom,
       center: [this.state.attributes.lat, this.state.attributes.lon]
@@ -89,9 +91,9 @@ class MapView extends Backbone.View {
   _setEvents() {
     this.map.on('click', this._infowindowSetUp.bind(this));
 
-    // this.state.on('change:zoom', () => {
-    //   this.map.setZoom(this.state.attributes.zoom);
-    // });
+    this.state.on('change:zoom', () => {
+      this.map.setZoom(this.state.attributes.zoom);
+    });
 
     this.state.on('change:lat', () => {
       const center = this.map.getCenter();
@@ -117,12 +119,12 @@ class MapView extends Backbone.View {
   }
 
   _setStateZoom(e) {
-    this.state.set({ zoom: this.map.getZoom() });
+    this.state.set({zoom: this.map.getZoom()});
   }
 
   _setStatePosition(e) {
     const position = this.map.getCenter();
-    // this.state.set({ lat: position.lat, lon: position.lng }, {silent: true});
+    this.state.set({ lat: position.lat, lon: position.lng });
   }
 
   _updateFilters() {
