@@ -60,7 +60,7 @@ class App extends React.Component {
        * or moving the handle. Dates are rounded "nicely" to the interval. */
       dataInterval: {
         donations: {
-          unit: d3.time.month,
+          unit: d3.time.week,
           count: 2
         },
         projects: {
@@ -229,10 +229,6 @@ class App extends React.Component {
     }
 
     this.timeline = new TimelineView(timelineParams);
-
-    this.timeline.on('playing', (date) => {
-      this.mapView.state.set({currentDate: date});
-    });
   }
 
   // MAP METHODS

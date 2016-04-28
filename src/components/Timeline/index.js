@@ -24,7 +24,7 @@ const defaults = {
     left: 15
   },
   cursor: {
-    speed: 40 /* seconds per year */
+    speed: 10 /* seconds per year */
   },
   ticksAtExtremities: false
 };
@@ -312,7 +312,6 @@ class TimelineView extends Backbone.View {
     this.brush.extent([date, date]);
     this.d3Cursor.attr('transform', () => `translate(${this.scale(date)})`);
     this.d3CursorLine.attr('x2', this.scale(date));
-    this.trigger('playing', date);
   }
 
   /* Compute and return date with the passed offset
@@ -384,7 +383,6 @@ class TimelineView extends Backbone.View {
 
   changeMode(mode, interval, dataRange) {
     this.options.interval = interval;
-    this.options.cursor.speed = mode === 'donations' ? 40 : 10;
 
     if(this.cursorPosition < dataRange[0]) {
       this.cursorPosition = dataRange[0];

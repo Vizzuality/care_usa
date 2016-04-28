@@ -105,7 +105,6 @@ class MapView extends Backbone.View {
 
     this.state.on('change:filters', () => this.changeLayer());
     this.state.on('change:timelineDates', () => this.changeLayerTimeline());
-    this.state.on('change:currentDate', () => this.updateCurrentLayer());
 
     this.state.on('change:mode', _.bind(this.changeLayer, this));
     layersCollection.on('change', _.bind(this.changeLayer, this));
@@ -167,7 +166,6 @@ class MapView extends Backbone.View {
           this._removeCurrentLayer();
           newLayer.addLayer(this.map);
           this.currentLayer = newLayer;
-          window.currentLayer = this.currentLayer;
           this.currentLayerConfig = layerConfig;
         }
       });
@@ -182,16 +180,6 @@ class MapView extends Backbone.View {
     }
   }
 
-  updateCurrentLayer() {
-    if (this.currentLayerConfig.layer_type &&
-      this.currentLayerConfig.layer_type === 'torque') {
-      const currentDate = this.state.get('currentDate');
-      const step = Math.round(currentLayer.layer.timeToStep(currentDate));
-      // Doc: https://github.com/CartoDB/torque/blob/master/doc/torque_api.md
-      this.currentLayer.layer.setStep(step);
-    }
-  }
-
   changeLayer() {
     this._addLayer();
   }
@@ -199,13 +187,24 @@ class MapView extends Backbone.View {
 };
 
 MapView.prototype.changeLayerTimeline = (function() {
-  return _.throttle(function() {
-    if (this.currentLayerConfig.layer_type &&
-      this.currentLayerConfig.layer_type === 'torque') {
-      return;
-    }
+
+  const addLayer = _.throttle(function() {
     this._addLayer();
   }, 200);
+
+  return function() {
+    if (this.currentLayerConfig.layer_type &&
+      this.currentLayerConfig.layer_type === 'torque') {
+
+      const currentDate = this.state.toJSON().timelineDates.to;
+      const step = Math.round(this.currentLayer.layer.timeToStep(currentDate));
+      // Doc: https://github.com/CartoDB/torque/blob/master/doc/torque_api.md
+      this.currentLayer.layer.setStep(step);
+
+    } else {
+      addLayer.call(this);
+    }
+  };
 })();
 
 MapView.prototype.defaults = {
