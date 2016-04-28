@@ -23,12 +23,11 @@ class MapView extends Backbone.View {
     //Checking for device
     this.device = utils.checkDevice();
 
+
     // Setting first state
     this.state = settings.state;
     this.state.attributes = _.extend({}, this.options, this.state.attributes);
-    this.state.set({
-      'filters': filtersModel.toJSON(),
-      silent: true});
+    this.state.set({ 'filters': filtersModel.toJSON() }, { silent: true });
     this._checkMapSettings();
 
     this._createMap();
@@ -55,8 +54,8 @@ class MapView extends Backbone.View {
   }
 
   drawDonationMarker(options) {
-    this.marker = new MarkerLayer(options);
-    this.marker.addLayer(this.map);
+    this.donationMarker = new MarkerLayer(options);
+    this.donationMarker.addLayer(this.map);
 
     this.myDonationPopUp = new PopUpContentView({
       currentMode: 'my-donation',
@@ -64,7 +63,9 @@ class MapView extends Backbone.View {
       latLng: options.position,
       map: this.map,
       name: options.name
-    }).getPopUp();
+    })
+
+    this.myDonationPopUp.getPopUp();
   }
 
   _createMap() {
@@ -154,6 +155,15 @@ class MapView extends Backbone.View {
       this.popUp.closeCurrentPopup();
     }
 
+    //Remove donation stuff
+    // if (this.donationMarker) {
+    //   this.donationMarker.removeLayer(this.map);
+    // }
+
+    // if (this.myDonationPopUp) {
+    //    this.myDonationPopUp.closeCurrentPopup();
+    // }
+
     let layerConfig;
     //I will draw only active layers for each category;
     let activeLayers = layersCollection.filter(model => model.attributes.active && model.attributes.category === this.state.get('mode'));
@@ -168,6 +178,8 @@ class MapView extends Backbone.View {
           this._removeCurrentLayer();
           newLayer.addLayer(this.map)
           this.currentLayer = newLayer;
+
+          console.log('addLayer')
         }
       });
 

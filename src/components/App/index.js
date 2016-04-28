@@ -96,6 +96,7 @@ class App extends React.Component {
   }
 
   _updateRouterParams() {
+    console.log('update params');
     this.setState({
       routerParams: router.params.attributes,
       donation: router.params.attributes.donation && true
@@ -182,6 +183,39 @@ class App extends React.Component {
     }
   }
 
+  updateBBox() {
+    $.when(
+      this.geo.fetch({
+        data: {q: router.params.get('city')}
+      })
+    ).done(() => {
+      const nextState = _.extend({}, router.params.attributes, {
+        bbox: this.geo.attributes.bbox,
+        position: this.geo.attributes.position,
+      });
+
+      this.setState(nextState);
+
+      this._updateMapWithRouterParams();
+
+      //Here we tell the map to draw donation marker;
+      if (nextState.mode === 'donations') {
+        this.mapView.drawDonationMarker(nextState);
+      }
+    });
+  }
+
+  _updateMapWithRouterParams() {
+    if (this.state.donation) {
+      const bbox = [
+        [this.geo.attributes.bbox[1], this.geo.attributes.bbox[0]],
+        [this.geo.attributes.bbox[3], this.geo.attributes.bbox[2]]
+      ];
+      this.mapView.map.fitBounds(bbox);
+      this.mapView.map.setZoom(this.state.zoom);
+    }
+  }
+
   changeMapMode(mode, e) {
     router.update({mode: mode});
     this.setState({ currentMode: mode });
@@ -236,56 +270,6 @@ class App extends React.Component {
     const obj = {};
     obj[modal] = state === 'open';
     this.setState(obj);
-  }
-
-  //DONATION METHODS
-  componentDidUpdate() {
-    if (this.state.donation && this.state.bbox) {
-      const bbox = [
-        [this.state.bbox[1], this.state.bbox[0]],
-        [this.state.bbox[3], this.state.bbox[2]]
-      ];
-      this.mapView.map.fitBounds(bbox);
-      this.mapView.map.setZoom(this.state.zoom);
-      // this.mapView.removeAllLayers();
-      // this.mapView.layersSpec.reset(this.state.layersData);
-      // this.mapView.layersSpec.instanceLayers();
-      // this.mapView.toggleLayers();
-    }
-  }
-
-  updateBBox() {
-    $.when(
-      // layersCollection.fetch(),
-      this.geo.fetch({
-        data: {q: router.params.get('city')}
-      })
-    ).done(() => {
-      // const layerModel = layersCollection.find({slug: 'amount-of-money'});
-      // const layersData = [{
-      //   type: 'marker',
-      //   position: this.geo.attributes.position,
-      //   title: router.params.attributes.name,
-      //   active: true
-      // }, {
-      //   type: 'cartodb',
-      //   active: layerModel.attributes.active,
-      //   account: config.cartodbAccount,
-      //   sql: layerModel.attributes.geo_query.replace('$WHERE', ''),
-      //   cartocss: layerModel.attributes.geo_cartocss
-      // }];
-      const nextState = _.extend({}, router.params.attributes, {
-        bbox: this.geo.attributes.bbox,
-        position: this.geo.attributes.position,
-      });
-
-      this.setState(nextState);
-
-      //Here we tell the map to draw donation marker;
-      if (nextState.mode === 'donations') {
-        this.mapView.drawDonationMarker(nextState);
-      }
-    });
   }
 
   render() {
