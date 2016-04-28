@@ -63,6 +63,20 @@
 
 .leaflet-left .leaflet-control {
   margin: 0;
+  display: none;
+
+  @media screen and (min-width: $screen-s) {
+    display: inherit;
+    margin-left: calc($wrap-padding-tablet + rem(20));
+  }
+
+  @media screen and (min-width: $screen-m) {
+    margin-left: $wrap-padding-desktop;
+  }
+
+   @media screen and (min-width: $screen-xl) {
+    margin-left: calc($wrap-padding-desktop-xl + rem(140));
+  }
 }
 
 .mapbox-logo-true:before {

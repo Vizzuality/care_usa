@@ -4,6 +4,7 @@ import Backbone from 'backbone';
 import _ from 'underscore';
 
 import PopUpDonation from './PopUpDonation';
+import PopUpMyDonation from './PopUpMyDonation';
 import PopUpDonationDist from './PopUpDonationDist';
 import PopUpProject from './PopUpProject';
 
@@ -13,13 +14,19 @@ class PopUpContentView extends Backbone.View {
     this.options = options;
   }
 
+  closeCurrentPopup(){
+    this.currentPopUp.closePopUp()
+  }
+
   getPopUp() {
     if (this.options.currentLayer === 'amount-of-money') {
-      new PopUpDonation(this.options);
+      this.currentPopUp = new PopUpDonation(this.options);
     } else if (this.options.currentLayer === 'number-of-donors') {
-      new PopUpDonationDist(this.options);
+      this.currentPopUp = new PopUpDonationDist(this.options);
+    } else if (this.options.currentLayer === 'my-donation'){
+      this.currentPopUp = new PopUpMyDonation(this.options);
     } else {
-      new PopUpProject(this.options);
+      this.currentPopUp = new PopUpProject(this.options);
     }
   }
 

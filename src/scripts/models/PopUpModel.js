@@ -13,9 +13,9 @@ class PopUpModel extends Backbone.Model {
 
   _getUrl() {
     const noFilters = filtersModel.filtersIsEmpty();
-    const ditributionLayer = this.options.currentLayer === 'number-of-donors' ? '/distribution' : '';
+    const distributionLayer = this.options.currentLayer === 'number-of-donors' ? '/distribution' : '';
 
-    this.baseUrl = `${config.apiUrl}/${this.options.currentMode}${ditributionLayer}?lat=${this.options.latLng.lat}&lng=${this.options.latLng.lng}`
+    this.baseUrl = `${config.apiUrl}/${this.options.currentMode}${distributionLayer}?lat=${this.options.latLng.lat}&lng=${this.options.latLng.lng}&zoom=${this.options.zoom}`
 
     if (noFilters) {
       return this.baseUrl;

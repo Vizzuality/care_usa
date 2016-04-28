@@ -8,6 +8,7 @@ import DashSummary from './DashSummary';
 import DashLayerSwitcher from './DashLayerSwitcher';
 import DashDates from './DashDates';
 import DashFilters from './DashFilters';
+import DashDonation from './DashDonation';
 
 import utils from '../../scripts/helpers/utils';
 
@@ -45,7 +46,7 @@ class Dashboard extends React.Component {
                       currentMode = { this.props.currentMode }
                       changeModeFn = { this.props.changeModeFn }
                     />
-                    
+
       tabsMobile = null;
     }
 
@@ -53,9 +54,6 @@ class Dashboard extends React.Component {
       filtersSwitcher = <div
               className= 'btn btn-third btn-filters-switcher'
               onClick= { this.props.toggleFiltersFn } >
-              <svg className='icon'>
-                <use xlinkHref="#icon-filters"></use>
-              </svg>
               filters
             </div>
     };
@@ -103,7 +101,8 @@ class Dashboard extends React.Component {
                 regions={ this.props.regions }
               />
               <DashSummary
-                currentMode = { this.props.currentMode }
+                filters={ this.props.filters }
+                timeline={ this.props.timelineDates }
               />
               { layersSwitcher }
             </div>
