@@ -26,7 +26,7 @@ class AppRouter extends Router {}
 // Overriding default routes
 AppRouter.prototype.routes = {
   '': function(args) {
-    this.params.set(this.parseParams(args));
+    if(args) this.params.set(this.parseParams(args));
   }
 };
 
