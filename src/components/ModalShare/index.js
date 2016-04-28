@@ -9,6 +9,11 @@ class ModalShare extends Modal {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      open: this.props.visible,
+      className: 'modal-share'
+    };
   }
 
   getContent() {
@@ -17,11 +22,11 @@ class ModalShare extends Modal {
     new Clipboard('.btn-copy');
 
     return (
-    	<div className="wrap">
+    	<div>
     		<h1 className="text text-module-title -dark">Share this view</h1>
     		<p className="text text-highlighted -dark">Click and paste HTML to embed in website</p>
     		<aside className="btn-container">
-    			<div id="embed-link" className="embed-link text text-input -primary">{ iframeLink }</div>
+    			<input id="embed-link" type="text" value={ iframeLink } readOnly="readonly" className="embed-link text text-input -primary" onFocus={ e => e.target.select() }></input>
     			<a className="btn btn-primary btn-copy" data-clipboard-target="#embed-link">Copy</a>
     		</aside>
     		<div className="share-links">
@@ -40,7 +45,7 @@ class ModalShare extends Modal {
             <svg className="icon icon-googleplus -primary">
               <use xlinkHref="#icon-googleplus"></use>
             </svg>
-          </a>	
+          </a>
 	    	</div>
     	</div>
     );

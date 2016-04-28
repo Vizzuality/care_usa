@@ -8,15 +8,20 @@ class ModalVideo extends Modal {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      open: this.props.visible,
+      className: 'modal-video'
+    };
   }
 
   getContent() {
     return(
       <div className="video-container">
-        <iframe 
+        <iframe
           className="video"
-          src="https://www.youtube.com/embed/AgkhhjVotls" 
-          frameBorder="0" 
+          src="https://www.youtube.com/embed/AgkhhjVotls"
+          frameBorder="0"
           allowFullScreen>
         </iframe>
       </div>
