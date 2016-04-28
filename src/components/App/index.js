@@ -73,6 +73,14 @@ class App extends React.Component {
 
   componentWillMount() {
     this.setState(utils.checkDevice());
+
+    /* Needs to be done before the component is mounted and before the router
+     * is instanciated */
+    filtersModel.on('change', () => {
+      this.setState({ filters: filtersModel.toJSON() });
+      this.router.update(this.parseFiltersForRouter());
+    });
+
     this.router = new AppRouter();
     this.router.params.on('change', this.onRouterChange.bind(this));
     this.router.start();
@@ -85,10 +93,6 @@ class App extends React.Component {
   componentDidMount() {
     this._initData();
     this.initTimeline();
-    filtersModel.on('change', () => {
-      this.setState({ filters: filtersModel.toJSON() });
-      this.router.update(this.parseFiltersForRouter());
-    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -124,6 +128,39 @@ class App extends React.Component {
         this.timeline.setCursorPosition(date.toDate());
       }
     }
+
+    /* Update the filters */
+    const newFiltersModel = {};
+
+    if(params.startDate) {
+      const date = moment(params.startDate, 'YYYY-MM-DD');
+      if(date.isValid()) {
+        newFiltersModel['from-day']   = date.format('D');
+        newFiltersModel['from-month'] = date.format('M');
+        newFiltersModel['from-year']  = date.format('YYYY');
+        newFiltersModel.from          = date.toDate();
+      }
+    }
+
+    if(params.endDate) {
+      const date = moment(params.endDate, 'YYYY-MM-DD');
+      if(date.isValid()) {
+        newFiltersModel['to-day']   = date.format('D');
+        newFiltersModel['to-month'] = date.format('M');
+        newFiltersModel['to-year']  = date.format('YYYY');
+        newFiltersModel.to          = date.toDate();
+      }
+    }
+
+    if(params.region) {
+      newFiltersModel.region = params.region;
+    }
+
+    if(params.sectors && params.sectors.length) {
+      newFiltersModel.sectors = params.sectors;
+    }
+
+    filtersModel.set(newFiltersModel);
   }
 
   _initData() {
@@ -196,7 +233,7 @@ class App extends React.Component {
 
     this.mapView = new MapView({
       el: this.refs.Map,
-      state: _.clone(this.router.params)
+      state: this.router.params.toJSON()
     });
   }
 
@@ -319,6 +356,7 @@ class App extends React.Component {
           onSave={ this.updateFilters.bind(this) }
           range={ wholeRange }
           availableRange={ this.state.ranges[this.state.currentMode] }
+          routerParams={ this.router && this.router.params.toJSON() }
         />
 
         <ModalNoData
