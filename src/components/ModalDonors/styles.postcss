@@ -1,7 +1,16 @@
 @import'../../styles/settings.postcss';
 
-.donors-modal {
-	&.-hidden {
-		display: none;
+#donors-modal {
+	.text-module-title {
+		margin: 0 0 rem(15) 0;
+
+		@media screen and (min-width: $screen-m) {
+			margin: 0 0 rem(10) 0;
+		}
+	}
+
+	.text-legend-s {
+		margin-bottom: rem(61);
+
 	}
 }
