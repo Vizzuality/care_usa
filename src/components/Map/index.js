@@ -25,7 +25,7 @@ class MapView extends Backbone.View {
     this.device = utils.checkDevice();
 
     // Setting first state
-    this.state = settings.state;
+    this.state = new Backbone.Model(settings.state);
     this.state.attributes = _.extend({}, this.options, this.state.attributes);
     this.state.set({'filters': filtersModel.toJSON()}, {silent: true});
     this._checkMapSettings();

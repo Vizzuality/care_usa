@@ -12,15 +12,15 @@ import layersCollection from '../../scripts/collections/layersCollection';
 /**
  * Router definition
  */
-class DonationRouter extends Router {}
-// Overriding default routes
-DonationRouter.prototype.routes = {
-  '': function() {
-    console.info('you are on donation page');
-  }
-};
-const router = new DonationRouter();
-router.start();
+// class DonationRouter extends Router {}
+// // Overriding default routes
+// DonationRouter.prototype.routes = {
+//   '': function() {
+//     console.info('you are on donation page');
+//   }
+// };
+// const router = new DonationRouter();
+// router.start();
 
 class MyDonation extends React.Component {
 

@@ -47,7 +47,11 @@ class TimelineView extends Backbone.View {
 
     /* Position of the cursor
      * NOTE: doesn't contain a position in pixels but a date */
-    this.cursorPosition = this.options.domain[this.options.domain.length - 1];
+    if(this.options.cursorPosition) {
+      this.cursorPosition = this.options.cursorPosition
+    } else {
+      this.cursorPosition = this.options.domain[this.options.domain.length - 1];
+    }
 
     this.render();
     this.setListeners();
@@ -391,6 +395,15 @@ class TimelineView extends Backbone.View {
 
     this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
     this.triggerCurrentData()
+  }
+
+  setCursorPosition(date) {
+    if(!moment(this.cursorPosition).isSame(date)) {
+      this.cursorPosition = date;
+      this.render();
+      this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
+      this.triggerCurrentData()
+    }
   }
 
 };
