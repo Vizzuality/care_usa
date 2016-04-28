@@ -29,13 +29,11 @@ import Router from '../Router';
 // class DonationRouter extends Router {}
 // Overriding default routes
 Router.prototype.routes = {
-  '': function() {
+  '': function(args) {
+    if(args) this.params.set(this.parseParams(args));
     console.info('you are on map page');
   }
 };
-const router = new Router();
-router.start();
-
 
 class App extends React.Component {
 
@@ -82,6 +80,17 @@ class App extends React.Component {
   componentWillMount() {
     this.setState(utils.checkDevice());
 
+    /* Needs to be done before the component is mounted and before the router
+     * is instanciated */
+    filtersModel.on('change', () => {
+      this.setState({ filters: filtersModel.toJSON() });
+      this.router.update(this.parseFiltersForRouter());
+    });
+
+    this.router = new Router();
+    this.router.params.on('change', this.onRouterChange.bind(this));
+    this.router.start();
+
     sectorsCollection.fetch()
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
     regionsCollection.fetch()
@@ -91,14 +100,12 @@ class App extends React.Component {
   componentDidMount() {
     this._initData();
     this.initTimeline();
-    filtersModel.on('change', () => this.setState({ filters: filtersModel.toJSON() }));
-    router.params.on('change', () => this._updateRouterParams());
+    this._updateRouterParams();
   }
 
   _updateRouterParams() {
     this.setState({
-      routerParams: router.params.attributes,
-      donation: router.params.attributes.donation && true
+      donation: this.router.params.attributes.donation && true
     })
   }
 
@@ -125,6 +132,51 @@ class App extends React.Component {
     return true;
   }
 
+  onRouterChange() {
+    const params = this.router.params.toJSON();
+
+    /* Update the position of the cursor in the timeline */
+    if(this.timeline && params.timelineDate) {
+      const date = moment(params.timelineDate, 'YYYY-MM-DD');
+      if(date.isValid()) {
+        this.timeline.setCursorPosition(date.toDate());
+      }
+    }
+
+    /* Update the filters */
+    const newFiltersModel = {};
+
+    if(params.startDate) {
+      const date = moment(params.startDate, 'YYYY-MM-DD');
+      if(date.isValid()) {
+        newFiltersModel['from-day']   = date.format('D');
+        newFiltersModel['from-month'] = date.format('M');
+        newFiltersModel['from-year']  = date.format('YYYY');
+        newFiltersModel.from          = date.toDate();
+      }
+    }
+
+    if(params.endDate) {
+      const date = moment(params.endDate, 'YYYY-MM-DD');
+      if(date.isValid()) {
+        newFiltersModel['to-day']   = date.format('D');
+        newFiltersModel['to-month'] = date.format('M');
+        newFiltersModel['to-year']  = date.format('YYYY');
+        newFiltersModel.to          = date.toDate();
+      }
+    }
+
+    if(params.region) {
+      newFiltersModel.region = params.region;
+    }
+
+    if(params.sectors && params.sectors.length) {
+      newFiltersModel.sectors = params.sectors;
+    }
+
+    filtersModel.set(newFiltersModel);
+  }
+
   _initData() {
     layersCollection.fetch().done( () => {
       this.setState({ 'ready': true, currentLayer: 'amount-of-money' });
@@ -137,6 +189,27 @@ class App extends React.Component {
     this.setState({ currentPage: page });
   }
 
+  parseFiltersForRouter() {
+    var params = filtersModel.toJSON();
+    var res = {};
+
+    for(let key in params) {
+      const param = params[key];
+      if(Array.isArray(param)) {
+        if(param.length) res[key] = param;
+        else res[key] = null;
+      } else if(!Array.isArray(param)) {
+        if(param) res[key] = param;
+        else res[key] = null;
+      }
+    }
+
+    if(res.from) res.startDate = moment(res.from).format('YYYY-MM-DD');
+    if(res.to)   res.endDate = moment(res.to).format('YYYY-MM-DD');
+
+    return _.pick(res, 'startDate', 'endDate', 'region', 'sectors');
+  }
+
   // TIMELINE METHODS
   initTimeline() {
     const wholeRange = [
@@ -144,7 +217,7 @@ class App extends React.Component {
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
 
-    this.timeline = new TimelineView({
+    const timelineParams = {
       el: this.refs.Timeline,
       domain: wholeRange,
       interval: this.state.dataInterval[this.state.currentMode],
@@ -152,23 +225,29 @@ class App extends React.Component {
       triggerTimelineDates: this.updateTimelineDates.bind(this),
       triggerMapDates: this.updateMapDates.bind(this),
       ticksAtExtremities: false
-    });
-    router.update({
-      startDate: moment(wholeRange[0]).format('YYYY-MM-DD'),
-      endDate: moment(wholeRange[1]).format('YYYY-MM-DD')
-    });
+    };
+
+    /* We retrieve the position of the cursor from the URL if exists */
+    if(this.router.params.toJSON().timelineDate) {
+      const date = moment(this.router.params.toJSON().timelineDate, 'YYYY-MM-DD');
+      if(date.isValid()) {
+        timelineParams.cursorPosition = date.toDate();
+      }
+    }
+
+    this.timeline = new TimelineView(timelineParams);
   }
 
   // MAP METHODS
   initMap() {
-    router.update({
+    this.router.update({
       mode: this.state.currentMode,
       layer: this.state.currentLayer
     });
 
     this.mapView = new MapView({
       el: this.refs.Map,
-      state: _.clone(router.params),
+      state: this.router.params.toJSON(),
       donation: this.state.donation,
       mode: this.state.currentMode,
     });
@@ -185,10 +264,10 @@ class App extends React.Component {
   updateBBox() {
     $.when(
       this.geo.fetch({
-        data: {q: router.params.get('city')}
+        data: {q: this.router.params.get('city')}
       })
     ).done(() => {
-      const nextState = _.extend({}, router.params.attributes, {
+      const nextState = _.extend({}, this.router.params.attributes, {
         bbox: this.geo.attributes.bbox,
         position: this.geo.attributes.position,
       });
@@ -216,7 +295,7 @@ class App extends React.Component {
   }
 
   changeMapMode(mode, e) {
-    router.update({mode: mode});
+    this.router.update({mode: mode});
     this.setState({ currentMode: mode });
     //MAP STATE CHANGE CHANGE
     this.mapView.state.set({ 'mode': mode });
@@ -224,7 +303,7 @@ class App extends React.Component {
   }
 
   changeLayer(layer, e) {
-    router.update({layer: layer});
+    this.router.update({layer: layer});
     this.setState({ currentLayer: layer });
 
     // Inactive all layers ofthe same group
@@ -248,6 +327,9 @@ class App extends React.Component {
 
   updateTimelineDates(dates) {
     this.setState({ timelineDates: dates });
+    this.router.update({
+      timelineDate: moment(dates.to).format('YYYY-MM-DD')
+    });
   }
 
   updateMapDates(dates) {
@@ -333,6 +415,7 @@ class App extends React.Component {
           onSave={ this.updateFilters.bind(this) }
           range={ wholeRange }
           availableRange={ this.state.ranges[this.state.currentMode] }
+          routerParams={ this.router && this.router.params.toJSON() }
         />
 
         <ModalNoData
