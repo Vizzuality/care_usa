@@ -200,6 +200,14 @@ class App extends React.Component {
     if(res.from) res.startDate = moment(res.from).format('YYYY-MM-DD');
     if(res.to)   res.endDate = moment(res.to).format('YYYY-MM-DD');
 
+    if(!res['from-day'] && !res['from-month'] && !res['from-year']) {
+      res.startDate = null;
+    }
+
+    if(!res['to-day'] && !res['to-month'] && !res['to-year']) {
+      res.endDate = null;
+    }
+
     return _.pick(res, 'startDate', 'endDate', 'region', 'sectors');
   }
 
