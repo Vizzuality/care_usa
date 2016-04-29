@@ -11,13 +11,13 @@ const defaults = {
 
 const optionalStatements = {
   donations: {
-    from:    (filters, timeline) => `date > '${moment(filters && filters.from || timeline.from).format('MM-DD-YYYY')}'::date`,
-    to:      (filters, timeline) => `date < '${moment(filters && filters.to || timeline.to).format('MM-DD-YYYY')}'::date`,
+    from:    (filters, timeline) => `date > '${moment(timeline.from || filters && filters.from).format('MM-DD-YYYY')}'::date`,
+    to:      (filters, timeline) => `date < '${moment(timeline.to || filters && filters.to).format('MM-DD-YYYY')}'::date`,
     region:  filters => filters && filters.region ? `countries like '%${filters.region}%'` : '',
     sectors: filters => filters && filters.sectors.length ? `sectors in (${filters.sectors.map(sector => `'${sector}'`).join(', ')})` : ''
   },
   projects: {
-    to:      (filters, timeline) => `year='${moment(filters && filters.to || timeline.to).format('YYYY')}'`,
+    to:      (filters, timeline) => `year='${moment(timeline.to || filters && filters.to).format('YYYY')}'`,
     region:  filters => filters && filters.region ? `iso in ('${filters.region}')` : '',
     sectors: filters => filters && filters.sectors.length ? `(${filters.sectors.map(sector => `${sector}_people<>0`).join(' OR ')})` : ''
   }
@@ -67,7 +67,7 @@ class CreateTileLayer {
     this.options.sql = this._getQuery();
     const cartoAccount = this.options.cartodbAccount;
     const cartoKey = this.options.cartodbKey;
-
+    console.log(this.options.sql)
     // data layers parameterization
     const request = {
       layers: [{

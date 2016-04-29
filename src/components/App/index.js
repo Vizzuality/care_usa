@@ -358,7 +358,7 @@ class App extends React.Component {
     let activeLayer = layersCollection.filter(model => model.attributes.category === mode && model.attributes.active )[0].attributes.slug;
     this.router.update({mode: mode, layer: activeLayer});
     this.setState({ mode: mode, layer: activeLayer });
-    
+
     this.mapView.state.set({ 'mode': mode });
     this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
   }
@@ -372,7 +372,6 @@ class App extends React.Component {
 
   _updateLayersCollection(layer) {
     // Inactive all layers of the same group
-    console.log('***', layer);
     let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.mode);
     _.each(cogroupLayers, (activeLayer) => {
       activeLayer.set('active', false);
