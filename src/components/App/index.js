@@ -63,7 +63,7 @@ class App extends React.Component {
        * or moving the handle. Dates are rounded "nicely" to the interval. */
       dataInterval: {
         donations: {
-          unit: d3.time.month,
+          unit: d3.time.week,
           count: 2
         },
         projects: {
@@ -371,11 +371,17 @@ class App extends React.Component {
   }
 
   _updateLayersCollection(layer) {
+    const currentMode = this.state.mode;
+    this.timeline.changeMode(currentMode,
+      this.state.dataInterval[currentMode],
+      this.state.ranges[currentMode],
+      /torque/gi.test(layer));
+
     // Inactive all layers of the same group
     let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.mode);
     _.each(cogroupLayers, (activeLayer) => {
       activeLayer.set('active', false);
-    })
+    });
 
     //Active new layer
     let newLayer = layersCollection.filter(model => model.attributes.slug === layer);
@@ -505,7 +511,7 @@ class App extends React.Component {
           Donate
         </a>
 
-        { !sessionStorage.getItem('session') ? <Landing /> : '' }
+        { !sessionStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
       </div>
     );
   }

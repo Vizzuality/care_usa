@@ -5,6 +5,7 @@ import _ from 'underscore';
 import Backbone from 'backbone';
 import TileLayer from './TileLayer';
 import MarkerLayer from './layers/MarkerLayer';
+import TorqueLayer from './TorqueLayer';
 import PopUpContentView from './../PopUp/PopUpContentView';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
@@ -150,39 +151,34 @@ class MapView extends Backbone.View {
   }
 
   _addLayer() {
-    //Remove current pop up
+    // Remove current pop up at beginning
     if (this.popUp) {
       this.popUp.closeCurrentPopup();
     }
 
-    //Remove donation stuff
-    // if (this.donationMarker) {
-    //   this.donationMarker.removeLayer(this.map);
-    // }
+    // I will draw only active layers for each category;
+    const activeLayers = layersCollection.where({
+      active: true,
+      category: this.state.get('mode')
+    });
 
-    // if (this.myDonationPopUp) {
-    //    this.myDonationPopUp.closeCurrentPopup();
-    // }
-
-    let layerConfig;
-    //I will draw only active layers for each category;
-    let activeLayers = layersCollection.filter(model => model.attributes.active && model.attributes.category === this.state.get('mode'));
-
-    _.each(activeLayers, (activeLayer) => {
-      layerConfig = activeLayer.toJSON();
-      const newLayer = new TileLayer(layerConfig, this.state.toJSON());
-
-      newLayer.createLayer().then(() => {
+    _.each(activeLayers, activeLayer => {
+      const layerConfig = activeLayer.attributes;
+      // Selecting kind of layer by layer_type attribute
+      const layerClass = (layerConfig.layer_type === 'torque') ? TorqueLayer : TileLayer;
+      const newLayer = new layerClass(layerConfig, this.state.toJSON());
+      newLayer.createLayer().done(() => {
         /* We ensure to always display the latest tiles */
-        if(!this.currentLayer || newLayer.timestamp > this.currentLayer.timestamp) {
+        if(!this.currentLayer ||
+          newLayer.timestamp > this.currentLayer.timestamp) {
           this._removeCurrentLayer();
-          newLayer.addLayer(this.map)
+          newLayer.addLayer(this.map);
           this.currentLayer = newLayer;
+          this.currentLayerConfig = layerConfig;
         }
       });
-
-      this.state.set('currentLayer', layerConfig.slug);
-    })
+      this.state.set('currentLayer', activeLayer.get('slug'));
+    });
   }
 
   _removeCurrentLayer() {
@@ -199,9 +195,24 @@ class MapView extends Backbone.View {
 };
 
 MapView.prototype.changeLayerTimeline = (function() {
-  return _.throttle(function() {
+
+  const addLayer = _.throttle(function() {
     this._addLayer();
   }, 200);
+
+  return function() {
+    if (this.currentLayerConfig && this.currentLayerConfig.layer_type &&
+      this.currentLayerConfig.layer_type === 'torque') {
+
+      const currentDate = this.state.toJSON().timelineDates.to;
+      const step = Math.round(this.currentLayer.layer.timeToStep(currentDate));
+      // Doc: https://github.com/CartoDB/torque/blob/master/doc/torque_api.md
+      this.currentLayer.layer.setStep(step);
+
+    } else {
+      addLayer.call(this);
+    }
+  };
 })();
 
 MapView.prototype.defaults = {

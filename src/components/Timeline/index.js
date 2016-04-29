@@ -24,7 +24,7 @@ const defaults = {
     left: 15
   },
   cursor: {
-    speed: 40 /* seconds per year */
+    speed: 10 /* seconds per year */
   },
   ticksAtExtremities: false
 };
@@ -381,14 +381,27 @@ class TimelineView extends Backbone.View {
     this.triggerCursorDate(this.cursorPosition);
   }
 
-  changeMode(mode, interval, dataRange) {
+  changeMode(mode, interval, dataRange, torqueLayer) {
     this.options.interval = interval;
-    this.options.cursor.speed = mode === 'donations' ? 40 : 10;
 
     if(this.cursorPosition < dataRange[0]) {
       this.cursorPosition = dataRange[0];
     } else if(this.cursorPosition > dataRange[1]) {
       this.cursorPosition = dataRange[1];
+    }
+
+    /* We force some params for the speed of the timeline and frequency of the
+     * data */
+    if(mode === 'donations') {
+      if(torqueLayer) {
+        this.options.interval.unit = d3.time.week;
+        this.options.cursor.speed = 10;
+      } else {
+        this.options.cursor.speed = 40;
+        this.options.interval.unit = d3.time.month;
+      }
+    } else {
+      this.options.cursor.speed = 10;
     }
 
     this.render();
