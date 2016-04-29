@@ -201,7 +201,7 @@ MapView.prototype.changeLayerTimeline = (function() {
   }, 200);
 
   return function() {
-    if (this.currentLayerConfig.layer_type &&
+    if (this.currentLayerConfig && this.currentLayerConfig.layer_type &&
       this.currentLayerConfig.layer_type === 'torque') {
 
       const currentDate = this.state.toJSON().timelineDates.to;
