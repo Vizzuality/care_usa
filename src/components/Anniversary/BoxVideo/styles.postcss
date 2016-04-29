@@ -11,9 +11,10 @@
 
   .wrap {
     display: flex;
-    align-items: flex-end;
-    text-align: center;
+    flex-direction: column;
     justify-content: space-between;
+    align-items: center;
+    text-align: center;
     min-height: rem(310);
     height: rem(200); /* Needed for IE11 */
     padding-top: rem(41);
@@ -22,6 +23,8 @@
     @media screen and (min-width: $screen-s) {
       min-height: rem(420);
       padding-top: rem(51);
+      align-items: flex-end;
+      justify-content: space-between;
     }
 
     @media screen and (min-width: rem(500)) {
