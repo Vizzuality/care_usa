@@ -1,4 +1,5 @@
 'use strict';
+import _ from 'underscore';
 
 class MarkerLayer {
 
@@ -38,10 +39,12 @@ class MarkerLayer {
    * @param {Function} callback
    */
   addLayer(map, callback) {
+    this.map = map;
     this.createLayer();
     if (this.layer) {
       map.addLayer(this.layer);
     }
+    return this.layer;
   }
 
   /**

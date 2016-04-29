@@ -55,15 +55,20 @@ class MapView extends Backbone.View {
   }
 
   drawDonationMarker(options) {
+    this.markerOptions = options;
     this.donationMarker = new MarkerLayer(options);
-    this.donationMarker.addLayer(this.map);
+    let markerLayer = this.donationMarker.addLayer(this.map);
+    markerLayer.on('click', this.drawDonationPopUp.bind(this));
+    this.drawDonationPopUp();
+  }
 
+  drawDonationPopUp() {
     this.myDonationPopUp = new PopUpContentView({
       currentMode: 'my-donation',
       currentLayer: 'my-donation',
-      latLng: options.position,
+      latLng: this.markerOptions.position,
       map: this.map,
-      name: options.name
+      name: this.markerOptions.name
     })
 
     this.myDonationPopUp.getPopUp();
