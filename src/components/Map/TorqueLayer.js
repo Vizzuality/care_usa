@@ -1,27 +1,46 @@
 'use strict';
 
+import $ from 'jquery';
+import moment from 'moment';
+
+const optionalStatements = {
+  donations: {
+    from:    filters => filters && filters.from ? `date > '${moment(filters.from).format('MM-DD-YYYY')}'::date` : '',
+    to:      filters => filters && filters.to ? `date < '${moment(filters.to).format('MM-DD-YYYY')}'::date` : '',
+    region:  filters => filters && filters.region ? `countries like '%${filters.region}%'` : '',
+    sectors: filters => filters && filters.sectors.length ? `sectors in (${filters.sectors.map(sector => `'${sector}'`).join(', ')})` : ''
+  }
+};
+
 /**
  * doc: http://docs.cartodb.com/cartodb-platform/torque/torquejs-getting-started/
  */
 class TorqueLayer {
 
-  constructor(props) {
-    this.options = props;
+  constructor(options, state) {
+    this.options = options;
+    this.state = state;
+    this.timestamp = new Date().getTime();
   }
 
-  createLayer(callback) {
+  createLayer() {
+    const deferred = new $.Deferred();
+
+    // Creating torque layer
     this.layer = new L.TorqueLayer({
-      user: this.options.account,
-      table: this.options.tablename,
-      sql: this.options.sql,
-      cartocss: this.options.cartocss
+      user: config.cartodbAccount,
+      table: this.options.tablename || 'donors',
+      sql: this.getQuery(),
+      cartocss: this.getCartoCSS()
     });
+
     this.layer.error((err) => {
-      throw err;
+      console.error(err);
     });
-    if (callback && typeof callback === 'function') {
-      callback(this.layer);
-    }
+
+    deferred.resolve(this.layer);
+
+    return deferred.promise();
   }
 
   /**
@@ -29,24 +48,11 @@ class TorqueLayer {
    * @param  {L.Map} map
    * @param {Function} callback
    */
-  addLayer(map, callback) {
-    // If layer exists so it will be added to map
-    if (this.layer && map) {
-      return map.addLayer(this.layer);
-    }
-
+  addLayer(map) {
     if (!map) {
       throw new Error('map param is required');
     }
-
-    // Creating layer if layer doesn't exist
-    this.createLayer((layer) => {
-      this.layer = layer;
-      map.addLayer(this.layer);
-      if (callback && typeof callback === 'function') {
-        callback(this.layer);
-      }
-    });
+    map.addLayer(this.layer);
   }
 
   /**
@@ -59,10 +65,32 @@ class TorqueLayer {
     }
   }
 
-  play() {
-    if (this.layer) {
-      this.layer.play();
-    }
+  getQuery() {
+    const filters = this.state.filters;
+    const timeline = this.state.timelineDates;
+    const statements = optionalStatements[this.options.category]
+    return this.options.sql_template.replace('$WHERE', () => {
+      if(filters || timeline) {
+        const res = Object.keys(statements).map(name => {
+          const filter = filters[name];
+            if(Array.isArray(filter) && filter.length ||
+              !Array.isArray(filter) && filter || timeline) {
+              return statements[name](filters, timeline);
+            }
+            return null;
+          }).filter(statement => !!statement)
+            .join(' AND ');
+
+        if(res.length) {
+          return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
+        }
+      }
+      return '';
+    });
+  }
+
+  getCartoCSS() {
+    return this.options.geo_cartocss;
   }
 
 }
