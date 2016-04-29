@@ -117,7 +117,7 @@ class TimelineView extends Backbone.View {
       })
       .outerTickSize(0);
 
-    this.svgContainer.innerHTML = null;
+    this.svgContainer.innerHTML = '';
 
     this.svg = d3.select(this.svgContainer)
       .append('svg')
@@ -151,7 +151,7 @@ class TimelineView extends Backbone.View {
       .attr('x2', this.scale(this.cursorPosition))
       .attr('y1', 0)
       .attr('y2', 0)
-      .style('stroke-dasharray', '0, 0')
+      .style('stroke-dasharray', 'none')
       .attr('class', 'cursor-line');
 
     /* We add the ticks for the report */
