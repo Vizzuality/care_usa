@@ -1,6 +1,7 @@
 'use strict';
 
 import './styles.postcss';
+import $ from 'jquery';
 import React from 'react';
 import ModalVideo from '../ModalVideo';
 
@@ -21,6 +22,9 @@ class BoxVideo extends React.Component {
   closeVideoModal() {
     this.setState({ videoOpen: false });
     document.getElementsByTagName('html')[0].style.overflow = 'auto';
+    $('.video').each(function(){
+      this.contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*')
+    });
   }
 
   render() {
