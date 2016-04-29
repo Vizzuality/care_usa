@@ -12,9 +12,12 @@ class ModalAbout extends Modal {
 
   getContent() {
     return (
-    	<div className="wrap">
+    	<div className="wrap m-about">
     		<h1 className="text text-module-title -dark">About the data</h1>
-        <p className="text text-highlighted -dark">This data shows the sector breadth and reach of CARE's work. It counts individuals directly receiving goods/services from or involved in activities supported by CARE. To avoid double-counting, please refrain from aggregating data across sectors or years.</p>
+        <h3 className="text text-report-title -dark">Donations</h3>
+        <p className="text text-highlighted -dark">This data displays only the subset of donations to CARE that are captured online. It is for exploration only, and should not be interpreted as an official financial record.</p>
+        <h3 className="text text-report-title -dark">CARE’s projects</h3>
+        <p className="text text-highlighted -dark">This data shows the sector breadth and reach of CARE's work. It counts individuals directly receiving goods/services from or involved in activities supported by CARE. To avoid double-counting, please refrain from aggregating data across sectors or years</p>
     	</div>
     );
   }
