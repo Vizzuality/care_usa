@@ -126,7 +126,7 @@ class MapView extends Backbone.View {
   }
 
   _updateFilters() {
-    this.state.set({'filters': filtersModel.toJSON()}, {silent: true});
+    this.state.set({'filters': filtersModel.toJSON()});
   }
 
   _infowindowSetUp(e) {
