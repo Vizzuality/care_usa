@@ -35,6 +35,7 @@ class PopUp extends Backbone.View {
     this.popUp = this._popUpLayer(this.options);
 
     $('body').append(this.popUp);
+    this._setEventsModal();
     $('.btn-close').on('click', this._closeInfowindow.bind(this));
   }
 
@@ -54,6 +55,7 @@ class PopUp extends Backbone.View {
       .openOn(this.options.map);
 
     this.setEvents();
+    this._setEventsModal();
   }
 
   setEvents() {
@@ -61,6 +63,8 @@ class PopUp extends Backbone.View {
   }
 
   _getContent() {}
+
+  _setEventsModal() {}
 
   _popUpLayer(options) {
     let content = this._getContent();

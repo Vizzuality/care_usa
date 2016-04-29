@@ -11,11 +11,14 @@ import ModalFilters from '../ModalFilters';
 import ModalAbout from '../ModalAbout';
 import ModalNoData from '../ModalNoData';
 import MapView from '../Map';
+import ModalDonors from '../ModalDonors';
 import Landing from '../Landing';
 import utils from '../../scripts/helpers/utils';
 import ModalShare from '../ModalShare';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
+import DonorsModalModel from '../../scripts/models/DonorsModalModel';
+
 import sectorsCollection from '../../scripts/collections/SectorsCollection';
 import regionsCollection from '../../scripts/collections/RegionsCollection';
 
@@ -72,9 +75,11 @@ class App extends React.Component {
       timelineDates: {},
       shareOpen: false,
       aboutOpen: false,
+      donorsOpen: false,
       /* The range displayed on the map */
       mapDates: {}
-    }
+    };
+
   }
 
   componentWillMount() {
@@ -101,6 +106,7 @@ class App extends React.Component {
   componentDidMount() {
     this._initData();
     this.initTimeline();
+    DonorsModalModel.on('change', () => !DonorsModalModel.get('donorsOpen') ? '' : this.setState({ donorsOpen: true }));
     this._updateRouterParams();
     this.router.params.on('change', this.onRouterChangeMap.bind(this));
   }
@@ -411,6 +417,7 @@ class App extends React.Component {
     const obj = {};
     obj[modal] = state === 'open';
     this.setState(obj);
+    if (modal === 'donorsOpen') DonorsModalModel.set({donorsOpen: false});
   }
 
   render() {
@@ -418,6 +425,7 @@ class App extends React.Component {
       new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
+
 
     return (
       <div className="l-app">
@@ -487,6 +495,11 @@ class App extends React.Component {
           onChangeFilters={ this.handleModal.bind(this, 'open', 'filtersOpen') }
           onGoBack={ this.setDonationsAsmode.bind(this) }
           onCancel={ this.resetFilters.bind(this) }
+        />
+
+        <ModalDonors
+          visible= { this.state.donorsOpen }
+          onClose= { this.handleModal.bind(this, 'close', 'donorsOpen') }
         />
 
         <a href="https://my.care.org/site/Donation2;jsessionid=5FED4A2DADFB975A2EDA92B59231B64B.app314a?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
