@@ -114,7 +114,6 @@ $l-margin-vt: 50;
   background-image: url('../src/images/legendpattern.png');
   background-size: contain;
   transition: transform .2s ease-out;
-  transform: translatex(-345px);
 
   &.is-open {
     transform: translatex(0);
@@ -128,11 +127,13 @@ $l-margin-vt: 50;
     height: auto;
     bottom: 170px;
     width: 285px;
+    transform: translatex(-345px);
     /* max-height: 600px; */
   }
 
   @media screen and (min-width: $screen-xl) {
     width: 360px;
+     transform: translatex(-440px);
     left: $wrap-padding-desktop-xl;
   }
 }

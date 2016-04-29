@@ -458,6 +458,7 @@ class App extends React.Component {
         />
 
         <Dashboard
+          donation={  this.router.params.attributes.donation && true }
           changeModeFn={ this.changeMapMode.bind(this) }
           changeLayerFn={ this.changeLayer.bind(this) }
           currentMode={ this.state.mode }

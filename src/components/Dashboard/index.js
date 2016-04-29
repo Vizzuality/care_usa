@@ -16,8 +16,9 @@ class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
+    this.props = props;
     this.state = {
-      dashboardOpen: true
+      dashboardOpen: this.props.donation ? false : true
     };
   }
 
@@ -34,7 +35,7 @@ class Dashboard extends React.Component {
     let tabsDesktop;
     let layersSwitcher;
     let filtersSwitcher;
-    
+
     if ( this.state.mobile || this.state.tablet ) {
       tabsMobile =  <DashTabs
                       currentMode = { this.props.currentMode }
