@@ -19,9 +19,11 @@ class ModalVideo extends Modal {
     return(
       <div className="video-container">
         <iframe
+          id = "box-video"
           className="video"
-          src="https://www.youtube.com/embed/AgkhhjVotls"
+          src="https://www.youtube.com/embed/AgkhhjVotls?version=3&enablejsapi=1"
           frameBorder="0"
+          allowscriptaccess="always"
           allowFullScreen>
         </iframe>
       </div>

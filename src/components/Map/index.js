@@ -43,8 +43,8 @@ class MapView extends Backbone.View {
 
     // mobile
     if (this.device.mobile) {
-      this.state.attributes.lat = 10;
-      this.state.attributes.lng = -100;
+      this.state.attributes.lat = 7;
+      this.state.attributes.lng = -98;
     }
 
     // Ipad landscape
@@ -55,15 +55,20 @@ class MapView extends Backbone.View {
   }
 
   drawDonationMarker(options) {
+    this.markerOptions = options;
     this.donationMarker = new MarkerLayer(options);
-    this.donationMarker.addLayer(this.map);
+    let markerLayer = this.donationMarker.addLayer(this.map);
+    markerLayer.on('click', this.drawDonationPopUp.bind(this));
+    this.drawDonationPopUp();
+  }
 
+  drawDonationPopUp() {
     this.myDonationPopUp = new PopUpContentView({
       currentMode: 'my-donation',
       currentLayer: 'my-donation',
-      latLng: options.position,
+      latLng: this.markerOptions.position,
       map: this.map,
-      name: options.name
+      name: this.markerOptions.name
     })
 
     this.myDonationPopUp.getPopUp();
@@ -72,7 +77,11 @@ class MapView extends Backbone.View {
   _createMap() {
     const mapOptions = {
       zoom: this.state.attributes.zoom,
-      center: [this.state.attributes.lat, this.state.attributes.lng]
+      center: [this.state.attributes.lat, this.state.attributes.lng],
+      tileLayer: {
+        continuousWorld: false,
+        noWrap: true
+      }
     };
     this.map = L.mapbox.map(this.el, this.options.style, mapOptions);
 
@@ -168,6 +177,7 @@ class MapView extends Backbone.View {
       // Selecting kind of layer by layer_type attribute
       const layerClass = (layerConfig.layer_type === 'torque') ? TorqueLayer : TileLayer;
       const newLayer = new layerClass(layerConfig, this.state.toJSON());
+
       newLayer.createLayer().done(() => {
         /* We ensure to always display the latest tiles */
         if(!this.currentLayer ||
@@ -176,6 +186,12 @@ class MapView extends Backbone.View {
           newLayer.addLayer(this.map);
           this.currentLayer = newLayer;
           this.currentLayerConfig = layerConfig;
+
+          /* Hack because torque doesn't provide a working event "load" or
+           * "done" */
+          if(this.currentLayerConfig.layer_type === 'torque') {
+            setTimeout(() => this.changeLayerTimeline(), 3000);
+          }
         }
       });
       this.state.set('currentLayer', activeLayer.get('slug'));
@@ -205,7 +221,9 @@ MapView.prototype.changeLayerTimeline = (function() {
     if (this.currentLayerConfig && this.currentLayerConfig.layer_type &&
       this.currentLayerConfig.layer_type === 'torque') {
 
-      const currentDate = this.state.toJSON().timelineDates.to;
+      const currentDate = this.state.toJSON().timelineDates &&
+        this.state.toJSON().timelineDates.to || this.state.toJSON().filters.to;
+
       const step = Math.round(this.currentLayer.layer.timeToStep(currentDate));
       // Doc: https://github.com/CartoDB/torque/blob/master/doc/torque_api.md
       this.currentLayer.layer.setStep(step);

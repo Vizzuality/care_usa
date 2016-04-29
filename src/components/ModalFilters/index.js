@@ -139,7 +139,7 @@ class ModalFilters extends Modal {
         </fieldset>
 
         <fieldset className="regions">
-          <legend className="text -dark text-form-labels">Region of interest</legend>
+          <legend className="text -dark text-form-labels">Countries of interest</legend>
           <div>
             <svg className="arrow">
               <use xlinkHref="#icon-arrow"></use>
