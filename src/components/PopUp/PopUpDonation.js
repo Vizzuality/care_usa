@@ -44,7 +44,7 @@ class PopUpDonation extends PopUp {
   _donorsList() {
     let donorsList = `<h1 class="text text-module-title -dark">Donors list</h1><h2 class="donors-info text text-legend-s -dark">${this.model.attributes.total_donors} Donors, ${this.model.attributes.location['city']}</h2><ul class="donors-list">`;
     this.model.attributes.donors.map((donor) => {
-      donorsList += `<li>${donor}</li>`;
+      donorsList += `<li class=" text text-highlighted -dark">${donor.name} - <span class="number number-m -dark">$${donor.amount}</span></li>`;
     });
     donorsList += '</ul>';
     return donorsList;
@@ -54,7 +54,7 @@ class PopUpDonation extends PopUp {
     const sectorsItems = (this.model.get('sectors').length > 0) ? this._getSectors() : '';
     const regionsItems = (this.model.get('countries').length > 0) ? this._getRegions() : '';
 
-    return `<header class="donation-header"><h1 class="text text-module-title -light"> ${ utils.numberNotation( (this.model.get('total_donors')) ) } donors - 
+    return `<header class="donation-header"><h1 class="text text-module-title -light"> ${ utils.numberNotation( (this.model.get('total_donors')) ) } donors -
       <span class="number-m">${ utils.numberNotation(  this.model.get('total_funds') )}$</span></h1>
       <div id="btn-donors" class="btn-donors js-popup-donation"><p>+</p></div></header>
     <h2 class="text text-legend-s -light">${this.model.get('location')['city']}</h2>
