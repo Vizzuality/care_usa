@@ -5,8 +5,8 @@ import moment from 'moment';
 
 const optionalStatements = {
   donations: {
-    from:    (filters, timeline) => `date > '${moment(filters && filters.from || timeline.from).format('MM-DD-YYYY')}'::date`,
-    to:      (filters, timeline) => `date < '${moment(filters && filters.to || timeline.to).format('MM-DD-YYYY')}'::date`,
+    from:    filters => filters && filters.from ? `date > '${moment(filters.from).format('MM-DD-YYYY')}'::date` : '',
+    to:      filters => filters && filters.to ? `date < '${moment(filters.to).format('MM-DD-YYYY')}'::date` : '',
     region:  filters => filters && filters.region ? `countries like '%${filters.region}%'` : '',
     sectors: filters => filters && filters.sectors.length ? `sectors in (${filters.sectors.map(sector => `'${sector}'`).join(', ')})` : ''
   }
@@ -69,7 +69,7 @@ class TorqueLayer {
     const filters = this.state.filters;
     const timeline = this.state.timelineDates;
     const statements = optionalStatements[this.options.category]
-    return this.options.geo_query.replace('$WHERE', () => {
+    return this.options.sql_template.replace('$WHERE', () => {
       if(filters || timeline) {
         const res = Object.keys(statements).map(name => {
           const filter = filters[name];
