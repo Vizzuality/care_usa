@@ -197,13 +197,17 @@
   }
 
   &.-my-donation {
-    background-color: #f0ebe4;
-    transform: translatey(-30px);
+    padding-top: rem(50);
     color: $font-color-1;
     font-family: $font-family-1;
     font-weight: 400;
-    padding: rem(50);
-    width: rem(300);
+    background-color: #f0ebe4;
+
+    @media screen and (min-width: $screen-m) {
+      transform: translatey(-30px);
+      padding: rem(50);
+      width: rem(300);
+    }
 
     h1 {
       font-size: rem(23);
