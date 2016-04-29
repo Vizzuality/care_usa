@@ -35,7 +35,7 @@ class PopUpDonation extends PopUp {
           i++;
         }
 
-        return `<span class="title-sector text text-legend-s -light">Three top places of interest</span>
+        return `<span class="title-sector text text-legend-s -light">Three top countries of interest</span>
                 <ul class="sectors-container">
                   ${items}
                 </ul>`
