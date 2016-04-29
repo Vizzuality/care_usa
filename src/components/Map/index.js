@@ -136,7 +136,8 @@ class MapView extends Backbone.View {
       currentLayer: this.state.get('currentLayer'),
       latLng: e.latlng,
       map: this.map,
-      zoom: this.state.get('zoom')
+      zoom: this.state.get('zoom'),
+      timelineDates: this.state.get('timelineDates')
     });
 
     this.popUp.getPopUp();
