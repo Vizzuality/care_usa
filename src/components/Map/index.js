@@ -172,6 +172,7 @@ class MapView extends Backbone.View {
       // Selecting kind of layer by layer_type attribute
       const layerClass = (layerConfig.layer_type === 'torque') ? TorqueLayer : TileLayer;
       const newLayer = new layerClass(layerConfig, this.state.toJSON());
+
       newLayer.createLayer().done(() => {
         /* We ensure to always display the latest tiles */
         if(!this.currentLayer ||
@@ -180,6 +181,12 @@ class MapView extends Backbone.View {
           newLayer.addLayer(this.map);
           this.currentLayer = newLayer;
           this.currentLayerConfig = layerConfig;
+
+          /* Hack because torque doesn't provide a working event "load" or
+           * "done" */
+          if(this.currentLayerConfig.layer_type === 'torque') {
+            setTimeout(() => this.changeLayerTimeline(), 3000);
+          }
         }
       });
       this.state.set('currentLayer', activeLayer.get('slug'));
@@ -209,7 +216,9 @@ MapView.prototype.changeLayerTimeline = (function() {
     if (this.currentLayerConfig && this.currentLayerConfig.layer_type &&
       this.currentLayerConfig.layer_type === 'torque') {
 
-      const currentDate = this.state.toJSON().timelineDates.to;
+      const currentDate = this.state.toJSON().timelineDates &&
+        this.state.toJSON().timelineDates.to || this.state.toJSON().filters.to;
+
       const step = Math.round(this.currentLayer.layer.timeToStep(currentDate));
       // Doc: https://github.com/CartoDB/torque/blob/master/doc/torque_api.md
       this.currentLayer.layer.setStep(step);

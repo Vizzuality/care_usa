@@ -274,6 +274,13 @@ class App extends React.Component {
     }
 
     this.timeline = new TimelineView(timelineParams);
+
+    /* On init, we need to show only the range passed as argument */
+    const interval = this.state.dataInterval[this.state.mode];
+    if(this.state.filters.from || this.state.filters.to) {
+      const range = [ this.state.filters.from, this.state.filters.to ];
+      this.timeline.setRange(range, interval, true);
+    }
   }
 
   // MAP METHODS
