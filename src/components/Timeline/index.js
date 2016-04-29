@@ -376,9 +376,7 @@ class TimelineView extends Backbone.View {
     this.options.domain = domain;
     this.options.ticksAtExtremities = !!extremityTicks;
     if(interval) this.options.interval = interval;
-    this.cursorPosition = this.options.domain[1];
-    this.render();
-    this.triggerCursorDate(this.cursorPosition);
+    this.setCursorPosition(this.options.domain[1]);
   }
 
   changeMode(mode, interval, dataRange, torqueLayer) {
