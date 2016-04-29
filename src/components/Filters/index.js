@@ -21,14 +21,14 @@ class FiltersView extends Backbone.View {
     return {
       'click .js-apply': 'onApply',
       'click .js-clear': 'onClear',
-      'input .js-from-day': 'onDateChange',
-      'input .js-from-month': 'onDateChange',
-      'input .js-from-year': 'onDateChange',
-      'input .js-to-day': 'onDateChange',
-      'input .js-to-month': 'onDateChange',
-      'input .js-to-year': 'onDateChange',
+      'change .js-from-day': 'onDateChange',
+      'change .js-from-month': 'onDateChange',
+      'change .js-from-year': 'onDateChange',
+      'change .js-to-day': 'onDateChange',
+      'change .js-to-month': 'onDateChange',
+      'change .js-to-year': 'onDateChange',
       'change input[type="checkbox"]': 'onInputChange',
-      'input select': 'onInputChange'
+      'change select': 'onInputChange'
     };
   }
 
