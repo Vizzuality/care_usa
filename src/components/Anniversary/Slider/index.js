@@ -76,7 +76,7 @@ class Slider extends React.Component {
             </div>
           </div>
           <aside className="btn-container">
-            <button className="btn btn-secondary">annual report</button>
+            <a className="btn btn-secondary" href="http://www.care.org/newsroom/annual-reports" target="_blank">annual report</a>
           </aside>
         </div>
       </article>
