@@ -11,11 +11,14 @@ import ModalFilters from '../ModalFilters';
 import ModalAbout from '../ModalAbout';
 import ModalNoData from '../ModalNoData';
 import MapView from '../Map';
+import ModalDonors from '../ModalDonors';
 import Landing from '../Landing';
 import utils from '../../scripts/helpers/utils';
 import ModalShare from '../ModalShare';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
+import DonorsModalModel from '../../scripts/models/DonorsModalModel';
+
 import sectorsCollection from '../../scripts/collections/SectorsCollection';
 import regionsCollection from '../../scripts/collections/RegionsCollection';
 
@@ -42,7 +45,7 @@ class App extends React.Component {
 
     this.state = {
       mode: 'donations',
-      layer: null,
+      layer: 'amount-of-money',
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false,
@@ -60,7 +63,7 @@ class App extends React.Component {
        * or moving the handle. Dates are rounded "nicely" to the interval. */
       dataInterval: {
         donations: {
-          unit: d3.time.month,
+          unit: d3.time.week,
           count: 2
         },
         projects: {
@@ -72,9 +75,11 @@ class App extends React.Component {
       timelineDates: {},
       shareOpen: false,
       aboutOpen: false,
+      donorsOpen: false,
       /* The range displayed on the map */
       mapDates: {}
-    }
+    };
+
   }
 
   componentWillMount() {
@@ -101,14 +106,15 @@ class App extends React.Component {
   componentDidMount() {
     this._initData();
     this.initTimeline();
+    DonorsModalModel.on('change', () => !DonorsModalModel.get('donorsOpen') ? '' : this.setState({ donorsOpen: true }));
     this._updateRouterParams();
     this.router.params.on('change', this.onRouterChangeMap.bind(this));
   }
 
   _updateRouterParams() {
     /* Here we update general state with roouter params and our device check. */
-    const newParams = _.extend({}, {donation: this.router.params.attributes.donation && true}, this.router.params.attributes);
-    this.setState(newParams)
+    const newParams = _.extend({}, { donation: this.router.params.attributes.donation && true }, this.router.params.attributes);
+    this.setState(newParams);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -198,7 +204,10 @@ class App extends React.Component {
 
   _initData() {
     layersCollection.fetch().done( () => {
-      this.setState({ 'ready': true, layer: this.state.layer });
+      if (this.router.params.attributes.layer) {
+        this._updateLayersCollection(this.router.params.attributes.layer);
+      }
+      this.setState({ 'ready': true });
       this.initMap();
     })
   }
@@ -206,7 +215,7 @@ class App extends React.Component {
   //GENERAL METHODS
   changePage(page, e) {
     this.setState({ currentPage: page });
-  }
+  };
 
   parseFiltersForRouter() {
     var params = filtersModel.toJSON();
@@ -267,10 +276,10 @@ class App extends React.Component {
 
   // MAP METHODS
   initMap() {
-    // this.router.update({
-    //   mode: this.state.mode,
-    //   layer: this.state.layer
-    // });
+    this.router.update({
+      mode: this.state.mode,
+      layer: this.state.layer
+    });
 
     this.mapView = new MapView({
       el: this.refs.Map,
@@ -346,9 +355,10 @@ class App extends React.Component {
   }
 
   changeMapMode(mode, e) {
-    this.router.update({mode: mode});
-    this.setState({ mode: mode });
-    //MAP STATE CHANGE CHANGE
+    let activeLayer = layersCollection.filter(model => model.attributes.category === mode && model.attributes.active )[0].attributes.slug;
+    this.router.update({mode: mode, layer: activeLayer});
+    this.setState({ mode: mode, layer: activeLayer });
+
     this.mapView.state.set({ 'mode': mode });
     this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
   }
@@ -357,11 +367,21 @@ class App extends React.Component {
     this.router.update({layer: layer});
     this.setState({ layer: layer });
 
-    // Inactive all layers ofthe same group
+    this._updateLayersCollection(layer);
+  }
+
+  _updateLayersCollection(layer) {
+    const currentMode = this.state.mode;
+    this.timeline.changeMode(currentMode,
+      this.state.dataInterval[currentMode],
+      this.state.ranges[currentMode],
+      /torque/gi.test(layer));
+
+    // Inactive all layers of the same group
     let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.mode);
     _.each(cogroupLayers, (activeLayer) => {
       activeLayer.set('active', false);
-    })
+    });
 
     //Active new layer
     let newLayer = layersCollection.filter(model => model.attributes.slug === layer);
@@ -402,6 +422,7 @@ class App extends React.Component {
     const obj = {};
     obj[modal] = state === 'open';
     this.setState(obj);
+    if (modal === 'donorsOpen') DonorsModalModel.set({donorsOpen: false});
   }
 
   render() {
@@ -409,6 +430,7 @@ class App extends React.Component {
       new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
+
 
     return (
       <div className="l-app">
@@ -480,11 +502,16 @@ class App extends React.Component {
           onCancel={ this.resetFilters.bind(this) }
         />
 
-        <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
+        <ModalDonors
+          visible= { this.state.donorsOpen }
+          onClose= { this.handleModal.bind(this, 'close', 'donorsOpen') }
+        />
+
+        <a href="https://my.care.org/site/Donation2;jsessionid=5FED4A2DADFB975A2EDA92B59231B64B.app314a?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
           Donate
         </a>
 
-        { !sessionStorage.getItem('session') ? <Landing /> : '' }
+        { !sessionStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
       </div>
     );
   }

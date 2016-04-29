@@ -31,17 +31,17 @@ class ModalShare extends Modal {
     		</aside>
     		<div className="share-links">
 				  <span className="text text-hightlighted -dark">Share on</span>
-				  <a href={ "http://www.facebook.com/sharer.php?u=" + url }>
+				  <a target="_blank" rel="noreferrer" href={ "http://www.facebook.com/sharer.php?u=" + url }>
             <svg className="icon icon-facebook -primary">
               <use xlinkHref="#icon-facebook"></use>
             </svg>
           </a>
-          <a href={ "http://twitter.com/share?text=CARE&url=" + url + "&hashtags=care" }>
+          <a target="_blank" rel="noreferrer" href={ "http://twitter.com/share?text=CARE&url=" + url + "&hashtags=care" }>
             <svg className="icon icon-twitter -primary">
               <use xlinkHref="#icon-twitter"></use>
             </svg>
           </a>
-	    	  <a href={ "https://plus.google.com/share?url=" + url }>
+	    	  <a target="_blank" rel="noreferrer" href={ "https://plus.google.com/share?url=" + url }>
             <svg className="icon icon-googleplus -primary">
               <use xlinkHref="#icon-googleplus"></use>
             </svg>

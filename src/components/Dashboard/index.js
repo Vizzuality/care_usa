@@ -34,7 +34,7 @@ class Dashboard extends React.Component {
     let tabsDesktop;
     let layersSwitcher;
     let filtersSwitcher;
-
+    
     if ( this.state.mobile || this.state.tablet ) {
       tabsMobile =  <DashTabs
                       currentMode = { this.props.currentMode }
