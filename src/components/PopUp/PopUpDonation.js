@@ -15,8 +15,6 @@ class PopUpDonation extends PopUp {
     let items = '';
     let i = 0;
 
-    console.log(this.model.get('sectors'))
-
     while( i < 3 ) {
       items = this.model.get('sectors')[i] && this.model.get('sectors')[i].name ? items + `<li class="sector text text-legend-s -light"> ${this.model.get('sectors')[i].name} </li>` : items + '';
       i++;
