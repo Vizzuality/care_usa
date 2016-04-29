@@ -44,6 +44,7 @@ $l-margin-vt: 50;
   right: 0;
   height: 100%;
 
+  z-index: 0; /* Hide the attributions behind any layer */
   cursor: pointer;
 }
 
@@ -183,8 +184,9 @@ $l-margin-vt: 50;
 
 .l-map-credits {
   display: flex;
-  
+
   align-items: center;
+  justify-content: flex-start;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -195,24 +197,24 @@ $l-margin-vt: 50;
   padding: 0 $wrap-padding-mobile;
 
   @media screen and (min-width: $screen-m) {
-    justify-content: center;
+    /* justify-content: center; */
     padding: 0 $wrap-padding-desktop;
     background: transparent;
     border: 0;
   }
 
   @media screen and (min-width: $screen-xl) {
-    justify-content: flex-start;
+    /* justify-content: flex-start; */
     padding: 0 $wrap-padding-desktop-xl;
   }
 
   .text-cta {
     display: none;
-    
+
     @media screen and (min-width: $screen-m) {
       display: inherit;
     }
-  } 
+  }
 
   .btn-about {
     cursor: pointer;
@@ -221,6 +223,7 @@ $l-margin-vt: 50;
 
     @media screen and (min-width: $screen-m) {
       margin-left: rem(6);
+      margin-right: rem(20);
     }
   }
 }

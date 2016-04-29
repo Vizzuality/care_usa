@@ -9,6 +9,11 @@ class ModalShare extends Modal {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      open: this.props.visible,
+      className: 'modal-share'
+    };
   }
 
   getContent() {
@@ -17,30 +22,30 @@ class ModalShare extends Modal {
     new Clipboard('.btn-copy');
 
     return (
-    	<div className="wrap">
+    	<div>
     		<h1 className="text text-module-title -dark">Share this view</h1>
     		<p className="text text-highlighted -dark">Click and paste HTML to embed in website</p>
     		<aside className="btn-container">
-    			<div id="embed-link" className="embed-link text text-input -primary">{ iframeLink }</div>
+    			<input id="embed-link" type="text" value={ iframeLink } readOnly="readonly" className="embed-link text text-input -primary" onFocus={ e => e.target.select() }></input>
     			<a className="btn btn-primary btn-copy" data-clipboard-target="#embed-link">Copy</a>
     		</aside>
     		<div className="share-links">
 				  <span className="text text-hightlighted -dark">Share on</span>
-				  <a href={ "http://www.facebook.com/sharer.php?u=" + url }>
+				  <a target="_blank" rel="noreferrer" href={ "http://www.facebook.com/sharer.php?u=" + url }>
             <svg className="icon icon-facebook -primary">
               <use xlinkHref="#icon-facebook"></use>
             </svg>
           </a>
-          <a href={ "http://twitter.com/share?text=CARE&url=" + url + "&hashtags=care" }>
+          <a target="_blank" rel="noreferrer" href={ "http://twitter.com/share?text=CARE&url=" + url + "&hashtags=care" }>
             <svg className="icon icon-twitter -primary">
               <use xlinkHref="#icon-twitter"></use>
             </svg>
           </a>
-	    	  <a href={ "https://plus.google.com/share?url=" + url }>
+	    	  <a target="_blank" rel="noreferrer" href={ "https://plus.google.com/share?url=" + url }>
             <svg className="icon icon-googleplus -primary">
               <use xlinkHref="#icon-googleplus"></use>
             </svg>
-          </a>	
+          </a>
 	    	</div>
     	</div>
     );

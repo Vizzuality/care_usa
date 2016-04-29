@@ -24,18 +24,19 @@ class MapView extends Backbone.View {
     //Checking for device
     this.device = utils.checkDevice();
 
+
     // Setting first state
     this.state = new Backbone.Model(settings.state);
     this.state.attributes = _.extend({}, this.options, this.state.attributes);
-    this.state.set({'filters': filtersModel.toJSON()}, {silent: true});
-    this._checkMapSettings();
+    this.state.set({ 'filters': filtersModel.toJSON() }, { silent: true });
+    this._checkMapInitialSettings();
 
     this._createMap();
     this._addLayer();
     this._setEvents();
   }
 
-  _checkMapSettings() {
+  _checkMapInitialSettings() {
     if (this.device.mobile || this.device.tablet) {
       this.state.attributes.zoom = 2;
     }
@@ -54,8 +55,8 @@ class MapView extends Backbone.View {
   }
 
   drawDonationMarker(options) {
-    this.marker = new MarkerLayer(options);
-    this.marker.addLayer(this.map);
+    this.donationMarker = new MarkerLayer(options);
+    this.donationMarker.addLayer(this.map);
 
     this.myDonationPopUp = new PopUpContentView({
       currentMode: 'my-donation',
@@ -63,7 +64,9 @@ class MapView extends Backbone.View {
       latLng: options.position,
       map: this.map,
       name: options.name
-    }).getPopUp();
+    })
+
+    this.myDonationPopUp.getPopUp();
   }
 
   _createMap() {
@@ -111,11 +114,16 @@ class MapView extends Backbone.View {
     filtersModel.on('change', _.bind(this._updateFilters, this));
 
     this.map.on('zoomend', _.bind(this._setStateZoom, this));
+    this.map.on('dragend', _.bind(this._setStatePosition, this));
   }
 
   _setStateZoom(e) {
-    const zoom = this.map.getZoom();
-    this.state.set({zoom: this.map.getZoom()}, {silent: true});
+    this.state.set({zoom: this.map.getZoom()});
+  }
+
+  _setStatePosition(e) {
+    const position = this.map.getCenter();
+    this.state.set({ lat: position.lat, lon: position.lng });
   }
 
   _updateFilters() {

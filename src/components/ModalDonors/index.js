@@ -3,6 +3,7 @@
 import './styles.postcss';
 import Modal from '../Modal';
 import React from 'react';
+import DonorsModalModel from './../../scripts/models/DonorsModalModel';
 
 class ModalDonors extends Modal {
 
@@ -11,13 +12,8 @@ class ModalDonors extends Modal {
   }
 
   getContent() {
-    
     return (
-      <div id="donors-modal -hidden">
-      	<div  className="wrap">
-      		<h1>Donors list</h1>
-          <h2> donors</h2>
-      	</div>
+      <div id="donors-modal">
       </div>
     );
   }
