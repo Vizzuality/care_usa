@@ -41,8 +41,8 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      currentMode: 'donations',
-      currentLayer: null,
+      mode: 'donations',
+      layer: null,
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false,
@@ -78,7 +78,6 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.setState(utils.checkDevice());
 
     /* Needs to be done before the component is mounted and before the router
      * is instanciated */
@@ -91,6 +90,8 @@ class App extends React.Component {
     this.router.params.on('change', this.onRouterChange.bind(this));
     this.router.start();
 
+    this.setState(utils.checkDevice());
+
     sectorsCollection.fetch()
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
     regionsCollection.fetch()
@@ -100,6 +101,14 @@ class App extends React.Component {
   componentDidMount() {
     this._initData();
     this.initTimeline();
+    this._updateRouterParams();
+    this.router.params.on('change', this.onRouterChangeMap.bind(this));
+  }
+
+  _updateRouterParams() {
+    /* Here we update general state with roouter params and our device check. */
+    const newParams = _.extend({}, {donation: this.router.params.attributes.donation && true}, this.router.params.attributes);
+    this.setState(newParams)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -111,7 +120,7 @@ class App extends React.Component {
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
 
-    const interval = this.state.dataInterval[nextState && nextState.currentMode || this.state.currentMode];
+    const interval = this.state.dataInterval[nextState && nextState.mode || this.state.mode];
 
     if(nextState.filters.from && nextState.filters.from !== this.state.filters.from ||
       nextState.filters.to && nextState.filters.to !== this.state.filters.to) {
@@ -170,9 +179,26 @@ class App extends React.Component {
     filtersModel.set(newFiltersModel);
   }
 
+  onRouterChangeMap() {
+    const params = this.router.params.toJSON();
+
+
+    if (params.zoom) {
+      this.mapView.state.set({zoom: params.zoom})
+    }
+
+    if (params.lat) {
+      this.mapView.state.set({lat: params.lat})
+    }
+
+    if (params.lon) {
+      this.mapView.state.set({lon: params.lon})
+    }
+  }
+
   _initData() {
     layersCollection.fetch().done( () => {
-      this.setState({ 'ready': true, currentLayer: 'amount-of-money' });
+      this.setState({ 'ready': true, layer: this.state.layer });
       this.initMap();
     })
   }
@@ -221,7 +247,7 @@ class App extends React.Component {
     const timelineParams = {
       el: this.refs.Timeline,
       domain: wholeRange,
-      interval: this.state.dataInterval[this.state.currentMode],
+      interval: this.state.dataInterval[this.state.mode],
       filters: this.state.filters,
       triggerTimelineDates: this.updateTimelineDates.bind(this),
       triggerMapDates: this.updateMapDates.bind(this),
@@ -241,30 +267,87 @@ class App extends React.Component {
 
   // MAP METHODS
   initMap() {
-    this.router.update({
-      mode: this.state.currentMode,
-      layer: this.state.currentLayer
-    });
+    // this.router.update({
+    //   mode: this.state.mode,
+    //   layer: this.state.layer
+    // });
 
     this.mapView = new MapView({
       el: this.refs.Map,
       state: this.router.params.toJSON(),
       donation: this.state.donation,
-      mode: this.state.currentMode,
+      mode: this.state.mode,
     });
 
     //Donation
+    //If unless we have not lat long, we avoid to use geolocation
     if (this.state.donation) {
-      this.geo = new GeoModel();
-      this.updateBBox();
-      //TODO - activate this to update map. But solve repetition
-      // router.params.on('change', this.updateBBox.bind(this));
+      if ( !this.router.params.get('lat')) {
+        this.geo = new GeoModel();
+        this.updateBBox();
+      } else {
+        const state = _.extend({}, this.router.params.attributes, {
+          position: [this.router.params.attributes.lat, this.router.params.attributes.lon]
+        });
+        this.mapView.drawDonationMarker(state);
+      }
+    }
+
+    this.mapView.state.on('change:zoom', () => {
+      const mapZoom = this.mapView.state.get('zoom');
+      this.router.update({ zoom: mapZoom });
+      this.setState({ zoom: mapZoom });
+    })
+
+    this.mapView.state.on('change:lat', () => {
+      const mapLat = this.mapView.state.get('lat');
+      this.router.update({ lat: mapLat });
+      this.setState({ lat: mapLat });
+    })
+
+    this.mapView.state.on('change:lon', () => {
+      const mapLon = this.mapView.state.get('lon');
+      this.router.update({ lon: mapLon });
+      this.setState({ lon: mapLon });
+    })
+  }
+
+  updateBBox() {
+    $.when(
+      this.geo.fetch({
+        data: {q: this.router.params.get('city')}
+      })
+    ).done(() => {
+      const nextState = _.extend({}, this.router.params.attributes, {
+        bbox: this.geo.attributes.bbox,
+        position: this.geo.attributes.position,
+      });
+
+      this.setState(nextState);
+
+      this._updateMapWithRouterParams();
+
+      //Here we tell the map to draw donation marker;
+      if (nextState.mode === 'donations') {
+        this.mapView.drawDonationMarker(nextState);
+      }
+    });
+  }
+
+  _updateMapWithRouterParams() {
+    //Fit map to bbox of city.
+    if (this.state.donation && this.geo.attributes.bbox) {
+      const bbox = [
+        [this.geo.attributes.bbox[1], this.geo.attributes.bbox[0]],
+        [this.geo.attributes.bbox[3], this.geo.attributes.bbox[2]]
+      ];
+      this.mapView.map.fitBounds(bbox);
     }
   }
 
   changeMapMode(mode, e) {
     this.router.update({mode: mode});
-    this.setState({ currentMode: mode });
+    this.setState({ mode: mode });
     //MAP STATE CHANGE CHANGE
     this.mapView.state.set({ 'mode': mode });
     this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
@@ -272,10 +355,10 @@ class App extends React.Component {
 
   changeLayer(layer, e) {
     this.router.update({layer: layer});
-    this.setState({ currentLayer: layer });
+    this.setState({ layer: layer });
 
     // Inactive all layers ofthe same group
-    let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.currentMode);
+    let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.mode);
     _.each(cogroupLayers, (activeLayer) => {
       activeLayer.set('active', false);
     })
@@ -306,8 +389,8 @@ class App extends React.Component {
     this.mapView.state.set({ timelineDates: dates });
   }
 
-  setDonationsAsCurrentMode() {
-    this.setState({ currentMode: 'donations' });
+  setDonationsAsmode() {
+    this.setState({ mode: 'donations' });
   }
 
   resetFilters() {
@@ -319,56 +402,6 @@ class App extends React.Component {
     const obj = {};
     obj[modal] = state === 'open';
     this.setState(obj);
-  }
-
-  //DONATION METHODS
-  componentDidUpdate() {
-    if (this.state.donation && this.state.bbox) {
-      const bbox = [
-        [this.state.bbox[1], this.state.bbox[0]],
-        [this.state.bbox[3], this.state.bbox[2]]
-      ];
-      this.mapView.map.fitBounds(bbox);
-      this.mapView.map.setZoom(this.state.zoom);
-      // this.mapView.removeAllLayers();
-      // this.mapView.layersSpec.reset(this.state.layersData);
-      // this.mapView.layersSpec.instanceLayers();
-      // this.mapView.toggleLayers();
-    }
-  }
-
-  updateBBox() {
-    $.when(
-      // layersCollection.fetch(),
-      this.geo.fetch({
-        data: {q: this.router.params.get('city')}
-      })
-    ).done(() => {
-      // const layerModel = layersCollection.find({slug: 'amount-of-money'});
-      // const layersData = [{
-      //   type: 'marker',
-      //   position: this.geo.attributes.position,
-      //   title: router.params.attributes.name,
-      //   active: true
-      // }, {
-      //   type: 'cartodb',
-      //   active: layerModel.attributes.active,
-      //   account: config.cartodbAccount,
-      //   sql: layerModel.attributes.geo_query.replace('$WHERE', ''),
-      //   cartocss: layerModel.attributes.geo_cartocss
-      // }];
-      const nextState = _.extend({}, this.router.params.attributes, {
-        bbox: this.geo.attributes.bbox,
-        position: this.geo.attributes.position,
-      });
-
-      this.setState(nextState);
-
-      //Here we tell the map to draw donation marker;
-      if (nextState.mode === 'donations') {
-        this.mapView.drawDonationMarker(nextState);
-      }
-    });
   }
 
   render() {
@@ -396,13 +429,13 @@ class App extends React.Component {
         <Dashboard
           changeModeFn={ this.changeMapMode.bind(this) }
           changeLayerFn={ this.changeLayer.bind(this) }
-          currentMode={ this.state.currentMode }
-          currentLayer={ this.state.currentLayer }
+          currentMode={ this.state.mode }
+          currentLayer={ this.state.layer }
           toggleFiltersFn={ this.toggleModalFilter.bind(this) }
           filters={ this.state.filters }
           sectors={ this.state.sectors }
           regions={ this.state.regions }
-          dateRange={ this.state.ranges[this.state.currentMode] }
+          dateRange={ this.state.ranges[this.state.mode] }
           timelineDates={ this.state.timelineDates }
         />
 
@@ -432,18 +465,18 @@ class App extends React.Component {
           onClose={ this.handleModal.bind(this, 'close', 'filtersOpen') }
           onSave={ this.updateFilters.bind(this) }
           range={ wholeRange }
-          availableRange={ this.state.ranges[this.state.currentMode] }
+          availableRange={ this.state.ranges[this.state.mode] }
           routerParams={ this.router && this.router.params.toJSON() }
         />
 
         <ModalNoData
           filters={ this.state.filters }
           filtersOpen ={ this.state.filtersOpen }
-          currentMode={ this.state.currentMode }
-          dateRange={ this.state.ranges[this.state.currentMode] }
+          currentMode={ this.state.mode }
+          dateRange={ this.state.ranges[this.state.mode] }
           timelineDates={ this.state.timelineDates }
           onChangeFilters={ this.handleModal.bind(this, 'open', 'filtersOpen') }
-          onGoBack={ this.setDonationsAsCurrentMode.bind(this) }
+          onGoBack={ this.setDonationsAsmode.bind(this) }
           onCancel={ this.resetFilters.bind(this) }
         />
 
