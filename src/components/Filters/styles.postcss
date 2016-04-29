@@ -57,6 +57,10 @@
       background-color: transparent;
       border-radius: 0;
 
+      &::-ms-expand {
+        display: none;
+      }
+
       @media screen and (min-width: $screen-l) {
         font-size: rem(15);
         line-height: rem(15);

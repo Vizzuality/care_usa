@@ -34,11 +34,11 @@ class BoxVideo extends React.Component {
               Play video
             </a>
           </aside>
-          <ModalVideo
-            visible={ this.state.videoOpen }
-            onClose={ this.closeVideoModal.bind(this) }
-          />
         </div>
+        <ModalVideo
+          visible={ this.state.videoOpen }
+          onClose={ this.closeVideoModal.bind(this) }
+        />
       </article>
     );
   }

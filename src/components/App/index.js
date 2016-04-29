@@ -13,6 +13,8 @@ import ModalNoData from '../ModalNoData';
 import MapView from '../Map';
 import ModalDonors from '../ModalDonors';
 import Landing from '../Landing';
+/* utils should always be called here because of the polyfill for
+ * Object.assign */
 import utils from '../../scripts/helpers/utils';
 import ModalShare from '../ModalShare';
 import layersCollection from '../../scripts/collections/layersCollection';

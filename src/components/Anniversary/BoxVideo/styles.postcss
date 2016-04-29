@@ -8,13 +8,14 @@
   &.background-image {
     background-size: cover;
   }
-  
+
   .wrap {
     display: flex;
-    flex-flow: column;
+    align-items: flex-end;
     text-align: center;
     justify-content: space-between;
     min-height: rem(310);
+    height: rem(200); /* Needed for IE11 */
     padding-top: rem(41);
     padding-bottom: rem(60);
 
@@ -52,7 +53,7 @@
       @media screen and (min-width: $screen-m) {
         margin-bottom: rem(5);
       }
-      
+
     }
 
     .btn-primary {
