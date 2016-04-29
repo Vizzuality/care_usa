@@ -72,7 +72,11 @@ class MapView extends Backbone.View {
   _createMap() {
     const mapOptions = {
       zoom: this.state.attributes.zoom,
-      center: [this.state.attributes.lat, this.state.attributes.lng]
+      center: [this.state.attributes.lat, this.state.attributes.lng],
+      tileLayer: {
+        continuousWorld: false,
+        noWrap: true
+      }
     };
     this.map = L.mapbox.map(this.el, this.options.style, mapOptions);
 
