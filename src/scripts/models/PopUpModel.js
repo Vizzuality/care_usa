@@ -2,6 +2,7 @@
 
 import Backbone from 'backbone';
 import $ from 'jquery';
+import moment from 'moment';
 import filtersModel from '../../scripts/models/filtersModel';
 
 class PopUpModel extends Backbone.Model {
@@ -16,6 +17,10 @@ class PopUpModel extends Backbone.Model {
     const distributionLayer = this.options.currentLayer === 'number-of-donors' ? '/distribution' : '';
 
     this.baseUrl = `${config.apiUrl}/${this.options.currentMode}${distributionLayer}?lat=${this.options.latLng.lat}&lng=${this.options.latLng.lng}&zoom=${this.options.zoom}`
+
+    if (this.options.timelineDates) {
+      this.baseUrl = this.baseUrl + `&start_date=${moment(this.options.timelineDates.from).format('DD-MM-YYYY')}&end_date=${moment(this.options.timelineDates.to).format('DD-MM-YYYY')}`
+    }
 
     if (noFilters) {
       return this.baseUrl;

@@ -11,8 +11,8 @@ import utils from '../../scripts/helpers/utils';
 class PopUpDonationDist extends PopUp {
 
   _getContent() {
-    return `<h1 class="text text-module-title -light" >${ this.model.get('location')['country'] }</h1>
-            <h2 class="text text-legend-s -light" >${ utils.numberNotation( (this.model.get('total_donors')) ) } people</h2>`
+    return `<div class="wrapper -donations-dist"><h1 class="text text-module-title -light" >${ this.model.get('location')['country'] }</h1>
+            <h2 class="text text-legend-s -light" >${ utils.numberNotation( (this.model.get('total_donors')) ) } people</h2></div>`
   }
 }
 

@@ -1,10 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="13px" height="2px" viewBox="0 0 13 2" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
-    <title>minus</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path d="M0,2 L13,2 L13,0 L0,0 L0,2 Z" id="minus" fill="#e77800"></path>
-    </g>
-</svg>
+<svg width="13" height="2" viewBox="0 0 13 2" xmlns="http://www.w3.org/2000/svg"><title>minus</title><path d="M0 2h13V0H0v2z" fill="#e77800" fill-rule="evenodd"/></svg>
