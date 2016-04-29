@@ -44,13 +44,13 @@ class MapView extends Backbone.View {
     // mobile
     if (this.device.mobile) {
       this.state.attributes.lat = 10;
-      this.state.attributes.lon = -100;
+      this.state.attributes.lng = -100;
     }
 
     // Ipad landscape
     if ( !this.device.tablet && this.device.device ) {
       this.state.attributes.lat = 40;
-      this.state.attributes.lon = -120;
+      this.state.attributes.lng = -120;
     }
   }
 
@@ -72,7 +72,7 @@ class MapView extends Backbone.View {
   _createMap() {
     const mapOptions = {
       zoom: this.state.attributes.zoom,
-      center: [this.state.attributes.lat, this.state.attributes.lon]
+      center: [this.state.attributes.lat, this.state.attributes.lng]
     };
     this.map = L.mapbox.map(this.el, this.options.style, mapOptions);
 
@@ -100,9 +100,9 @@ class MapView extends Backbone.View {
       this.map.setView(latlng, this.map.getZoom());
     });
 
-    this.state.on('change:lon', () => {
+    this.state.on('change:lng', () => {
       const center = this.map.getCenter();
-      const latlng = L.latLng(center.lat, this.state.attributes.lon);
+      const latlng = L.latLng(center.lat, this.state.attributes.lng);
       this.map.setView(latlng, this.map.getZoom());
     });
 
@@ -123,7 +123,7 @@ class MapView extends Backbone.View {
 
   _setStatePosition(e) {
     const position = this.map.getCenter();
-    this.state.set({ lat: position.lat, lon: position.lng });
+    this.state.set({ lat: position.lat, lng: position.lng });
   }
 
   _updateFilters() {
@@ -218,7 +218,7 @@ MapView.prototype.changeLayerTimeline = (function() {
 MapView.prototype.defaults = {
   style: location.hostname === 'localhost' ? 'mapbox.streets' : 'jhanley.a25ffffe',
   lat: 35,
-  lon: -80,
+  lng: -80,
   zoom: 3
 };
 

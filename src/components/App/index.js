@@ -197,8 +197,8 @@ class App extends React.Component {
       this.mapView.state.set({lat: params.lat})
     }
 
-    if (params.lon) {
-      this.mapView.state.set({lon: params.lon})
+    if (params.lng) {
+      this.mapView.state.set({lng: params.lng})
     }
   }
 
@@ -289,14 +289,14 @@ class App extends React.Component {
     });
 
     //Donation
-    //If unless we have not lat long, we avoid to use geolocation
+    //If unless we have not lat lng, we avoid to use geolocation
     if (this.state.donation) {
       if ( !this.router.params.get('lat')) {
         this.geo = new GeoModel();
         this.updateBBox();
       } else {
         const state = _.extend({}, this.router.params.attributes, {
-          position: [this.router.params.attributes.lat, this.router.params.attributes.lon]
+          position: [this.router.params.attributes.lat, this.router.params.attributes.lng]
         });
         this.mapView.drawDonationMarker(state);
       }
@@ -314,10 +314,10 @@ class App extends React.Component {
       this.setState({ lat: mapLat });
     })
 
-    this.mapView.state.on('change:lon', () => {
-      const mapLon = this.mapView.state.get('lon');
-      this.router.update({ lon: mapLon });
-      this.setState({ lon: mapLon });
+    this.mapView.state.on('change:lng', () => {
+      const mapLng = this.mapView.state.get('lng');
+      this.router.update({ lng: mapLng });
+      this.setState({ lng: mapLng });
     })
   }
 
