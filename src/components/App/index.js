@@ -358,7 +358,7 @@ class App extends React.Component {
     let activeLayer = layersCollection.filter(model => model.attributes.category === mode && model.attributes.active )[0].attributes.slug;
     this.router.update({mode: mode, layer: activeLayer});
     this.setState({ mode: mode, layer: activeLayer });
-    
+
     this.mapView.state.set({ 'mode': mode });
     this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
   }
@@ -506,7 +506,7 @@ class App extends React.Component {
           Donate
         </a>
 
-        { !sessionStorage.getItem('session') ? <Landing /> : '' }
+        { !sessionStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
       </div>
     );
   }
