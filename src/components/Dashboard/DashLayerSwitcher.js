@@ -12,10 +12,9 @@ class DashLayerSwitcher extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
-    this.state = {
-      firstRender: true
-    };
+    this.state = {};
 
+    this.firstRender = true;
   }
 
   componentDidMount() {
@@ -28,11 +27,8 @@ class DashLayerSwitcher extends React.Component {
 
   shouldComponentUpdate(nextProps) {
 
-    console.log(layersCollection.length);
-    console.log(this.state.firstRender);
-
-    if(layersCollection.length > 0 && this.state.firstRender) {
-      this.setState({firstRender: false});
+    if(layersCollection.length > 0 && this.firstRender) {
+      this.firstRender = false;
       return true;
     } else {
       return this.props.currentLayer !== nextProps.currentLayer || this.props.currentMode !== nextProps.currentMode;
