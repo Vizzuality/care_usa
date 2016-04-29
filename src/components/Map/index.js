@@ -43,8 +43,8 @@ class MapView extends Backbone.View {
 
     // mobile
     if (this.device.mobile) {
-      this.state.attributes.lat = 10;
-      this.state.attributes.lng = -100;
+      this.state.attributes.lat = 7;
+      this.state.attributes.lng = -98;
     }
 
     // Ipad landscape
