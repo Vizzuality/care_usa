@@ -42,7 +42,7 @@ class App extends React.Component {
 
     this.state = {
       mode: 'donations',
-      layer: null,
+      layer: 'amount-of-money',
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false,
@@ -107,8 +107,8 @@ class App extends React.Component {
 
   _updateRouterParams() {
     /* Here we update general state with roouter params and our device check. */
-    const newParams = _.extend({}, {donation: this.router.params.attributes.donation && true}, this.router.params.attributes);
-    this.setState(newParams)
+    const newParams = _.extend({}, { donation: this.router.params.attributes.donation && true }, this.router.params.attributes);
+    this.setState(newParams);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -198,7 +198,10 @@ class App extends React.Component {
 
   _initData() {
     layersCollection.fetch().done( () => {
-      this.setState({ 'ready': true, layer: this.state.layer });
+      if (this.router.params.attributes.layer) {
+        this._updateLayersCollection(this.router.params.attributes.layer);
+      }
+      this.setState({ 'ready': true });
       this.initMap();
     })
   }
@@ -206,7 +209,7 @@ class App extends React.Component {
   //GENERAL METHODS
   changePage(page, e) {
     this.setState({ currentPage: page });
-  }
+  };
 
   parseFiltersForRouter() {
     var params = filtersModel.toJSON();
@@ -267,10 +270,10 @@ class App extends React.Component {
 
   // MAP METHODS
   initMap() {
-    // this.router.update({
-    //   mode: this.state.mode,
-    //   layer: this.state.layer
-    // });
+    this.router.update({
+      mode: this.state.mode,
+      layer: this.state.layer
+    });
 
     this.mapView = new MapView({
       el: this.refs.Map,
@@ -346,9 +349,10 @@ class App extends React.Component {
   }
 
   changeMapMode(mode, e) {
-    this.router.update({mode: mode});
-    this.setState({ mode: mode });
-    //MAP STATE CHANGE CHANGE
+    let activeLayer = layersCollection.filter(model => model.attributes.category === mode && model.attributes.active )[0].attributes.slug;
+    this.router.update({mode: mode, layer: activeLayer});
+    this.setState({ mode: mode, layer: activeLayer });
+    
     this.mapView.state.set({ 'mode': mode });
     this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
   }
@@ -357,7 +361,12 @@ class App extends React.Component {
     this.router.update({layer: layer});
     this.setState({ layer: layer });
 
-    // Inactive all layers ofthe same group
+    this._updateLayersCollection(layer);
+  }
+
+  _updateLayersCollection(layer) {
+    // Inactive all layers of the same group
+    console.log('***', layer);
     let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.mode);
     _.each(cogroupLayers, (activeLayer) => {
       activeLayer.set('active', false);
