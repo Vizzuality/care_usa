@@ -28,7 +28,7 @@ class PopUpProject extends PopUp {
     //TODO - we need percentage of reached people when filtering.
     const sectorsItems = (this.model.get('sectors').length > 0) ? this._getSectors() : '';
 
-    return `<div class="wrapper -project"><h1 class="text text-module-title -light"> ${this.model.get('location')['name']} - <span class="number-m">${ utils.numberNotation(  this.model.get('totals')['projects'] )} projects
+    return `<div class="wrapper -project"><h1 class="text text-module-title -light"> ${this.model.get('location')['name']} - <span class="number-m">${ utils.numberNotation(  this.model.get('totals')['projects'] )} projects in ${this.model.get('year')}
               </span></h1>
             <hr></hr>
             ${ sectorsItems }
