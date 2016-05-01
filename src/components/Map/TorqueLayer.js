@@ -7,8 +7,8 @@ const optionalStatements = {
   donations: {
     from:    (filters, range) => `date > '${moment(range[0]).format('MM-DD-YYYY')}'::date`,
     to:      (filters, range) => `date < '${moment(range[1]).format('MM-DD-YYYY')}'::date`,
-    region:  filters => filters && filters.region ? `countries like '%${filters.region}%'` : '',
-    sectors: filters => filters && filters.sectors.length ? `sectors in (${filters.sectors.map(sector => `'${sector}'`).join(', ')})` : ''
+    region:  filters => filters && filters.region ? `countries @> '%${filters.region}%'` : '',
+    sectors: filters => filters && filters.sectors.length ? `sectors %26%26 ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
   }
 };
 
