@@ -187,15 +187,26 @@ class MapView extends Backbone.View {
           this.currentLayer = newLayer;
           this.currentLayerConfig = layerConfig;
 
-          /* Hack because torque doesn't provide a working event "load" or
-           * "done" */
           if(this.currentLayerConfig.layer_type === 'torque') {
-            setTimeout(() => this.changeLayerTimeline(), 3000);
+            this.initTorqueLayer();
           }
         }
       });
       this.state.set('currentLayer', activeLayer.get('slug'));
     });
+  }
+
+  /* Hack to get to know when a torque layer has been loaded as there's no
+   * proper "loaded" working event in the torque library */
+  initTorqueLayer() {
+    const callback = () => {
+      const isReady = !Number.isNaN(this.currentLayer.layer.timeToStep(new Date()));
+      if(isReady) {
+        clearTimeout(timeout);
+        this.changeLayerTimeline();
+      }
+    };
+    const timeout = setInterval(callback.bind(this), 200);
   }
 
   _removeCurrentLayer() {
