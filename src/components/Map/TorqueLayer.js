@@ -8,7 +8,7 @@ const optionalStatements = {
     from:    (filters, range) => `date > '${moment(range[0]).format('MM-DD-YYYY')}'::date`,
     to:      (filters, range) => `date < '${moment(range[1]).format('MM-DD-YYYY')}'::date`,
     region:  filters => filters && filters.region ? `countries @> '%${filters.region}%'` : '',
-    sectors: filters => filters && filters.sectors.length ? `sectors %26%26 ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
+    sectors: filters => filters && filters.sectors.length ? `sectors && ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
   }
 };
 
