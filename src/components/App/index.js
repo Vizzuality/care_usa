@@ -209,6 +209,15 @@ class App extends React.Component {
       if (this.router.params.attributes.layer) {
         this._updateLayersCollection(this.router.params.attributes.layer);
       }
+      const currentMode = this.state.mode;
+
+      /* Absolutely necessary if we want the map to load when the app is loaded
+       * without any param */
+      this.timeline.changeMode(currentMode,
+        this.state.dataInterval[currentMode],
+        this.state.ranges[currentMode],
+        true); /* We assume that the layer by default is a Torque one */
+
       this.setState({ 'ready': true });
       this.initMap();
     })
@@ -380,12 +389,6 @@ class App extends React.Component {
   }
 
   _updateLayersCollection(layer) {
-    const currentMode = this.state.mode;
-    this.timeline.changeMode(currentMode,
-      this.state.dataInterval[currentMode],
-      this.state.ranges[currentMode],
-      /torque/gi.test(layer));
-
     // Inactive all layers of the same group
     let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.mode);
     _.each(cogroupLayers, (activeLayer) => {

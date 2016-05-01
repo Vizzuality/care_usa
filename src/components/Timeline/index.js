@@ -423,7 +423,7 @@ class TimelineView extends Backbone.View {
 TimelineView.prototype.triggerCursorDate = (function() {
   let oldEndDate = null;
 
-  return function(endDate) {
+  return _.throttle(function(endDate) {
     if(+oldEndDate === +endDate) return;
 
     const startDate  = moment(this.scale.domain()[0]).add(1, 'days').toDate();
@@ -433,7 +433,7 @@ TimelineView.prototype.triggerCursorDate = (function() {
     });
 
     oldEndDate = endDate;
-  };
+  }, 20);
 
 })();
 
