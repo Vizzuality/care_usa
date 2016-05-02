@@ -59,7 +59,7 @@ class App extends React.Component {
       /* Ranges for which we have data */
       ranges: {
         donations: [ new Date('2011-07-01'), new Date() ],
-        projects:  [ new Date('2012-01-01'), new Date('2015-01-01') ]
+        projects:  [ new Date('2012-01-01'), new Date('2015-01-02') ]
       },
       /* Specify how often we should update the map when playing the timeline
        * or moving the handle. Dates are rounded "nicely" to the interval. */
