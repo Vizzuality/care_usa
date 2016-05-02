@@ -75,13 +75,16 @@ class MapView extends Backbone.View {
   }
 
   _createMap() {
+
     const mapOptions = {
       zoom: this.state.attributes.zoom,
       center: [this.state.attributes.lat, this.state.attributes.lng],
-      tileLayer: {
-        continuousWorld: false,
-        noWrap: true
-      }
+      //TODO: avoid torque and other layers repeat;
+      // minZoom: 2,
+      // tileLayer: {
+      //   continuousWorld: false,
+      //   noWrap: true,
+      // }
     };
     this.map = L.mapbox.map(this.el, this.options.style, mapOptions);
 
@@ -116,7 +119,8 @@ class MapView extends Backbone.View {
     });
 
     this.state.on('change:filters', () => this.changeLayer());
-    this.state.on('change:timelineDates', () => this.changeLayerTimeline());
+    this.state.on('change:timelineDates', () => this.changeLayerTimelineTorque());
+    this.state.on('change:timelineDates', () => this.changeLayerTile());
 
     this.state.on('change:mode', _.bind(this.changeLayer, this));
     layersCollection.on('change', _.bind(this.changeLayer, this));
@@ -203,7 +207,7 @@ class MapView extends Backbone.View {
       const isReady = !Number.isNaN(this.currentLayer.layer.timeToStep(new Date()));
       if(isReady) {
         clearTimeout(timeout);
-        this.changeLayerTimeline();
+        this.changeLayerTimelineTorque();
       }
     };
     const timeout = setInterval(callback.bind(this), 200);
@@ -220,9 +224,14 @@ class MapView extends Backbone.View {
     this._addLayer();
   }
 
+  changeLayerTile() {
+    if (this.state.toJSON().mode === 'projects') {
+      this._addLayer();
+    }
+  }
 };
 
-MapView.prototype.changeLayerTimeline = (function() {
+MapView.prototype.changeLayerTimelineTorque = (function() {
 
   const addLayer = _.throttle(function() {
     this._addLayer();
