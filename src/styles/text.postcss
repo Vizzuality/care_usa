@@ -16,22 +16,23 @@
 .text-module-title {
   font-family: $font-family-1;
   font-weight: 700;
-  font-size: rem(20);
+  /*Important needed to avoid mapbox styles in pop-up;*/
+  font-size: rem(20) !important;
 
   @media screen and (min-width: $screen-m) {
-    font-size: rem(24);
+    font-size: rem(24) !important;
   }
 
   @media screen and (min-width: $screen-l) {
-    font-size: rem(25);
+    font-size: rem(25) !important;
   }
 
   @media screen and (min-width: $screen-xl) {
-    font-size: rem(26);
+    font-size: rem(26) !important;
   }
 
   @media screen and (min-width: $screen-xxl) {
-    font-size: rem(27);
+    font-size: rem(27) !important;
   }
 }
 

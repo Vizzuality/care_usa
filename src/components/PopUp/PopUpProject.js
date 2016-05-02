@@ -26,14 +26,14 @@ class PopUpProject extends PopUp {
 
   _getRefugeesInfo() {
     const title = !(this.model.get('totals')['projects']) ? `<h1 class="text text-module-title -light"> ${this.model.get('location')['name']} - <span class="title-sector text text-legend-s -light">${this.model.get('crisis')[0]['name']}</span></h1>
-      <hr></hr>`: ''
+      <hr></hr>`: `<p class="text text-report-title -light">${this.model.get('crisis')[0]['name']}</p>`
 
     return `
       ${title}
       <div class="refugees-info">
         <span class="title-sector text text-legend-s -light">Countries with projects for refugees assistance in this country</span>
         <ul>
-          ${ this.model.get('crisis') && this.model.get('crisis')[0]['parties_involved'].length > 0 ? this.model.get('crisis')[0]['parties_involved'].map(country => `<li class="sector text text-legend-s -light"> ${country.country} </li>`) : ''}
+          ${ this.model.get('crisis')[0] && this.model.get('crisis')[0]['parties_involved'].length > 0 ? this.model.get('crisis')[0]['parties_involved'].map(country => `<li class="sector text text-legend-s -light"> ${country.country} </li>`) : ''}
         </ul>
       </div>
       <hr></hr>
@@ -42,10 +42,12 @@ class PopUpProject extends PopUp {
 
   _getProjectsInfo() {
     const sectorsItems = (this.model.get('sectors').length > 0) ? this._getSectors() : '';
+    const refugeeTitle = this.model.get('crisis')[0] ? `<p class="title-sector text text-legend-s -light">${this.model.get('crisis')[0]['name']}</p>` : '';
 
     return `
       <h1 class="text text-module-title -light"> ${this.model.get('location')['name']} - <span class="number-m">${ utils.numberNotation(  this.model.get('totals')['projects'] )} projects in ${this.model.get('year')}
-      </span></h1>
+      </span>
+      </h1>
       <hr></hr>
       ${ sectorsItems }
       <div class="numbers-donation">
@@ -57,7 +59,7 @@ class PopUpProject extends PopUp {
   }
 
   _getContent() {
-    const refuggesInfo = (this.model.get('crisis')) ? this._getRefugeesInfo() : '';
+    const refuggesInfo = (this.model.get('crisis')[0]) ? this._getRefugeesInfo() : '';
     const projectsInfo = (this.model.get('totals')['projects']) ? this._getProjectsInfo() : '';
 
     return `<div class="wrapper -project">
