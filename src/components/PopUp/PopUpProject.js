@@ -33,7 +33,7 @@ class PopUpProject extends PopUp {
     return `
       ${title}
       <div class="refugees-info">
-        <span class="title-sector text text-legend-s -light">Countries with projects for refugees assistance in this country</span>
+        <span class="title-sector text text-legend-s -light">Countries with projects for refugee assistance in the country</span>
         <ul>
           ${ this.model.get('crisis')[0] && this.model.get('crisis')[0]['parties_involved'].length > 0 ? this.model.get('crisis')[0]['parties_involved'].map(country => `<li class="sector text text-legend-s -light"> ${country.country} </li>`).join('') : ''}
         </ul>
