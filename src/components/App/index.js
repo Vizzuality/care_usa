@@ -114,7 +114,7 @@ class App extends React.Component {
   }
 
   _updateRouterParams() {
-    /* Here we update general state with roouter params and our device check. */
+    /* Here we update general state with router params and our device check. */
     const newParams = _.extend({}, { donation: this.router.params.attributes.donation && true }, this.router.params.attributes);
     this.setState(newParams);
   }
@@ -189,7 +189,6 @@ class App extends React.Component {
 
   onRouterChangeMap() {
     const params = this.router.params.toJSON();
-
 
     if (params.zoom) {
       this.mapView.state.set({zoom: params.zoom})
@@ -377,8 +376,8 @@ class App extends React.Component {
     this.router.update({mode: mode, layer: activeLayer});
     this.setState({ mode: mode, layer: activeLayer });
 
-    this.mapView.state.set({ 'mode': mode });
     this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
+    this.mapView.state.set({ 'mode': mode, 'layer': activeLayer, 'currentLayer': activeLayer });
   }
 
   changeLayer(layer, e) {
