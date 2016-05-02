@@ -91,7 +91,7 @@ class CreateTileLayer {
       data: JSON.stringify(request),
     }).done(data => {
       const tileUrl = `https://${cartoAccount}.cartodb.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png32`;
-      this.layer = L.tileLayer(tileUrl);
+      this.layer = L.tileLayer(tileUrl, { noWrap: true });
       return deferred.resolve(this.layer);
     });
 

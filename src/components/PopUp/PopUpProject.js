@@ -28,8 +28,6 @@ class PopUpProject extends PopUp {
     const title = !(this.model.get('totals')['projects']) ? `<h1 class="text text-module-title -light"> ${this.model.get('location')['name']} - <span class="title-sector text text-legend-s -light">${this.model.get('crisis')[0]['name']}</span></h1>
       <hr></hr>`: `<p class="text text-report-title -light">${this.model.get('crisis')[0]['name']}</p>`
 
-      // const items =
-
     return `
       ${title}
       <div class="refugees-info">
