@@ -28,12 +28,14 @@ class PopUpProject extends PopUp {
     const title = !(this.model.get('totals')['projects']) ? `<h1 class="text text-module-title -light"> ${this.model.get('location')['name']} - <span class="title-sector text text-legend-s -light">${this.model.get('crisis')[0]['name']}</span></h1>
       <hr></hr>`: `<p class="text text-report-title -light">${this.model.get('crisis')[0]['name']}</p>`
 
+      // const items =
+
     return `
       ${title}
       <div class="refugees-info">
         <span class="title-sector text text-legend-s -light">Countries with projects for refugees assistance in this country</span>
         <ul>
-          ${ this.model.get('crisis')[0] && this.model.get('crisis')[0]['parties_involved'].length > 0 ? this.model.get('crisis')[0]['parties_involved'].map(country => `<li class="sector text text-legend-s -light"> ${country.country} </li>`) : ''}
+          ${ this.model.get('crisis')[0] && this.model.get('crisis')[0]['parties_involved'].length > 0 ? this.model.get('crisis')[0]['parties_involved'].map(country => `<li class="sector text text-legend-s -light"> ${country.country} </li>`).join('') : ''}
         </ul>
       </div>
       <hr></hr>
