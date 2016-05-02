@@ -9,6 +9,7 @@ class PopUpModel extends Backbone.Model {
 
   customFetch(options) {
     this.options = options;
+    console.log(this._getUrl(options))
     return this.fetch({ url: this._getUrl(options) });
   }
 
