@@ -384,8 +384,10 @@ class TimelineView extends Backbone.View {
 
     if(this.cursorPosition < dataRange[0]) {
       this.cursorPosition = dataRange[0];
+      this.triggerCursorDate(this.cursorPosition);
     } else if(this.cursorPosition > dataRange[1]) {
       this.cursorPosition = dataRange[1];
+      this.triggerCursorDate(this.cursorPosition);
     }
 
     /* We force some params for the speed of the timeline and frequency of the

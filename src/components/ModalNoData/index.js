@@ -70,7 +70,7 @@ class ModalNoData extends React.Component {
     return (
       <div className={ 'm-modal-no-data ' + (this.state.noData ? '' : '-hidden') }>
         <div className="content" ref="content">
-        <p className="text text-highlighted -dark">We are sorry but for the dates you have seleted we haven’t got any data, please select one of the options below and continue exploring.</p>
+        <p className="text text-highlighted -dark">We are sorry but we do not have data for the dates you have selected. Please select one of the options below and continue exploring.</p>
         <div className="buttons">
           { leftButton }
           <button className="btn btn-third" onClick={ this.onChangeFilters.bind(this) }>Change filters</button>

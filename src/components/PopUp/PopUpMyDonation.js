@@ -18,8 +18,7 @@ class PopUpMyDonation extends PopUp {
               <svg class="icon icon-close"><use xlink:href="#icon-close"></use></svg>
             </button>
             <div class="wrapper">
-              <h1>Thank you ${myDonation.name}! Lasting change is being sent to the world</h1>
-
+              <h1>Thank you, ${myDonation.name}. Your gift is on its way to someone in need.</h1>
               <div class="donation">
                 <span class="donation-box"></span>
                 <span class="text">Your donation</span>

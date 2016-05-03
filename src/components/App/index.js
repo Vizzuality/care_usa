@@ -258,19 +258,23 @@ class App extends React.Component {
 
   // TIMELINE METHODS
   initTimeline() {
-    const wholeRange = [
+    /* We define the domain of the timeline */
+    let domain = [
       new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
+    if(this.state.filters.from || this.state.filters.to) {
+      domain = [ this.state.filters.from, this.state.filters.to ];
+    }
 
     const timelineParams = {
       el: this.refs.Timeline,
-      domain: wholeRange,
+      domain: domain,
       interval: this.state.dataInterval[this.state.mode],
       filters: this.state.filters,
       triggerTimelineDates: this.updateTimelineDates.bind(this),
       triggerMapDates: this.updateMapDates.bind(this),
-      ticksAtExtremities: false
+      ticksAtExtremities: this.state.filters.from || this.state.filters.to
     };
 
     /* We retrieve the position of the cursor from the URL if exists */
@@ -282,13 +286,6 @@ class App extends React.Component {
     }
 
     this.timeline = new TimelineView(timelineParams);
-
-    /* On init, we need to show only the range passed as argument */
-    const interval = this.state.dataInterval[this.state.mode];
-    if(this.state.filters.from || this.state.filters.to) {
-      const range = [ this.state.filters.from, this.state.filters.to ];
-      this.timeline.setRange(range, interval, true);
-    }
   }
 
   // MAP METHODS
@@ -417,7 +414,7 @@ class App extends React.Component {
   updateMapDates(dates) {
     this.setState({ mapDates: dates });
     //MAP STATE CHANGE
-    this.mapView.state.set({ timelineDates: dates });
+    if(this.mapView) this.mapView.state.set({ timelineDates: dates });
   }
 
   setDonationsAsmode() {
