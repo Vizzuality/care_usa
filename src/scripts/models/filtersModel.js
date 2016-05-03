@@ -39,8 +39,8 @@ class FiltersModel extends Backbone.Model {
 
     /* If the start date is after the end date */
     if(isValid && filledFromInputs.length === 3 && filledToInputs.length === 3) {
-      const startDate = moment(fromInputNames.map(name => data[name]).join('-'), 'D-M-YYYY');
-      const endDate = moment(toInputNames.map(name => data[name]).join('-'), 'D-M-YYYY');
+      const startDate = moment.utc(fromInputNames.map(name => data[name]).join('-'), 'D-M-YYYY');
+      const endDate = moment.utc(toInputNames.map(name => data[name]).join('-'), 'D-M-YYYY');
 
       if(!startDate.isBefore(endDate)) {
         isValid = false;

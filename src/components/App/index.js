@@ -59,17 +59,17 @@ class App extends React.Component {
       /* Ranges for which we have data */
       ranges: {
         donations: [ new Date('2011-07-01'), new Date() ],
-        projects:  [ new Date('2012-01-01'), new Date('2015-01-02') ]
+        projects:  [ new Date('2012-01-01'), new Date('2015-01-01') ]
       },
       /* Specify how often we should update the map when playing the timeline
        * or moving the handle. Dates are rounded "nicely" to the interval. */
       dataInterval: {
         donations: {
-          unit: d3.time.week,
+          unit: d3.time.week.utc,
           count: 2
         },
         projects: {
-          unit: d3.time.year,
+          unit: d3.time.year.utc,
           count: 1
         }
       },
@@ -147,7 +147,7 @@ class App extends React.Component {
 
     /* Update the position of the cursor in the timeline */
     if(this.timeline && params.timelineDate) {
-      const date = moment(params.timelineDate, 'YYYY-MM-DD');
+      const date = moment.utc(params.timelineDate, 'YYYY-MM-DD');
       if(date.isValid()) {
         this.timeline.setCursorPosition(date.toDate());
       }
@@ -157,7 +157,7 @@ class App extends React.Component {
     const newFiltersModel = {};
 
     if(params.startDate) {
-      const date = moment(params.startDate, 'YYYY-MM-DD');
+      const date = moment.utc(params.startDate, 'YYYY-MM-DD');
       if(date.isValid()) {
         newFiltersModel['from-day']   = date.format('D');
         newFiltersModel['from-month'] = date.format('M');
@@ -167,7 +167,7 @@ class App extends React.Component {
     }
 
     if(params.endDate) {
-      const date = moment(params.endDate, 'YYYY-MM-DD');
+      const date = moment.utc(params.endDate, 'YYYY-MM-DD');
       if(date.isValid()) {
         newFiltersModel['to-day']   = date.format('D');
         newFiltersModel['to-month'] = date.format('M');
@@ -242,8 +242,8 @@ class App extends React.Component {
       }
     }
 
-    if(res.from) res.startDate = moment(res.from).format('YYYY-MM-DD');
-    if(res.to)   res.endDate = moment(res.to).format('YYYY-MM-DD');
+    if(res.from) res.startDate = moment.utc(res.from).format('YYYY-MM-DD');
+    if(res.to)   res.endDate = moment.utc(res.to).format('YYYY-MM-DD');
 
     if(!res['from-day'] && !res['from-month'] && !res['from-year']) {
       res.startDate = null;
@@ -275,7 +275,7 @@ class App extends React.Component {
 
     /* We retrieve the position of the cursor from the URL if exists */
     if(this.router.params.toJSON().timelineDate) {
-      const date = moment(this.router.params.toJSON().timelineDate, 'YYYY-MM-DD');
+      const date = moment.utc(this.router.params.toJSON().timelineDate, 'YYYY-MM-DD');
       if(date.isValid()) {
         timelineParams.cursorPosition = date.toDate();
       }
@@ -410,7 +410,7 @@ class App extends React.Component {
   updateTimelineDates(dates) {
     this.setState({ timelineDates: dates });
     this.router.update({
-      timelineDate: moment(dates.to).format('YYYY-MM-DD')
+      timelineDate: moment.utc(dates.to).format('YYYY-MM-DD')
     });
   }
 
