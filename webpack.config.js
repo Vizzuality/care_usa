@@ -48,7 +48,7 @@ const config = {
   },
 
   plugins: [
-    new CopyWebpackPlugin([{ from: 'src/favicons/*', to: 'dist' }]),
+    new CopyWebpackPlugin([{ from: '/favicons', to: path.join(__dirname, 'dist'), }]),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       ENVIRONMENT: JSON.stringify(process.env.NODE_ENV || 'development'),
