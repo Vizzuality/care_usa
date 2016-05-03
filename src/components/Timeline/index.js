@@ -361,7 +361,7 @@ class TimelineView extends Backbone.View {
   getClosestDataIndex(date) {
     var current = 0;
     while(current <= this.options.data.length - 1) {
-      if(this.options.data[current].date >= date) {
+      if(this.options.data[current].date > date) {
         if(current === 0) return -1;
         return current - 1;
       }
