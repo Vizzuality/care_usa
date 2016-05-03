@@ -70,7 +70,7 @@ class PopUpDonation extends PopUp {
 
   _setEventsModal() {
     $('.js-popup-donation').on('click', () => DonorsModalModel.set({donorsOpen: true}));
-    document.getElementById('donors-modal').innerHTML = this._donorsList();
+    document.getElementById('donors-modal-content').innerHTML = this._donorsList();
   }
 }
 
