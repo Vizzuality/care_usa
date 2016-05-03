@@ -28,8 +28,12 @@
 }
 
 .number-l {
-  font-size: rem(27);
-  line-height: rem(30);
+  font-size: rem(14);
+  line-height: rem(15);
+
+  @media screen and (min-width: $screen-m) {
+    font-size: rem(20);
+  }
 
   @media screen and (min-width: $screen-xl) {
     font-size: rem(45);
