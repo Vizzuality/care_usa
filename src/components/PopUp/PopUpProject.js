@@ -18,7 +18,7 @@ class PopUpProject extends PopUp {
       i++;
     }
 
-    return `<span class="title-sector text text-legend-s -light">Key Programme Sectors</span>
+    return `<span class="title-sector text text-legend-s -light">Key Program Sectors</span>
             <ul class="sectors-container">
               ${items}
             </ul>`
