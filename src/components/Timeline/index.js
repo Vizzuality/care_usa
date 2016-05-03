@@ -85,14 +85,14 @@ class TimelineView extends Backbone.View {
     /* Because d3 doesn't display the first tick, we subtract 1 day to it.
      * NOTE: concat and clone are used to not modify the original array */
     const domain = this.options.domain.concat([]);
-    domain[0] = moment(domain[0]).clone().subtract(1, 'days').toDate();
+    domain[0] = moment.utc(domain[0]).clone().subtract(1, 'days').toDate();
 
-    this.scale = d3.time.scale()
+    this.scale = d3.time.scale.utc()
       .domain(domain)
       .range([0, svgWidth]);
 
     /* List of the dates for which we want ticks */
-    let ticksDates = d3.time.year.range(domain[0], domain[1], 1);
+    let ticksDates = d3.time.year.utc.range(domain[0], domain[1], 1);
 
     if(this.options.ticksAtExtremities) {
       ticksDates = ticksDates.concat(domain)
@@ -109,11 +109,11 @@ class TimelineView extends Backbone.View {
          * year */
         if(this.options.ticksAtExtremities) {
           if(i === 0 || i === ticksDates.length - 1) {
-            return moment(d).format('MM·DD·YYYY');
+            return moment.utc(d).format('MM·DD·YYYY');
           }
           return;
         }
-        return d.getFullYear();
+        return d.getUTCFullYear();
       })
       .outerTickSize(0);
 
@@ -392,11 +392,11 @@ class TimelineView extends Backbone.View {
      * data */
     if(mode === 'donations') {
       if(torqueLayer) {
-        this.options.interval.unit = d3.time.week;
+        this.options.interval.unit = d3.time.week.utc;
         this.options.cursor.speed = 10;
       } else {
         this.options.cursor.speed = 40;
-        this.options.interval.unit = d3.time.month;
+        this.options.interval.unit = d3.time.month.utc;
       }
     } else {
       this.options.cursor.speed = 10;
@@ -409,7 +409,7 @@ class TimelineView extends Backbone.View {
   }
 
   setCursorPosition(date) {
-    if(!moment(this.cursorPosition).isSame(date)) {
+    if(!moment.utc(this.cursorPosition).isSame(date)) {
       this.cursorPosition = date;
       this.render();
       this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
@@ -426,7 +426,7 @@ TimelineView.prototype.triggerCursorDate = (function() {
   return _.throttle(function(endDate) {
     if(+oldEndDate === +endDate) return;
 
-    const startDate  = moment(this.scale.domain()[0]).add(1, 'days').toDate();
+    const startDate  = moment.utc(this.scale.domain()[0]).add(1, 'days').toDate();
     this.options.triggerTimelineDates({
       from: startDate,
       to: endDate
@@ -445,7 +445,7 @@ TimelineView.prototype.triggerCurrentData = (function() {
   }, 100);
 
   return function() {
-    const startDate  = moment(this.scale.domain()[0]).add(1, 'days').toDate();
+    const startDate  = moment.utc(this.scale.domain()[0]).add(1, 'days').toDate();
     let dataDate;
     if(this.currentDataIndex < 0) {
       dataDate = this.options.domain[0];

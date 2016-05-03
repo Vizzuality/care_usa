@@ -11,13 +11,13 @@ const defaults = {
 
 const optionalStatements = {
   donations: {
-    from:    (filters, timeline) => `date > '${moment(timeline.from || filters && filters.from).format('MM-DD-YYYY')}'::date`,
-    to:      (filters, timeline) => `date < '${moment(timeline.to || filters && filters.to).format('MM-DD-YYYY')}'::date`,
+    from:    (filters, timeline) => `date > '${moment.utc(timeline.from || filters && filters.from).format('MM-DD-YYYY')}'::date`,
+    to:      (filters, timeline) => `date < '${moment.utc(timeline.to || filters && filters.to).format('MM-DD-YYYY')}'::date`,
     region:  filters => filters && filters.region ? `countries @> '%${filters.region}%'` : '',
     sectors: filters => filters && filters.sectors.length ? `sectors && ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
   },
   projects: {
-    to:      (filters, timeline) => `year='${moment(timeline.to || filters && filters.to).format('YYYY')}'`,
+    to:      (filters, timeline) => `year='${moment.utc(timeline.to || filters && filters.to).format('YYYY')}'`,
     region:  filters => filters && filters.region ? `iso in ('${filters.region}')` : '',
     sectors: filters => filters && filters.sectors.length ? `(${filters.sectors.map(sector => `${sector}_people<>0`).join(' OR ')})` : ''
   }

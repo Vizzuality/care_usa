@@ -19,7 +19,7 @@ class PopUpModel extends Backbone.Model {
     this.baseUrl = `${config.apiUrl}/${this.options.currentMode}${distributionLayer}?lat=${this.options.latLng.lat}&lng=${this.options.latLng.lng}&zoom=${this.options.zoom}`
 
     if (this.options.timelineDates) {
-      this.baseUrl = this.baseUrl + `&start_date=${moment(this.options.timelineDates.from).format('DD-MM-YYYY')}&end_date=${moment(this.options.timelineDates.to).format('DD-MM-YYYY')}`
+      this.baseUrl = this.baseUrl + `&start_date=${moment.utc(this.options.timelineDates.from).format('DD-MM-YYYY')}&end_date=${moment.utc(this.options.timelineDates.to).format('DD-MM-YYYY')}`
     }
 
     if (noFilters) {

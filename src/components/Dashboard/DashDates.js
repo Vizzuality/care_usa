@@ -17,18 +17,18 @@ class DashboardDates extends React.Component {
     let dates;
     if(this.props.timelineDates.from && this.props.timelineDates.to) {
       dates = [
-        moment(this.props.timelineDates.from).format('MM·DD·YYYY'),
-        moment(this.props.timelineDates.to).format('MM·DD·YYYY')
+        moment.utc(this.props.timelineDates.from).format('MM·DD·YYYY'),
+        moment.utc(this.props.timelineDates.to).format('MM·DD·YYYY')
       ];
     } else if(this.props.filters.from && this.props.filters.to) {
       dates = [
-        moment(this.props.filters.from).format('MM·DD·YYYY'),
-        moment(this.props.filters.to).format('MM·DD·YYYY')
+        moment.utc(this.props.filters.from).format('MM·DD·YYYY'),
+        moment.utc(this.props.filters.to).format('MM·DD·YYYY')
       ];
     } else {
       dates = [
-        moment(this.props.dateRange[0]).format('MM·DD·YYYY'),
-        moment(this.props.dateRange[1]).format('MM·DD·YYYY')
+        moment.utc(this.props.dateRange[0]).format('MM·DD·YYYY'),
+        moment.utc(this.props.dateRange[1]).format('MM·DD·YYYY')
       ];
     }
 

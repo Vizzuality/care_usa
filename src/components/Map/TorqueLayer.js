@@ -5,8 +5,8 @@ import moment from 'moment';
 
 const optionalStatements = {
   donations: {
-    from:    (filters, range) => `date > '${moment(range[0]).format('MM-DD-YYYY')}'::date`,
-    to:      (filters, range) => `date < '${moment(range[1]).format('MM-DD-YYYY')}'::date`,
+    from:    (filters, range) => `date > '${moment.utc(range[0]).format('MM-DD-YYYY')}'::date`,
+    to:      (filters, range) => `date < '${moment.utc(range[1]).format('MM-DD-YYYY')}'::date`,
     region:  filters => filters && filters.region ? `countries @> '%${filters.region}%'` : '',
     sectors: filters => filters && filters.sectors.length ? `sectors && ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
   }
@@ -74,8 +74,8 @@ class TorqueLayer {
         const res = Object.keys(statements).map(name => {
           const filter = filters[name];
             return statements[name](filters, [
-              moment(this.options.start_date, 'YYYY-MM-DD'),
-              moment(this.options.end_date, 'YYYY-MM-DD')
+              moment.utc(this.options.start_date, 'YYYY-MM-DD'),
+              moment.utc(this.options.end_date, 'YYYY-MM-DD')
             ]);
           }).filter(statement => !!statement)
             .join(' AND ');

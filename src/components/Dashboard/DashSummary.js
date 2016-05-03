@@ -69,8 +69,8 @@ DashSummary.prototype.fetchData = (function() {
   return _.throttle(function(state) {
     const params = {};
 
-    if(state.startDate) params.start_date = moment(state.startDate).format('YYYY-MM-DD');
-    if(state.endDate) params.end_date = moment(state.endDate).format('YYYY-MM-DD');
+    if(state.startDate) params.start_date = moment.utc(state.startDate).format('YYYY-MM-DD');
+    if(state.endDate) params.end_date = moment.utc(state.endDate).format('YYYY-MM-DD');
     if(state.sectors && state.sectors.length) params.sectors_slug = state.sectors;
     if(state.region) params.countries_iso = [ state.region ];
 

@@ -72,8 +72,8 @@ class FiltersView extends Backbone.View {
   }
 
   renderAvailableRange() {
-    const startDate = moment(this.options.availableRange[0]).format('MM·DD·YYYY');
-    const endDate = moment(this.options.availableRange[1]).format('MM·DD·YYYY');
+    const startDate = moment.utc(this.options.availableRange[0]).format('MM·DD·YYYY');
+    const endDate = moment.utc(this.options.availableRange[1]).format('MM·DD·YYYY');
     this.availableRange.innerHTML = `Available dates <span>from ${startDate} to ${endDate}</span>`;
   }
 
@@ -209,8 +209,8 @@ class FiltersView extends Backbone.View {
 
   /* Return an array of the available years for the date filters */
   getYearRange() {
-    const startDate = moment(this.options.dateRange[0]).add(1, 'days');
-    const endDate   = moment(this.options.dateRange[1]);
+    const startDate = moment.utc(this.options.dateRange[0]).add(1, 'days');
+    const endDate   = moment.utc(this.options.dateRange[1]);
     return _.range(startDate.year(), endDate.year() + 1);
   }
 
@@ -386,7 +386,7 @@ class FiltersView extends Backbone.View {
     if(month && day) {
       this.$el.find(`.js-${dateType}-year option`)
         .attr('disabled', function() {
-          const date = moment(`${this.value}-${utils.pad(month, 2, '0')}-${utils.pad(day, 2, '0')}`, 'YYYY-MM-DD');
+          const date = moment.utc(`${this.value}-${utils.pad(month, 2, '0')}-${utils.pad(day, 2, '0')}`, 'YYYY-MM-DD');
           return !this.value || !date.isValid();
         });
     }
@@ -398,7 +398,7 @@ class FiltersView extends Backbone.View {
 
       this.$el.find(`.js-${dateType}-month option`)
         .attr('disabled', function() {
-          const date = moment(`${year}-${utils.pad(this.value, 2, '0')}-01`, 'YYYY-MM-DD');
+          const date = moment.utc(`${year}-${utils.pad(this.value, 2, '0')}-01`, 'YYYY-MM-DD');
           return !this.value || date.daysInMonth() < +day;
         });
     }
@@ -410,7 +410,7 @@ class FiltersView extends Backbone.View {
 
       this.$el.find(`.js-${dateType}-day option`)
         .attr('disabled', function() {
-          const date = moment(`${year}-${utils.pad(month, 2, '0')}-${utils.pad(this.value, 2, '0')}`, 'YYYY-MM-DD');
+          const date = moment.utc(`${year}-${utils.pad(month, 2, '0')}-${utils.pad(this.value, 2, '0')}`, 'YYYY-MM-DD');
           return !this.value || !date.isValid();
         });
     }

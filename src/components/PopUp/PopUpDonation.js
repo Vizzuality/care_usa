@@ -45,7 +45,7 @@ class PopUpDonation extends PopUp {
   _donorsList() {
     let donorsList = `<h1 class="text text-module-title -dark">Donations list</h1><h2 class="donors-info text text-legend-s -dark">${this.model.attributes.total_donors} Donations, ${this.model.attributes.location['city']}</h2><ul class="donors-list">`;
     this.model.attributes.donors.map((donor) => {
-      donorsList += `<li class=" text text-highlighted -dark">${donor.name} - <span class="number number-m -dark">$${donor.amount}</span> on ${moment(donor.date).format('MM·DD·YYYY')}</li>`;
+      donorsList += `<li class=" text text-highlighted -dark">${donor.name} - <span class="number number-m -dark">$${donor.amount}</span> on ${moment.utc(donor.date).format('MM·DD·YYYY')}</li>`;
     });
     donorsList += '</ul>';
     return donorsList;

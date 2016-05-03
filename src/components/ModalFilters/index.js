@@ -33,7 +33,7 @@ class ModalFilters extends Modal {
     const res = {};
 
     if(routerParams.startDate) {
-      const date = moment(routerParams.startDate, 'YYYY-MM-DD');
+      const date = moment.utc(routerParams.startDate, 'YYYY-MM-DD');
       if(date.isValid()) {
         res['from-day']   = date.format('D');
         res['from-month'] = date.format('M');
@@ -43,7 +43,7 @@ class ModalFilters extends Modal {
     }
 
     if(routerParams.endDate) {
-      const date = moment(routerParams.endDate, 'YYYY-MM-DD');
+      const date = moment.utc(routerParams.endDate, 'YYYY-MM-DD');
       if(date.isValid()) {
         res['to-day']   = date.format('D');
         res['to-month'] = date.format('M');
