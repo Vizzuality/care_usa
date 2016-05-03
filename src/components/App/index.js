@@ -417,7 +417,7 @@ class App extends React.Component {
   updateMapDates(dates) {
     this.setState({ mapDates: dates });
     //MAP STATE CHANGE
-    this.mapView.state.set({ timelineDates: dates });
+    if(this.mapView) this.mapView.state.set({ timelineDates: dates });
   }
 
   setDonationsAsmode() {
