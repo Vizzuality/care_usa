@@ -11,6 +11,7 @@ const postcssImporter = require('postcss-import');
 const postcssFunctions = require('postcss-functions');
 const postcssHexRgba = require('postcss-hexrgba');
 const envVariables = require('dotenv').config();
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const config = {
 
@@ -47,6 +48,7 @@ const config = {
   },
 
   plugins: [
+    new CopyWebpackPlugin([{ from: 'src/favicons/*', to: 'dist' }]),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       ENVIRONMENT: JSON.stringify(process.env.NODE_ENV || 'development'),
