@@ -55,12 +55,18 @@ class PopUpDonation extends PopUp {
   _getContent() {
     const sectorsItems = (this.model.get('sectors').length > 0) ? this._getSectors() : '';
     const regionsItems = (this.model.get('countries').length > 0) ? this._getRegions() : '';
+    const tooltipTitle = this.model.attributes.donors.length === 1 ? 
+      this.model.attributes.donors[0]['name'] : 
+      utils.numberNotation( (this.model.get('total_donors')) ) + ' donations ';
+    const btnTooltip = this.model.attributes.donors.length > 1 ? 
+      '<div id="btn-donors" class="btn-donors js-popup-donation"><p>+</p></div>' : 
+      '';
 
     return `<div class="wrapper -donations">
       <header class="donation-header">
-        <h1 class="text text-module-title -light"> ${ this.model.attributes.donors.length === 1 ? this.model.attributes.donors[0]['name'] : utils.numberNotation( (this.model.get('total_donors')) ) + ' donations ' } -
+        <h1 class="text text-module-title -light"> ${ tooltipTitle } -
         <span class="number-m">$${ utils.numberNotation(  this.model.get('total_funds') )}</span></h1>
-        ${ this.model.attributes.donors.length > 1 ? '<div id="btn-donors" class="btn-donors js-popup-donation"><p>+</p></div>' : '' }
+        ${ btnTooltip }
       </header>
     <h2 class="text text-legend-s -light">${this.model.get('location')['city']}</h2>
     ${ sectorsItems }
