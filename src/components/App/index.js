@@ -115,7 +115,10 @@ class App extends React.Component {
 
   _updateRouterParams() {
     /* Here we update general state with router params and our device check. */
-    const newParams = _.extend({}, { donation: this.router.params.attributes.donation && true }, this.router.params.attributes);
+    const newParams = _.extend({}, {
+      donation: this.router.params.attributes.donation && true,
+      embed: this.router.params.attributes.embed && true,
+    }, this.router.params.attributes);
     this.setState(newParams);
   }
 
@@ -439,9 +442,11 @@ class App extends React.Component {
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
 
+    const embedClass = this.state.embed ? 'l-app is-embed' : 'l-app';
+
 
     return (
-      <div className="l-app">
+      <div className={embedClass} >
 
         <div id="map" className="l-map" ref="Map"></div>
 
