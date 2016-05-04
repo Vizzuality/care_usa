@@ -13,7 +13,7 @@ class ModalDonors extends Modal {
 
   getContent() {
     return (
-      <div id="donors-modal">
+      <div id="donors-modal-content">
       </div>
     );
   }
