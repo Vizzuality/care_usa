@@ -16,7 +16,9 @@ class DashSummary extends React.Component {
     this.props = props;
     this.state = {
       totalDonations: null,
-      donationsAmount: null
+      donationsAmount: null,
+      projects: null,
+      people: null
     };
   }
 
@@ -50,16 +52,35 @@ class DashSummary extends React.Component {
   }
 
   render() {
+    let summary;
+
+    if (this.props.currentMode === 'donations') {
+      summary = <div className="m-dash-summary">
+        <div className="summary-item">
+            <p className="text text-dashboard-title">Amount donated</p>
+            <span className="number number-l"> ${ utils.numberNotation(this.state.donationsAmount) }</span>
+          </div>
+          <div className="summary-item">
+            <p className="text text-legend-s">Donations </p>
+            <span className="number number-m">{ utils.numberNotation(this.state.totalDonations) }</span>
+          </div>
+        </div>
+    } else {
+      summary = <div className="m-dash-summary">
+        <div className="summary-item">
+          <p className="text text-dashboard-title">Total projects</p>
+          <span className="number number-l"> { utils.numberNotation(this.state.projects) }</span>
+        </div>
+        <div className="summary-item">
+          <p className="text text-legend-s">People reached </p>
+          <span className="number number-m">{ utils.numberNotation(this.state.people) }</span>
+        </div>
+      </div>
+    }
+
     return (
-      <div className="m-dash-summary">
-        <div className="summary-item">
-          <p className="text text-legend-title">Amount donated </p>
-          <span className="number number-l"> ${ utils.numberNotation(this.state.donationsAmount) }</span>
-        </div>
-        <div className="summary-item">
-          <p className="text text-legend-s">Donations </p>
-          <span className="number number-m">{ utils.numberNotation(this.state.totalDonations) }</span>
-        </div>
+      <div>
+        { summary }
       </div>
     )
   }
@@ -78,7 +99,9 @@ DashSummary.prototype.fetchData = (function() {
       .done(res => {
         this.setState({
           totalDonations: res.total_donations,
-          donationsAmount: res.total_funds
+          donationsAmount: res.total_funds,
+          projects: res.total_projects,
+          people: res.total_people
         });
       });
   }, 500);
