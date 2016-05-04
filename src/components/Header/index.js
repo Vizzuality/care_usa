@@ -27,7 +27,8 @@ class Header extends React.Component {
   }
 
   render() {
-    
+    const embedElement = this.state.embed ? '-embed-element' : '';
+
     return (
       <div id="header" className="l-header">
         <div className="wrap">
@@ -37,7 +38,7 @@ class Header extends React.Component {
           
             <div className="m-main-menu">
               <button
-                className="btn-menu-toggle"
+                className={ `btn-menu-toggle ${embedElement}`}
                 onClick={ this.props.toggleMenuFn }
               >
                 <svg className="icon icon-menu">
