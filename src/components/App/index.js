@@ -109,7 +109,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this._initData();
-    !this.state.embed ? this.initTimeline() : '';
+    this.initTimeline();
     DonorsModalModel.on('change', () => !DonorsModalModel.get('donorsOpen') ? '' : this.setState({ donorsOpen: true }));
     this.router.params.on('change', this.onRouterChangeMap.bind(this));
   }
@@ -216,11 +216,11 @@ class App extends React.Component {
 
       /* Absolutely necessary if we want the map to load when the app is loaded
        * without any param */
-      !this.state.embed ?
+
         this.timeline.changeMode(currentMode,
           this.state.dataInterval[currentMode],
           this.state.ranges[currentMode],
-          true) : ''; /* We assume that the layer by default is a Torque one */
+          true); /* We assume that the layer by default is a Torque one */
 
       this.setState({ 'ready': true });
       this.initMap();
@@ -338,8 +338,7 @@ class App extends React.Component {
       this.router.update({ lng: mapLng });
       this.setState({ lng: mapLng });
     })
-    this._zoomControlEmbed();
-
+    this.ZoomControlEmbed();
   }
 
   updateBBox() {
@@ -440,9 +439,9 @@ class App extends React.Component {
     if (modal === 'donorsOpen') DonorsModalModel.set({donorsOpen: false});
   }
 
-  _zoomControlEmbed() {
+  ZoomControlEmbed() {
     if(this.state.embed) {
-      document.getElementsByClassName('leaflet-control-zoom')[0].style.display = 'none';
+      document.getElementsByClassName('leaflet-control-zoom')[0].setAttribute('class', '-embed-element');
     }
   }
 
@@ -453,6 +452,7 @@ class App extends React.Component {
     ];
 
     const embedClass = this.state.embed ? 'l-app is-embed' : 'l-app';
+    const embedElement = this.state.embed ? '-embed-element' : '';
 
     return (
       <div className={embedClass} >
@@ -485,13 +485,12 @@ class App extends React.Component {
           timelineDates={ this.state.timelineDates }
         />
 
-        { !this.state.embed ? 
-          <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
-            <svg className="btn js-button">
-              <use xlinkHref="#icon-play" className="js-button-icon"></use>
-            </svg>
-            <div className="svg-container js-svg-container"></div>
-          </div> : '' }
+        <div id="timeline" className={`l-timeline m-timeline ${embedElement}`} ref="Timeline">
+          <svg className="btn js-button">
+            <use xlinkHref="#icon-play" className="js-button-icon"></use>
+          </svg>
+          <div className="svg-container js-svg-container"></div>
+        </div> 
 
         { !this.state.embed ?
           <div id="map-credits" className="l-map-credits">
