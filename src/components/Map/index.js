@@ -135,11 +135,11 @@ class MapView extends Backbone.View {
     this.map.on('dragend', _.bind(this._setStatePosition, this));
   }
 
-  _setStateZoom(e) {
+  _setStateZoom() {
     this.state.set({zoom: this.map.getZoom()});
   }
 
-  _setStatePosition(e) {
+  _setStatePosition() {
     const position = this.map.getCenter();
     this.state.set({ lat: position.lat, lng: position.lng });
   }
