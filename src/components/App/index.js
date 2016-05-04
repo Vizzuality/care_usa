@@ -338,6 +338,8 @@ class App extends React.Component {
       this.router.update({ lng: mapLng });
       this.setState({ lng: mapLng });
     })
+    this._zoomControlEmbed();
+
   }
 
   updateBBox() {
@@ -438,6 +440,12 @@ class App extends React.Component {
     if (modal === 'donorsOpen') DonorsModalModel.set({donorsOpen: false});
   }
 
+  _zoomControlEmbed() {
+    if(this.state.embed) {
+      document.getElementsByClassName('leaflet-control-zoom')[0].style.display = 'none';
+    }
+  }
+
   render() {
     const wholeRange = [
       new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
@@ -445,7 +453,6 @@ class App extends React.Component {
     ];
 
     const embedClass = this.state.embed ? 'l-app is-embed' : 'l-app';
-
 
     return (
       <div className={embedClass} >
