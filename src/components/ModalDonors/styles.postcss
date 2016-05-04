@@ -1,6 +1,6 @@
 @import'../../styles/settings.postcss';
 
-#donors-modal {
+#donors-modal-content {
 	.text-module-title {
 		margin: 0 0 rem(15) 0;
 
@@ -10,7 +10,11 @@
 	}
 
 	.text-legend-s {
-		margin-bottom: rem(61);
+		margin-bottom: rem(35);
+		
+		@media screen and (min-width: $screen-m) {
+			margin-bottom: rem(61);
+		}
 
 	}
 
