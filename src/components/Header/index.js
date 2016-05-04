@@ -50,7 +50,7 @@ class Header extends React.Component {
                   <li><a href="/" className={ this.props.currentTab == 'who-cares' ? 'is-active menu-link' : 'menu-link' } onClick={ this.props.changePageFn.bind(null, 'who-cares') }>Donor Impact Map</a></li>
                   <li><a href="anniversary.html" className={ this.props.currentTab == 'anniversary' ? 'is-active menu-link' : 'menu-link' } onClick={ this.props.changePageFn.bind(null, 'anniversary') }>CARE’s History</a></li>
                 </ul> :
-                <a href="#" className="btn btn-primary">Explore the map</a> }
+                <a href="#" className="btn btn-primary btn-embed -mobileHidden">Explore the map</a> }
 
             </div> 
           

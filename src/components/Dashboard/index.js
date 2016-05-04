@@ -65,6 +65,7 @@ class Dashboard extends React.Component {
               currentLayer = { this.props.currentLayer }
               changeLayerFn= { this.props.changeLayerFn }
             />
+    const embedElement = this.props.embed ? '-embed-element' : '' ;
 
     return (
       <div>
@@ -86,9 +87,11 @@ class Dashboard extends React.Component {
                 onClick={ this.props.toggleFiltersFn } >
                 filters
               </button>
-              <a href="http://www.care.org/donate" rel="noreferrer" target="_blank"className="btn btn-contrast -small">
+              { !this.props.embed ?
+              <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" className={ `btn btn-contrast -small` }>
                 Donate
-              </a>
+              </a> :
+              <a href="#" className="btn btn-primary btn-embed">Explore the map</a> }
             </div>
             <div className="scroll-wrapper">
               <DashDates

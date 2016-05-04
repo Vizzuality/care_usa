@@ -486,6 +486,7 @@ class App extends React.Component {
           regions={ this.state.regions }
           dateRange={ this.state.ranges[this.state.mode] }
           timelineDates={ this.state.timelineDates }
+          embed={ this.state.embed }
         />
 
         <div id="timeline" className={`l-timeline m-timeline ${embedElement}`} ref="Timeline">
