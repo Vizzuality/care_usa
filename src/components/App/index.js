@@ -25,7 +25,6 @@ import sectorsCollection from '../../scripts/collections/SectorsCollection';
 import regionsCollection from '../../scripts/collections/RegionsCollection';
 
 import GeoModel from './GeoModel';
-
 import Router from '../Router';
 
 /**
