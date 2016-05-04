@@ -79,7 +79,8 @@ class App extends React.Component {
       aboutOpen: false,
       donorsOpen: false,
       /* The range displayed on the map */
-      mapDates: {}
+      mapDates: {},
+      embed: false
     };
 
   }
@@ -103,13 +104,14 @@ class App extends React.Component {
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
     regionsCollection.fetch()
       .done(() => this.setState({ regions: regionsCollection.toJSON() }));
+
+    this._updateRouterParams();
   }
 
   componentDidMount() {
     this._initData();
-    this.initTimeline();
+    !this.state.embed ? this.initTimeline() : '';
     DonorsModalModel.on('change', () => !DonorsModalModel.get('donorsOpen') ? '' : this.setState({ donorsOpen: true }));
-    this._updateRouterParams();
     this.router.params.on('change', this.onRouterChangeMap.bind(this));
   }
 
@@ -215,10 +217,11 @@ class App extends React.Component {
 
       /* Absolutely necessary if we want the map to load when the app is loaded
        * without any param */
-      this.timeline.changeMode(currentMode,
-        this.state.dataInterval[currentMode],
-        this.state.ranges[currentMode],
-        true); /* We assume that the layer by default is a Torque one */
+      !this.state.embed ?
+        this.timeline.changeMode(currentMode,
+          this.state.dataInterval[currentMode],
+          this.state.ranges[currentMode],
+          true) : ''; /* We assume that the layer by default is a Torque one */
 
       this.setState({ 'ready': true });
       this.initMap();
@@ -475,12 +478,13 @@ class App extends React.Component {
           timelineDates={ this.state.timelineDates }
         />
 
-        <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
-          <svg className="btn js-button">
-            <use xlinkHref="#icon-play" className="js-button-icon"></use>
-          </svg>
-          <div className="svg-container js-svg-container"></div>
-        </div>
+        { !this.state.embed ? 
+          <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
+            <svg className="btn js-button">
+              <use xlinkHref="#icon-play" className="js-button-icon"></use>
+            </svg>
+            <div className="svg-container js-svg-container"></div>
+          </div> : '' }
 
         <div id="map-credits" className="l-map-credits">
           <p className="about-label text text-cta" onClick={ () => this.handleModal('open', 'aboutOpen') }>About the data</p>
