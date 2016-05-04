@@ -48,6 +48,10 @@ class PopUp extends Backbone.View {
     this.options.map.closePopup();
   }
 
+  _panMap() {
+    this.options.map.panTo(this.options.latLng);
+  }
+
   _drawPopUp() {
     this.popUp = L.popup({closeButton: false})
       .setLatLng(this.options.latLng)
@@ -56,6 +60,7 @@ class PopUp extends Backbone.View {
 
     this.setEvents();
     this._setEventsModal();
+    this._panMap();
   }
 
   setEvents() {
