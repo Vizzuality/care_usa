@@ -525,9 +525,10 @@ class App extends React.Component {
           onClose= { this.handleModal.bind(this, 'close', 'donorsOpen') }
         />
 
-        <a href="https://my.care.org/site/Donation2;jsessionid=5FED4A2DADFB975A2EDA92B59231B64B.app314a?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
-          Donate
-        </a>
+        { !this.state.embed ?
+            <a href="https://my.care.org/site/Donation2;jsessionid=5FED4A2DADFB975A2EDA92B59231B64B.app314a?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
+              Donate
+            </a> : '' }
 
         { !sessionStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
       </div>
