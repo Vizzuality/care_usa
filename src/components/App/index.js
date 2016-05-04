@@ -452,11 +452,12 @@ class App extends React.Component {
 
         <div id="map" className="l-map" ref="Map"></div>
 
-        <button className="btn-share btn-primary l-share" onClick={ () => this.handleModal('open', 'shareOpen') }>
-          <svg className="icon icon-share">
-            <use xlinkHref="#icon-share"></use>
-          </svg>
-        </button>
+        { !this.state.embed ?
+          <button className="btn-share btn-primary l-share" onClick={ () => this.handleModal('open', 'shareOpen') }>
+            <svg className="icon icon-share">
+              <use xlinkHref="#icon-share"></use>
+            </svg>
+          </button> : ''}
 
         <ModalShare
           visible={ this.state.shareOpen }
