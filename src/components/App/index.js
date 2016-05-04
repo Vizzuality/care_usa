@@ -338,6 +338,7 @@ class App extends React.Component {
       this.router.update({ lng: mapLng });
       this.setState({ lng: mapLng });
     })
+
     this._embedElements();
   }
 
@@ -489,14 +490,14 @@ class App extends React.Component {
           embed={ this.state.embed }
         />
 
-        <div id="timeline" className={`l-timeline m-timeline ${embedElement}`} ref="Timeline">
+        <div id="timeline" className={`l-timeline m-timeline`} ref="Timeline">
           <svg className="btn js-button">
             <use xlinkHref="#icon-play" className="js-button-icon"></use>
           </svg>
           <div className="svg-container js-svg-container"></div>
-        </div> 
+        </div>
 
-        { !this.state.embed ?
+        { !this.state.embed &&
           <div id="map-credits" className="l-map-credits">
           <p className="about-label text text-cta" onClick={ () => this.handleModal('open', 'aboutOpen') }>About the data</p>
           <a className="btn-about" onClick={ () => this.handleModal('open', 'aboutOpen') }>
@@ -504,7 +505,7 @@ class App extends React.Component {
               <use xlinkHref="#icon-info"></use>
             </svg>
           </a>
-        </div> : ''}
+        </div> }
 
         <ModalAbout
           visible={ this.state.aboutOpen }
