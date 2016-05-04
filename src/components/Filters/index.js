@@ -4,6 +4,7 @@ import Backbone from 'backbone';
 import _ from 'underscore';
 import moment from 'moment';
 import $ from 'jquery';
+import select2 from 'select2';
 
 import './styles.postcss';
 import filtersModel from '../../scripts/models/filtersModel';
@@ -66,6 +67,7 @@ class FiltersView extends Backbone.View {
       this.populateSelectors();
       this.renderAvailableRange();
       this.inputs = this.el.querySelectorAll('input, select');
+      this.applySelect2();
     }
 
     if(!this.rendered) this.rendered = true;
@@ -80,6 +82,16 @@ class FiltersView extends Backbone.View {
   updateAvailableRange(availableRange) {
     this.options.availableRange = availableRange;
     this.renderAvailableRange();
+  }
+
+  applySelect2() {
+    [...this.inputs].filter(input => utils.matches(input, 'select'))
+      .forEach(select => {
+        $(select).select2({
+          placeholder: select.options[0].textContent,
+          minimumResultsForSearch: select.classList.contains('js-regions') ? 0 : Infinity
+        });
+      });
   }
 
   /* Set the state of the form elements as stored in this.status */
@@ -109,6 +121,7 @@ class FiltersView extends Backbone.View {
             if(select.options[i].value === value) {
               found = true;
               select.options[i].selected = true;
+              $(select).trigger('change.select2');
               break;
             }
           }
@@ -304,6 +317,7 @@ class FiltersView extends Backbone.View {
       if(utils.matches(input, 'select')) {
         input.options[input.selectedIndex].selected = false;
         input.options[0].selected = true;
+        $(input).trigger('change.select2');
       } else if(/^sector\-.*/i.test(input.name)) {
         input.checked = false;
       }
@@ -375,11 +389,14 @@ class FiltersView extends Backbone.View {
     /* We remove all the disabled options */
     if(!month && !day) {
       this.$el.find(`.js-${dateType}-day option`)
-        .attr('disabled', function() { return !this.value; });
+        .attr('disabled', function() { return !this.value; })
+        .trigger('change.select2');
       this.$el.find(`.js-${dateType}-month option`)
-        .attr('disabled', function() { return !this.value; });
+        .attr('disabled', function() { return !this.value; })
+        .trigger('change.select2');
       this.$el.find(`.js-${dateType}-year option`)
-        .attr('disabled', function() { return !this.value; });
+        .attr('disabled', function() { return !this.value; })
+        .trigger('change.select2');
     }
 
     /* We filter the available options for the years */
@@ -388,7 +405,8 @@ class FiltersView extends Backbone.View {
         .attr('disabled', function() {
           const date = moment.utc(`${this.value}-${utils.pad(month, 2, '0')}-${utils.pad(day, 2, '0')}`, 'YYYY-MM-DD');
           return !this.value || !date.isValid();
-        });
+        })
+        .trigger('change.select2');
     }
 
     /* We filter the available options for the months */
@@ -400,7 +418,8 @@ class FiltersView extends Backbone.View {
         .attr('disabled', function() {
           const date = moment.utc(`${year}-${utils.pad(this.value, 2, '0')}-01`, 'YYYY-MM-DD');
           return !this.value || date.daysInMonth() < +day;
-        });
+        })
+        .trigger('change.select2');
     }
 
     /* We filter the available options for the days */
@@ -412,18 +431,22 @@ class FiltersView extends Backbone.View {
         .attr('disabled', function() {
           const date = moment.utc(`${year}-${utils.pad(month, 2, '0')}-${utils.pad(this.value, 2, '0')}`, 'YYYY-MM-DD');
           return !this.value || !date.isValid();
-        });
+        })
+        .trigger('change.select2');
     }
   }
 
   resetOptionsAvailability() {
     for(let dateType of ['from', 'to']) {
       this.$el.find(`.js-${dateType}-day option`)
-        .attr('disabled', function() { return !this.value; });
+        .attr('disabled', function() { return !this.value; })
+        .trigger('change.select2');
       this.$el.find(`.js-${dateType}-month option`)
-        .attr('disabled', function() { return !this.value; });
+        .attr('disabled', function() { return !this.value; })
+        .trigger('change.select2');
       this.$el.find(`.js-${dateType}-year option`)
-        .attr('disabled', function() { return !this.value; });
+        .attr('disabled', function() { return !this.value; })
+        .trigger('change.select2');
     }
   }
 
