@@ -63,15 +63,15 @@ class Slider extends React.Component {
 
           <div className="slider">
             <div className="countries slider-element">
-              <p className="text text-numbers-xxl -light">95</p>
+              <p className="number number-xxl">95</p>
               <p className="text text-legend-title -light">Countries helped</p>
             </div>
             <div className="projects slider-element">
-              <p className="text text-numbers-xxl -light">890</p>
+              <p className="number number-xxl">890</p>
               <p className="text text-legend-title -light">Projects</p>
             </div>
             <div className="people slider-element">
-              <p className="text text-numbers-xxl -light">65</p>
+              <p className="number number-xxl">65</p>
               <p className="text text-legend-title -light">Million people reached</p>
             </div>
           </div>
