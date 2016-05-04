@@ -338,7 +338,7 @@ class App extends React.Component {
       this.router.update({ lng: mapLng });
       this.setState({ lng: mapLng });
     })
-    this._zoomControlEmbed();
+    this._embedElements();
   }
 
   updateBBox() {
@@ -439,7 +439,7 @@ class App extends React.Component {
     if (modal === 'donorsOpen') DonorsModalModel.set({donorsOpen: false});
   }
 
-  _zoomControlEmbed() {
+  _embedElements() {
     if(this.state.embed) {
       const embedClasses = ['leaflet-control-zoom', 'leaflet-control-attribution', 'mapbox-logo'];
       embedClasses.map(embedClass => {
