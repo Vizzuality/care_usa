@@ -12,6 +12,7 @@ import utils from './scripts/helpers/utils';
 import MenuDevice from './components/MenuDevice';
 import MyDonation from './components/MyDonation';
 
+
 class Main extends React.Component {
 
   constructor(props) {

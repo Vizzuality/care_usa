@@ -88,6 +88,7 @@
   }
 }
 
+/* CLAIM */
 .text-claim {
   font-family: $font-family-1;
   font-weight: 700;
@@ -110,6 +111,7 @@
   }
 }
 
+/* HIGHLIGHTED */
 .text-highlighted {
   font-family: $font-family-1;
   font-weight: 400;
@@ -151,9 +153,21 @@
   }
 }
 
+/* NUMBERS XL */
+.text-numbers-xl {
+  font-size: rem(60);
+
+  @media screen and (min-width: $screen-xl) {
+    font-size: rem(70);
+  }
+
+  @media screen and (min-width: $screen-xxl) {
+    font-size: rem(100);
+  }
+}
+
 /* NUMBERS XXL */
 .text-numbers-xxl {
-  font-family: $font-family-2;
   font-size: rem(100);
 
   @media screen and (min-width: $screen-xl) {
