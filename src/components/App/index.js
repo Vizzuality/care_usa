@@ -338,8 +338,6 @@ class App extends React.Component {
       this.router.update({ lng: mapLng });
       this.setState({ lng: mapLng });
     })
-
-    this._embedElements();
   }
 
   updateBBox() {
@@ -440,23 +438,12 @@ class App extends React.Component {
     if (modal === 'donorsOpen') DonorsModalModel.set({donorsOpen: false});
   }
 
-  _embedElements() {
-    if(this.state.embed) {
-      const embedClasses = ['leaflet-control-zoom', 'leaflet-control-attribution', 'mapbox-logo'];
-      embedClasses.map(embedClass => {
-        document.getElementsByClassName(embedClass)[0].setAttribute('class', '-embed-element');
-      });
-    }
-  }
-
   render() {
     const wholeRange = [
       new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
-
     const embedClass = this.state.embed ? 'l-app is-embed' : 'l-app';
-    const embedElement = this.state.embed ? '-embed-element' : '';
 
     return (
       <div className={embedClass} >
@@ -470,10 +457,11 @@ class App extends React.Component {
             </svg>
           </button> : ''}
 
-        <ModalShare
-          visible={ this.state.shareOpen }
-          onClose={ this.handleModal.bind(this, 'close', 'shareOpen') }
-        />
+        { !this.state.embed &&
+          <ModalShare
+            visible={ this.state.shareOpen }
+            onClose={ this.handleModal.bind(this, 'close', 'shareOpen') }
+          /> }
 
         <Dashboard
           donation={  this.router.params.attributes.donation && true }
@@ -507,40 +495,43 @@ class App extends React.Component {
           </a>
         </div> }
 
-        <ModalAbout
-          visible={ this.state.aboutOpen }
-          onClose={ this.handleModal.bind(this, 'close', 'aboutOpen') }
-        />
+        { !this.state.embed &&
+          <ModalAbout
+            visible={ this.state.aboutOpen }
+            onClose={ this.handleModal.bind(this, 'close', 'aboutOpen') }
+          /> }
 
-        <ModalFilters
-          visible={ this.state.filtersOpen }
-          onClose={ this.handleModal.bind(this, 'close', 'filtersOpen') }
-          onSave={ this.updateFilters.bind(this) }
-          range={ wholeRange }
-          availableRange={ this.state.ranges[this.state.mode] }
-          routerParams={ this.router && this.router.params.toJSON() }
-        />
+        { !this.state.embed &&
+          <ModalFilters
+            visible={ this.state.filtersOpen }
+            onClose={ this.handleModal.bind(this, 'close', 'filtersOpen') }
+            onSave={ this.updateFilters.bind(this) }
+            range={ wholeRange }
+            availableRange={ this.state.ranges[this.state.mode] }
+            routerParams={ this.router && this.router.params.toJSON() }
+          /> }
 
-        <ModalNoData
-          filters={ this.state.filters }
-          filtersOpen ={ this.state.filtersOpen }
-          currentMode={ this.state.mode }
-          dateRange={ this.state.ranges[this.state.mode] }
-          timelineDates={ this.state.timelineDates }
-          onChangeFilters={ this.handleModal.bind(this, 'open', 'filtersOpen') }
-          onGoBack={ this.setDonationsAsmode.bind(this) }
-          onCancel={ this.resetFilters.bind(this) }
-        />
+        { !this.state.embed &&
+          <ModalNoData
+            filters={ this.state.filters }
+            filtersOpen ={ this.state.filtersOpen }
+            currentMode={ this.state.mode }
+            dateRange={ this.state.ranges[this.state.mode] }
+            timelineDates={ this.state.timelineDates }
+            onChangeFilters={ this.handleModal.bind(this, 'open', 'filtersOpen') }
+            onGoBack={ this.setDonationsAsmode.bind(this) }
+            onCancel={ this.resetFilters.bind(this) }
+          /> }
 
         <ModalDonors
           visible= { this.state.donorsOpen }
           onClose= { this.handleModal.bind(this, 'close', 'donorsOpen') }
         />
 
-        { !this.state.embed ?
+        { !this.state.embed &&
             <a href="https://my.care.org/site/Donation2;jsessionid=5FED4A2DADFB975A2EDA92B59231B64B.app314a?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
               Donate
-            </a> : '' }
+            </a> }
 
         { !sessionStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
       </div>

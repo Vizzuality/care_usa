@@ -26,6 +26,10 @@ class Dashboard extends React.Component {
     this.setState(utils.checkDevice());
   }
 
+  componentDidMount() {
+    this.props.embed ? document.getElementsByClassName('dashboard-header')[0].style.justifyContent= 'flex-end' :'';
+  }
+
   toogleDashboard() {
     this.setState({ dashboardOpen: !this.state.dashboardOpen })
   }
@@ -51,7 +55,7 @@ class Dashboard extends React.Component {
       tabsMobile = null;
     }
 
-    if (!this.state.mobile) {
+    if (!this.state.mobile && !this.props.embed) {
       filtersSwitcher = <div
               className= 'btn btn-third btn-filters-switcher'
               onClick= { this.props.toggleFiltersFn } >
@@ -65,7 +69,6 @@ class Dashboard extends React.Component {
               currentLayer = { this.props.currentLayer }
               changeLayerFn= { this.props.changeLayerFn }
             />
-    const embedElement = this.props.embed ? '-embed-element' : '' ;
 
     return (
       <div>
@@ -82,16 +85,18 @@ class Dashboard extends React.Component {
 
           <div className="m-dashboard-panel">
             <div className="dashboard-header">
-              <button
-                className="text text-cta btn-filters-switcher"
-                onClick={ this.props.toggleFiltersFn } >
-                filters
-              </button>
+              { !this.props.embed &&
+                <button
+                  className="text text-cta btn-filters-switcher"
+                  onClick={ this.props.toggleFiltersFn } >
+                  filters
+                </button> }
+
               { !this.props.embed ?
-              <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" className={ `btn btn-contrast -small` }>
-                Donate
-              </a> :
-              <a href="#" className="btn btn-primary btn-embed">Explore the map</a> }
+                <a href="http://www.care.org/donate" rel="noreferrer" target="_blank" className={ `btn btn-contrast -small` }>
+                  Donate
+                </a> :
+                <a href="#" className="btn btn-primary btn-embed">Explore the map</a> }
             </div>
             <div className="scroll-wrapper">
               <DashDates
