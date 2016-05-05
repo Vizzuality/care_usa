@@ -24,7 +24,7 @@ class DashSummary extends React.Component {
 
   componentDidMount() {
     this.dashSummary = new DashSummaryModel();
-    this.fetchData(this.state, this.props.timelineDate);
+    this.fetchData(this.state);
   }
 
   shouldComponentUpdate(nextState) {
