@@ -20,7 +20,8 @@ class ModalFilters extends Modal {
     }
 
     if(nextProps.domain !== this.props.domain) {
-      this.filters.updateAvailableRange(nextProps.domain);
+      const domain = nextProps.domain.map(date => moment.utc(date, 'YYYY-MM-DD').toDate());
+      this.filters.updateAvailableRange(domain);
     }
 
     return false;

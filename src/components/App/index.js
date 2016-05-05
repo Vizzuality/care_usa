@@ -379,12 +379,16 @@ class App extends React.Component {
   }
 
   changeMapMode(mode, e) {
-    let activeLayer = layersCollection.filter(model => model.attributes.category === mode && model.attributes.active )[0].attributes.slug;
-    this.router.update({mode: mode, layer: activeLayer});
-    this.setState({ mode: mode, layer: activeLayer });
+    const layer = layersCollection.getActiveLayer(mode);
+    this.router.update({mode: mode, layer: layer.toJSON().slug});
+    this.setState({ mode: mode, layer: layer.toJSON() });
 
     this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
-    this.mapView.state.set({ 'mode': mode, 'layer': activeLayer, 'currentLayer': activeLayer });
+    this.mapView.state.set({
+      mode,
+      layer: layer.toJSON().slug,
+      currentLayer: layer.toJSON().slug
+    });
   }
 
   changeLayer(layer) {
