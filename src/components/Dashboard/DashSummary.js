@@ -18,7 +18,7 @@ class DashSummary extends React.Component {
       totalDonations: null,
       donationsAmount: null,
       projects: null,
-      people: null,
+      people: null
     };
   }
 
