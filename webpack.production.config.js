@@ -10,6 +10,7 @@ const postcssNested = require('postcss-nested');
 const postcssImporter = require('postcss-import');
 const postcssFunctions = require('postcss-functions');
 const postcssHexRgba = require('postcss-hexrgba');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const prodPlugins = [
   new webpack.HotModuleReplacementPlugin(),
@@ -24,6 +25,7 @@ const prodPlugins = [
   }),
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.OccurrenceOrderPlugin(),
+  new CopyWebpackPlugin([{ from: '/favicons', to: path.join(__dirname, 'dist'), }]),
   new webpack.DefinePlugin({
     ENVIRONMENT: JSON.stringify(process.env.NODE_ENV || 'development'),
     VERSION: JSON.stringify(require('./package.json').version),

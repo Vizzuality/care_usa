@@ -1,6 +1,6 @@
 # CARE
 
-TODO: Write a description
+Visualization application that brings CARE's donation data to life.
 
 ## Installation
 
