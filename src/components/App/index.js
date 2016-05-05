@@ -405,7 +405,7 @@ class App extends React.Component {
   }
 
   updateTimelineDates(dates) {
-    this.setState({ timelineDates: dates });
+    this.setState({ timelineDates: dates, timelineDate: dates.to });
     this.router.update({
       timelineDate: moment.utc(dates.to).format('YYYY-MM-DD')
     });
@@ -439,7 +439,6 @@ class App extends React.Component {
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
 
-
     return (
       <div className="l-app">
 
@@ -468,6 +467,7 @@ class App extends React.Component {
           regions={ this.state.regions }
           dateRange={ this.state.ranges[this.state.mode] }
           timelineDates={ this.state.timelineDates }
+          timelineDate={ this.state.timelineDate }
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
