@@ -60,7 +60,6 @@ class Dashboard extends React.Component {
     };
 
     layersSwitcher = <DashLayerSwitcher
-              layers = { this.state.layers }
               currentMode = { this.props.currentMode }
               currentLayer = { this.props.currentLayer }
               changeLayerFn= { this.props.changeLayerFn }
