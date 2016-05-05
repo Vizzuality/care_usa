@@ -60,6 +60,13 @@ class LayersCollection extends Backbone.Collection {
     });
   }
 
+  /* Within the category "mode", set the layer "slug" as active and all the
+   * other inactive */
+  setActiveLayer(mode, slug) {
+    this.filter(model => model.attributes.category === mode)
+      .forEach(model => model.set('active', model.get('slug') === slug));
+  }
+
 }
 
 export default new LayersCollection();

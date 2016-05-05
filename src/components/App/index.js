@@ -106,14 +106,18 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    /* We call first this function to set the state with the information
+     * contained in the URL */
+    this._updateRouterParams();
     this._initData();
     this.initTimeline();
     DonorsModalModel.on('change', () => !DonorsModalModel.get('donorsOpen') ? '' : this.setState({ donorsOpen: true }));
-    this._updateRouterParams();
     this.router.params.on('change', this.onRouterChangeMap.bind(this));
   }
 
   _updateRouterParams() {
+    /* TODO: we shouldn't put all the params in the state: some of them aren't
+     * needed because are stored in models, and other need to be parsed */
     /* Here we update general state with router params and our device check. */
     const newParams = _.extend({}, { donation: this.router.params.attributes.donation && true }, this.router.params.attributes);
     this.setState(newParams);
@@ -204,22 +208,23 @@ class App extends React.Component {
   }
 
   _initData() {
-    layersCollection.fetch().done( () => {
-      if (this.router.params.attributes.layer) {
-        this._updateLayersCollection(this.router.params.attributes.layer);
-      }
-      const currentMode = this.state.mode;
+    layersCollection.fetch()
+      .done(() => {
+        const mode = this.router.params.attributes.mode || this.state.mode;
+        const layerSlug = this.router.params.attributes.layer;
 
-      /* Absolutely necessary if we want the map to load when the app is loaded
-       * without any param */
-      this.timeline.changeMode(currentMode,
-        this.state.dataInterval[currentMode],
-        this.state.ranges[currentMode],
-        true); /* We assume that the layer by default is a Torque one */
+        if(layerSlug) layersCollection.setActiveLayer(mode, layerSlug);
 
-      this.setState({ 'ready': true });
-      this.initMap();
-    })
+        /* Absolutely necessary if we want the map to load when the app is loaded
+         * without any param */
+        this.timeline.changeMode(mode,
+          this.state.dataInterval[mode],
+          this.state.ranges[mode],
+          true); /* We assume that the layer by default is a Torque one */
+
+        this.setState({ 'ready': true });
+        this.initMap();
+      });
   }
 
   //GENERAL METHODS
@@ -378,22 +383,9 @@ class App extends React.Component {
   }
 
   changeLayer(layer, e) {
-    this.router.update({layer: layer});
-    this.setState({ layer: layer });
-
-    this._updateLayersCollection(layer);
-  }
-
-  _updateLayersCollection(layer) {
-    // Inactive all layers of the same group
-    let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.mode);
-    _.each(cogroupLayers, (activeLayer) => {
-      activeLayer.set('active', false);
-    });
-
-    //Active new layer
-    let newLayer = layersCollection.filter(model => model.attributes.slug === layer);
-    newLayer[0].set('active', true);
+    this.router.update({ layer });
+    this.setState({ layer });
+    layersCollection.setActiveLayer(this.state.mode, layer);
   }
 
   toggleModalFilter() {
