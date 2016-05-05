@@ -1,6 +1,7 @@
 'use strict';
 
 import 'normalize.css';
+import 'select2/dist/css/select2.min.css';
 import './main.postcss';
 
 import React  from 'react';
@@ -48,7 +49,7 @@ class Main extends React.Component {
         />
       );
     }
-    
+
     return (
     	<div>
 	  		<Header
@@ -56,7 +57,7 @@ class Main extends React.Component {
 	          toggleMenuFn = { this.toggleMenu.bind(this) }
 	          changePageFn = { this.changePage.bind(this) }
 	        />
-	        { this.props.currentPage === 'who-cares' ? <App />: 
+	        { this.props.currentPage === 'who-cares' ? <App />:
             this.props.currentPage === 'anniversary' ? <Anniversary /> : ''}
 	       	{ menuDevice }
         </div>
