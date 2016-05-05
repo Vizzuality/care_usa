@@ -127,7 +127,11 @@ $l-margin-vt: 50;
     bottom: 0;
 
     @media screen and (min-width: $screen-m) {
-      bottom: rem(80);
+      bottom: rem(200);
+
+      @media screen and (max-height: rem(750)) {
+        bottom: rem(60);
+      }
     }
   }
 
