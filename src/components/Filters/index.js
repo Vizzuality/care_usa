@@ -353,11 +353,22 @@ class FiltersView extends Backbone.View {
      * state. Nevertheless, this.status.validationError is set to the value
      * returned by the validate method (on the model) ie. or contain the error
      * object or nothing if set was successful. */
+    const selects2 = this.el.getElementsByClassName('select2-container--default');
+
     const validationError = this.status.validationError;
     if(validationError) {
       const invalidInputs = [...this.inputs].filter(input => !!~validationError.fields.indexOf(input.name));
+      const invalidSelects = [...selects2].filter(select2 => {
+        const name = select2.querySelector('span').querySelector('span').getAttribute('aria-labelledby');
+        for(let i = 0; i < validationError.fields.length; i++) {
+          if(!!~name.indexOf(validationError.fields[i])) {
+            return true;
+          } 
+        }
+      });
+      
       for(let i = 0, j = invalidInputs.length; i < j; i++) {
-        invalidInputs[i].classList.add('-invalid');
+        invalidSelects[i].classList.add('-invalid');
       }
       this.applyButton.classList.add('-invalid');
 

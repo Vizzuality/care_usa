@@ -113,6 +113,13 @@
           &:last-of-type { border: none; }
         }
 
+        .-invalid {
+          color: $font-color-6;
+          @media screen and (min-width: $screen-m) {
+            border-bottom: rem(1) solid $color-11;
+          }
+        }
+
         > select {
           display: block;
           width: 100%;
