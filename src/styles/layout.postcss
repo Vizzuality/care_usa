@@ -123,6 +123,13 @@ $l-margin-vt: 50;
     transform: translatex(0);
   }
 
+  .is-embed & {
+    bottom: 0;
+
+    @media screen and (min-width: $screen-m) {
+      bottom: rem(80);
+    }
+  }
 
   @media screen and (min-width: $screen-m) {
     position: absolute;
@@ -155,6 +162,10 @@ $l-margin-vt: 50;
    left: 0;
    right: 0;
    height: auto;
+  }
+
+  .is-embed & {
+    right: $wrap-padding-mobile;
   }
 }
 
