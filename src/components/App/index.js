@@ -429,12 +429,9 @@ class App extends React.Component {
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
 
-    let content = <div className="l-app is-loading">
-      { !sessionStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
-    </div>;
-
+    let content = '';
     if(this.state.ready) {
-      content = <div className="l-app">
+      content = <div>
 
         <div id="map" className="l-map" ref="Map"></div>
 
@@ -513,15 +510,13 @@ class App extends React.Component {
         <a href="https://my.care.org/site/Donation2;jsessionid=5FED4A2DADFB975A2EDA92B59231B64B.app314a?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
           Donate
         </a>
-
-        { !sessionStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
       </div>;
     }
 
     return (
       <div className={ 'l-app ' + (this.state.ready ? '' : 'is-loading') }>
         { content }
-        { !sessionStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
+        { !localStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
       </div>
     );
   }

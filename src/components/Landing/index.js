@@ -13,7 +13,7 @@ class Landing extends React.Component {
   }
 
   getStarted() {
-    sessionStorage.setItem('session', true);
+    localStorage.setItem('session', true);
     this.setState({ visible: false });
   }
 
