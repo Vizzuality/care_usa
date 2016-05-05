@@ -1,6 +1,9 @@
 @import'../../styles/settings.postcss';
 
 .select2-container--default .select2-selection--single {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
 	background-color: transparent;
 	border: 0;
 	border-radius: 0;
@@ -12,7 +15,22 @@
 	color: $beige-1;
 }
 
+.js-from-day + span, .js-to-day + span {
+	width: rem(65) !important;
+}
+
+.select2-container--focus {
+	background-color: $beige-7;
+	span {
+		color: $beige-1 !important;
+	}
+}
+
 .select2-selection__arrow {
+	position: relative !important;
+	width: rem(10) !important;
+	height: 95% !important;
+	background-image: url('../../images/legendpattern.png');
 	display: none;
 
 	.regions & {
@@ -21,14 +39,13 @@
 
 	@media screen and (min-width: $screen-m) {
 		display: inherit;
-		width: rem(5) !important;
 	}
 
 	& > b {
 		border: 0 !important;
 		width: rem(10) !important;
 		height: rem(9) !important;
-		background-image: url('../../images/arrow.svg');
+		background-image: url('../../images/arrowOrange.svg');
 		background-size: 100%;
 		background-repeat: no-repeat;
 	}
