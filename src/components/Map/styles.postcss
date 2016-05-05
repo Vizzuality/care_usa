@@ -61,6 +61,12 @@
   }
 }
 
+.leaflet-control-attribution {
+  .is-embed & {
+    display: none;
+  }
+}
+
 .leaflet-control-attribution:last-child {
   display: none;
 }
@@ -68,6 +74,10 @@
 .leaflet-left .leaflet-control {
   margin: 0;
   display: none;
+
+  .is-embed & {
+    display: none;
+  }
 
   @media screen and (min-width: $screen-s) {
     display: inherit;

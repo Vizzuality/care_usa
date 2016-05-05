@@ -61,3 +61,18 @@
   transition: .3s background-color;
   &:hover { background-color: $color-12; }
 }
+
+.btn-embed {
+	padding: rem(10) rem(30) !important; 
+	
+	@media screen and (min-width: $screen-m) {
+	  padding: rem(14) rem(40);
+	}
+	&.-mobileHidden {
+		display: none;
+		
+		@media screen and (min-width: $screen-m) {
+		  display: inherit;
+		}
+	}
+}
