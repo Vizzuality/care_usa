@@ -181,8 +181,6 @@ class MapView extends Backbone.View {
 
     this.creatingLayer = true;
 
-    console.log(activeLayer);
-
     newLayer.createLayer().done(() => {
       /* We ensure to always display the latest tiles */
       if(!this.currentLayer ||

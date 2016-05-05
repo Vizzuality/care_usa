@@ -72,13 +72,13 @@ class FiltersView extends Backbone.View {
   }
 
   renderAvailableRange() {
-    const startDate = moment.utc(this.options.availableRange[0]).format('MM·DD·YYYY');
-    const endDate = moment.utc(this.options.availableRange[1]).format('MM·DD·YYYY');
+    const startDate = moment.utc(this.options.domain[0]).format('MM·DD·YYYY');
+    const endDate = moment.utc(this.options.domain[1]).format('MM·DD·YYYY');
     this.availableRange.innerHTML = `Available dates <span>from ${startDate} to ${endDate}</span>`;
   }
 
-  updateAvailableRange(availableRange) {
-    this.options.availableRange = availableRange;
+  updateAvailableRange(domain) {
+    this.options.domain = domain;
     this.renderAvailableRange();
   }
 
@@ -209,8 +209,8 @@ class FiltersView extends Backbone.View {
 
   /* Return an array of the available years for the date filters */
   getYearRange() {
-    const startDate = moment.utc(this.options.dateRange[0]).add(1, 'days');
-    const endDate   = moment.utc(this.options.dateRange[1]);
+    const startDate = moment.utc(this.options.wholeDomain[0]);
+    const endDate   = moment.utc(this.options.wholeDomain[1]);
     return _.range(startDate.year(), endDate.year() + 1);
   }
 

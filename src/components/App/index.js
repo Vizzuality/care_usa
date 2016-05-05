@@ -486,8 +486,8 @@ class App extends React.Component {
           visible={ this.state.filtersOpen }
           onClose={ this.handleModal.bind(this, 'close', 'filtersOpen') }
           onSave={ this.updateFilters.bind(this) }
-          range={ wholeRange }
-          availableRange={ this.state.ranges[this.state.mode] }
+          wholeDomain={ layersCollection.getDataDomain() }
+          domain={ layersCollection.getActiveLayer(this.state.mode).get('domain') }
           routerParams={ this.router && this.router.params.toJSON() }
         />
 

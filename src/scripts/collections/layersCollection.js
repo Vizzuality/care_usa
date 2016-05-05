@@ -1,6 +1,7 @@
 'use strict';
 
 import Backbone from 'backbone';
+import moment from 'moment';
 
 class LayersCollection extends Backbone.Collection {
 
@@ -76,6 +77,18 @@ class LayersCollection extends Backbone.Collection {
       active: true,
       category: mode
     });
+  }
+
+  /* Return a range formed by the minimum date contained into the domain
+   * property of the layers and the maximum one */
+  getDataDomain() {
+    return this.toJSON()
+      .map(layer => layer.domain.map(date => moment.utc(date, 'YYYY-MM-DD').toDate()))
+      .reduce((res, domain) => {
+        if(+res[0] > +domain[0]) res[0] = domain[0];
+        if(+res[1] < +domain[1]) res[1] = domain[1];
+        return res;
+      }, [Infinity, -Infinity]);
   }
 
 }
