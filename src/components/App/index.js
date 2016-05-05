@@ -107,9 +107,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    /* We call first this function to set the state with the information
-     * contained in the URL */
-    this._updateRouterParams();
     this._initData();
     DonorsModalModel.on('change', () => !DonorsModalModel.get('donorsOpen') ? '' : this.setState({ donorsOpen: true }));
     this.router.params.on('change', this.onRouterChangeMap.bind(this));
@@ -119,7 +116,15 @@ class App extends React.Component {
     /* TODO: we shouldn't put all the params in the state: some of them aren't
      * needed because are stored in models, and other need to be parsed */
     /* Here we update general state with router params and our device check. */
-    const newParams = _.extend({}, { donation: this.router.params.attributes.donation && true }, this.router.params.attributes);
+    const newParams = Object.assign({}, { donation: this.router.params.attributes.donation && true }, this.router.params.attributes);
+
+    if(newParams.layer) {
+      const layer = layersCollection.findWhere({ slug: newParams.layer });
+      newParams.layer = layer && layer.toJSON();
+    } else {
+      newParams.layer = layersCollection.getActiveLayer(newParams.mode || this.state.mode).toJSON();
+    }
+
     this.setState(newParams);
   }
 
@@ -210,6 +215,8 @@ class App extends React.Component {
   _initData() {
     layersCollection.fetch()
       .done(() => {
+        this._updateRouterParams();
+
         const mode = this.router.params.attributes.mode || this.state.mode;
         const layerSlug = this.router.params.attributes.layer;
 
@@ -295,7 +302,7 @@ class App extends React.Component {
      */
     this.router.update({
       mode: this.state.mode,
-      layer: this.state.layer
+      layer: this.state.layer.slug
     });
 
     this.mapView = new MapView({
@@ -380,10 +387,10 @@ class App extends React.Component {
     this.mapView.state.set({ 'mode': mode, 'layer': activeLayer, 'currentLayer': activeLayer });
   }
 
-  changeLayer(layer, e) {
-    this.router.update({ layer });
+  changeLayer(layer) {
+    this.router.update({ layer: layer.slug });
     this.setState({ layer });
-    layersCollection.setActiveLayer(this.state.mode, layer);
+    layersCollection.setActiveLayer(this.state.mode, layer.slug);
   }
 
   toggleModalFilter() {
@@ -451,7 +458,7 @@ class App extends React.Component {
           changeModeFn={ this.changeMapMode.bind(this) }
           changeLayerFn={ this.changeLayer.bind(this) }
           currentMode={ this.state.mode }
-          currentLayer={ this.state.layer }
+          currentLayer={ this.state.layer.slug }
           toggleFiltersFn={ this.toggleModalFilter.bind(this) }
           filters={ this.state.filters }
           sectors={ this.state.sectors }
@@ -487,7 +494,7 @@ class App extends React.Component {
           onClose={ this.handleModal.bind(this, 'close', 'filtersOpen') }
           onSave={ this.updateFilters.bind(this) }
           wholeDomain={ layersCollection.getDataDomain() }
-          domain={ layersCollection.getActiveLayer(this.state.mode).get('domain') }
+          domain={ this.state.layer.domain }
           routerParams={ this.router && this.router.params.toJSON() }
         />
 

@@ -60,7 +60,7 @@ class DashLayerSwitcher extends React.Component {
               <input
                 type ="radio" name="mapMode" checked={ layer.active }
                 id = { layer.slug }
-                onChange = { this.props.changeLayerFn.bind(null, layer.slug) }
+                onChange = { this.props.changeLayerFn.bind(null, layer) }
               />
               <span></span>
               <label htmlFor={ layer.slug } className="text text-legend">{ layer.name }</label>
