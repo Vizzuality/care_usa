@@ -115,9 +115,7 @@ class App extends React.Component {
 
   _updateRouterParams() {
     /* Here we update general state with router params and our device check. */
-    const newParams = _.extend({}, {
-      donation: this.router.params.attributes.donation && true
-    }, this.router.params.attributes);
+    const newParams = _.extend({}, { donation: this.router.params.attributes.donation && true }, this.router.params.attributes);
     this.setState(newParams);
   }
 
@@ -396,8 +394,6 @@ class App extends React.Component {
     //Active new layer
     let newLayer = layersCollection.filter(model => model.attributes.slug === layer);
     newLayer[0].set('active', true);
-
-    this.setState({currentLayer: layer})
   }
 
   toggleModalFilter() {
