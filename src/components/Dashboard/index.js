@@ -26,10 +26,6 @@ class Dashboard extends React.Component {
     this.setState(utils.checkDevice());
   }
 
-  componentDidMount() {
-    this.props.embed ? document.getElementsByClassName('dashboard-header')[0].style.justifyContent= 'flex-end' :'';
-  }
-
   toogleDashboard() {
     this.setState({ dashboardOpen: !this.state.dashboardOpen })
   }

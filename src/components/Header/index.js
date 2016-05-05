@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from '../Router';
 import MainMenu from '../MainMenu';
 
 class Header extends React.Component {

@@ -103,14 +103,13 @@ class App extends React.Component {
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
     regionsCollection.fetch()
       .done(() => this.setState({ regions: regionsCollection.toJSON() }));
-
-    this._updateRouterParams();
   }
 
   componentDidMount() {
     this._initData();
     this.initTimeline();
     DonorsModalModel.on('change', () => !DonorsModalModel.get('donorsOpen') ? '' : this.setState({ donorsOpen: true }));
+    this._updateRouterParams();
     this.router.params.on('change', this.onRouterChangeMap.bind(this));
   }
 
@@ -450,12 +449,12 @@ class App extends React.Component {
 
         <div id="map" className="l-map" ref="Map"></div>
 
-        { !this.state.embed ?
+        { !this.state.embed &&
           <button className="btn-share btn-primary l-share" onClick={ () => this.handleModal('open', 'shareOpen') }>
             <svg className="icon icon-share">
               <use xlinkHref="#icon-share"></use>
             </svg>
-          </button> : ''}
+          </button> }
 
         { !this.state.embed &&
           <ModalShare
@@ -478,7 +477,7 @@ class App extends React.Component {
           embed={ this.state.embed }
         />
 
-        <div id="timeline" className={`l-timeline m-timeline`} ref="Timeline">
+        <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
           <svg className="btn js-button">
             <use xlinkHref="#icon-play" className="js-button-icon"></use>
           </svg>
