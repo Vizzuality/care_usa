@@ -80,12 +80,15 @@ class DashLayerSwitcher extends React.Component {
         layer = model.toJSON();
         legendState = layer.active && 'is-open';
 
-        switchers.push(
-          <div className={ 'legend-wrapper ' + legendState } key={ layer.slug }>
-            <Legend ref="legend"
-              layerLegend = { layer.legend }
-            />
-          </div>)
+        /* This condition has been temporary added to avoid refugees layer shows into the main project. */
+        if (layer.active) {
+          switchers.push(
+            <div className={ 'legend-wrapper ' + legendState } key={ layer.slug }>
+              <Legend ref="legend"
+                layerLegend = { layer.legend }
+              />
+            </div>)
+        }
       })
     }
 
