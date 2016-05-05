@@ -221,6 +221,9 @@ class TimelineView extends Backbone.View {
 
     this.options.data = this.options.interval.unit.range.apply(null, this.scale.domain().concat(this.options.interval.count))
       .map(date => ({ date }));
+
+    this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
+    this.triggerCurrentData()
   }
 
   togglePlay() {

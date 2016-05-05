@@ -46,6 +46,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      ready: false,
       mode: 'donations',
       layer: 'amount-of-money',
       currentPage: 'who-cares',
@@ -110,7 +111,6 @@ class App extends React.Component {
      * contained in the URL */
     this._updateRouterParams();
     this._initData();
-    this.initTimeline();
     DonorsModalModel.on('change', () => !DonorsModalModel.get('donorsOpen') ? '' : this.setState({ donorsOpen: true }));
     this.router.params.on('change', this.onRouterChangeMap.bind(this));
   }
@@ -215,15 +215,9 @@ class App extends React.Component {
 
         if(layerSlug) layersCollection.setActiveLayer(mode, layerSlug);
 
-        /* Absolutely necessary if we want the map to load when the app is loaded
-         * without any param */
-        this.timeline.changeMode(mode,
-          this.state.dataInterval[mode],
-          this.state.ranges[mode],
-          true); /* We assume that the layer by default is a Torque one */
-
         this.setState({ 'ready': true });
         this.initMap();
+        this.initTimeline();
       });
   }
 
@@ -286,6 +280,7 @@ class App extends React.Component {
     if(this.router.params.toJSON().timelineDate) {
       const date = moment.utc(this.router.params.toJSON().timelineDate, 'YYYY-MM-DD');
       if(date.isValid()) {
+        /* TODO: should check that the date is within the domain */
         timelineParams.cursorPosition = date.toDate();
       }
     }
@@ -434,8 +429,12 @@ class App extends React.Component {
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
 
-    return (
-      <div className="l-app">
+    let content = <div className="l-app is-loading">
+      { !sessionStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
+    </div>;
+
+    if(this.state.ready) {
+      content = <div className="l-app">
 
         <div id="map" className="l-map" ref="Map"></div>
 
@@ -515,6 +514,13 @@ class App extends React.Component {
           Donate
         </a>
 
+        { !sessionStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
+      </div>;
+    }
+
+    return (
+      <div className={ 'l-app ' + (this.state.ready ? '' : 'is-loading') }>
+        { content }
         { !sessionStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
       </div>
     );
