@@ -18,18 +18,20 @@ class DashSummary extends React.Component {
       totalDonations: null,
       donationsAmount: null,
       projects: null,
-      people: null
+      people: null,
     };
   }
 
   componentDidMount() {
     this.dashSummary = new DashSummaryModel();
-    this.fetchData(this.state);
+    this.fetchData(this.state, this.props.timelineDate);
   }
 
   shouldComponentUpdate(nextState) {
     if(this.state.totalDonations !== nextState.totalDonations ||
-      this.state.donationsAmount !== nextState.donationsAmount) {
+      this.state.donationsAmount !== nextState.donationsAmount ||
+      this.state.projects !== nextState.projects ||
+      this.state.people !== nextState.people) {
       return true;
     }
     return false;
@@ -37,7 +39,7 @@ class DashSummary extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const startDate = nextProps.timeline && nextProps.timeline.from || nextProps.filters && nextProps.filters.from;
-    const endDate = nextProps.timeline && nextProps.timeline.to || nextProps.filters && nextProps.filters.to;
+    const endDate = nextProps.timelineDate || nextProps.timeline && nextProps.timeline.to || nextProps.filters && nextProps.filters.to;
     const sectors = nextProps.filters && nextProps.filters.sectors || [];
     const region = nextProps.filters && nextProps.filters.region;
 
