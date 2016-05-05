@@ -409,7 +409,7 @@ class App extends React.Component {
   }
 
   updateTimelineDates(dates) {
-    this.setState({ timelineDates: dates });
+    this.setState({ timelineDates: dates, timelineDate: dates.to });
     this.router.update({
       timelineDate: moment.utc(dates.to).format('YYYY-MM-DD')
     });
@@ -442,6 +442,7 @@ class App extends React.Component {
       new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
       new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
     ];
+
     const embedClass = this.state.embed ? 'l-app is-embed' : 'l-app';
 
     return (
