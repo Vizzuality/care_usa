@@ -295,6 +295,9 @@ class App extends React.Component {
 
   // MAP METHODS
   initMap() {
+    /* We assume that the state already took into account the params from the
+     * router. By doing that line, we ensure we have default values in the URL.
+     */
     this.router.update({
       mode: this.state.mode,
       layer: this.state.layer

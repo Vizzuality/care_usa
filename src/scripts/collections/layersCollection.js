@@ -63,8 +63,19 @@ class LayersCollection extends Backbone.Collection {
   /* Within the category "mode", set the layer "slug" as active and all the
    * other inactive */
   setActiveLayer(mode, slug) {
-    this.filter(model => model.attributes.category === mode)
-      .forEach(model => model.set('active', model.get('slug') === slug));
+    let specs = this.toJSON();
+    specs.filter(layer => layer.category === mode)
+      .forEach(layer => layer.active = layer.slug === slug);
+    this.set(specs);
+    this.trigger('change');
+  }
+
+  /* Return the active layer for the current mode, if exists */
+  getActiveLayer(mode) {
+    return this.findWhere({
+      active: true,
+      category: mode
+    });
   }
 
 }
