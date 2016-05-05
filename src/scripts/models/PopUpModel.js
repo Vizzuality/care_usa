@@ -14,9 +14,10 @@ class PopUpModel extends Backbone.Model {
 
   _getUrl() {
     const noFilters = filtersModel.filtersIsEmpty();
-    const distributionLayer = this.options.currentLayer === 'number-of-donors' ? '/distribution' : '';
+    const distributionLayerEndpoint = this.options.currentLayer === 'number-of-donors' ? '/distribution' : '';
+    const refugeesEndpoint = this.options.currentLayer === 'refugee-assistance' ? '/refugees' : '';
 
-    this.baseUrl = `${config.apiUrl}/${this.options.currentMode}${distributionLayer}?lat=${this.options.latLng.lat}&lng=${this.options.latLng.lng}&zoom=${this.options.zoom}`
+    this.baseUrl = `${config.apiUrl}/${this.options.currentMode}${distributionLayerEndpoint || refugeesEndpoint }?lat=${this.options.latLng.lat}&lng=${this.options.latLng.lng}&zoom=${this.options.zoom}`;
 
     if (this.options.timelineDates) {
       this.baseUrl = this.baseUrl + `&start_date=${moment.utc(this.options.timelineDates.from).format('DD-MM-YYYY')}&end_date=${moment.utc(this.options.timelineDates.to).format('DD-MM-YYYY')}`
