@@ -330,8 +330,10 @@ class FiltersView extends Backbone.View {
 
   /* Remove the error message and the error state from the inputs */
   resetErrorState() {
-    for(let i = 0, j = this.inputs.length; i < j; i++) {
-      this.inputs[i].classList.remove('-invalid');
+    const selects2 = this.el.getElementsByClassName('select2-container--default');
+
+    for(let i = 0, j = selects2.length; i < j; i++) {
+      selects2[i].classList.remove('-invalid');
     }
     this.applyButton.classList.remove('-invalid');
     if(this.el.querySelector('.js-error')) {
