@@ -20,7 +20,6 @@ class PopUpContentView extends Backbone.View {
   }
 
   getPopUp() {
-    console.log(this.options)
     if (this.options.currentLayer === 'amount-of-money' || this.options.currentLayer === 'amount-of-money-torque') {
       this.currentPopUp = new PopUpDonation(this.options);
     } else if (this.options.currentLayer === 'number-of-donors') {

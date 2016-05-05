@@ -23,17 +23,18 @@ class PopUpProject extends PopUp {
     return `<div class="refugees-info">
         <span class="title-sector text text-legend-s -light">Crisis where this country has refugee assistance projects</span>
         <ul>
-          ${ this.model.get('crisis_aiding')[0] && this.model.get('crisis_aiding')[0]['parties_involved'].length > 0 ? this.model.get('crisis_aiding')[0]['parties_involved'].map(country => `<li class="sector text text-legend-s -light"> ${country.country} </li>`).join('') : ''}
+          ${ this.model.get('crisis_aiding') && this.model.get('crisis_aiding').length > 0 ? this.model.get('crisis_aiding').map(crisis => `<li class="sector text text-legend-s -light"> ${crisis.country} </li>`).join('') : ''}
         </ul>
       </div>`
   }
 
   _getContent() {
     const title = `<h1 class="text text-module-title -light"> ${this.model.get('location')['name']}</h1>
+      <span class="text text-dashboard-title -light"> ${this.model.get('crisis_local') && this.model.get('crisis_local')[0] ? this.model.get('crisis_local')[0]['name'] : '' }</span>
       <hr></hr>`;
 
     const crisisLocal = (this.model.get('crisis_local')[0] && this.model.get('crisis_local')[0]['parties_involved'].length > 0) ? this._getCrisisLocalInfo() : '';
-    const crisisAiding = (this.model.get('crisis_aiding')[0] && this.model.get('crisis_aiding')[0]['parties_involved'].length > 0) ? this._getCrisisAidingInfo() : '';
+    const crisisAiding = (this.model.get('crisis_aiding') && this.model.get('crisis_aiding').length > 0) ? this._getCrisisAidingInfo() : '';
 
     return `<div class="wrapper -project">
               ${ title }
