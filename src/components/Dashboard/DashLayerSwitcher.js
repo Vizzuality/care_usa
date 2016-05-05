@@ -46,6 +46,8 @@ class DashLayerSwitcher extends React.Component {
     let legendState;
     let layer;
 
+    console.log(this.props);
+
     let layers = layersCollection.filter(model => model.attributes.category === this.props.currentMode);
 
     layers.forEach( (model) => {
