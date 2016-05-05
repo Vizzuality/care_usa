@@ -48,49 +48,29 @@ class DashLayerSwitcher extends React.Component {
 
     let layers = layersCollection.filter(model => model.attributes.category === this.props.currentMode);
 
-    if (this.props.currentMode === 'donations') {
+    layers.forEach( (model) => {
+      layer = model.toJSON();
+      legendState = layer.active && 'is-open';
 
-      layers.forEach( (model) => {
-        layer = model.toJSON();
-        legendState = layer.active && 'is-open';
-
-        switchers.push( <div className="m-dash-layer-switcher" key={ layer.slug }>
-          <div className="map-mode">
-            <div className="selector-wrapper">
-              <input
-                type ="radio" name="mapMode" checked={ layer.active }
-                id = { layer.slug }
-                onChange = { this.props.changeLayerFn.bind(null, layer.slug) }
-              />
-              <span></span>
-              <label htmlFor={ layer.slug } className="text text-legend">{ layer.name }</label>
-            </div>
-            <div className={ 'legend-wrapper ' + legendState }>
-              <Legend ref="legend"
-                layerLegend = { layer.legend }
-              />
-            </div>
+      switchers.push( <div className="m-dash-layer-switcher" key={ layer.slug }>
+        <div className="map-mode">
+          <div className="selector-wrapper">
+            <input
+              type ="radio" name="mapMode" checked={ layer.active }
+              id = { layer.slug }
+              onChange = { this.props.changeLayerFn.bind(null, layer.slug) }
+            />
+            <span></span>
+            <label htmlFor={ layer.slug } className="text text-legend">{ layer.name }</label>
           </div>
-        </div> )
-      })
-
-    } else {
-
-      layers.forEach( (model) => {
-        layer = model.toJSON();
-        legendState = layer.active && 'is-open';
-
-        /* This condition has been temporary added to avoid refugees layer shows into the main project. */
-        if (layer.active) {
-          switchers.push(
-            <div className={ 'legend-wrapper ' + legendState } key={ layer.slug }>
-              <Legend ref="legend"
-                layerLegend = { layer.legend }
-              />
-            </div>)
-        }
-      })
-    }
+          <div className={ 'legend-wrapper ' + legendState }>
+            <Legend ref="legend"
+              layerLegend = { layer.legend }
+            />
+          </div>
+        </div>
+      </div> )
+    })
 
     return (
       <div>
