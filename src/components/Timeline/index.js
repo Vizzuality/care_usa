@@ -221,7 +221,7 @@ class TimelineView extends Backbone.View {
       .map(date => ({ date }));
 
     this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
-    this.triggerCurrentData()
+    this.triggerDate()
   }
 
   togglePlay() {
@@ -276,7 +276,7 @@ class TimelineView extends Backbone.View {
       this.cursorPosition === this.options.domain[1]) {
       this.currentDataIndex = -1;
       this.cursorPosition = this.options.domain[0];
-      this.triggerCurrentData();
+      this.triggerDate();
       this.moveCursor(this.cursorPosition);
     } else {
       this.cursorPosition = this.dayOffset(this.cursorPosition, this.dayPerFrame);
@@ -294,11 +294,8 @@ class TimelineView extends Backbone.View {
     if(this.currentDataIndex < this.options.data.length - 1 &&
       this.cursorPosition >= this.options.data[this.currentDataIndex + 1].date) {
       this.currentDataIndex++;
-      this.triggerCurrentData();
+      this.triggerDate();
     }
-
-    /* We trigger the new range shown with the cursor as the end */
-    this.triggerCursorDate(this.cursorPosition);
 
     /* If we don't reach the end, we request another animation, otherwise we move
      * the cursor to its last position on the timeline */
@@ -343,14 +340,11 @@ class TimelineView extends Backbone.View {
     if(date > this.options.domain[1]) date = this.options.domain[1];
     if(date < this.options.domain[0]) date = this.options.domain[0];
 
-    /* We trigger the range currently selected in the timeline*/
-    this.triggerCursorDate(date);
-
     const dataIndex = this.getClosestDataIndex(date);
     if(dataIndex !== this.currentDataIndex) {
       this.currentDataIndex = this.getClosestDataIndex(date);
       /* We trigger the range of the currently available data */
-      this.triggerCurrentData();
+      this.triggerDate();
     }
 
     this.cursorPosition = date;
@@ -376,52 +370,26 @@ class TimelineView extends Backbone.View {
       this.cursorPosition = date;
       this.render();
       this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
-      this.triggerCurrentData()
+      this.triggerDate()
     }
   }
 
 };
 
-/* The method is stored ouside of the class to enable it to be an IIFE */
-TimelineView.prototype.triggerCursorDate = (function() {
-  let oldEndDate = null;
+TimelineView.prototype.triggerDate = (function() {
 
-  return _.throttle(function(endDate) {
-    if(+oldEndDate === +endDate) return;
-
-    const startDate  = moment.utc(this.scale.domain()[0]).add(1, 'days').toDate();
-    this.options.triggerTimelineDates({
-      from: startDate,
-      to: endDate
-    });
-
-    oldEndDate = endDate;
-  }, 20);
-
-})();
-
-/* As the method needs to be debounce, we need to declare it outside of the
- * class or create it as an instance method */
-TimelineView.prototype.triggerCurrentData = (function() {
-  const triggerMapDates = _.debounce(function(dates) {
-    this.options.triggerMapDates(dates);
+  const trigger = _.debounce(function(date) {
+    this.options.triggerDate(date);
   }, 100, true);
 
   return function() {
-    const startDate  = moment.utc(this.scale.domain()[0]).add(1, 'days').toDate();
-    let dataDate;
     if(this.currentDataIndex < 0) {
-      dataDate = this.options.domain[0];
+      trigger.call(this, this.options.domain[0]);
     } else {
-      dataDate   = this.options.data[this.currentDataIndex].date;
+      trigger.call(this, this.options.data[this.currentDataIndex].date);
     }
-
-    /* We trigger the range show with the last date with data */
-    triggerMapDates.call(this, {
-      from: startDate,
-      to: dataDate
-    });
   };
+
 })();
 
 export default TimelineView;

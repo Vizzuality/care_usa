@@ -232,6 +232,7 @@ class App extends React.Component {
       domain,
       cursor,
       interval,
+      triggerDate: this.updateTimelineDate.bind(this),
       triggerTimelineDates: this.updateTimelineDates.bind(this),
       triggerMapDates: this.updateMapDates.bind(this),
       ticksAtExtremities: filters.from || filters.to
@@ -267,6 +268,11 @@ class App extends React.Component {
     this.timeline.options.ticksAtExtremities = filters.from || filters.to;
 
     this.timeline.render();
+  }
+
+  /* This method is called when the timeline triggers the new current date */
+  updateTimelineDate(date) {
+    console.log('new date: ' + moment.utc(date).format());
   }
 
   // MAP METHODS
