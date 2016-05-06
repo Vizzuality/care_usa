@@ -10,6 +10,7 @@ import PopUpContentView from './../PopUp/PopUpContentView';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
 import utils from '../../scripts/helpers/utils';
+import moment from 'moment';
 
 
 class MapView extends Backbone.View {
@@ -172,9 +173,17 @@ class MapView extends Backbone.View {
     let activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
     if(!activeLayer) return;
 
+    const state = this.state.toJSON();
+    /* We make sure that we don't ask for data outside the domain */
+    if(state.timelineDate && state.layer) {
+      const domain = state.layer.domain.map(date => moment.utc(date, 'YYYY-MM-DD').toDate());
+      if(+state.timelineDate < +domain[0]) state.timelineDate = domain[0];
+      if(+state.timelineDate > +domain[1]) state.timelineDate = domain[1];
+    }
+
     const layerConfig = activeLayer.attributes;
     const layerClass = (layerConfig.layer_type === 'torque') ? TorqueLayer : TileLayer;
-    const newLayer = new layerClass(layerConfig, this.state.toJSON());
+    const newLayer = new layerClass(layerConfig, state);
 
     newLayer.createLayer().done(() => {
       /* We ensure to always display the latest tiles */
