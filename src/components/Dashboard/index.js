@@ -60,7 +60,6 @@ class Dashboard extends React.Component {
     };
 
     layersSwitcher = <DashLayerSwitcher
-              layers = { this.state.layers }
               currentMode = { this.props.currentMode }
               currentLayer = { this.props.currentLayer }
               changeLayerFn= { this.props.changeLayerFn }
@@ -94,7 +93,7 @@ class Dashboard extends React.Component {
               <DashDates
                 filters={ this.props.filters }
                 timelineDates={ this.props.timelineDates }
-                dateRange={ this.props.dateRange }
+                domain={ this.props.domain }
               />
               <DashFilters
                 filters={ this.props.filters }
@@ -104,6 +103,9 @@ class Dashboard extends React.Component {
               <DashSummary
                 filters={ this.props.filters }
                 timeline={ this.props.timelineDates }
+                currentMode = { this.props.currentMode }
+                timelineDate={ this.props.timelineDate }
+                domain={ this.props.domain }
               />
               { layersSwitcher }
             </div>

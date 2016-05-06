@@ -75,8 +75,8 @@ class TorqueLayer {
         const res = Object.keys(statements).map(name => {
           const filter = filters[name];
             return statements[name](filters, [
-              moment.utc(this.options.start_date, 'YYYY-MM-DD'),
-              moment.utc(this.options.end_date, 'YYYY-MM-DD')
+              moment.utc(this.options.domain[0], 'YYYY-MM-DD'),
+              moment.utc(this.options.domain[1], 'YYYY-MM-DD')
             ]);
           }).filter(statement => !!statement)
             .join(' AND ');
@@ -98,6 +98,10 @@ class TorqueLayer {
     return utils.isFF() ?
       this.options.geo_cartocss.replace('comp-op: multiply;', '') :
       this.options.geo_cartocss;
+  }
+
+  isReady() {
+    return !Number.isNaN(this.layer.timeToStep(new Date()));
   }
 
 }
