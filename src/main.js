@@ -3,6 +3,7 @@
 import 'normalize.css';
 import 'select2/dist/css/select2.min.css';
 import './main.postcss';
+import './images/favicon.ico';
 
 import React  from 'react';
 import ReactDOM from 'react-dom';

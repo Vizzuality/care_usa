@@ -11,6 +11,7 @@ const postcssImporter = require('postcss-import');
 const postcssFunctions = require('postcss-functions');
 const postcssHexRgba = require('postcss-hexrgba');
 const envVariables = require('dotenv').config();
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const config = {
 
@@ -34,7 +35,7 @@ const config = {
 
   module: {
     loaders: [
-      {test: /\.html$/, loader: 'file?name=[name].[ext]'},
+      {test: /\.(html|ico)$/, loader: 'file?name=[name].[ext]'},
       {test: /\.(js|jsx)$/, loader: 'babel-loader', exclude: /node_modules/},
       {test: /\.(postcss$|css$)/, loader: 'style-loader!css-loader!postcss-loader'},
       {test: /\.(png|jpg|gif|svg)$/, loader: 'url-loader?prefix=image/&limit=5000&context=./src/images'},
@@ -47,6 +48,7 @@ const config = {
   },
 
   plugins: [
+    new CopyWebpackPlugin([{ from: '/favicons', to: path.join(__dirname, 'dist'), }]),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       ENVIRONMENT: JSON.stringify(process.env.NODE_ENV || 'development'),
