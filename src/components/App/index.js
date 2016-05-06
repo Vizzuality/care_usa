@@ -284,11 +284,11 @@ class App extends React.Component {
     const state = this.router.params.toJSON();
     state.timelineDate = this.state.timelineDate;
     state.layer = this.state.layer;
+    state.mode = this.state.mode;
 
     this.mapView = new MapView({
       el: this.refs.Map,
       state,
-      donation: this.state.donation,
       mode: this.state.mode
     });
 
