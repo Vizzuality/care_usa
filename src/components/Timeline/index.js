@@ -262,11 +262,13 @@ class TimelineView extends Backbone.View {
     cancelAnimationFrame(this.animationFrame);
     this.animationFrame = null;
 
-    /* We place the cursor at the end of the timeline if we reached the end */
-    if(this.currentDataIndex === this.options.data.length - 1) {
-      this.cursorPosition = this.options.domain[1];
-      this.moveCursor(this.cursorPosition);
-    }
+    /* This functionality has been removed because it was looking weird on
+     * the projects mode */
+    // /* We place the cursor at the end of the timeline if we reached the end */
+    // if(this.currentDataIndex === this.options.data.length - 1) {
+    //   this.cursorPosition = this.options.domain[1];
+    //   this.moveCursor(this.cursorPosition);
+    // }
   }
 
   renderAnimationFrame() {
