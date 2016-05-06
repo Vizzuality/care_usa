@@ -10,7 +10,6 @@ import utils from '../../scripts/helpers/utils';
 import './styles.postcss';
 
 const defaults = {
-  domain: [new Date(2012, 0, 1), new Date(2015, 0, 1)],
   milestones: [
     // { date: new Date(2012, 3, 15) },
     // { date: new Date(2012, 4, 27) },
@@ -22,9 +21,6 @@ const defaults = {
     right: 15,
     bottom: 0,
     left: 15
-  },
-  cursor: {
-    speed: 10 /* seconds per year */
   },
   ticksAtExtremities: false
 };
@@ -55,7 +51,6 @@ class TimelineView extends Backbone.View {
 
     this.render();
     this.setListeners();
-
   }
 
   setListeners() {
@@ -219,7 +214,7 @@ class TimelineView extends Backbone.View {
       .attr('class', 'cursor')
       .call(this.brush.event);
 
-    this.options.data = this.options.interval.unit.range.apply(null, this.scale.domain().concat(this.options.interval.count))
+    this.options.data = this.options.interval.unit.utc.range.apply(null, this.options.domain.concat(this.options.interval.count))
       .map(date => ({ date }));
 
     this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
@@ -373,46 +368,6 @@ class TimelineView extends Backbone.View {
     return this.options.data.length - 1;
   }
 
-  /* Update the range of the timeline and its interval; shows ticks at the
-   * extremities if true */
-  setRange(domain, interval, extremityTicks) {
-    this.options.domain = domain;
-    this.options.ticksAtExtremities = !!extremityTicks;
-    if(interval) this.options.interval = interval;
-    this.setCursorPosition(this.options.domain[1]);
-  }
-
-  changeMode(mode, interval, dataRange, torqueLayer) {
-    this.options.interval = interval;
-
-    if(this.cursorPosition < dataRange[0]) {
-      this.cursorPosition = dataRange[0];
-      this.triggerCursorDate(this.cursorPosition);
-    } else if(this.cursorPosition > dataRange[1]) {
-      this.cursorPosition = dataRange[1];
-      this.triggerCursorDate(this.cursorPosition);
-    }
-
-    /* We force some params for the speed of the timeline and frequency of the
-     * data */
-    if(mode === 'donations') {
-      if(torqueLayer) {
-        this.options.interval.unit = d3.time.week.utc;
-        this.options.cursor.speed = 10;
-      } else {
-        this.options.cursor.speed = 40;
-        this.options.interval.unit = d3.time.month.utc;
-      }
-    } else {
-      this.options.cursor.speed = 10;
-    }
-
-    this.render();
-
-    this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
-    this.triggerCurrentData()
-  }
-
   setCursorPosition(date) {
     if(!moment.utc(this.cursorPosition).isSame(date)) {
       this.cursorPosition = date;
@@ -447,7 +402,7 @@ TimelineView.prototype.triggerCursorDate = (function() {
 TimelineView.prototype.triggerCurrentData = (function() {
   const triggerMapDates = _.debounce(function(dates) {
     this.options.triggerMapDates(dates);
-  }, 100);
+  }, 100, true);
 
   return function() {
     const startDate  = moment.utc(this.scale.domain()[0]).add(1, 'days').toDate();

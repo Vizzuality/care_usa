@@ -42,7 +42,7 @@ class CreateTileLayer {
   _getQuery() {
     const filters = this.options.state.filters;
     const timeline = this.options.state.timelineDates;
-    const statements = optionalStatements[this.options.category]
+    const statements = optionalStatements[this.options.category];
     return this.options.sql_template.replace(/\s\$WHERE/g, () => {
       if(filters || timeline) {
         const res = Object.keys(statements).map(name => {

@@ -128,29 +128,6 @@ class App extends React.Component {
     this.setState(newParams);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    /* Basically, here, what we want to do is pass to the timeline the minimum
-     * range covering both the range of the donations and of the projects, or
-     * the filtering range if exists */
-    const wholeRange = [
-      new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
-      new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
-    ];
-
-    const interval = this.state.dataInterval[nextState && nextState.mode || this.state.mode];
-
-    if(nextState.filters.from && nextState.filters.from !== this.state.filters.from ||
-      nextState.filters.to && nextState.filters.to !== this.state.filters.to) {
-      const range = [ nextState.filters.from, nextState.filters.to ];
-      this.timeline.setRange(range, interval, true);
-    } else if(this.state.filters.from && !nextState.filters.from ||
-      this.state.filters.to && !nextState.filters.to) {
-      this.timeline.setRange(wholeRange, interval);
-    }
-
-    return true;
-  }
-
   onRouterChange() {
     const params = this.router.params.toJSON();
 
@@ -223,8 +200,9 @@ class App extends React.Component {
         if(layerSlug) layersCollection.setActiveLayer(mode, layerSlug);
 
         this.setState({ 'ready': true });
-        this.initMap();
+        /* InitTimeline should be called before to trigger the current date */
         this.initTimeline();
+        this.initMap();
       });
   }
 
@@ -264,20 +242,18 @@ class App extends React.Component {
 
   // TIMELINE METHODS
   initTimeline() {
-    /* We define the domain of the timeline */
-    let domain = [
-      new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
-      new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
-    ];
-    if(this.state.filters.from || this.state.filters.to) {
-      domain = [ this.state.filters.from, this.state.filters.to ];
-    }
+    const layer = layersCollection.getActiveLayer(this.state.mode).toJSON();
+    const domain = layer.domain.map(date => moment.utc(date).toDate());
+    const cursor = { speed: layer.timeline.speed };
+    const interval = Object.assign({}, layer.timeline.interval);
+    interval.unit = d3.time[interval.unit];
 
     const timelineParams = {
       el: this.refs.Timeline,
-      domain: domain,
-      interval: this.state.dataInterval[this.state.mode],
-      filters: this.state.filters,
+      wholeDomain: layersCollection.getDataDomain(),
+      domain,
+      cursor,
+      interval,
       triggerTimelineDates: this.updateTimelineDates.bind(this),
       triggerMapDates: this.updateMapDates.bind(this),
       ticksAtExtremities: this.state.filters.from || this.state.filters.to
@@ -295,6 +271,20 @@ class App extends React.Component {
     this.timeline = new TimelineView(timelineParams);
   }
 
+  /* Update the timeline to reflect the attributes of the new layer */
+  updateTimeline(layer) {
+    const domain = layer.domain.map(date => moment.utc(date).toDate());
+    const cursor = { speed: layer.timeline.speed };
+    const interval = Object.assign({}, layer.timeline.interval);
+    interval.unit = d3.time[interval.unit];
+
+    this.timeline.options.domain = domain;
+    this.timeline.options.cursor = cursor;
+    this.timeline.options.interval = interval;
+
+    this.timeline.render();
+  }
+
   // MAP METHODS
   initMap() {
     /* We assume that the state already took into account the params from the
@@ -305,11 +295,14 @@ class App extends React.Component {
       layer: this.state.layer.slug
     });
 
+    const state = this.router.params.toJSON();
+    state.timelineDates = this.state.mapDates;
+
     this.mapView = new MapView({
       el: this.refs.Map,
-      state: this.router.params.toJSON(),
+      state,
       donation: this.state.donation,
-      mode: this.state.mode,
+      mode: this.state.mode
     });
 
     //Donation
@@ -383,7 +376,8 @@ class App extends React.Component {
     this.router.update({mode: mode, layer: layer.toJSON().slug});
     this.setState({ mode: mode, layer: layer.toJSON() });
 
-    this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
+    this.updateTimeline(layer.toJSON());
+
     this.mapView.state.set({
       mode,
       layer: layer.toJSON().slug,
@@ -395,6 +389,7 @@ class App extends React.Component {
     this.router.update({ layer: layer.slug });
     this.setState({ layer });
     layersCollection.setActiveLayer(this.state.mode, layer.slug);
+    this.updateTimeline(layer);
   }
 
   toggleModalFilter() {
