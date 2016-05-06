@@ -56,13 +56,9 @@ class App extends React.Component {
       filters: {},
       sectors: [],
       regions: [],
-      /* The range selected in the timeline */
-      timelineDates: {},
       shareOpen: false,
       aboutOpen: false,
       donorsOpen: false,
-      /* The range displayed on the map */
-      mapDates: {}
     };
 
   }
@@ -270,22 +266,9 @@ class App extends React.Component {
 
   /* This method is called when the timeline triggers the new current date */
   updateTimelineDate(date) {
-    console.log('new date: ' + moment.utc(date).format());
-
     this.setState({ timelineDate: date });
     this.router.update({ timelineDate: date });
     if(this.mapView) this.mapView.state.set({ timelineDate: date });
-
-    /* cursor */
-    // this.setState({ timelineDates: dates, timelineDate: dates.to });
-    // this.router.update({
-    //   timelineDate: moment.utc(dates.to).format('YYYY-MM-DD')
-    // });
-
-    /* map */
-    // this.setState({ mapDates: dates });
-    // //MAP STATE CHANGE
-    // if(this.mapView) this.mapView.state.set({ timelineDates: dates });
   }
 
   // MAP METHODS
