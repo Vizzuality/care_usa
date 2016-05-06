@@ -14,12 +14,12 @@ class PopUpModel extends Backbone.Model {
 
   _getUrl() {
     const noFilters = filtersModel.filtersIsEmpty();
-    const distributionLayer = this.options.currentLayer === 'number-of-donors' ? '/distribution' : '';
+    const distributionLayer = this.options.layer.slug === 'number-of-donors' ? '/distribution' : '';
 
     this.baseUrl = `${config.apiUrl}/${this.options.currentMode}${distributionLayer}?lat=${this.options.latLng.lat}&lng=${this.options.latLng.lng}&zoom=${this.options.zoom}`
 
-    if (this.options.timelineDates) {
-      this.baseUrl = this.baseUrl + `&start_date=${moment.utc(this.options.timelineDates.from).format('DD-MM-YYYY')}&end_date=${moment.utc(this.options.timelineDates.to).format('DD-MM-YYYY')}`
+    if(this.options.timelineDate && this.options.layer) {
+      this.baseUrl = this.baseUrl + `&start_date=${moment.utc(this.options.layer.domain[0]).format('DD-MM-YYYY')}&end_date=${moment.utc(this.options.timelineDate).format('DD-MM-YYYY')}`
     }
 
     if (noFilters) {
@@ -30,21 +30,21 @@ class PopUpModel extends Backbone.Model {
   }
 
   _getUrlWithFilters() {
-    let sectors = '';
     const filters = filtersModel.toJSON();
 
-    const startDate = filters['from'] ? ('&start_date=' + filters['from-year'] + '-' + filters['from-month'] + '-' + filters['from-day']): '';
-    const endDate = filters['to'] ? ('&end_date=' + filters['to-year'] + '-' + filters['to-month'] + '-' + filters['to-day']): '';
-    const regions = filters['region'] ? '&countries_iso=' + filters['region'] : '';
+    const startDate = filters.from && `start_date=${filters['from-year']}-${filters['from-month']}-${filters['from-day']}`;
+    const endDate = filters.to && `end_date=${filters['to-year']}-${filters['to-month']}-${filters['to-day']}`;
+    const regions = filters.region && `countries_iso=${filters['region']}`;
 
-    if (filters['sectors'].length > 0) {
-
-      $.each(filters['sectors'], function(i, sector) {
-        sectors = sectors + '&sectors_slug[]=' + sector
-      })
+    if(filters.sectors.length > 0) {
+      const sectors = filters.sectors
+        .map(sector => `sectors_slug[]=${sector}`)
+        .join('&')
     }
 
-    return `${this.baseUrl}${startDate}${endDate}${sectors}${regions}`;
+    return [ this.baseUrl, startDate, endDate, regions, sectors ]
+      .filter(elem => !!elem)
+      .join('&');
   }
 
   parse(data) {

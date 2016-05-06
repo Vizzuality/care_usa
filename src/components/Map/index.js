@@ -148,11 +148,11 @@ class MapView extends Backbone.View {
   _infowindowSetUp(e) {
     this.popUp = new PopUpContentView({
       currentMode: this.state.get('mode'),
-      currentLayer: this.state.get('currentLayer'),
+      layer: this.state.get('layer'),
       latLng: e.latlng,
       map: this.map,
       zoom: this.state.get('zoom'),
-      timelineDate: this.state.get('timelineDate')
+      timelineDate: this.state.get('timelineDate'),
     });
 
     this.popUp.getPopUp();

@@ -300,6 +300,7 @@ class App extends React.Component {
 
     const state = this.router.params.toJSON();
     state.timelineDate = this.state.timelineDate;
+    state.layer = this.state.layer;
 
     this.mapView = new MapView({
       el: this.refs.Map,
@@ -376,13 +377,13 @@ class App extends React.Component {
 
   changeMapMode(mode) {
     const layer = layersCollection.getActiveLayer(mode);
-    this.router.update({mode: mode, layer: layer.toJSON().slug});
+    this.router.update({ mode: mode, layer: layer.toJSON().slug });
     this.setState({ mode: mode, layer: layer.toJSON() });
 
     /* We should always update the map before the timeline */
     this.mapView.state.set({
       mode,
-      layer: layer.toJSON().slug,
+      layer: layer.toJSON(),
       currentLayer: layer.toJSON().slug
     });
 
@@ -393,6 +394,7 @@ class App extends React.Component {
     this.router.update({ layer: layer.slug });
     this.setState({ layer });
     layersCollection.setActiveLayer(this.state.mode, layer.slug);
+    this.mapView.state.set({ layer });
     this.updateTimeline(layer);
   }
 
