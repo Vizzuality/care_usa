@@ -376,13 +376,14 @@ class App extends React.Component {
     this.router.update({mode: mode, layer: layer.toJSON().slug});
     this.setState({ mode: mode, layer: layer.toJSON() });
 
-    this.updateTimeline(layer.toJSON());
-
+    /* We should always update the map before the timeline */
     this.mapView.state.set({
       mode,
       layer: layer.toJSON().slug,
       currentLayer: layer.toJSON().slug
     });
+
+    this.updateTimeline(layer.toJSON());
   }
 
   changeLayer(layer) {

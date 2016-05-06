@@ -167,9 +167,6 @@ class MapView extends Backbone.View {
   }
 
   _addLayer() {
-    /* We only want one layer at a time */
-    if(this.creatingLayer) return;
-
     if(this.popUp) this.popUp.closeCurrentPopup();
 
     let activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
@@ -178,8 +175,6 @@ class MapView extends Backbone.View {
     const layerConfig = activeLayer.attributes;
     const layerClass = (layerConfig.layer_type === 'torque') ? TorqueLayer : TileLayer;
     const newLayer = new layerClass(layerConfig, this.state.toJSON());
-
-    this.creatingLayer = true;
 
     newLayer.createLayer().done(() => {
       /* We ensure to always display the latest tiles */
@@ -193,7 +188,6 @@ class MapView extends Backbone.View {
           this.initTorqueLayer();
         }
       }
-      this.creatingLayer = false;
     });
   }
 
@@ -201,6 +195,11 @@ class MapView extends Backbone.View {
    * proper "loaded" working event in the torque library */
   initTorqueLayer() {
     const callback = () => {
+      if(!this.currentLayer) {
+        clearTimeout(timeout);
+        return;
+      }
+
       const isReady = this.currentLayer.isReady();
       if(isReady) {
         clearTimeout(timeout);
@@ -227,6 +226,8 @@ MapView.prototype.updateLayer = (function() {
   }, 200);
 
   return function() {
+    if(!this.currentLayer || !this.currentLayer.layer) return;
+
     const activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
     if(!activeLayer) return;
 
