@@ -267,7 +267,7 @@ class App extends React.Component {
   /* This method is called when the timeline triggers the new current date */
   updateTimelineDate(date) {
     this.setState({ timelineDate: date });
-    this.router.update({ timelineDate: date });
+    this.router.update({ timelineDate: moment.utc(+date).format('YYYY-MM-DD') });
     if(this.mapView) this.mapView.state.set({ timelineDate: date });
   }
 
