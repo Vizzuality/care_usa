@@ -233,8 +233,6 @@ class App extends React.Component {
       cursor,
       interval,
       triggerDate: this.updateTimelineDate.bind(this),
-      triggerTimelineDates: this.updateTimelineDates.bind(this),
-      triggerMapDates: this.updateMapDates.bind(this),
       ticksAtExtremities: filters.from || filters.to
     };
 
@@ -273,6 +271,21 @@ class App extends React.Component {
   /* This method is called when the timeline triggers the new current date */
   updateTimelineDate(date) {
     console.log('new date: ' + moment.utc(date).format());
+
+    this.setState({ timelineDate: date });
+    this.router.update({ timelineDate: date });
+    if(this.mapView) this.mapView.state.set({ timelineDate: date });
+
+    /* cursor */
+    // this.setState({ timelineDates: dates, timelineDate: dates.to });
+    // this.router.update({
+    //   timelineDate: moment.utc(dates.to).format('YYYY-MM-DD')
+    // });
+
+    /* map */
+    // this.setState({ mapDates: dates });
+    // //MAP STATE CHANGE
+    // if(this.mapView) this.mapView.state.set({ timelineDates: dates });
   }
 
   // MAP METHODS
@@ -286,7 +299,7 @@ class App extends React.Component {
     });
 
     const state = this.router.params.toJSON();
-    state.timelineDates = this.state.mapDates;
+    state.timelineDate = this.state.timelineDate;
 
     this.mapView = new MapView({
       el: this.refs.Map,
@@ -391,19 +404,6 @@ class App extends React.Component {
     this.setState({ filters: filters });
   }
 
-  updateTimelineDates(dates) {
-    this.setState({ timelineDates: dates, timelineDate: dates.to });
-    this.router.update({
-      timelineDate: moment.utc(dates.to).format('YYYY-MM-DD')
-    });
-  }
-
-  updateMapDates(dates) {
-    this.setState({ mapDates: dates });
-    //MAP STATE CHANGE
-    if(this.mapView) this.mapView.state.set({ timelineDates: dates });
-  }
-
   setDonationsAsmode() {
     this.changeMapMode('donations');
   }
@@ -411,7 +411,6 @@ class App extends React.Component {
   resetFilters() {
     filtersModel.clear({ silent: true });
     filtersModel.set(filtersModel.defaults);
-    console.log(filtersModel.toJSON());
   }
 
   handleModal(state, modal) {

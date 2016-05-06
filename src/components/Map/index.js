@@ -122,7 +122,7 @@ class MapView extends Backbone.View {
     });
 
     this.state.on('change:filters', () => this.updateLayer());
-    this.state.on('change:timelineDates', () => this.updateLayer());
+    this.state.on('change:timelineDate', () => this.updateLayer());
 
     this.state.on('change:mode', _.bind(this.updateLayer, this));
     layersCollection.on('change', _.bind(this.updateLayer, this));
@@ -152,7 +152,7 @@ class MapView extends Backbone.View {
       latLng: e.latlng,
       map: this.map,
       zoom: this.state.get('zoom'),
-      timelineDates: this.state.get('timelineDates')
+      timelineDate: this.state.get('timelineDate')
     });
 
     this.popUp.getPopUp();
@@ -235,8 +235,8 @@ MapView.prototype.updateLayer = (function() {
       this.currentLayerConfig.layer_type !== 'torque') {
       _addLayer.call(this);
     } else {
-      const currentDate = this.state.toJSON().timelineDates &&
-        this.state.toJSON().timelineDates.to || this.state.toJSON().filters.to;
+      const currentDate = this.state.toJSON().timelineDate
+        || this.state.toJSON().filters.to;
       const step = Math.round(this.currentLayer.layer.timeToStep(currentDate));
       this.currentLayer.layer.setStep(step);
     }
