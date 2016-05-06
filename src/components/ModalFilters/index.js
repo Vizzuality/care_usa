@@ -84,25 +84,16 @@ class ModalFilters extends Modal {
           <legend className="text -dark text-form-labels">From</legend>
           <div>
             <div>
-              <svg className="arrow">
-                <use xlinkHref="#icon-arrow"></use>
-              </svg>
               <select className="js-from-month" name="from-month">
                 <option value="" disabled="disabled">Month</option>
               </select>
             </div>
             <div>
-              <svg className="arrow">
-                <use xlinkHref="#icon-arrow"></use>
-              </svg>
               <select className="js-from-day" name="from-day">
                 <option value="" disabled="disabled">Day</option>
               </select>
             </div>
             <div>
-              <svg className="arrow">
-                <use xlinkHref="#icon-arrow"></use>
-              </svg>
               <select className="js-from-year" name="from-year">
                 <option value="" disabled="disabled">Year</option>
               </select>
@@ -114,25 +105,16 @@ class ModalFilters extends Modal {
           <legend className="text -dark text-form-labels">To</legend>
           <div>
             <div>
-              <svg className="arrow">
-                <use xlinkHref="#icon-arrow"></use>
-              </svg>
               <select className="js-to-month" name="to-month">
                 <option value="" disabled="disabled">Month</option>
               </select>
             </div>
             <div>
-              <svg className="arrow">
-                <use xlinkHref="#icon-arrow"></use>
-              </svg>
               <select className="js-to-day" name="to-day">
                 <option value="" disabled="disabled">Day</option>
               </select>
             </div>
             <div>
-              <svg className="arrow">
-                <use xlinkHref="#icon-arrow"></use>
-              </svg>
               <select className="js-to-year" name="to-year">
                 <option value="" disabled="disabled">Year</option>
               </select>
@@ -143,9 +125,6 @@ class ModalFilters extends Modal {
         <fieldset className="regions">
           <legend className="text -dark text-form-labels">Countries of interest</legend>
           <div>
-            <svg className="arrow">
-              <use xlinkHref="#icon-arrow"></use>
-            </svg>
             <select className="js-regions" name="region">
               <option value="" disabled="disabeld">All regions</option>
             </select>

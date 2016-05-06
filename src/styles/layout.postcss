@@ -84,7 +84,6 @@ $l-margin-vt: 50;
   right: 0;
   height: rem($header-height-mb);
   z-index: 1;
-  pointer-events: none;
 
   @media screen and (min-width: $screen-m) {
     height: rem($header-height);
@@ -101,6 +100,8 @@ $l-margin-vt: 50;
 #app {
   .l-header {
     position: absolute;
+    pointer-events: none;
+
   }
 }
 
