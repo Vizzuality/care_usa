@@ -445,13 +445,11 @@ class App extends React.Component {
           changeModeFn={ this.changeMapMode.bind(this) }
           changeLayerFn={ this.changeLayer.bind(this) }
           currentMode={ this.state.mode }
-          currentLayer={ this.state.layer.slug }
+          layer={ this.state.layer }
           toggleFiltersFn={ this.toggleModalFilter.bind(this) }
           filters={ this.state.filters }
           sectors={ this.state.sectors }
           regions={ this.state.regions }
-          domain={ this.state.layer.domain }
-          timelineDates={ this.state.timelineDates }
           timelineDate={ this.state.timelineDate }
         />
 
@@ -490,7 +488,6 @@ class App extends React.Component {
           filtersOpen ={ this.state.filtersOpen }
           currentMode={ this.state.mode }
           domain={ this.state.layer.domain }
-          timelineDates={ this.state.timelineDates }
           onChangeFilters={ this.handleModal.bind(this, 'open', 'filtersOpen') }
           onGoBack={ this.setDonationsAsmode.bind(this) }
           onCancel={ this.resetFilters.bind(this) }

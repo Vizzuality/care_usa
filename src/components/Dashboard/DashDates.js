@@ -15,10 +15,10 @@ class DashboardDates extends React.Component {
 
   render() {
     let dates;
-    if(this.props.timelineDates.from && this.props.timelineDates.to) {
+    if(this.props.timelineDate) {
       dates = [
-        moment.utc(this.props.timelineDates.from).format('MM·DD·YYYY'),
-        moment.utc(this.props.timelineDates.to).format('MM·DD·YYYY')
+        moment.utc(this.props.layer.domain[0], 'YYYY-MM-DD').format('MM·DD·YYYY'),
+        moment.utc(+this.props.timelineDate).format('MM·DD·YYYY')
       ];
     } else if(this.props.filters.from && this.props.filters.to) {
       dates = [
@@ -27,8 +27,8 @@ class DashboardDates extends React.Component {
       ];
     } else {
       dates = [
-        moment.utc(this.props.domain[0]).format('MM·DD·YYYY'),
-        moment.utc(this.props.domain[1]).format('MM·DD·YYYY')
+        moment.utc(this.props.layer.domain[0]).format('MM·DD·YYYY'),
+        moment.utc(this.props.layer.domain[1]).format('MM·DD·YYYY')
       ];
     }
 

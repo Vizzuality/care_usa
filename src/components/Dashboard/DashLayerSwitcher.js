@@ -24,7 +24,7 @@ class DashLayerSwitcher extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     return this.props.currentMode !== nextProps.currentMode ||
-      this.props.currentLayer != nextProps.currentLayer;
+      this.props.layer != nextProps.layer;
   }
 
   _toogleLegend() {
