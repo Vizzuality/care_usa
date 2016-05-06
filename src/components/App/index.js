@@ -230,7 +230,7 @@ class App extends React.Component {
     const cursor = { speed: layer.timeline.speed };
     const interval = Object.assign({}, layer.timeline.interval);
     interval.unit = d3.time[interval.unit];
-    
+
     let domain = layer.domain.map(date => moment.utc(date).toDate());
     let filters = filtersModel.toJSON();
     if(filters.from && filters.to) {
@@ -245,7 +245,7 @@ class App extends React.Component {
       interval,
       triggerTimelineDates: this.updateTimelineDates.bind(this),
       triggerMapDates: this.updateMapDates.bind(this),
-      ticksAtExtremities: this.state.filters.from || this.state.filters.to
+      ticksAtExtremities: filters.from || filters.to
     };
 
     /* We retrieve the position of the cursor from the URL if exists */
@@ -276,8 +276,7 @@ class App extends React.Component {
     this.timeline.options.domain = domain;
     this.timeline.options.cursor = cursor;
     this.timeline.options.interval = interval;
-    this.timeline.options.ticksAtExtremities = this.state.filters.from ||
-      this.state.filters.to;
+    this.timeline.options.ticksAtExtremities = filters.from || filters.to;
 
     this.timeline.render();
   }
@@ -368,7 +367,7 @@ class App extends React.Component {
     }
   }
 
-  changeMapMode(mode, e) {
+  changeMapMode(mode) {
     const layer = layersCollection.getActiveLayer(mode);
     this.router.update({mode: mode, layer: layer.toJSON().slug});
     this.setState({ mode: mode, layer: layer.toJSON() });
@@ -412,12 +411,13 @@ class App extends React.Component {
   }
 
   setDonationsAsmode() {
-    this.setState({ mode: 'donations' });
+    this.changeMapMode('donations');
   }
 
   resetFilters() {
     filtersModel.clear({ silent: true });
     filtersModel.set(filtersModel.defaults);
+    console.log(filtersModel.toJSON());
   }
 
   handleModal(state, modal) {
