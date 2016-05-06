@@ -11,13 +11,13 @@ const defaults = {
 
 const optionalStatements = {
   donations: {
-    from:    (filters, timeline) => `date > '${moment.utc(timeline.from || filters && filters.from).format('MM-DD-YYYY')}'::date`,
-    to:      (filters, timeline) => `date < '${moment.utc(timeline.to || filters && filters.to).format('MM-DD-YYYY')}'::date`,
+    from:    (filters, timelineDate, layer) => filters && filters.from ? `date > '${moment.utc(filters.from).format('MM-DD-YYYY')}'::date` : `date > '${moment.utc(layer.domain[0], 'YYYY-MM-DD').format('MM-DD-YYYY')}'::date`,
+    to:      (filters, timelineDate) => `date < '${moment.utc(timelineDate || filters && filters.to).format('MM-DD-YYYY')}'::date`,
     region:  filters => filters && filters.region ? `countries @> '%${filters.region}%'` : '',
     sectors: filters => filters && filters.sectors.length ? `sectors && ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
   },
   projects: {
-    to:      (filters, timeline) => `year='${moment.utc(timeline.to || filters && filters.to).format('YYYY')}'`,
+    to:      (filters, timelineDate) => `year='${moment.utc(timelineDate || filters && filters.to).format('YYYY')}'`,
     region:  filters => filters && filters.region ? `iso in ('${filters.region}')` : '',
     sectors: filters => filters && filters.sectors.length ? `(${filters.sectors.map(sector => `${sector}_people<>0`).join(' OR ')})` : ''
   }
@@ -40,15 +40,16 @@ class CreateTileLayer {
 
   _getQuery() {
     const filters = this.options.state.filters;
-    const timeline = this.options.state.timelineDates;
+    const timelineDate = this.options.state.timelineDate;
+    const layer = this.options.state.layer;
     const statements = optionalStatements[this.options.category];
     return this.options.sql_template.replace(/\s\$WHERE/g, () => {
-      if(filters || timeline) {
+      if(filters || timelineDate) {
         const res = Object.keys(statements).map(name => {
           const filter = filters[name];
             if(Array.isArray(filter) && filter.length ||
-              !Array.isArray(filter) && filter || timeline) {
-              return statements[name](filters, timeline);
+              !Array.isArray(filter) && filter || timelineDate) {
+              return statements[name](filters, timelineDate, layer);
             }
             return null;
           }).filter(statement => !!statement)

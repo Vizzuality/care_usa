@@ -6,8 +6,8 @@ import utils from '../../scripts/helpers/utils';
 
 const optionalStatements = {
   donations: {
-    from:    (filters, range) => `date > '${moment.utc(range[0]).format('MM-DD-YYYY')}'::date`,
-    to:      (filters, range) => `date < '${moment.utc(range[1]).format('MM-DD-YYYY')}'::date`,
+    from:    (filters, range) => `date > '${range[0].format('MM-DD-YYYY')}'::date`,
+    to:      (filters, range) => `date < '${range[1].format('MM-DD-YYYY')}'::date`,
     region:  filters => filters && filters.region ? `countries @> '%${filters.region}%'` : '',
     sectors: filters => filters && filters.sectors.length ? `sectors && ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
   }
@@ -68,15 +68,14 @@ class TorqueLayer {
 
   getQuery() {
     const filters = this.state.filters;
-    const timeline = this.state.timelineDates;
     const statements = optionalStatements[this.options.category]
     return this.options.sql_template.replace('$WHERE', () => {
-      if(filters || timeline) {
+      if(filters) {
         const res = Object.keys(statements).map(name => {
           const filter = filters[name];
             return statements[name](filters, [
-              moment.utc(this.options.domain[0], 'YYYY-MM-DD'),
-              moment.utc(this.options.domain[1], 'YYYY-MM-DD')
+              moment.utc(this.state.layer.domain[0], 'YYYY-MM-DD'),
+              moment.utc(this.state.layer.domain[1], 'YYYY-MM-DD')
             ]);
           }).filter(statement => !!statement)
             .join(' AND ');
