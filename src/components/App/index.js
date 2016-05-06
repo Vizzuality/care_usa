@@ -48,7 +48,6 @@ class App extends React.Component {
     this.state = {
       ready: false,
       mode: 'donations',
-      layer: 'amount-of-money',
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false,
@@ -69,19 +68,6 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-
-    /* Needs to be done before the component is mounted and before the router
-     * is instanciated */
-    filtersModel.on('change', () => {
-      this.setState({ filters: filtersModel.toJSON() });
-      this.updateTimeline(this.state.layer);
-      this.router.update(this.parseFiltersForRouter());
-    });
-
-    this.router = new Router();
-    this.router.params.on('change', this.onRouterChange.bind(this));
-    this.router.start();
-
     this.setState(utils.checkDevice());
 
     sectorsCollection.fetch()
@@ -93,7 +79,6 @@ class App extends React.Component {
   componentDidMount() {
     this._initData();
     DonorsModalModel.on('change', () => !DonorsModalModel.get('donorsOpen') ? '' : this.setState({ donorsOpen: true }));
-    this.router.params.on('change', this.onRouterChangeMap.bind(this));
   }
 
   _updateRouterParams() {
@@ -176,14 +161,29 @@ class App extends React.Component {
   _initData() {
     layersCollection.fetch()
       .done(() => {
+        /* Needs to be done before the router is instanciated */
+        filtersModel.on('change', () => {
+          this.setState({ filters: filtersModel.toJSON() });
+          if(this.timeline) this.updateTimeline(this.state.layer);
+          this.router.update(this.parseFiltersForRouter());
+        });
+
+        this.router = new Router();
+        this.router.start();
         this._updateRouterParams();
+        /* TODO: merge these two methods */
+        this.router.params.on('change', this.onRouterChange.bind(this));
+        this.router.params.on('change', this.onRouterChangeMap.bind(this));
 
         const mode = this.router.params.attributes.mode || this.state.mode;
         const layerSlug = this.router.params.attributes.layer;
-
         if(layerSlug) layersCollection.setActiveLayer(mode, layerSlug);
 
-        this.setState({ 'ready': true });
+        this.setState({
+          ready: true,
+          layer: layersCollection.getActiveLayer(mode).toJSON()
+        });
+
         /* InitTimeline should be called before to trigger the current date */
         this.initTimeline();
         this.initMap();
@@ -227,10 +227,15 @@ class App extends React.Component {
   // TIMELINE METHODS
   initTimeline() {
     const layer = layersCollection.getActiveLayer(this.state.mode).toJSON();
-    const domain = layer.domain.map(date => moment.utc(date).toDate());
     const cursor = { speed: layer.timeline.speed };
     const interval = Object.assign({}, layer.timeline.interval);
     interval.unit = d3.time[interval.unit];
+    
+    let domain = layer.domain.map(date => moment.utc(date).toDate());
+    let filters = filtersModel.toJSON();
+    if(filters.from && filters.to) {
+      domain = [ filters.from, filters.to ];
+    }
 
     const timelineParams = {
       el: this.refs.Timeline,
@@ -271,6 +276,8 @@ class App extends React.Component {
     this.timeline.options.domain = domain;
     this.timeline.options.cursor = cursor;
     this.timeline.options.interval = interval;
+    this.timeline.options.ticksAtExtremities = this.state.filters.from ||
+      this.state.filters.to;
 
     this.timeline.render();
   }
