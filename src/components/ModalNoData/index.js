@@ -18,7 +18,7 @@ class ModalNoData extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if(!nextProps.filtersOpen && nextProps.filters.from && nextProps.filters.to &&
-      !utils.rangesIntersect(nextProps.domain,
+      !utils.rangesIntersect(nextProps.domain.map(date => moment.utc(date, 'YYYY-MM-DD').toDate()),
         [ nextProps.filters.from, nextProps.filters.to ],
         (a, b) => +a - (+b))
       ) {

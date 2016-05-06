@@ -74,6 +74,7 @@ class App extends React.Component {
      * is instanciated */
     filtersModel.on('change', () => {
       this.setState({ filters: filtersModel.toJSON() });
+      this.updateTimeline(this.state.layer);
       this.router.update(this.parseFiltersForRouter());
     });
 
@@ -254,12 +255,18 @@ class App extends React.Component {
     this.timeline = new TimelineView(timelineParams);
   }
 
-  /* Update the timeline to reflect the attributes of the new layer */
+  /* Update the timeline to reflect the attributes of the new layer and the
+   * filters */
   updateTimeline(layer) {
-    const domain = layer.domain.map(date => moment.utc(date).toDate());
     const cursor = { speed: layer.timeline.speed };
     const interval = Object.assign({}, layer.timeline.interval);
     interval.unit = d3.time[interval.unit];
+
+    let domain = layer.domain.map(date => moment.utc(date).toDate());
+    let filters = filtersModel.toJSON();
+    if(filters.from && filters.to) {
+      domain = [ filters.from, filters.to ];
+    }
 
     this.timeline.options.domain = domain;
     this.timeline.options.cursor = cursor;
