@@ -281,11 +281,12 @@ class App extends React.Component {
 
     const state = this.router.params.toJSON();
     state.timelineDates = this.state.mapDates;
+    state.mode = this.state.mode;
+    state.layer = this.state.layer.slug;
 
     this.mapView = new MapView({
       el: this.refs.Map,
       state,
-      donation: this.state.donation,
       mode: this.state.mode
     });
 
@@ -363,8 +364,7 @@ class App extends React.Component {
     /* We should always update the map before the timeline */
     this.mapView.state.set({
       mode,
-      layer: layer.toJSON().slug,
-      currentLayer: layer.toJSON().slug
+      layer: layer.toJSON().slug
     });
 
     this.updateTimeline(layer.toJSON());
@@ -374,6 +374,7 @@ class App extends React.Component {
     this.router.update({ layer: layer.slug });
     this.setState({ layer });
     layersCollection.setActiveLayer(this.state.mode, layer.slug);
+    this.mapView.state.set({ layer: layer.slug });
     this.updateTimeline(layer);
   }
 
@@ -405,7 +406,6 @@ class App extends React.Component {
   resetFilters() {
     filtersModel.clear({ silent: true });
     filtersModel.set(filtersModel.defaults);
-    console.log(filtersModel.toJSON());
   }
 
   handleModal(state, modal) {
