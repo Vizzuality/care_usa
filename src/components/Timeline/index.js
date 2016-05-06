@@ -82,6 +82,10 @@ class TimelineView extends Backbone.View {
     const domain = this.options.domain.concat([]);
     domain[0] = moment.utc(domain[0]).clone().subtract(1, 'days').toDate();
 
+    /* We force the cursor to be within the domain */
+    if(+this.cursorPosition > +this.options.domain[1]) this.cursorPosition = this.options.domain[1];
+    if(+this.cursorPosition < +this.options.domain[0]) this.cursorPosition = this.options.domain[0];
+
     this.scale = d3.time.scale.utc()
       .domain(domain)
       .range([0, svgWidth]);
