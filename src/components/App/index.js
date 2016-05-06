@@ -57,23 +57,6 @@ class App extends React.Component {
       filters: {},
       sectors: [],
       regions: [],
-      /* Ranges for which we have data */
-      ranges: {
-        donations: [ new Date('2011-07-01'), new Date() ],
-        projects:  [ new Date('2012-01-01'), new Date('2015-01-01') ]
-      },
-      /* Specify how often we should update the map when playing the timeline
-       * or moving the handle. Dates are rounded "nicely" to the interval. */
-      dataInterval: {
-        donations: {
-          unit: d3.time.week.utc,
-          count: 2
-        },
-        projects: {
-          unit: d3.time.year.utc,
-          count: 1
-        }
-      },
       /* The range selected in the timeline */
       timelineDates: {},
       shareOpen: false,
@@ -431,11 +414,6 @@ class App extends React.Component {
   }
 
   render() {
-    const wholeRange = [
-      new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
-      new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
-    ];
-
     let content = '';
     if(this.state.ready) {
       content = <div>
@@ -502,7 +480,7 @@ class App extends React.Component {
           filters={ this.state.filters }
           filtersOpen ={ this.state.filtersOpen }
           currentMode={ this.state.mode }
-          dateRange={ this.state.ranges[this.state.mode] }
+          domain={ this.state.layer.domain }
           timelineDates={ this.state.timelineDates }
           onChangeFilters={ this.handleModal.bind(this, 'open', 'filtersOpen') }
           onGoBack={ this.setDonationsAsmode.bind(this) }
