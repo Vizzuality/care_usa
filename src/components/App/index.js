@@ -463,7 +463,7 @@ class App extends React.Component {
           filters={ this.state.filters }
           sectors={ this.state.sectors }
           regions={ this.state.regions }
-          dateRange={ this.state.ranges[this.state.mode] }
+          domain={ this.state.layer.domain }
           timelineDates={ this.state.timelineDates }
           timelineDate={ this.state.timelineDate }
         />

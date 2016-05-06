@@ -93,7 +93,7 @@ class Dashboard extends React.Component {
               <DashDates
                 filters={ this.props.filters }
                 timelineDates={ this.props.timelineDates }
-                dateRange={ this.props.dateRange }
+                domain={ this.props.domain }
               />
               <DashFilters
                 filters={ this.props.filters }
@@ -105,6 +105,7 @@ class Dashboard extends React.Component {
                 timeline={ this.props.timelineDates }
                 currentMode = { this.props.currentMode }
                 timelineDate={ this.props.timelineDate }
+                domain={ this.props.domain }
               />
               { layersSwitcher }
             </div>

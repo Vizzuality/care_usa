@@ -27,8 +27,8 @@ class DashboardDates extends React.Component {
       ];
     } else {
       dates = [
-        moment.utc(this.props.dateRange[0]).format('MM·DD·YYYY'),
-        moment.utc(this.props.dateRange[1]).format('MM·DD·YYYY')
+        moment.utc(this.props.domain[0]).format('MM·DD·YYYY'),
+        moment.utc(this.props.domain[1]).format('MM·DD·YYYY')
       ];
     }
 
