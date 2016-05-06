@@ -32,7 +32,7 @@ class LayersCollection extends Backbone.Collection {
           break;
         case 'projects':
           layerSpec.timeline = {
-            speed: 40,
+            speed: 5,
             interval: {
               unit: 'year',
               count: 1
@@ -41,7 +41,7 @@ class LayersCollection extends Backbone.Collection {
           break;
         case 'refugee-assistance':
           layerSpec.timeline = {
-            speed: 40,
+            speed: 5,
             interval: {
               unit: 'year',
               count: 1
