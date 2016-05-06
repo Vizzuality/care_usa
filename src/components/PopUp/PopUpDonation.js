@@ -21,7 +21,7 @@ class PopUpDonation extends PopUp {
       i++;
     }
 
-    return `<span class="title-sector text text-legend-s -light">Three top sectors of interest</span>
+    return `<span class="title-sector text text-legend-s -light">Top issues of interest</span>
             <ul class="sectors-container">
               ${items}
             </ul>`
@@ -36,7 +36,7 @@ class PopUpDonation extends PopUp {
           i++;
         }
 
-        return `<span class="title-sector text text-legend-s -light">Three top countries of interest</span>
+        return `<span class="title-sector text text-legend-s -light">Top countries of interest</span>
                 <ul class="sectors-container">
                   ${items}
                 </ul>`
