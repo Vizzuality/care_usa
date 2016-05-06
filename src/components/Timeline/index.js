@@ -101,7 +101,6 @@ class TimelineView extends Backbone.View {
     this.axis = d3.svg.axis()
       .scale(this.scale)
       .orient('top')
-      /* TODO: should accept non yearly domains */
       .tickValues(ticksDates)
       .tickFormat((d, i) => {
         /* The ticks at the extremities are the whole date and not just the

@@ -108,6 +108,13 @@ class App extends React.Component {
       }
     }
 
+    /* Update the state of the map */
+    const newMapState = {};
+    if (params.zoom) newMapState.zoom = params.zoom;
+    if (params.lat) newMapState.lat = params.lat;
+    if (params.lng) newMapState.lng = params.lng;
+    this.mapView.state.set(newMapState);
+
     /* Update the filters */
     const newFiltersModel = {};
 
@@ -142,22 +149,6 @@ class App extends React.Component {
     filtersModel.set(newFiltersModel);
   }
 
-  onRouterChangeMap() {
-    const params = this.router.params.toJSON();
-
-    if (params.zoom) {
-      this.mapView.state.set({zoom: params.zoom})
-    }
-
-    if (params.lat) {
-      this.mapView.state.set({lat: params.lat})
-    }
-
-    if (params.lng) {
-      this.mapView.state.set({lng: params.lng})
-    }
-  }
-
   _initData() {
     layersCollection.fetch()
       .done(() => {
@@ -171,9 +162,7 @@ class App extends React.Component {
         this.router = new Router();
         this.router.start();
         this._updateRouterParams();
-        /* TODO: merge these two methods */
         this.router.params.on('change', this.onRouterChange.bind(this));
-        this.router.params.on('change', this.onRouterChangeMap.bind(this));
 
         const mode = this.router.params.attributes.mode || this.state.mode;
         const layerSlug = this.router.params.attributes.layer;
@@ -252,7 +241,6 @@ class App extends React.Component {
     if(this.router.params.toJSON().timelineDate) {
       const date = moment.utc(this.router.params.toJSON().timelineDate, 'YYYY-MM-DD');
       if(date.isValid()) {
-        /* TODO: should check that the date is within the domain */
         timelineParams.cursorPosition = date.toDate();
       }
     }
