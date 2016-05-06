@@ -2,6 +2,7 @@
 
 import $ from 'jquery';
 import moment from 'moment';
+import utils from '../../scripts/helpers/utils';
 
 const optionalStatements = {
   donations: {
@@ -89,7 +90,14 @@ class TorqueLayer {
   }
 
   getCartoCSS() {
-    return this.options.geo_cartocss;
+    /* FF has some huge performance issues to render the Torque layer with some
+     * properties of the CartoCSS. We then decided to prioritize the rendering
+     * of the layer over it's visual aspect. Removing the multiply blending mode
+     * permits the app to load and work on FF on Windows even if it's visually
+     * not ideal. Until another fix is found, this should stay like that. */
+    return utils.isFF() ?
+      this.options.geo_cartocss.replace('comp-op: multiply;', '') :
+      this.options.geo_cartocss;
   }
 
   isReady() {
