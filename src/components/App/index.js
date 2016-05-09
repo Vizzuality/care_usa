@@ -90,6 +90,9 @@ class App extends React.Component {
       newParams.layer = layersCollection.getActiveLayer(newParams.mode || this.state.mode).toJSON();
     }
 
+    /* The sectors are saved in the filters model */
+    delete newParams.sectors;
+
     this.setState(newParams);
   }
 
