@@ -36,8 +36,9 @@ class PopUpModel extends Backbone.Model {
     const endDate = filters.to && `end_date=${filters['to-year']}-${filters['to-month']}-${filters['to-day']}`;
     const regions = filters.region && `countries_iso=${filters['region']}`;
 
+    let sectors = null;
     if(filters.sectors.length > 0) {
-      const sectors = filters.sectors
+      sectors = filters.sectors
         .map(sector => `sectors_slug[]=${sector}`)
         .join('&')
     }
