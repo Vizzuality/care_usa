@@ -4,6 +4,43 @@ import $ from 'jquery';
 import moment from 'moment';
 import utils from '../../scripts/helpers/utils';
 
+/**
+ * Here is the custom AnimatorStepsRange we use to override a non-desired
+ * behavior of Torque's library.
+ * Source: https://github.com/CartoDB/torque/blob/31a81e760b249e76b159c9966c219ae570f9acb3/dist/torque.full.uncompressed.js#L5
+ */
+const CustomAnimatorStepsRange = function(start, end) {
+  if (start < 0) throw new Error('start must be a positive number');
+  /* The only change is on the next line where ">=" has been replaced by ">" */
+  if (start > end) throw new Error('start must be smaller than end');
+  this.start = start;
+  this.end = end;
+};
+CustomAnimatorStepsRange.prototype = {
+  diff: function() { return this.end - this.start; },
+  isLast: function(step) { return (step | 0) === this.end; }
+};
+
+/* Here are the concrete methods we override */
+const steps = function(_) {
+  this.options.steps = _;
+  this._defaultStepsRange = new CustomAnimatorStepsRange(0, _);
+  return this.rescale();
+};
+const stepsRange = function(start, end) {
+  if (arguments.length === 2) {
+    if (start < this._defaultStepsRange.start) throw new Error('start must be within default steps range');
+    if (end > this._defaultStepsRange.end) throw new Error('end must be within default steps range');
+    this._customStepsRange = new CustomAnimatorStepsRange(start, end);
+    this.options.onStepsRange && this.options.onStepsRange();
+    var step = this.step() | 0;
+    if (step < start || step > end) {
+      this.step(start);
+    }
+  }
+  return this._customStepsRange || this._defaultStepsRange;
+};
+
 const optionalStatements = {
   donations: {
     from:    (filters, range) => `date > '${range[0].format('MM-DD-YYYY')}'::date`,
@@ -13,9 +50,6 @@ const optionalStatements = {
   }
 };
 
-/**
- * doc: http://docs.cartodb.com/cartodb-platform/torque/torquejs-getting-started/
- */
 class TorqueLayer {
 
   constructor(options, state) {
@@ -34,6 +68,13 @@ class TorqueLayer {
       sql: this.getQuery(),
       cartocss: this.getCartoCSS()
     });
+
+    /* When CartoDB returns no data from the table, Torque throws an error
+     * which can't be caught instead of triggering an event. As we don't wan't
+     * an error to be displayed for such a case, we override the method which
+     * causes the error. */
+    this.layer.animator.steps = steps;
+    this.layer.animator.stepsRange = stepsRange;
 
     this.layer.error((err) => {
       console.error(err);
