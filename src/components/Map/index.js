@@ -204,7 +204,7 @@ class MapView extends Backbone.View {
    * proper "loaded" working event in the torque library */
   initTorqueLayer() {
     const callback = () => {
-      if(!this.currentLayer) {
+      if(!this.currentLayer || !this.currentLayer.hasData()) {
         clearTimeout(timeout);
         return;
       }
@@ -212,7 +212,7 @@ class MapView extends Backbone.View {
       const isReady = this.currentLayer.isReady();
       if(isReady) {
         clearTimeout(timeout);
-        this.updateLayer();
+        this.setTorquePosition();
       }
     };
     const timeout = setInterval(callback.bind(this), 200);
@@ -225,6 +225,14 @@ class MapView extends Backbone.View {
     }
   }
 
+  setTorquePosition() {
+    /* We just update the layer */
+    const currentDate = this.state.toJSON().timelineDate
+      || this.state.toJSON().filters.to;
+    const step = Math.round(this.currentLayer.layer.timeToStep(currentDate));
+    this.currentLayer.layer.setStep(step);
+  }
+
 };
 
 MapView.prototype.updateLayer = (function() {
@@ -233,6 +241,11 @@ MapView.prototype.updateLayer = (function() {
     this._removeCurrentLayer();
     this._addLayer();
   }, 200);
+
+  /* Store the timestamp of the last change of the filtersModel to only
+   * reload Torque's layer when the model changed ie when the timestamp changed
+   */
+  let filtersChangeTimestamp = 0;
 
   return function() {
     if(!this.currentLayer || !this.currentLayer.layer) return;
@@ -244,10 +257,19 @@ MapView.prototype.updateLayer = (function() {
       this.currentLayerConfig.layer_type !== 'torque') {
       _addLayer.call(this);
     } else {
-      const currentDate = this.state.toJSON().timelineDate
-        || this.state.toJSON().filters.to;
-      const step = Math.round(this.currentLayer.layer.timeToStep(currentDate));
-      this.currentLayer.layer.setStep(step);
+
+      const filtersOldAttributes = filtersModel.previousAttributes();
+      const filtersNewAttributes = filtersModel.toJSON();
+
+      if(filtersChangeTimestamp !== filtersModel._timestamp &&
+        (!_.isEqual(filtersOldAttributes.sectors, filtersNewAttributes.sectors) ||
+        filtersOldAttributes.region !== filtersNewAttributes.region)) {
+        /* We reload the layer */
+        _addLayer.call(this);
+        filtersChangeTimestamp = filtersModel._timestamp;
+      } else {
+        this.setTorquePosition();
+      }
     }
   };
 

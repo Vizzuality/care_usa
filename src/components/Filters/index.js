@@ -261,10 +261,10 @@ class FiltersView extends Backbone.View {
       serializedFilters.to = new Date(`${serializedFilters['to-year']}-${utils.pad(serializedFilters['to-month'], 2, '0')}-${utils.pad(serializedFilters['to-day'], 2, '0')}`);
     }
 
-    /* We need to silently clear the model to remove the properties "from" and
-     * "to" which aren't present in the object serializedFilters as they are
-     * virtual */
-    this.status.clear({ silent: true });
+    /* We need to silently remove the properties "from" and "to" which aren't
+     * present in the object serializedFilters as they are virtual */
+    this.status.unset('from', { silent: true });
+    this.status.unset('to', { silent: true });
 
     this.status.set(serializedFilters, { validate: true });
   }
@@ -365,10 +365,10 @@ class FiltersView extends Backbone.View {
         for(let i = 0; i < validationError.fields.length; i++) {
           if(!!~name.indexOf(validationError.fields[i])) {
             return true;
-          } 
+          }
         }
       });
-      
+
       for(let i = 0, j = invalidInputs.length; i < j; i++) {
         invalidSelects[i].classList.add('-invalid');
       }
