@@ -13,12 +13,12 @@ const optionalStatements = {
   donations: {
     from:    (filters, timelineDate, layer) => filters && filters.from ? `date > '${moment.utc(filters.from).format('MM-DD-YYYY')}'::date` : `date > '${moment.utc(layer.domain[0], 'YYYY-MM-DD').format('MM-DD-YYYY')}'::date`,
     to:      (filters, timelineDate) => `date < '${moment.utc(timelineDate || filters && filters.to).format('MM-DD-YYYY')}'::date`,
-    region:  filters => filters && filters.region ? `countries @> ARRAY['${filters.region}']` : '',
+    region:  filters => filters && filters.region ? `countries @> ARRAY[${filters.region.replace(/(\[|\])/g, '').split(',').map(region => `'${region}'`)}]` : '',
     sectors: filters => filters && filters.sectors.length ? `sectors && ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
   },
   projects: {
     to:      (filters, timelineDate) => `year='${moment.utc(timelineDate || filters && filters.to).format('YYYY')}'`,
-    region:  filters => filters && filters.region ? `iso in ('${filters.region}')` : '',
+    region:  filters => filters && filters.region ? `iso in (${filters.region.replace(/(\[|\])/g, '').split(',').map(region => `'${region}'`)})` : '',
     sectors: filters => filters && filters.sectors.length ? `(${filters.sectors.map(sector => `${sector}_people<>0`).join(' OR ')})` : ''
   }
 };
