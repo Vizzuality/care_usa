@@ -45,7 +45,7 @@ const optionalStatements = {
   donations: {
     from:    (filters, range) => `date > '${range[0].format('MM-DD-YYYY')}'::date`,
     to:      (filters, range) => `date < '${range[1].format('MM-DD-YYYY')}'::date`,
-    region:  filters => filters && filters.region ? `countries @> '%${filters.region}%'` : '',
+    region:  filters => filters && filters.region ? `countries @> ARRAY[${filters.region.replace(/(\[|\])/g, '').split(',').map(region => `'${region}'`)}]` : '',
     sectors: filters => filters && filters.sectors.length ? `sectors && ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
   }
 };
@@ -113,13 +113,12 @@ class TorqueLayer {
     return this.options.sql_template.replace('$WHERE', () => {
       if(filters) {
         const res = Object.keys(statements).map(name => {
-          const filter = filters[name];
-            return statements[name](filters, [
-              moment.utc(this.state.layer.domain[0], 'YYYY-MM-DD'),
-              moment.utc(this.state.layer.domain[1], 'YYYY-MM-DD')
-            ]);
-          }).filter(statement => !!statement)
-            .join(' AND ');
+          return statements[name](filters, [
+            moment.utc(this.state.layer.domain[0], 'YYYY-MM-DD'),
+            moment.utc(this.state.layer.domain[1], 'YYYY-MM-DD')
+          ]);
+        }).filter(statement => !!statement)
+          .join(' AND ');
 
         if(res.length) {
           return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
@@ -142,6 +141,14 @@ class TorqueLayer {
 
   isReady() {
     return !Number.isNaN(this.layer.timeToStep(new Date()));
+  }
+
+  /* Return true if the layer displays data */
+  hasData() {
+    /* This is a hack: in case CartoDB doesn't return any data, there's no step
+     * so start === end === 0 */
+    return !(this.layer.animator._defaultStepsRange.start === this.layer.animator._defaultStepsRange.end &&
+      this.layer.animator._defaultStepsRange.start === 0);
   }
 
 }
