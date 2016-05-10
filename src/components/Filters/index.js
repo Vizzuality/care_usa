@@ -115,6 +115,7 @@ class FiltersView extends Backbone.View {
 
         if(!value) {
           select.options[0].selected = true;
+          $(select).trigger('change.select2');
         } else {
           let found = false;
           for(let i = 0, j = select.options.length; i < j; i++) {
