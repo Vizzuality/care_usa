@@ -18,7 +18,7 @@ class ModalShare extends Modal {
 
   getContent() {
   	const url = window.location.href;
-  	const iframeLink = '<iframe width="600" height="600" src="' + url + '" frameborder="0" allowfullscreen></iframe>';
+  	const iframeLink = '<iframe width="600" height="600" src="' + url + '&embed=true" frameborder="0" allowfullscreen></iframe>';
     const shareDescription = 'In one map, see how CARE turns millions of individual donations into lasting change around the world.';
     new Clipboard('.btn-copy');
 
