@@ -82,10 +82,12 @@ class App extends React.Component {
     /* TODO: we shouldn't put all the params in the state: some of them aren't
      * needed because are stored in models, and other need to be parsed */
     /* Here we update general state with router params and our device check. */
-    const newParams = Object.assign({}, {
-      donation: this.router.params.attributes.donation && true,
-      embed: this.router.params.attributes.embed && true, },
-      this.router.params.attributes);
+    const newParams = Object.assign({},
+      this.router.params.attributes,
+      {
+        donation: !!this.router.params.attributes.donation,
+        embed: !!this.router.params.attributes.embed
+      });
 
     if(newParams.layer) {
       const layer = layersCollection.findWhere({ slug: newParams.layer });
@@ -511,7 +513,7 @@ class App extends React.Component {
     }
 
     return (
-      <div className={ 'l-app ' + (this.state.ready ? '' : 'is-loading') + (this.state.embed ? 'is-embed' : '') }>
+      <div className={ 'l-app ' + (this.state.ready ? '' : 'is-loading ') + (this.state.embed ? 'is-embed' : '') }>
         { content }
         { !localStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
       </div>
