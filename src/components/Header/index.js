@@ -14,17 +14,14 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-    !this.state.embed ? this.isEmbed() : '';
+    this.checkIfEmbed();
   }
 
-  isEmbed() {
-    const params = window.location.hash.split('&');
-    params.map(param => {
-      if (param.indexOf('embed=') !== -1) {
-        const embed = param.split('=')[1];
-        this.setState({embed});
-      }
-    });
+  checkIfEmbed() {
+    const isEmbed = /embed=true/g.test(window.location.hash);
+    if(isEmbed) {
+      this.setState({ embed: true });
+    }
   }
 
   render() {
