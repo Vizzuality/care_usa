@@ -5,6 +5,7 @@ import $ from 'jquery';
 import d3  from 'd3';
 import _ from 'underscore';
 import moment from 'moment';
+import Header from '../Header';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
@@ -61,7 +62,6 @@ class App extends React.Component {
       donorsOpen: false,
       embed: false
     };
-
   }
 
   componentWillMount() {
@@ -419,6 +419,12 @@ class App extends React.Component {
 
     if(this.state.ready) {
       content = <div>
+
+        <Header
+          currentTab = { this.props.currentTab }
+          toggleMenuFn = { this.props.toggleMenuFn }
+          changePageFn = { this.props.changePageFn }
+        />
 
         <div id="map" className="l-map" ref="Map"></div>
 
