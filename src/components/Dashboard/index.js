@@ -81,6 +81,10 @@ class Dashboard extends React.Component {
           <div className="m-dashboard-panel">
             <div className="dashboard-header">
 
+              { this.props.embed &&
+                <a href="#" className="btn btn-primary btn-embed">Explore the map</a>
+              }
+
               { !this.props.embed &&
                 <div>
                   <button
