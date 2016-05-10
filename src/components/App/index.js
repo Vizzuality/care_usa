@@ -424,6 +424,7 @@ class App extends React.Component {
           currentTab = { this.props.currentTab }
           toggleMenuFn = { this.props.toggleMenuFn }
           changePageFn = { this.props.changePageFn }
+          embed = { this.state.embed }
         />
 
         <div id="map" className="l-map" ref="Map"></div>
