@@ -5,6 +5,7 @@ import $ from 'jquery';
 import d3  from 'd3';
 import _ from 'underscore';
 import moment from 'moment';
+import Header from '../Header';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
@@ -59,8 +60,8 @@ class App extends React.Component {
       shareOpen: false,
       aboutOpen: false,
       donorsOpen: false,
+      embed: false
     };
-
   }
 
   componentWillMount() {
@@ -81,7 +82,12 @@ class App extends React.Component {
     /* TODO: we shouldn't put all the params in the state: some of them aren't
      * needed because are stored in models, and other need to be parsed */
     /* Here we update general state with router params and our device check. */
-    const newParams = Object.assign({}, { donation: this.router.params.attributes.donation && true }, this.router.params.attributes);
+    const newParams = Object.assign({},
+      this.router.params.attributes,
+      {
+        donation: !!this.router.params.attributes.donation,
+        embed: !!this.router.params.attributes.embed
+      });
 
     if(newParams.layer) {
       const layer = layersCollection.findWhere({ slug: newParams.layer });
@@ -406,21 +412,33 @@ class App extends React.Component {
 
   render() {
     let content = '';
+
     if(this.state.ready) {
       content = <div>
 
+        <Header
+          currentTab = { this.props.currentTab }
+          toggleMenuFn = { this.props.toggleMenuFn }
+          changePageFn = { this.props.changePageFn }
+          embed = { this.state.embed }
+        />
+
         <div id="map" className="l-map" ref="Map"></div>
 
-        <button className="btn-share btn-primary l-share" onClick={ () => this.handleModal('open', 'shareOpen') }>
-          <svg className="icon icon-share">
-            <use xlinkHref="#icon-share"></use>
-          </svg>
-        </button>
+        { !this.state.embed &&
+          <button className="btn-share btn-primary l-share" onClick={ () => this.handleModal('open', 'shareOpen') }>
+            <svg className="icon icon-share">
+              <use xlinkHref="#icon-share"></use>
+            </svg>
+          </button>
+        }
 
-        <ModalShare
-          visible={ this.state.shareOpen }
-          onClose={ this.handleModal.bind(this, 'close', 'shareOpen') }
-        />
+        { !this.state.embed &&
+          <ModalShare
+            visible={ this.state.shareOpen }
+            onClose={ this.handleModal.bind(this, 'close', 'shareOpen') }
+          />
+        }
 
         <Dashboard
           donation={  this.router.params.attributes.donation && true }
@@ -433,6 +451,7 @@ class App extends React.Component {
           sectors={ this.state.sectors }
           regions={ this.state.regions }
           timelineDate={ this.state.timelineDate }
+          embed={ this.state.embed }
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
@@ -442,52 +461,62 @@ class App extends React.Component {
           <div className="svg-container js-svg-container"></div>
         </div>
 
-        <div id="map-credits" className="l-map-credits">
-          <p className="about-label text text-cta" onClick={ () => this.handleModal('open', 'aboutOpen') }>About the data</p>
-          <a className="btn-about" onClick={ () => this.handleModal('open', 'aboutOpen') }>
-            <svg className="icon icon-info">
-              <use xlinkHref="#icon-info"></use>
-            </svg>
-          </a>
-        </div>
+        { !this.state.embed &&
+          <div id="map-credits" className="l-map-credits">
+            <p className="about-label text text-cta" onClick={ () => this.handleModal('open', 'aboutOpen') }>About the data</p>
+            <a className="btn-about" onClick={ () => this.handleModal('open', 'aboutOpen') }>
+              <svg className="icon icon-info">
+                <use xlinkHref="#icon-info"></use>
+              </svg>
+            </a>
+          </div>
+        }
 
-        <ModalAbout
-          visible={ this.state.aboutOpen }
-          onClose={ this.handleModal.bind(this, 'close', 'aboutOpen') }
-        />
+        { !this.state.embed &&
+          <ModalAbout
+            visible={ this.state.aboutOpen }
+            onClose={ this.handleModal.bind(this, 'close', 'aboutOpen') }
+          />
+        }
 
-        <ModalFilters
-          visible={ this.state.filtersOpen }
-          onClose={ this.handleModal.bind(this, 'close', 'filtersOpen') }
-          onSave={ () => {} }
-          wholeDomain={ layersCollection.getDataDomain() }
-          domain={ this.state.layer.domain }
-          routerParams={ this.router && this.router.params.toJSON() }
-        />
+        { !this.state.embed &&
+          <ModalFilters
+            visible={ this.state.filtersOpen }
+            onClose={ this.handleModal.bind(this, 'close', 'filtersOpen') }
+            onSave={ () => {} }
+            wholeDomain={ layersCollection.getDataDomain() }
+            domain={ this.state.layer.domain }
+            routerParams={ this.router && this.router.params.toJSON() }
+          />
+        }
 
-        <ModalNoData
-          filters={ this.state.filters }
-          filtersOpen ={ this.state.filtersOpen }
-          currentMode={ this.state.mode }
-          domain={ this.state.layer.domain }
-          onChangeFilters={ this.handleModal.bind(this, 'open', 'filtersOpen') }
-          onGoBack={ this.setDonationsAsmode.bind(this) }
-          onCancel={ this.resetFilters.bind(this) }
-        />
+        { !this.state.embed &&
+          <ModalNoData
+            filters={ this.state.filters }
+            filtersOpen ={ this.state.filtersOpen }
+            currentMode={ this.state.mode }
+            domain={ this.state.layer.domain }
+            onChangeFilters={ this.handleModal.bind(this, 'open', 'filtersOpen') }
+            onGoBack={ this.setDonationsAsmode.bind(this) }
+            onCancel={ this.resetFilters.bind(this) }
+          />
+        }
 
         <ModalDonors
           visible= { this.state.donorsOpen }
           onClose= { this.handleModal.bind(this, 'close', 'donorsOpen') }
         />
 
-        <a href="https://my.care.org/site/Donation2;jsessionid=5FED4A2DADFB975A2EDA92B59231B64B.app314a?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
-          Donate
-        </a>
+        { !this.state.embed &&
+          <a href="https://my.care.org/site/Donation2;jsessionid=5FED4A2DADFB975A2EDA92B59231B64B.app314a?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
+            Donate
+          </a>
+        }
       </div>;
     }
 
     return (
-      <div className={ 'l-app ' + (this.state.ready ? '' : 'is-loading') }>
+      <div className={ 'l-app ' + (this.state.ready ? '' : 'is-loading ') + (this.state.embed ? 'is-embed' : '') }>
         { content }
         { !localStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
       </div>

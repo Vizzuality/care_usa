@@ -51,7 +51,7 @@ class Dashboard extends React.Component {
       tabsMobile = null;
     }
 
-    if (!this.state.mobile) {
+    if (!this.state.mobile && !this.props.embed) {
       filtersSwitcher = <div
               className= 'btn btn-third btn-filters-switcher'
               onClick= { this.props.toggleFiltersFn } >
@@ -80,14 +80,24 @@ class Dashboard extends React.Component {
 
           <div className="m-dashboard-panel">
             <div className="dashboard-header">
-              <button
-                className="text text-cta btn-filters-switcher"
-                onClick={ this.props.toggleFiltersFn } >
-                filters
-              </button>
-              <a href="http://www.care.org/donate" rel="noreferrer" target="_blank"className="btn btn-contrast -small">
-                Donate
-              </a>
+
+              { this.props.embed &&
+                <a href="#" className="btn btn-primary btn-embed">Explore the map</a>
+              }
+
+              { !this.props.embed &&
+                <div>
+                  <button
+                    className="text text-cta btn-filters-switcher"
+                    onClick={ this.props.toggleFiltersFn } >
+                    filters
+                  </button>
+                  <a href="http://www.care.org/donate" rel="noreferrer" target="_blank"className="btn btn-contrast -small">
+                    Donate
+                  </a>
+                </div>
+              }
+
             </div>
             <div className="scroll-wrapper">
               <DashDates
