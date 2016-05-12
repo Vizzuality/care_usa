@@ -36,6 +36,9 @@ $l-margin-vt: 50;
   }
 }
 
+.-embed-element {
+  display: none !important;
+}
 
 .l-map {
   position: absolute;
@@ -120,6 +123,18 @@ $l-margin-vt: 50;
     transform: translatex(0);
   }
 
+  .is-embed & {
+    bottom: 0;
+
+    @media screen and (min-width: $screen-m) {
+      bottom: rem(200);
+
+      @media screen and (max-height: rem(750)) {
+        bottom: rem(60);
+      }
+    }
+  }
+
 
   @media screen and (min-width: $screen-m) {
     position: absolute;
@@ -153,6 +168,10 @@ $l-margin-vt: 50;
    right: 0;
    height: auto;
   }
+
+  .is-embed & {
+    right: $wrap-padding-mobile;
+  }
 }
 
 .l-dash-panel {
@@ -180,6 +199,10 @@ $l-margin-vt: 50;
 
   @media screen and (min-width: $screen-xl) {
     left: $wrap-padding-desktop-xl;
+  }
+
+  .is-embed &  {
+    display: none;
   }
 }
 
