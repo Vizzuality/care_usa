@@ -388,10 +388,6 @@ class App extends React.Component {
     this.setState({ filtersOpen: !this.state.filtersOpen });
   }
 
-  updateFilters(filters) {
-    this.setState({ filters: filters });
-  }
-
   setDonationsAsmode() {
     this.changeMapMode('donations');
   }
@@ -463,7 +459,7 @@ class App extends React.Component {
         <ModalFilters
           visible={ this.state.filtersOpen }
           onClose={ this.handleModal.bind(this, 'close', 'filtersOpen') }
-          onSave={ this.updateFilters.bind(this) }
+          onSave={ () => {} }
           wholeDomain={ layersCollection.getDataDomain() }
           domain={ this.state.layer.domain }
           routerParams={ this.router && this.router.params.toJSON() }

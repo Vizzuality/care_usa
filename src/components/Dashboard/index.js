@@ -18,7 +18,7 @@ class Dashboard extends React.Component {
     super(props);
     this.props = props;
     this.state = {
-      dashboardOpen: this.props.donation ? false : true
+      dashboardOpen: true
     };
   }
 

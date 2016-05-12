@@ -7,7 +7,7 @@ import RefugeesModel from './../../scripts/models/RefugeesModel';
 import PopUp from './PopUp';
 import utils from '../../scripts/helpers/utils';
 
-class PopUpProject extends PopUp {
+class PopUpRefugees extends PopUp {
 
   _getCrisisLocalInfo() {
     return `<div class="refugees-info">
@@ -44,7 +44,6 @@ class PopUpProject extends PopUp {
   }
 }
 
-PopUpProject.prototype.model = new RefugeesModel();
+PopUpRefugees.prototype.model = new RefugeesModel();
 
-export default PopUpProject;
-
+export default PopUpRefugees;
