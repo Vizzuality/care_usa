@@ -70,8 +70,8 @@ class CreateTileLayer {
 
     if(templateYear) {
       return this.options.sql_template.replace(/\s\$YEAR/g, () => {
-        if(timeline && timeline.to || filters && filters.to) {
-          return ` WHERE ${statements['to'](filters, timeline)}`;
+        if(timelineDate || filters && filters['to']) {
+          return ` WHERE ${statements['to'](filters, timelineDate)}`;
         }
         return '';
       });
