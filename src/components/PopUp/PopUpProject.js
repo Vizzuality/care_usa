@@ -26,6 +26,7 @@ class PopUpProject extends PopUp {
 
   _getProjectsInfo() {
     const sectorsItems = (this.model.get('sectors').length > 0) ? this._getSectors() : '';
+    const womenText = this.model.get('totals')['women_and_girls'] ? `<p class="text-legend-s"><span class="number-m">${ utils.numberNotation(this.model.get('totals')['women_and_girls']) + '%' }</span> Women & girls</p>` : '';
 
     return `
       <h1 class="text text-module-title -light"> ${this.model.get('location')['name']} - <span class="number-m">${ utils.numberNotation(  this.model.get('totals')['projects'] )} projects in ${this.model.get('year')}
@@ -35,7 +36,7 @@ class PopUpProject extends PopUp {
       ${ sectorsItems }
       <div class="numbers-donation">
         <p class="text-legend-s"><span class="number-m">${ utils.numberNotation(this.model.get('totals')['people']) }</span> People reached </p>
-        <p class="text-legend-s"><span class="number-m">${ utils.numberNotation(this.model.get('totals')['women_and_girls']) + '%' }</span> Women & girls</p>
+        ${ womenText }
       </div>
       <hr></hr>
     `
