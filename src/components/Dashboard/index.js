@@ -70,10 +70,17 @@ class Dashboard extends React.Component {
         { tabsMobile }
         <div className={ this.state.dashboardOpen ? "l-dashboard is-open" : "l-dashboard" }>
           <button
-            className="btn-dashboard-switcher"
+            className="btn-dashboard-switcher -left"
             onClick={ this.toogleDashboard.bind(this) }
           >
             <svg className="icon icon-arrowleft"><use xlinkHref="#icon-arrowleft"></use></svg>
+          </button>
+
+          <button
+            className="btn-dashboard-switcher -bottom"
+            onClick={ this.toogleDashboard.bind(this) }
+          >
+            <svg className="icon icon-arrow"><use xlinkHref="#icon-arrow"></use></svg>
           </button>
 
           { tabsDesktop }
