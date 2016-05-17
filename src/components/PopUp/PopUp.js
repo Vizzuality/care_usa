@@ -60,7 +60,7 @@ class PopUp extends Backbone.View {
 
     this.setEvents();
     this._setEventsModal();
-    this._panMap();
+    // this._panMap();
   }
 
   setEvents() {

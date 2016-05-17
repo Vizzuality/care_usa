@@ -38,8 +38,8 @@ class DashSummary extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const startDate = nextProps.timeline && nextProps.timeline.from || nextProps.filters && nextProps.filters.from;
-    const endDate = nextProps.timelineDate || nextProps.timeline && nextProps.timeline.to || nextProps.filters && nextProps.filters.to;
+    const startDate = nextProps.filters && nextProps.filters.from || moment.utc(nextProps.layer.domain[0], 'YYYY-MM-DD').toDate();
+    const endDate = nextProps.timelineDate || nextProps.filters && nextProps.filters.to;
     const sectors = nextProps.filters && nextProps.filters.sectors || [];
     const region = nextProps.filters && nextProps.filters.region;
 

@@ -7,6 +7,12 @@ import moment from 'moment';
 
 class FiltersModel extends Backbone.Model {
 
+  /* We extend the default set method to add a timestamp */
+  set(key, val, options) {
+    this._timestamp = +(new Date());
+    super.set(key, val, options);
+  }
+
   validate(data) {
     let isValid = true;
     const res = {

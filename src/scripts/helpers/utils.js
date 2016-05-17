@@ -18,6 +18,10 @@ function checkDevice() {
   };
 }
 
+function isFF() {
+  return !!navigator.userAgent.match(/firefox/i);
+}
+
 /* Polyfill for the matches DOM API method (IE 9+)
  * Source: http://youmightnotneedjquery.com */
 function matches(el, selector) {
@@ -94,5 +98,6 @@ export default {
   matches,
   pad,
   rangesIntersect,
-  numberNotation
+  numberNotation,
+  isFF
 };

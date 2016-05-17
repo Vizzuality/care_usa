@@ -12,9 +12,6 @@ class DashLayerSwitcher extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
-    this.state = {};
-
-    this.firstRender = true;
   }
 
   componentDidMount() {
@@ -26,13 +23,8 @@ class DashLayerSwitcher extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-
-    if(layersCollection.length > 0 && this.firstRender) {
-      this.firstRender = false;
-      return true;
-    } else {
-      return this.props.currentLayer !== nextProps.currentLayer || this.props.currentMode !== nextProps.currentMode;
-    }
+    return this.props.currentMode !== nextProps.currentMode ||
+      this.props.layer != nextProps.layer;
   }
 
   _toogleLegend() {
@@ -60,7 +52,7 @@ class DashLayerSwitcher extends React.Component {
               <input
                 type ="radio" name="mapMode" checked={ layer.active }
                 id = { layer.slug }
-                onChange = { this.props.changeLayerFn.bind(null, layer.slug) }
+                onChange = { this.props.changeLayerFn.bind(null, layer) }
               />
               <span></span>
               <label htmlFor={ layer.slug } className="text text-legend">{ layer.name }</label>

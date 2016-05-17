@@ -10,6 +10,7 @@ import PopUpContentView from './../PopUp/PopUpContentView';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
 import utils from '../../scripts/helpers/utils';
+import moment from 'moment';
 
 
 class MapView extends Backbone.View {
@@ -23,7 +24,6 @@ class MapView extends Backbone.View {
 
     //Checking for device
     this.device = utils.checkDevice();
-
 
     // Setting first state
     this.state = new Backbone.Model(settings.state);
@@ -75,7 +75,6 @@ class MapView extends Backbone.View {
   }
 
   _createMap() {
-
     const southWest = L.latLng(-80, 124),
         northEast = L.latLng(80, -124),
         bounds = L.latLngBounds(southWest, northEast);
@@ -123,12 +122,11 @@ class MapView extends Backbone.View {
       this.map.setView(latlng, this.map.getZoom());
     });
 
-    this.state.on('change:filters', () => this.changeLayer());
-    this.state.on('change:timelineDates', () => this.changeLayerTimelineTorque());
-    this.state.on('change:timelineDates', () => this.changeLayerTile());
+    this.state.on('change:filters', () => this.updateLayer());
+    this.state.on('change:timelineDate', () => this.updateLayer());
 
-    this.state.on('change:mode', _.bind(this.changeLayer, this));
-    layersCollection.on('change', _.bind(this.changeLayer, this));
+    this.state.on('change:mode', _.bind(this.updateLayer, this));
+    layersCollection.on('change', _.bind(this.updateLayer, this));
     filtersModel.on('change', _.bind(this._updateFilters, this));
 
     this.map.on('zoomend', _.bind(this._setStateZoom, this));
@@ -151,11 +149,11 @@ class MapView extends Backbone.View {
   _infowindowSetUp(e) {
     this.popUp = new PopUpContentView({
       currentMode: this.state.get('mode'),
-      currentLayer: this.state.get('currentLayer'),
+      layer: this.state.get('layer'),
       latLng: e.latlng,
       map: this.map,
       zoom: this.state.get('zoom'),
-      timelineDates: this.state.get('timelineDates')
+      timelineDate: this.state.get('timelineDate'),
     });
 
     this.popUp.getPopUp();
@@ -170,38 +168,35 @@ class MapView extends Backbone.View {
   }
 
   _addLayer() {
-    // Remove current pop up at beginning
-    if (this.popUp) {
-      this.popUp.closeCurrentPopup();
+    if(this.popUp) this.popUp.closeCurrentPopup();
+
+    let activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
+    if(!activeLayer) return;
+
+    const state = this.state.toJSON();
+    /* We make sure that we don't ask for data outside the domain */
+    if(state.timelineDate && state.layer) {
+      const domain = state.layer.domain.map(date => moment.utc(date, 'YYYY-MM-DD').toDate());
+      if(+state.timelineDate < +domain[0]) state.timelineDate = domain[0];
+      if(+state.timelineDate > +domain[1]) state.timelineDate = domain[1];
     }
 
-    // I will draw only active layers for each category;
-    const activeLayers = layersCollection.where({
-      active: true,
-      category: this.state.get('mode')
-    });
+    const layerConfig = activeLayer.attributes;
+    const layerClass = (layerConfig.layer_type === 'torque') ? TorqueLayer : TileLayer;
+    const newLayer = new layerClass(layerConfig, state);
 
-    _.each(activeLayers, activeLayer => {
-      const layerConfig = activeLayer.attributes;
-      // Selecting kind of layer by layer_type attribute
-      const layerClass = (layerConfig.layer_type === 'torque') ? TorqueLayer : TileLayer;
-      const newLayer = new layerClass(layerConfig, this.state.toJSON());
+    newLayer.createLayer().done(() => {
+      /* We ensure to always display the latest tiles */
+      if(!this.currentLayer ||
+        newLayer.timestamp > this.currentLayer.timestamp) {
+        newLayer.addLayer(this.map);
+        this.currentLayer = newLayer;
+        this.currentLayerConfig = layerConfig;
 
-      newLayer.createLayer().done(() => {
-        /* We ensure to always display the latest tiles */
-        if(!this.currentLayer ||
-          newLayer.timestamp > this.currentLayer.timestamp) {
-          this._removeCurrentLayer();
-          newLayer.addLayer(this.map);
-          this.currentLayer = newLayer;
-          this.currentLayerConfig = layerConfig;
-
-          if(this.currentLayerConfig.layer_type === 'torque') {
-            this.initTorqueLayer();
-          }
+        if(this.currentLayerConfig.layer_type === 'torque') {
+          this.initTorqueLayer();
         }
-      });
-      this.state.set('currentLayer', activeLayer.get('slug'));
+      }
     });
   }
 
@@ -209,10 +204,15 @@ class MapView extends Backbone.View {
    * proper "loaded" working event in the torque library */
   initTorqueLayer() {
     const callback = () => {
-      const isReady = !Number.isNaN(this.currentLayer.layer.timeToStep(new Date()));
+      if(!this.currentLayer || !this.currentLayer.hasData()) {
+        clearTimeout(timeout);
+        return;
+      }
+
+      const isReady = this.currentLayer.isReady();
       if(isReady) {
         clearTimeout(timeout);
-        this.changeLayerTimelineTorque();
+        this.setTorquePosition();
       }
     };
     const timeout = setInterval(callback.bind(this), 200);
@@ -225,38 +225,54 @@ class MapView extends Backbone.View {
     }
   }
 
-  changeLayer() {
-    this._addLayer();
+  setTorquePosition() {
+    /* We just update the layer */
+    const currentDate = this.state.toJSON().timelineDate
+      || this.state.toJSON().filters.to;
+    const step = Math.round(this.currentLayer.layer.timeToStep(currentDate));
+    this.currentLayer.layer.setStep(step);
   }
 
-  changeLayerTile() {
-    if (this.state.toJSON().mode === 'projects') {
-      this._addLayer();
-    }
-  }
 };
 
-MapView.prototype.changeLayerTimelineTorque = (function() {
+MapView.prototype.updateLayer = (function() {
 
-  const addLayer = _.throttle(function() {
+  const _addLayer = _.throttle(function() {
+    this._removeCurrentLayer();
     this._addLayer();
   }, 200);
 
+  /* Store the timestamp of the last change of the filtersModel to only
+   * reload Torque's layer when the model changed ie when the timestamp changed
+   */
+  let filtersChangeTimestamp = 0;
+
   return function() {
-    if (this.currentLayerConfig && this.currentLayerConfig.layer_type &&
-      this.currentLayerConfig.layer_type === 'torque') {
+    if(!this.currentLayer || !this.currentLayer.layer) return;
 
-      const currentDate = this.state.toJSON().timelineDates &&
-        this.state.toJSON().timelineDates.to || this.state.toJSON().filters.to;
+    const activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
+    if(!activeLayer) return;
 
-      const step = Math.round(this.currentLayer.layer.timeToStep(currentDate));
-      // Doc: https://github.com/CartoDB/torque/blob/master/doc/torque_api.md
-      this.currentLayer.layer.setStep(step);
-
+    if(activeLayer.get('layer_type') !== 'torque' ||
+      this.currentLayerConfig.layer_type !== 'torque') {
+      _addLayer.call(this);
     } else {
-      addLayer.call(this);
+
+      const filtersOldAttributes = filtersModel.previousAttributes();
+      const filtersNewAttributes = filtersModel.toJSON();
+
+      if(filtersChangeTimestamp !== filtersModel._timestamp &&
+        (!_.isEqual(filtersOldAttributes.sectors, filtersNewAttributes.sectors) ||
+        filtersOldAttributes.region !== filtersNewAttributes.region)) {
+        /* We reload the layer */
+        _addLayer.call(this);
+        filtersChangeTimestamp = filtersModel._timestamp;
+      } else {
+        this.setTorquePosition();
+      }
     }
   };
+
 })();
 
 MapView.prototype.defaults = {

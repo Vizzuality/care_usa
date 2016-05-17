@@ -8,7 +8,6 @@ import React  from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import Anniversary from './components/Anniversary';
-import Header from './components/Header';
 import utils from './scripts/helpers/utils';
 import MenuDevice from './components/MenuDevice';
 import MyDonation from './components/MyDonation';
@@ -52,15 +51,18 @@ class Main extends React.Component {
 
     return (
     	<div>
-	  		<Header
-	          currentTab = { this.props.currentTab }
-	          toggleMenuFn = { this.toggleMenu.bind(this) }
-	          changePageFn = { this.changePage.bind(this) }
-	        />
-	        { this.props.currentPage === 'who-cares' ? <App />:
-            this.props.currentPage === 'anniversary' ? <Anniversary /> : ''}
-	       	{ menuDevice }
-        </div>
+        { this.props.currentPage === 'who-cares' ? <App
+          currentTab = { this.props.currentTab }
+          toggleMenuFn = { this.toggleMenu.bind(this) }
+          changePageFn = { this.changePage.bind(this) }
+        />:
+        this.props.currentPage === 'anniversary' ? <Anniversary
+          currentTab = { this.props.currentTab }
+          toggleMenuFn = { this.toggleMenu.bind(this) }
+          changePageFn = { this.changePage.bind(this) }
+        /> : ''}
+       	{ menuDevice }
+      </div>
     );
   }
 }

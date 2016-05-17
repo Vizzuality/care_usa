@@ -19,13 +19,15 @@ class ModalFilters extends Modal {
       return true;
     }
 
-    if(nextProps.availableRange !== this.props.availableRange) {
-      this.filters.updateAvailableRange(nextProps.availableRange);
+    if(nextProps.domain !== this.props.domain) {
+      const domain = nextProps.domain.map(date => moment.utc(date, 'YYYY-MM-DD').toDate());
+      this.filters.updateAvailableRange(domain);
     }
 
     return false;
   }
 
+  /* TODO: the params should be in app's state at the beginning */
   getInitialFilters() {
     const routerParams = this.props.routerParams;
     if(!routerParams) return {};
@@ -68,8 +70,8 @@ class ModalFilters extends Modal {
       el: this.refs.Filters,
       closeCallback: this.props.onClose.bind(this),
       saveCallback: this.props.onSave.bind(this),
-      dateRange: this.props.range,
-      availableRange: this.props.availableRange,
+      wholeDomain: this.props.wholeDomain,
+      domain: this.props.domain,
       initialFilters: this.getInitialFilters()
     });
   }

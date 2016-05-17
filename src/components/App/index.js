@@ -5,6 +5,7 @@ import $ from 'jquery';
 import d3  from 'd3';
 import _ from 'underscore';
 import moment from 'moment';
+import Header from '../Header';
 import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
@@ -46,8 +47,8 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      ready: false,
       mode: 'donations',
-      layer: 'amount-of-money',
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false,
@@ -56,47 +57,14 @@ class App extends React.Component {
       filters: {},
       sectors: [],
       regions: [],
-      /* Ranges for which we have data */
-      ranges: {
-        donations: [ new Date('2011-07-01'), new Date() ],
-        projects:  [ new Date('2012-01-01'), new Date('2015-01-01') ]
-      },
-      /* Specify how often we should update the map when playing the timeline
-       * or moving the handle. Dates are rounded "nicely" to the interval. */
-      dataInterval: {
-        donations: {
-          unit: d3.time.week.utc,
-          count: 2
-        },
-        projects: {
-          unit: d3.time.year.utc,
-          count: 1
-        }
-      },
-      /* The range selected in the timeline */
-      timelineDates: {},
       shareOpen: false,
       aboutOpen: false,
       donorsOpen: false,
-      /* The range displayed on the map */
-      mapDates: {}
+      embed: false
     };
-
   }
 
   componentWillMount() {
-
-    /* Needs to be done before the component is mounted and before the router
-     * is instanciated */
-    filtersModel.on('change', () => {
-      this.setState({ filters: filtersModel.toJSON() });
-      this.router.update(this.parseFiltersForRouter());
-    });
-
-    this.router = new Router();
-    this.router.params.on('change', this.onRouterChange.bind(this));
-    this.router.start();
-
     this.setState(utils.checkDevice());
 
     sectorsCollection.fetch()
@@ -107,39 +75,31 @@ class App extends React.Component {
 
   componentDidMount() {
     this._initData();
-    this.initTimeline();
     DonorsModalModel.on('change', () => !DonorsModalModel.get('donorsOpen') ? '' : this.setState({ donorsOpen: true }));
-    this._updateRouterParams();
-    this.router.params.on('change', this.onRouterChangeMap.bind(this));
   }
 
   _updateRouterParams() {
+    /* TODO: we shouldn't put all the params in the state: some of them aren't
+     * needed because are stored in models, and other need to be parsed */
     /* Here we update general state with router params and our device check. */
-    const newParams = _.extend({}, { donation: this.router.params.attributes.donation && true }, this.router.params.attributes);
-    this.setState(newParams);
-  }
+    const newParams = Object.assign({},
+      this.router.params.attributes,
+      {
+        donation: !!this.router.params.attributes.donation,
+        embed: !!this.router.params.attributes.embed
+      });
 
-  shouldComponentUpdate(nextProps, nextState) {
-    /* Basically, here, what we want to do is pass to the timeline the minimum
-     * range covering both the range of the donations and of the projects, or
-     * the filtering range if exists */
-    const wholeRange = [
-      new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
-      new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
-    ];
-
-    const interval = this.state.dataInterval[nextState && nextState.mode || this.state.mode];
-
-    if(nextState.filters.from && nextState.filters.from !== this.state.filters.from ||
-      nextState.filters.to && nextState.filters.to !== this.state.filters.to) {
-      const range = [ nextState.filters.from, nextState.filters.to ];
-      this.timeline.setRange(range, interval, true);
-    } else if(this.state.filters.from && !nextState.filters.from ||
-      this.state.filters.to && !nextState.filters.to) {
-      this.timeline.setRange(wholeRange, interval);
+    if(newParams.layer) {
+      const layer = layersCollection.findWhere({ slug: newParams.layer });
+      newParams.layer = layer && layer.toJSON();
+    } else {
+      newParams.layer = layersCollection.getActiveLayer(newParams.mode || this.state.mode).toJSON();
     }
 
-    return true;
+    /* The sectors are saved in the filters model */
+    delete newParams.sectors;
+
+    this.setState(newParams);
   }
 
   onRouterChange() {
@@ -152,6 +112,13 @@ class App extends React.Component {
         this.timeline.setCursorPosition(date.toDate());
       }
     }
+
+    /* Update the state of the map */
+    const newMapState = {};
+    if (params.zoom) newMapState.zoom = params.zoom;
+    if (params.lat) newMapState.lat = params.lat;
+    if (params.lng) newMapState.lng = params.lng;
+    this.mapView.state.set(newMapState);
 
     /* Update the filters */
     const newFiltersModel = {};
@@ -187,39 +154,34 @@ class App extends React.Component {
     filtersModel.set(newFiltersModel);
   }
 
-  onRouterChangeMap() {
-    const params = this.router.params.toJSON();
-
-    if (params.zoom) {
-      this.mapView.state.set({zoom: params.zoom})
-    }
-
-    if (params.lat) {
-      this.mapView.state.set({lat: params.lat})
-    }
-
-    if (params.lng) {
-      this.mapView.state.set({lng: params.lng})
-    }
-  }
-
   _initData() {
-    layersCollection.fetch().done( () => {
-      if (this.router.params.attributes.layer) {
-        this._updateLayersCollection(this.router.params.attributes.layer);
-      }
-      const currentMode = this.state.mode;
+    layersCollection.fetch()
+      .done(() => {
+        /* Needs to be done before the router is instanciated */
+        filtersModel.on('change', () => {
+          this.setState({ filters: filtersModel.toJSON() });
+          if(this.timeline) this.updateTimeline(this.state.layer);
+          this.router.update(this.parseFiltersForRouter());
+        });
 
-      /* Absolutely necessary if we want the map to load when the app is loaded
-       * without any param */
-      this.timeline.changeMode(currentMode,
-        this.state.dataInterval[currentMode],
-        this.state.ranges[currentMode],
-        true); /* We assume that the layer by default is a Torque one */
+        this.router = new Router();
+        this.router.start();
+        this._updateRouterParams();
+        this.router.params.on('change', this.onRouterChange.bind(this));
 
-      this.setState({ 'ready': true });
-      this.initMap();
-    })
+        const mode = this.router.params.attributes.mode || this.state.mode;
+        const layerSlug = this.router.params.attributes.layer;
+        if(layerSlug) layersCollection.setActiveLayer(mode, layerSlug);
+
+        this.setState({
+          ready: true,
+          layer: layersCollection.getActiveLayer(mode).toJSON()
+        });
+
+        /* InitTimeline should be called before to trigger the current date */
+        this.initTimeline();
+        this.initMap();
+      });
   }
 
   //GENERAL METHODS
@@ -258,23 +220,25 @@ class App extends React.Component {
 
   // TIMELINE METHODS
   initTimeline() {
-    /* We define the domain of the timeline */
-    let domain = [
-      new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
-      new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
-    ];
-    if(this.state.filters.from || this.state.filters.to) {
-      domain = [ this.state.filters.from, this.state.filters.to ];
+    const layer = layersCollection.getActiveLayer(this.state.mode).toJSON();
+    const cursor = { speed: layer.timeline.speed };
+    const interval = Object.assign({}, layer.timeline.interval);
+    interval.unit = d3.time[interval.unit];
+
+    let domain = layer.domain.map(date => moment.utc(date).toDate());
+    let filters = filtersModel.toJSON();
+    if(filters.from && filters.to) {
+      domain = [ filters.from, filters.to ];
     }
 
     const timelineParams = {
       el: this.refs.Timeline,
-      domain: domain,
-      interval: this.state.dataInterval[this.state.mode],
-      filters: this.state.filters,
-      triggerTimelineDates: this.updateTimelineDates.bind(this),
-      triggerMapDates: this.updateMapDates.bind(this),
-      ticksAtExtremities: this.state.filters.from || this.state.filters.to
+      wholeDomain: layersCollection.getDataDomain(),
+      domain,
+      cursor,
+      interval,
+      triggerDate: this.updateTimelineDate.bind(this),
+      ticksAtExtremities: filters.from || filters.to
     };
 
     /* We retrieve the position of the cursor from the URL if exists */
@@ -288,18 +252,53 @@ class App extends React.Component {
     this.timeline = new TimelineView(timelineParams);
   }
 
+  /* Update the timeline to reflect the attributes of the new layer and the
+   * filters */
+  updateTimeline(layer) {
+    const cursor = { speed: layer.timeline.speed };
+    const interval = Object.assign({}, layer.timeline.interval);
+    interval.unit = d3.time[interval.unit];
+
+    let domain = layer.domain.map(date => moment.utc(date).toDate());
+    let filters = filtersModel.toJSON();
+    if(filters.from && filters.to) {
+      domain = [ filters.from, filters.to ];
+    }
+
+    this.timeline.options.domain = domain;
+    this.timeline.options.cursor = cursor;
+    this.timeline.options.interval = interval;
+    this.timeline.options.ticksAtExtremities = filters.from || filters.to;
+
+    this.timeline.render();
+  }
+
+  /* This method is called when the timeline triggers the new current date */
+  updateTimelineDate(date) {
+    this.setState({ timelineDate: date });
+    this.router.update({ timelineDate: moment.utc(+date).format('YYYY-MM-DD') });
+    if(this.mapView) this.mapView.state.set({ timelineDate: date });
+  }
+
   // MAP METHODS
   initMap() {
+    /* We assume that the state already took into account the params from the
+     * router. By doing that line, we ensure we have default values in the URL.
+     */
     this.router.update({
       mode: this.state.mode,
-      layer: this.state.layer
+      layer: this.state.layer.slug
     });
+
+    const state = this.router.params.toJSON();
+    state.timelineDate = this.state.timelineDate;
+    state.layer = this.state.layer;
+    state.mode = this.state.mode;
 
     this.mapView = new MapView({
       el: this.refs.Map,
-      state: this.router.params.toJSON(),
-      donation: this.state.donation,
-      mode: this.state.mode,
+      state,
+      mode: this.state.mode
     });
 
     //Donation
@@ -368,57 +367,35 @@ class App extends React.Component {
     }
   }
 
-  changeMapMode(mode, e) {
-    let activeLayer = layersCollection.filter(model => model.attributes.category === mode && model.attributes.active )[0].attributes.slug;
-    this.router.update({mode: mode, layer: activeLayer});
-    this.setState({ mode: mode, layer: activeLayer });
+  changeMapMode(mode) {
+    const layer = layersCollection.getActiveLayer(mode);
+    this.router.update({ mode: mode, layer: layer.toJSON().slug });
+    this.setState({ mode: mode, layer: layer.toJSON() });
 
-    this.timeline.changeMode(mode, this.state.dataInterval[mode], this.state.ranges[mode]);
-    this.mapView.state.set({ 'mode': mode, 'layer': activeLayer, 'currentLayer': activeLayer });
-  }
-
-  changeLayer(layer, e) {
-    this.router.update({layer: layer});
-    this.setState({ layer: layer });
-
-    this._updateLayersCollection(layer);
-  }
-
-  _updateLayersCollection(layer) {
-    // Inactive all layers of the same group
-    let cogroupLayers = layersCollection.filter(model => model.attributes.category === this.state.mode);
-    _.each(cogroupLayers, (activeLayer) => {
-      activeLayer.set('active', false);
+    /* We should always update the map before the timeline */
+    this.mapView.state.set({
+      mode,
+      layer: layer.toJSON(),
+      currentLayer: layer.toJSON().slug
     });
 
-    //Active new layer
-    let newLayer = layersCollection.filter(model => model.attributes.slug === layer);
-    newLayer[0].set('active', true);
+    this.updateTimeline(layer.toJSON());
+  }
+
+  changeLayer(layer) {
+    this.router.update({ layer: layer.slug });
+    this.setState({ layer });
+    layersCollection.setActiveLayer(this.state.mode, layer.slug);
+    this.mapView.state.set({ layer });
+    this.updateTimeline(layer);
   }
 
   toggleModalFilter() {
     this.setState({ filtersOpen: !this.state.filtersOpen });
   }
 
-  updateFilters(filters) {
-    this.setState({ filters: filters });
-  }
-
-  updateTimelineDates(dates) {
-    this.setState({ timelineDates: dates, timelineDate: dates.to });
-    this.router.update({
-      timelineDate: moment.utc(dates.to).format('YYYY-MM-DD')
-    });
-  }
-
-  updateMapDates(dates) {
-    this.setState({ mapDates: dates });
-    //MAP STATE CHANGE
-    if(this.mapView) this.mapView.state.set({ timelineDates: dates });
-  }
-
   setDonationsAsmode() {
-    this.setState({ mode: 'donations' });
+    this.changeMapMode('donations');
   }
 
   resetFilters() {
@@ -434,40 +411,47 @@ class App extends React.Component {
   }
 
   render() {
-    const wholeRange = [
-      new Date(Math.min(this.state.ranges.donations[0], this.state.ranges.projects[0])),
-      new Date(Math.max(this.state.ranges.donations[1], this.state.ranges.projects[1]))
-    ];
+    let content = '';
 
-    return (
-      <div className="l-app">
+    if(this.state.ready) {
+      content = <div>
+
+        <Header
+          currentTab = { this.props.currentTab }
+          toggleMenuFn = { this.props.toggleMenuFn }
+          changePageFn = { this.props.changePageFn }
+          embed = { this.state.embed }
+        />
 
         <div id="map" className="l-map" ref="Map"></div>
 
-        <button className="btn-share btn-primary l-share" onClick={ () => this.handleModal('open', 'shareOpen') }>
-          <svg className="icon icon-share">
-            <use xlinkHref="#icon-share"></use>
-          </svg>
-        </button>
+        { !this.state.embed &&
+          <button className="btn-share btn-primary l-share" onClick={ () => this.handleModal('open', 'shareOpen') }>
+            <svg className="icon icon-share">
+              <use xlinkHref="#icon-share"></use>
+            </svg>
+          </button>
+        }
 
-        <ModalShare
-          visible={ this.state.shareOpen }
-          onClose={ this.handleModal.bind(this, 'close', 'shareOpen') }
-        />
+        { !this.state.embed &&
+          <ModalShare
+            visible={ this.state.shareOpen }
+            onClose={ this.handleModal.bind(this, 'close', 'shareOpen') }
+          />
+        }
 
         <Dashboard
           donation={  this.router.params.attributes.donation && true }
           changeModeFn={ this.changeMapMode.bind(this) }
           changeLayerFn={ this.changeLayer.bind(this) }
           currentMode={ this.state.mode }
-          currentLayer={ this.state.layer }
+          layer={ this.state.layer }
           toggleFiltersFn={ this.toggleModalFilter.bind(this) }
           filters={ this.state.filters }
           sectors={ this.state.sectors }
           regions={ this.state.regions }
-          dateRange={ this.state.ranges[this.state.mode] }
-          timelineDates={ this.state.timelineDates }
           timelineDate={ this.state.timelineDate }
+          embed={ this.state.embed }
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
@@ -477,50 +461,64 @@ class App extends React.Component {
           <div className="svg-container js-svg-container"></div>
         </div>
 
-        <div id="map-credits" className="l-map-credits">
-          <p className="about-label text text-cta" onClick={ () => this.handleModal('open', 'aboutOpen') }>About the data</p>
-          <a className="btn-about" onClick={ () => this.handleModal('open', 'aboutOpen') }>
-            <svg className="icon icon-info">
-              <use xlinkHref="#icon-info"></use>
-            </svg>
-          </a>
-        </div>
+        { !this.state.embed &&
+          <div id="map-credits" className="l-map-credits">
+            <p className="about-label text text-cta" onClick={ () => this.handleModal('open', 'aboutOpen') }>About the data</p>
+            <a className="btn-about" onClick={ () => this.handleModal('open', 'aboutOpen') }>
+              <svg className="icon icon-info">
+                <use xlinkHref="#icon-info"></use>
+              </svg>
+            </a>
+          </div>
+        }
 
-        <ModalAbout
-          visible={ this.state.aboutOpen }
-          onClose={ this.handleModal.bind(this, 'close', 'aboutOpen') }
-        />
+        { !this.state.embed &&
+          <ModalAbout
+            visible={ this.state.aboutOpen }
+            onClose={ this.handleModal.bind(this, 'close', 'aboutOpen') }
+          />
+        }
 
-        <ModalFilters
-          visible={ this.state.filtersOpen }
-          onClose={ this.handleModal.bind(this, 'close', 'filtersOpen') }
-          onSave={ this.updateFilters.bind(this) }
-          range={ wholeRange }
-          availableRange={ this.state.ranges[this.state.mode] }
-          routerParams={ this.router && this.router.params.toJSON() }
-        />
+        { !this.state.embed &&
+          <ModalFilters
+            visible={ this.state.filtersOpen }
+            onClose={ this.handleModal.bind(this, 'close', 'filtersOpen') }
+            onSave={ () => {} }
+            wholeDomain={ layersCollection.getDataDomain() }
+            domain={ this.state.layer.domain }
+            routerParams={ this.router && this.router.params.toJSON() }
+          />
+        }
 
-        <ModalNoData
-          filters={ this.state.filters }
-          filtersOpen ={ this.state.filtersOpen }
-          currentMode={ this.state.mode }
-          dateRange={ this.state.ranges[this.state.mode] }
-          timelineDates={ this.state.timelineDates }
-          onChangeFilters={ this.handleModal.bind(this, 'open', 'filtersOpen') }
-          onGoBack={ this.setDonationsAsmode.bind(this) }
-          onCancel={ this.resetFilters.bind(this) }
-        />
+        { !this.state.embed &&
+          <ModalNoData
+            filters={ this.state.filters }
+            filtersOpen ={ this.state.filtersOpen }
+            currentMode={ this.state.mode }
+            domain={ this.state.layer.domain }
+            onChangeFilters={ this.handleModal.bind(this, 'open', 'filtersOpen') }
+            onGoBack={ this.setDonationsAsmode.bind(this) }
+            onCancel={ this.resetFilters.bind(this) }
+          />
+        }
 
         <ModalDonors
           visible= { this.state.donorsOpen }
           onClose= { this.handleModal.bind(this, 'close', 'donorsOpen') }
         />
 
-        <a href="https://my.care.org/site/Donation2;jsessionid=5FED4A2DADFB975A2EDA92B59231B64B.app314a?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
-          Donate
-        </a>
+        { !this.state.embed &&
+          <a href="http://my.care.org/site/Donation2?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
+            Donate
+          </a>
+        }
+      </div>;
+    }
 
-        { !sessionStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
+    return (
+      <div className={ 'l-app ' + (this.state.ready ? '' : 'is-loading ') + (this.state.embed ? 'is-embed' : '') }>
+        { content }
+        { !localStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
       </div>
     );
   }
