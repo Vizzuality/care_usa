@@ -43,24 +43,39 @@ class CreateTileLayer {
     const timelineDate = this.options.state.timelineDate;
     const layer = this.options.state.layer;
     const statements = optionalStatements[this.options.category];
-    return this.options.sql_template.replace(/\s\$WHERE/g, () => {
-      if(filters || timelineDate) {
-        const res = Object.keys(statements).map(name => {
-          const filter = filters[name];
-            if(Array.isArray(filter) && filter.length ||
-              !Array.isArray(filter) && filter || timelineDate) {
-              return statements[name](filters, timelineDate, layer);
-            }
-            return null;
-          }).filter(statement => !!statement)
-            .join(' AND ');
 
-        if(res.length) {
-          return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
+    const templateWhere = _.indexOf(this.options.sql_template.split(' '), '$WHERE') >= 0 ? true : false;
+    const templateYear = _.indexOf(this.options.sql_template.split(' '), '$YEAR') >= 0 ? true : false;
+
+    if (templateWhere) {
+      return this.options.sql_template.replace(/\s\$WHERE/g, () => {
+        if(filters || timelineDate) {
+          const res = Object.keys(statements).map(name => {
+            const filter = filters[name];
+              if(Array.isArray(filter) && filter.length ||
+                !Array.isArray(filter) && filter || timelineDate) {
+                return statements[name](filters, timelineDate, layer);
+              }
+              return null;
+            }).filter(statement => !!statement)
+              .join(' AND ');
+
+          if(res.length) {
+            return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
+          }
         }
-      }
-      return '';
-    });
+        return '';
+      });
+    }
+
+    if(templateYear) {
+      return this.options.sql_template.replace(/\s\$YEAR/g, () => {
+        if(timelineDate || filters && filters['to']) {
+          return ` WHERE ${statements['to'](filters, timelineDate)}`;
+        }
+        return '';
+      });
+    }
   }
 
   createLayer() {
