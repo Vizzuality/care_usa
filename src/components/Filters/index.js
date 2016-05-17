@@ -245,7 +245,6 @@ class FiltersView extends Backbone.View {
         break;
       }
     }
-    this.toggleButtonsAvailability(!empty);
   }
 
   /* Update the status model with the serialized form */
@@ -268,18 +267,6 @@ class FiltersView extends Backbone.View {
     this.status.unset('to', { silent: true });
 
     this.status.set(serializedFilters, { validate: true });
-  }
-
-  /* Toggle the availability of the buttons, force it to the "visible" value if
-   * present */
-  toggleButtonsAvailability(...visible) {
-    if(!visible.length) {
-      this.applyButton.classList.toggle('is-disabled');
-      this.clearButton.classList.toggle('is-disabled');
-    } else {
-      this.applyButton.classList.toggle('is-disabled', !visible[0]);
-      this.clearButton.classList.toggle('is-disabled', !visible[0]);
-    }
   }
 
   /* Return the serialized form */
@@ -388,7 +375,6 @@ class FiltersView extends Backbone.View {
   onClear(e) {
     e.preventDefault();
     this.resetFilters();
-    this.toggleButtonsAvailability(false);
   }
 
   onDateChange(e) {
