@@ -64,7 +64,13 @@
       cursor: pointer;
       > use { fill: $color-1; }
 
-      &:hover { fill: $color-9; }
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      &:hover > use {
+        fill: $color-9;
+      }
 
       @media screen and (min-width: $screen-s) {
         top: rem(40);
