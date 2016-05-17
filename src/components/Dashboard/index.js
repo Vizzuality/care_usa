@@ -30,6 +30,19 @@ class Dashboard extends React.Component {
     this.setState({ dashboardOpen: !this.state.dashboardOpen })
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (this.props.donation !== nextProps.donation ||
+      this.props.currentMode !== nextProps.currentMode ||
+      this.props.layer !== nextProps.layer ||
+      this.props.filters !== nextProps.filters ||
+      this.props.sectors !== nextProps.sectors ||
+      this.props.timelineDate !== nextProps.timelineDate ) {
+      return true;
+    }
+
+    return false;
+  }
+
   render() {
     let tabsMobile;
     let tabsDesktop;
