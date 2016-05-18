@@ -331,6 +331,10 @@ class TimelineView extends Backbone.View {
     this.cursorShadow.attr('filter', '')
     document.body.classList.remove('-grabbing');
 
+    //BUG - we enter to this function when applying or removing filters.
+    //and the problem is in that moment, d3.mouse(this.axis) is [Nan, Nan].
+    //I don't know why are we getting here when applying or clearing the filters.
+
     //Even if we trigger the date when dragging the cursor,
     //trigger also when finish to ve sure you are triggering the current one.
     // let date = this.scale.invert(d3.mouse(this.axis)[0]);
