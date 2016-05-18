@@ -35,6 +35,7 @@ class Dashboard extends React.Component {
     let tabsDesktop;
     let layersSwitcher;
     let filtersSwitcher;
+    let dashboardClass;
 
     if ( this.state.mobile || this.state.tablet ) {
       tabsMobile =  <DashTabs
@@ -65,11 +66,12 @@ class Dashboard extends React.Component {
               changeLayerFn= { this.props.changeLayerFn }
             />
 
-    const dashboardClass = this.state.dashboardOpen ? 
-      this.state.mobile ? 
+    if(this.state.dashboardOpen) {
+      dashboardClass = this.state.mobile ? 
           "l-dashboard is-open -mobile" :
-            "l-dashboard is-open -pc" :
-          "l-dashboard";
+          "l-dashboard is-open -pc";
+    }
+    else dashboardClass = "l-dashboard";
 
     return (
       <div>
