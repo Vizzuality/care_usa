@@ -93,6 +93,13 @@ if (typeof Object.assign != 'function') {
   })();
 }
 
+/* Polyfill for Number.isNaN
+ * Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isNaN#Polyfill
+ */
+Number.isNaN = Number.isNaN || function(value) {
+  return typeof value === "number" && isNaN(value);
+}
+
 export default {
   checkDevice,
   matches,
