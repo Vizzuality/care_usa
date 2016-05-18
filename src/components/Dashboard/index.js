@@ -30,25 +30,11 @@ class Dashboard extends React.Component {
     this.setState({ dashboardOpen: !this.state.dashboardOpen })
   }
 
-  shouldComponentUpdate(nextProps) {
-    if (this.props.donation !== nextProps.donation ||
-      this.props.currentMode !== nextProps.currentMode ||
-      this.props.layer !== nextProps.layer ||
-      this.props.filters !== nextProps.filters ||
-      this.props.sectors !== nextProps.sectors ||
-      this.props.timelineDate !== nextProps.timelineDate ) {
-      return true;
-    }
-
-    return false;
-  }
-
   render() {
     let tabsMobile;
     let tabsDesktop;
     let layersSwitcher;
     let filtersSwitcher;
-    let dashboardClass;
 
     if ( this.state.mobile || this.state.tablet ) {
       tabsMobile =  <DashTabs
@@ -79,12 +65,11 @@ class Dashboard extends React.Component {
               changeLayerFn= { this.props.changeLayerFn }
             />
 
-    if(this.state.dashboardOpen) {
-      dashboardClass = this.state.mobile ? 
+    const dashboardClass = this.state.dashboardOpen ?
+      this.state.mobile ?
           "l-dashboard is-open -mobile" :
-          "l-dashboard is-open -pc";
-    }
-    else dashboardClass = "l-dashboard";
+            "l-dashboard is-open -pc" :
+          "l-dashboard";
 
     return (
       <div>
