@@ -333,8 +333,8 @@ class TimelineView extends Backbone.View {
 
     //Even if we trigger the date when dragging the cursor,
     //trigger also when finish to ve sure you are triggering the current one.
-    let date = this.scale.invert(d3.mouse(this.axis)[0]);
-    this.options.triggerDate(date);
+    // let date = this.scale.invert(d3.mouse(this.axis)[0]);
+    // this.options.triggerDate(date);
   }
 
   onCursorDrag() {
