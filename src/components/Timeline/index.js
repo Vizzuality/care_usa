@@ -330,13 +330,17 @@ class TimelineView extends Backbone.View {
   onCursorEndDrag() {
     this.cursorShadow.attr('filter', '')
     document.body.classList.remove('-grabbing');
+
+    //Even if we trigger the date when dragging the cursor,
+    //trigger also when finish to ve sure you are triggering the current one.
+    let date = this.scale.invert(d3.mouse(this.axis)[0]);
+    this.options.triggerDate(date);
   }
 
   onCursorDrag() {
     if(!d3.event.sourceEvent) return;
 
     this.cursorShadow.attr('filter', 'url(#cursorShadow)')
-
 
     let date = this.scale.invert(d3.mouse(this.axis)[0]);
     if(date > this.options.domain[1]) date = this.options.domain[1];
