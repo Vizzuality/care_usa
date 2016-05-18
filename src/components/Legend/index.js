@@ -19,7 +19,7 @@ class Legend extends React.Component {
       let style = { backgroundColor: bucket.color, borderColor: bucket.border }
       legend.push(
         <li className="legend-item" key={ bucket.color }>
-          <span className="bucket" style={ style }></span>
+          <span className={ bucket.slug + " bucket" } style={ style }></span>
           <span className="text text-legend-s">{ bucket.literal }</span>
         </li>
       )

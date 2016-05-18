@@ -7,6 +7,7 @@ import PopUpDonation from './PopUpDonation';
 import PopUpMyDonation from './PopUpMyDonation';
 import PopUpDonationDist from './PopUpDonationDist';
 import PopUpProject from './PopUpProject';
+import PopUpRefugees from './PopUpRefugees';
 
 class PopUpContentView extends Backbone.View {
 
@@ -25,9 +26,9 @@ class PopUpContentView extends Backbone.View {
       this.currentPopUp = new PopUpDonation(this.options);
     } else if (this.options.layer.slug === 'number-of-donors') {
       this.currentPopUp = new PopUpDonationDist(this.options);
-    } else if (this.options.layer.slug === 'my-donation'){
-      this.currentPopUp = new PopUpMyDonation(this.options);
-    } else {
+    } else if (this.options.layer.slug === 'refugee-assistance') {
+      this.currentPopUp = new PopUpRefugees(this.options);
+    } else if (this.options.layer.slug === 'projects') {
       this.currentPopUp = new PopUpProject(this.options);
     }
   }

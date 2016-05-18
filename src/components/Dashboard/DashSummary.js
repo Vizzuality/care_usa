@@ -42,7 +42,6 @@ class DashSummary extends React.Component {
     const endDate = nextProps.timelineDate || nextProps.filters && nextProps.filters.to;
     const sectors = nextProps.filters && nextProps.filters.sectors || [];
     const region = nextProps.filters && nextProps.filters.region;
-
     if(this.state.startDate !== startDate || this.state.endDate !== endDate ||
       !this.state.sectors && sectors ||
       this.state.sectors.toString() !== sectors.toString() ||
