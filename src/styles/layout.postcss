@@ -122,9 +122,20 @@ $l-margin-vt: 50;
   background-image: url('../src/images/legendpattern.png');
   background-size: contain;
   transition: transform .2s ease-out;
+  transform: translatey(220px);
+
+  @media screen and (min-width: $screen-m) {
+    transform: translatey(0);
+  }
 
   &.is-open {
-    transform: translatex(0);
+    &.-pc {
+      transform: translatex(0);
+    }
+
+    &.-mobile {
+      transform: translatey(0);
+    }
   }
 
   .is-embed & {

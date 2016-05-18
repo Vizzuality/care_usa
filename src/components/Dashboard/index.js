@@ -65,10 +65,16 @@ class Dashboard extends React.Component {
               changeLayerFn= { this.props.changeLayerFn }
             />
 
+    const dashboardClass = this.state.dashboardOpen ? 
+      this.state.mobile ? 
+          "l-dashboard is-open -mobile" :
+            "l-dashboard is-open -pc" :
+          "l-dashboard";
+
     return (
       <div>
         { tabsMobile }
-        <div className={ this.state.dashboardOpen ? "l-dashboard is-open" : "l-dashboard" }>
+        <div className={ dashboardClass }>
           <button
             className="btn-dashboard-switcher -left"
             onClick={ this.toogleDashboard.bind(this) }
