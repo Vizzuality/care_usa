@@ -99,16 +99,16 @@ class Dashboard extends React.Component {
               }
 
               { !this.props.embed &&
-                <div>
                   <button
                     className="text text-cta btn-filters-switcher"
                     onClick={ this.props.toggleFiltersFn } >
                     filters
                   </button>
+              }
+              { !this.props.embed &&
                   <a href="http://www.care.org/donate" rel="noreferrer" target="_blank"className="btn btn-contrast -small">
                     Donate
                   </a>
-                </div>
               }
 
             </div>
