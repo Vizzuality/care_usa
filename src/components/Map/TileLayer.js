@@ -43,7 +43,7 @@ class CreateTileLayer {
     const timelineDate = this.options.state.timelineDate;
     const layer = this.options.state.layer;
     const statements = optionalStatements[this.options.category];
-
+    console.log('**getQuery', timelineDate);
     const templateWhere = _.indexOf(this.options.sql_template.split(' '), '$WHERE') >= 0 ? true : false;
     const templateYear = _.indexOf(this.options.sql_template.split(' '), '$YEAR') >= 0 ? true : false;
 
