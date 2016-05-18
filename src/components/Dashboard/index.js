@@ -48,6 +48,7 @@ class Dashboard extends React.Component {
     let tabsDesktop;
     let layersSwitcher;
     let filtersSwitcher;
+    let dashboardClass;
 
     if ( this.state.mobile || this.state.tablet ) {
       tabsMobile =  <DashTabs
@@ -78,15 +79,29 @@ class Dashboard extends React.Component {
               changeLayerFn= { this.props.changeLayerFn }
             />
 
+    if(this.state.dashboardOpen) {
+      dashboardClass = this.state.mobile ? 
+          "l-dashboard is-open -mobile" :
+          "l-dashboard is-open -pc";
+    }
+    else dashboardClass = "l-dashboard";
+
     return (
       <div>
         { tabsMobile }
-        <div className={ this.state.dashboardOpen ? "l-dashboard is-open" : "l-dashboard" }>
+        <div className={ dashboardClass }>
           <button
-            className="btn-dashboard-switcher"
+            className="btn-dashboard-switcher -left"
             onClick={ this.toogleDashboard.bind(this) }
           >
             <svg className="icon icon-arrowleft"><use xlinkHref="#icon-arrowleft"></use></svg>
+          </button>
+
+          <button
+            className="btn-dashboard-switcher -bottom"
+            onClick={ this.toogleDashboard.bind(this) }
+          >
+            <svg className="icon icon-arrow"><use xlinkHref="#icon-arrow"></use></svg>
           </button>
 
           { tabsDesktop }
@@ -99,16 +114,16 @@ class Dashboard extends React.Component {
               }
 
               { !this.props.embed &&
-                <div>
                   <button
                     className="text text-cta btn-filters-switcher"
                     onClick={ this.props.toggleFiltersFn } >
                     filters
                   </button>
+              }
+              { !this.props.embed &&
                   <a href="http://www.care.org/donate" rel="noreferrer" target="_blank"className="btn btn-contrast -small">
                     Donate
                   </a>
-                </div>
               }
 
             </div>
