@@ -85,9 +85,14 @@
   align-items: center;
   position: absolute;
   width: rem(35);
-  height: rem(35);
+  height: rem(25);
   background-image: url('../../images/legendpattern.png');
   background-size: contain;
+
+  @media screen and (min-width: $screen-m) {
+    width: rem(35);
+    height: rem(35);
+  }
 
   &:hover .icon > use {
     fill: $color-9;
@@ -95,11 +100,16 @@
 
   .icon {
       display: block;
-      width: rem(10);
-      height: rem(10);
+      width: rem(7);
+      height: rem(8);
       width: 100%;
       transform: rotate(180deg);
       > use { fill: $color-1; }
+
+      @media screen and (min-width: $screen-m) {
+        width: rem(10);
+        height: rem(10);
+      }
   }
 
   .is-open & {
@@ -125,8 +135,8 @@
 
   &.-bottom {
     display: flex;
-    top: rem(-35);
-    left: rem(30);
+    top: rem(-25);
+    left: rem(17);
     box-shadow: 0 rem(-0.5) rem(1) #888;
 
     @media screen and (min-width: $screen-m) {
