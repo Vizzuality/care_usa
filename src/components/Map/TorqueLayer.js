@@ -43,8 +43,8 @@ const stepsRange = function(start, end) {
 
 const optionalStatements = {
   donations: {
-    from:    (filters, range) => `date > '${range[0].format('MM-DD-YYYY')}'::date`,
-    to:      (filters, range) => `date < '${range[1].format('MM-DD-YYYY')}'::date`,
+    from:    (filters, range) => `date >= '${range[0].format('MM-DD-YYYY')}'::date`,
+    to:      (filters, range) => `date <= '${range[1].format('MM-DD-YYYY')}'::date`,
     region:  filters => filters && filters.region ? `countries @> ARRAY[${filters.region.replace(/(\[|\])/g, '').split(',').map(region => `'${region}'`)}]` : '',
     sectors: filters => filters && filters.sectors.length ? `sectors && ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
   }
