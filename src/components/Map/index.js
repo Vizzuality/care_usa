@@ -236,8 +236,9 @@ class MapView extends Backbone.View {
 };
 
 MapView.prototype.updateLayer = (function() {
-
-  const _addLayer = _.throttle(function() {
+  /* We can't use throttle here because we wanna be sure that the last call is
+   * going to be painted */
+  const _addLayer = _.debounce(function() {
     this._removeCurrentLayer();
     this._addLayer();
   }, 200);
