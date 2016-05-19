@@ -78,10 +78,10 @@ class TimelineView extends Backbone.View {
       - svgPadding.bottom;
 
     /* Because d3 doesn't display the first tick, we subtract 1 day to it.
+     ** I removed this solution because it was showing 31-12-2010, that is not an existing date when aplying filters and it draws final points anyway.
      * NOTE: concat and clone are used to not modify the original array */
     const domain = this.options.domain.concat([]);
-    domain[0] = moment.utc(domain[0]).clone().subtract(1, 'days').toDate();
-
+    domain[0] = moment.utc(domain[0]).clone().toDate();
     /* We force the cursor to be within the domain */
     if(+this.cursorPosition > +this.options.domain[1]) this.cursorPosition = this.options.domain[1];
     if(+this.cursorPosition < +this.options.domain[0]) this.cursorPosition = this.options.domain[0];
