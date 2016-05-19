@@ -66,6 +66,7 @@ class TorqueLayer {
       user: config.cartodbAccount,
       table: this.options.tablename || 'donors',
       sql: this.getQuery(),
+      provider: 'sql_api',
       cartocss: this.getCartoCSS()
     });
 
