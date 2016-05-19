@@ -8,13 +8,13 @@
   height: 100%;
   overflow: hidden;
   background-color: rgba($color-4, .6);
-  opacity: 1;
-  transition: opacity .3s;
-  z-index: 21;
+  z-index: 21; /* TODO: use standardized z-index */
 
   &.-hidden {
     opacity: 0;
     pointer-events: none;
+    visibility: hidden;
+    transition: visibility 0s linear .3s, opacity .3s;
   }
 
   > .content {
