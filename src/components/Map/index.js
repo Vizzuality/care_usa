@@ -241,7 +241,7 @@ MapView.prototype.updateLayer = (function() {
   const _addLayer = _.debounce(function() {
     this._removeCurrentLayer();
     this._addLayer();
-  }, 200);
+  }, 100);
 
   /* Store the timestamp of the last change of the filtersModel to only
    * reload Torque's layer when the model changed ie when the timestamp changed
@@ -258,7 +258,6 @@ MapView.prototype.updateLayer = (function() {
       this.currentLayerConfig.layer_type !== 'torque') {
       _addLayer.call(this);
     } else {
-
       const filtersOldAttributes = filtersModel.previousAttributes();
       const filtersNewAttributes = filtersModel.toJSON();
 
