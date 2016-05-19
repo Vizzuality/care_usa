@@ -378,7 +378,7 @@ class TimelineView extends Backbone.View {
 };
 
 TimelineView.prototype.triggerDate = (function() {
-  /* Do note pass true as third argument (immediate argument) otherwise the
+  /* Do not pass true as third argument (immediate argument) otherwise the
    * trigger will be done on the leading edge instead of the trailing edge. This
    * implies that when moving really fast the cursor we'll still trigger its
    * last position. */
