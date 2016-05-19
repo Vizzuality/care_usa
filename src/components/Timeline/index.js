@@ -379,10 +379,13 @@ class TimelineView extends Backbone.View {
 };
 
 TimelineView.prototype.triggerDate = (function() {
-
+  /* Do note pass true as third argument (immediate argument) otherwise the
+   * trigger will be done on the leading edge instead of the trailing edge. This
+   * implies that when moving really fast the cursor we'll still trigger its
+   * last position. */
   const trigger = _.debounce(function(date) {
     this.options.triggerDate(date);
-  }, 100, true);
+  }, 100);
 
   return function() {
     if(this.currentDataIndex < 0) {
