@@ -260,6 +260,7 @@ class App extends React.Component {
     interval.unit = d3.time[interval.unit];
 
     let domain = layer.domain.map(date => moment.utc(date).toDate());
+    console.log('updateTimeline', domain)
     let filters = filtersModel.toJSON();
     if(filters.from && filters.to) {
       domain = [ filters.from, filters.to ];
