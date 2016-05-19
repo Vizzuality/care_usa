@@ -247,8 +247,6 @@ MapView.prototype.updateLayer = (function() {
   let filtersChangeTimestamp = 0;
 
   return function() {
-    //Some times, when we get here after dragging timeline cursor, this.currentLayer does not exist so it does not update.
-    //This used to happen when dragging timeline around.
     if(!this.currentLayer || !this.currentLayer.layer) return;
 
     const activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
