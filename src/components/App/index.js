@@ -238,7 +238,8 @@ class App extends React.Component {
       cursor,
       interval,
       triggerDate: this.updateTimelineDate.bind(this),
-      ticksAtExtremities: filters.from || filters.to
+      ticksAtExtremities: filters.from || filters.to,
+      layerName: layer.name
     };
 
     /* We retrieve the position of the cursor from the URL if exists */
@@ -269,6 +270,7 @@ class App extends React.Component {
     this.timeline.options.cursor = cursor;
     this.timeline.options.interval = interval;
     this.timeline.options.ticksAtExtremities = filters.from || filters.to;
+    this.timeline.options.layerName = layer.name;
 
     this.timeline.render();
   }

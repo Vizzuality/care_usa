@@ -235,6 +235,9 @@ class TimelineView extends Backbone.View {
   play() {
     if(this.playing) return;
 
+    /* Google Analytics */
+    ga('send', 'event', 'Timeline', 'Play', this.options.layerName);
+
     this.playing = true;
     this.buttonIcon.setAttribute('xlink:href', '#icon-pause');
 
