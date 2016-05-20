@@ -176,13 +176,15 @@ class MapView extends Backbone.View {
     const state = this.state.toJSON();
 
     /* We make sure that we don't ask for data outside the domain */
-    if(state.timelineDate && state.layer) {
-      const domain = state.layer.domain.map(date => moment.utc(date, 'YYYY-MM-DD').toDate());
-      if(+state.timelineDate < +domain[0]) state.timelineDate = domain[0];
-      if(+state.timelineDate > +domain[1]) state.timelineDate = domain[1];
+    //Lets don't do it when we have applied some filters. If we are filtering and we set 2011, with this option, we will see data from 2012 into the map. And that is not what we want.
+    //We should allow users to see data (or no-data in this case) when dragging the timeline around.
+    if (!this.state.attributes.filters.to) {
+      if(state.timelineDate && state.layer) {
+        const domain = state.layer.domain.map(date => moment.utc(date, 'YYYY-MM-DD').toDate());
+        if(+state.timelineDate < +domain[0]) state.timelineDate = domain[0];
+        if(+state.timelineDate > +domain[1]) state.timelineDate = domain[1];
+      }
     }
-
-    console.log(state.timelineDate)
 
     const layerConfig = activeLayer.attributes;
     const layerClass = (layerConfig.layer_type === 'torque') ? TorqueLayer : TileLayer;
