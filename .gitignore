@@ -15,6 +15,7 @@
 /dist/*
 !/dist/*.ico
 !/dist/care-map.jpg
+!/dist/favicons/*
 
 # Enviroment variables
 .env
