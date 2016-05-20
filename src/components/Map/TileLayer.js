@@ -45,7 +45,6 @@ class CreateTileLayer {
     const statements = optionalStatements[this.options.category];
     const templateWhere = _.indexOf(this.options.sql_template.split(' '), '$WHERE') >= 0 ? true : false;
     const templateYear = _.indexOf(this.options.sql_template.split(' '), '$YEAR') >= 0 ? true : false;
-    console.log('***** map getQuery', timelineDate)
     if (templateWhere) {
       return this.options.sql_template.replace(/\s\$WHERE/g, () => {
         if(filters || timelineDate) {
@@ -81,7 +80,6 @@ class CreateTileLayer {
     this.options.sql = this._getQuery();
     const cartoAccount = this.options.cartodbAccount;
     const cartoKey = this.options.cartodbKey;
-    console.log(this.options.sql)
     // data layers parameterization
     const request = {
       layers: [{
