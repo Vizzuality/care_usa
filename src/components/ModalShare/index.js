@@ -16,6 +16,11 @@ class ModalShare extends Modal {
     };
   }
 
+  onClickCopy() {
+    /* Google Analytics */
+    ga && ga('send', 'event', 'Share', 'Copy Embed');
+  }
+
   getContent() {
   	const url = window.location.href;
   	const iframeLink = '<iframe width="600" height="600" src="' + url + '&embed=true" frameborder="0" allowfullscreen></iframe>';
@@ -28,7 +33,7 @@ class ModalShare extends Modal {
     		<p className="text text-highlighted -dark">Click and paste HTML to embed in website</p>
     		<aside className="btn-container">
     			<input id="embed-link" type="text" value={ iframeLink } readOnly="readonly" className="embed-link text text-input -primary" onFocus={ e => e.target.select() }></input>
-    			<a className="btn btn-primary btn-copy" data-clipboard-target="#embed-link">Copy</a>
+    			<a className="btn btn-primary btn-copy" data-clipboard-target="#embed-link" onClick={ this.onClickCopy.bind(this) }>Copy</a>
     		</aside>
     		<div className="share-links">
 				  <span className="text text-hightlighted -dark">Share on</span>
