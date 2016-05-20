@@ -313,6 +313,7 @@ class App extends React.Component {
         });
         this.mapView.drawDonationMarker(state);
       }
+      // Setting to default zoom in case there is already set up a zoom parameter
       this.mapView.map.setZoom(3);
     }
 
