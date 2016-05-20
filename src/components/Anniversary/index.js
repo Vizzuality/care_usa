@@ -10,6 +10,7 @@ import CatalystWomen from './CatalystWomen';
 import BoxVideo from './BoxVideo';
 import Slider from './Slider';
 import Retooling from './Retooling';
+import Donation from './Donation';
 import Footer from './Footer';
 
 class Anniversary extends React.Component {
@@ -33,6 +34,7 @@ class Anniversary extends React.Component {
         <CatalystWomen />
         <Slider />
         <BoxVideo />
+        <Donation />
         <Footer />
       </section>
     )
