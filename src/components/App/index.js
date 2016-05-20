@@ -411,8 +411,15 @@ class App extends React.Component {
     if (modal === 'donorsOpen') DonorsModalModel.set({donorsOpen: false});
   }
 
+  handleLanding() {
+    this.state.donation && !localStorage.getItem('session') &&
+      localStorage.setItem('session', true);
+  }
+
   render() {
     let content = '';
+
+    this.handleLanding();
 
     if(this.state.ready) {
       content = <div>

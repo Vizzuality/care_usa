@@ -76,7 +76,7 @@ class FiltersView extends Backbone.View {
   renderAvailableRange() {
     const startDate = moment.utc(this.options.domain[0]).format('MM·DD·YYYY');
     const endDate = moment.utc(this.options.domain[1]).format('MM·DD·YYYY');
-    this.availableRange.innerHTML = `Available dates <span>from ${startDate} to ${endDate}</span>`;
+    this.availableRange.innerHTML = `The selected map layer contains data <span>from ${startDate} to ${endDate}</span>.`;
   }
 
   updateAvailableRange(domain) {

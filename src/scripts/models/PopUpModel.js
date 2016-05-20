@@ -33,8 +33,9 @@ class PopUpModel extends Backbone.Model {
   _getUrlWithFilters() {
     const filters = filtersModel.toJSON();
 
-    const startDate = filters.from && `start_date=${filters['from-year']}-${filters['from-month']}-${filters['from-day']}`;
-    const endDate = filters.to && `end_date=${filters['to-year']}-${filters['to-month']}-${filters['to-day']}`;
+    const startDate = filters.from && `start_date = ${moment(filters.from).format('MM-DD-YYYY')}`;
+    //To be coherent with what we are seeing on the map, we have to give prevalence to "timelineDate".
+    const endDate = (filters && filters.to || this.options.timelineDate) ? `endDate = ${moment.utc(this.options.timelineDate || filters && filters.to).format('MM-DD-YYYY')}` : '';
     const regions = filters.region && `countries_iso=${filters['region']}`;
 
     let sectors = null;
