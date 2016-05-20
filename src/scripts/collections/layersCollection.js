@@ -16,8 +16,8 @@ class LayersCollection extends Backbone.Collection {
           layerSpec.timeline = {
             speed: 10,
             interval: {
-              unit: 'week',
-              count: 2
+              unit: 'month',
+              count: 1
             }
           };
           break;

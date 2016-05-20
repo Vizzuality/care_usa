@@ -78,10 +78,10 @@ class TimelineView extends Backbone.View {
       - svgPadding.bottom;
 
     /* Because d3 doesn't display the first tick, we subtract 1 day to it.
+     ** I removed this solution because it was showing 31-12-2010, that is not an existing date when aplying filters and it draws final points anyway.
      * NOTE: concat and clone are used to not modify the original array */
     const domain = this.options.domain.concat([]);
-    domain[0] = moment.utc(domain[0]).clone().subtract(1, 'days').toDate();
-
+    domain[0] = moment.utc(domain[0]).clone().toDate();
     /* We force the cursor to be within the domain */
     if(+this.cursorPosition > +this.options.domain[1]) this.cursorPosition = this.options.domain[1];
     if(+this.cursorPosition < +this.options.domain[0]) this.cursorPosition = this.options.domain[0];
@@ -337,7 +337,6 @@ class TimelineView extends Backbone.View {
 
     this.cursorShadow.attr('filter', 'url(#cursorShadow)')
 
-
     let date = this.scale.invert(d3.mouse(this.axis)[0]);
     if(date > this.options.domain[1]) date = this.options.domain[1];
     if(date < this.options.domain[0]) date = this.options.domain[0];
@@ -379,10 +378,13 @@ class TimelineView extends Backbone.View {
 };
 
 TimelineView.prototype.triggerDate = (function() {
-
+  /* Do not pass true as third argument (immediate argument) otherwise the
+   * trigger will be done on the leading edge instead of the trailing edge. This
+   * implies that when moving really fast the cursor we'll still trigger its
+   * last position. */
   const trigger = _.debounce(function(date) {
     this.options.triggerDate(date);
-  }, 100, true);
+  }, 100);
 
   return function() {
     if(this.currentDataIndex < 0) {

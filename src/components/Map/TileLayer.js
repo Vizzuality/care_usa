@@ -11,8 +11,8 @@ const defaults = {
 
 const optionalStatements = {
   donations: {
-    from:    (filters, timelineDate, layer) => filters && filters.from ? `date > '${moment.utc(filters.from).format('MM-DD-YYYY')}'::date` : `date > '${moment.utc(layer.domain[0], 'YYYY-MM-DD').format('MM-DD-YYYY')}'::date`,
-    to:      (filters, timelineDate) => `date < '${moment.utc(timelineDate || filters && filters.to).format('MM-DD-YYYY')}'::date`,
+    from:    (filters, timelineDate, layer) => filters && filters.from ? `date >= '${moment.utc(filters.from).format('MM-DD-YYYY')}'::date` : `date >= '${moment.utc(layer.domain[0], 'YYYY-MM-DD').format('MM-DD-YYYY')}'::date`,
+    to:      (filters, timelineDate) => `date <= '${moment.utc(timelineDate || filters && filters.to).format('MM-DD-YYYY')}'::date`,
     region:  filters => filters && filters.region ? `countries @> ARRAY[${filters.region.replace(/(\[|\])/g, '').split(',').map(region => `'${region}'`)}]` : '',
     sectors: filters => filters && filters.sectors.length ? `sectors && ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
   },
@@ -43,7 +43,6 @@ class CreateTileLayer {
     const timelineDate = this.options.state.timelineDate;
     const layer = this.options.state.layer;
     const statements = optionalStatements[this.options.category];
-
     const templateWhere = _.indexOf(this.options.sql_template.split(' '), '$WHERE') >= 0 ? true : false;
     const templateYear = _.indexOf(this.options.sql_template.split(' '), '$YEAR') >= 0 ? true : false;
 
