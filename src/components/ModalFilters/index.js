@@ -15,7 +15,12 @@ class ModalFilters extends Modal {
   shouldComponentUpdate(nextProps) {
     /* Just for optimization: don't render if nothing changed */
     if(nextProps.visible !==  this.props.visible) {
-      if(nextProps.visible) this.filters.updateFilters();
+      if(nextProps.visible) {
+        /* Google Analytics */
+        ga && ga('send', 'event', 'Settings', 'Open Menu');
+
+        this.filters.updateFilters();
+      }
       return true;
     }
 
