@@ -66,7 +66,15 @@ class LayersCollection extends Backbone.Collection {
   setActiveLayer(mode, slug) {
     let specs = this.toJSON();
     specs.filter(layer => layer.category === mode)
-      .forEach(layer => layer.active = layer.slug === slug);
+      .forEach(layer => {
+        const isActive = layer.slug === slug;
+        layer.active = isActive;
+
+        if(isActive) {
+          /* Google Analytics */
+          ga && ga('send', 'event', 'Map', 'Toggle', layer.name);
+        }
+      });
     this.set(specs);
     this.trigger('change');
   }

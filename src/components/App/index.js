@@ -370,6 +370,10 @@ class App extends React.Component {
 
   changeMapMode(mode) {
     const layer = layersCollection.getActiveLayer(mode);
+
+    /* Google Analytics */
+    ga && ga('send', 'event', 'Map', 'Toggle', layer.toJSON().name);
+
     this.router.update({ mode: mode, layer: layer.toJSON().slug });
     this.setState({ mode: mode, layer: layer.toJSON() });
 
