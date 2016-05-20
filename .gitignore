@@ -13,6 +13,10 @@
 
 # Generated
 /dist/*
+!/dist/*.ico
+!/dist/care-map.jpg
+!/dist/favicons
+!/dist/favicons/*
 
 # Enviroment variables
 .env
