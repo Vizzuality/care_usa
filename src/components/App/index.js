@@ -313,7 +313,7 @@ class App extends React.Component {
         });
         this.mapView.drawDonationMarker(state);
       }
-      this.mapView.map.setZoom(7);
+      this.mapView.map.setZoom(3);
     }
 
     this.mapView.state.on('change:zoom', () => {
