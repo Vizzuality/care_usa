@@ -111,7 +111,7 @@
   .list-item {
     display: flex;
     align-items: center;
-    
+
     @media screen and (min-width: $screen-m) {
       position: absolute;
       display: block;
@@ -157,7 +157,7 @@
       position: absolute;
       top: 100%;
       left: 50%;
-      margin-left: rem(-5);
+      transform: translatex(-50%);
       border-width: rem(8);
       border-style: solid;
       border-color: $white-bone transparent transparent transparent;
@@ -166,7 +166,7 @@
 
   .list-item:hover .text-legend:after {
     @media screen and (min-width: $screen-m) {
-      border-width: rem(5);
+      border-width: rem(10);
       border-top-color: $white-bone;
       top: 100%;
     }
@@ -174,10 +174,10 @@
 
   .list-item:hover .text-legend:before {
     @media screen and (min-width: $screen-m) {
-      border-width: rem(7);
+      border-width: rem(12);
       border-top-color: #E2D6C1;
       top: 100%;
-      margin-left: rem(-7);
+      transform: translatex(-50%);
     }
   }
 
@@ -227,7 +227,6 @@
       top: 4.6%;
       left: 4.9%;
     }
-    
   }
 
   .household {
@@ -250,7 +249,7 @@
       left: 33%;
     }
   }
-  
+
   .babyfood {
     @media screen and (min-width: $screen-m) {
       bottom: 17.5%;
