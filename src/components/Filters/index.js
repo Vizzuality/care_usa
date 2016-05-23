@@ -378,6 +378,9 @@ class FiltersView extends Backbone.View {
   onClear(e) {
     e.preventDefault();
     this.resetFilters();
+
+    /* Google Analytics */
+    ga && ga('send', 'event', 'Settings', 'Menu', 'Clear filters');
   }
 
   onDateChange(e) {
