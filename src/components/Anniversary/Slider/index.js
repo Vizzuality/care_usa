@@ -56,6 +56,11 @@ class Slider extends React.Component {
     });
   }
 
+  onClickAnnualReport() {
+    /* Google Analytics */
+    ga && ga('send', 'event', 'History', 'Annual Report');
+  }
+
   render() {
     return (
       <article className="l-by-numbers">
@@ -79,7 +84,7 @@ class Slider extends React.Component {
             </div>
           </div>
           <aside className="btn-container">
-            <a className="btn btn-secondary" href="http://www.care.org/newsroom/annual-reports" target="_blank">annual report</a>
+            <a className="btn btn-secondary" href="http://www.care.org/newsroom/annual-reports" target="_blank" onClick={this.onClickAnnualReport.bind(this)}>annual report</a>
           </aside>
         </div>
       </article>
