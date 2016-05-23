@@ -50,6 +50,9 @@ class Slider extends React.Component {
           }
         }
       ]
+    }).on('afterChange', (e, slick, currentSlide) => {
+      /* Google Analytics */
+      ga && ga('send', 'event', 'History', 'By Numbers', currentSlide + 1);
     });
   }
 
