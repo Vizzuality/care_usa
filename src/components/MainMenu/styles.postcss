@@ -35,14 +35,19 @@
     text-decoration: none;
 
     &.is-active {
+      pointer-events: none;
+      cursor: pointer;
+
       &:after {
         content: "";
         position: absolute;
-        bottom: rem(-10);
+        bottom: rem(-15);
         left: 0;
         right: 0;
         height: rem(4);
         background-color: $color-1;
+        pointer-events: none;
+        cursor: pointer;
       }
     }
   }
