@@ -19,7 +19,7 @@ class Landing extends React.Component {
 
   render() {
     return (
-      <div className={ `l-landing ${ this.state.visible ? '' : 'is-hidden'}` }>
+      <div className={ `l-landing ${ !this.state.visible && 'is-hidden'}` }>
         <div className="landing-background"></div>
         <div className="wrap">
           <h1 className="text text-claim -dark">70 Years of Lasting Change</h1>

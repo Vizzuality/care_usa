@@ -29,3 +29,8 @@ To build:
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin feature/my-new-feature`
 5. Submit a pull request :D
+
+## Notes
+
+If you are planning to work on this project, remember: 
+*"timelineDate has to always prevail over any other date."*

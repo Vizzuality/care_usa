@@ -315,7 +315,8 @@ class App extends React.Component {
         });
         this.mapView.drawDonationMarker(state);
       }
-      this.mapView.map.setZoom(7);
+      // Setting to default zoom in case there is already set up a zoom parameter
+      this.mapView.map.setZoom(3);
     }
 
     this.mapView.state.on('change:zoom', () => {
@@ -417,8 +418,15 @@ class App extends React.Component {
     if (modal === 'donorsOpen') DonorsModalModel.set({donorsOpen: false});
   }
 
+  handleLanding() {
+    this.state.donation && !localStorage.getItem('session') &&
+      localStorage.setItem('session', true);
+  }
+
   render() {
     let content = '';
+
+    this.handleLanding();
 
     if(this.state.ready) {
       content = <div>
