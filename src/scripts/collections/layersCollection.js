@@ -1,6 +1,7 @@
 'use strict';
 
 import Backbone from 'backbone';
+import _ from 'underscore';
 import moment from 'moment';
 
 class LayersCollection extends Backbone.Collection {
@@ -10,55 +11,45 @@ class LayersCollection extends Backbone.Collection {
   }
 
   parse(data) {
-    return data.map(layerSpec => {
-      switch(layerSpec.slug) {
-        case 'amount-of-money':
-          layerSpec.timeline = {
-            speed: 10,
-            interval: {
-              unit: 'month',
-              count: 1
-            }
-          };
-          break;
-        case 'number-of-donors':
-          layerSpec.timeline = {
-            speed: 40,
-            interval: {
-              unit: 'month',
-              count: 1
-            }
-          };
-          break;
-        case 'projects':
-          layerSpec.timeline = {
-            speed: 5,
-            interval: {
-              unit: 'year',
-              count: 1
-            }
-          };
-          break;
-        case 'refugee-assistance':
-          layerSpec.timeline = {
-            speed: 5,
-            interval: {
-              unit: 'year',
-              count: 1
-            }
-          };
-          break;
+    const donorsLayer = _.findWhere(data, { slug: 'number-of-donors' });
+    const experimentalDonorsLayer = Object.assign({}, donorsLayer);
+
+    experimentalDonorsLayer.slug = 'experimental-' + experimentalDonorsLayer.slug;
+    experimentalDonorsLayer.name = 'Experimental ' + experimentalDonorsLayer.name;
+    experimentalDonorsLayer.layer_type = 'svg';
+    experimentalDonorsLayer.geo_query = 'SELECT iso, ST_RemoveRepeatedPoints(the_geom, $TOLERANCE) AS the_geom FROM borders';
+    experimentalDonorsLayer.sql_template = 'SELECT count(country_iso) AS total, country_iso AS iso FROM donors $WHERE GROUP BY country_iso';
+    experimentalDonorsLayer.geo_cartocss = [
+      {
+        limit: 50,
+        color: '#A6DBEC',
+        opacity: 1
+      },
+      {
+        limit: 250,
+        color: '#63B2CB',
+        opacity: 1
+      },
+      {
+        limit: 1500,
+        color: '#1C88AC',
+        opacity: 1
+      },
+      {
+        limit: 3000,
+        color: '#0D5B74',
+        opacity: 1
+      },
+      {
+        limit: Infinity,
+        color: '#022D3B',
+        opacity: 1
       }
+    ];
+    experimentalDonorsLayer.timeline.speed = 10;
 
-      layerSpec.domain = [
-        layerSpec.start_date,
-        layerSpec.end_date
-      ];
-      delete layerSpec.start_date;
-      delete layerSpec.end_date;
-
-      return layerSpec;
-    });
+    data.push(experimentalDonorsLayer);
+    return data;
   }
 
   /* Within the category "mode", set the layer "slug" as active and all the

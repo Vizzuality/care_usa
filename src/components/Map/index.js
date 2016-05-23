@@ -6,6 +6,7 @@ import Backbone from 'backbone';
 import TileLayer from './TileLayer';
 import MarkerLayer from './layers/MarkerLayer';
 import TorqueLayer from './TorqueLayer';
+import SVGLayer from './SVGLayer';
 import PopUpContentView from './../PopUp/PopUpContentView';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
@@ -187,7 +188,20 @@ class MapView extends Backbone.View {
     }
 
     const layerConfig = activeLayer.attributes;
-    const layerClass = (layerConfig.layer_type === 'torque') ? TorqueLayer : TileLayer;
+    let layerClass;
+    switch(layerConfig.layer_type) {
+      case 'torque':
+        layerClass = TorqueLayer;
+        break;
+
+      case 'svg':
+        layerClass = SVGLayer;
+        break;
+
+      default:
+        layerClass = TileLayer;
+    }
+
     const newLayer = new layerClass(layerConfig, state);
 
     newLayer.createLayer().done(() => {
@@ -259,10 +273,9 @@ MapView.prototype.updateLayer = (function() {
     const activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
     if(!activeLayer) return;
 
-    if(activeLayer.get('layer_type') !== 'torque' ||
-      this.currentLayerConfig.layer_type !== 'torque') {
-      _addLayer.call(this);
-    } else {
+    if(activeLayer.get('layer_type') === 'torque' &&
+      this.currentLayerConfig.layer_type === 'torque') {
+
       const filtersOldAttributes = filtersModel.previousAttributes();
       const filtersNewAttributes = filtersModel.toJSON();
 
@@ -275,7 +288,17 @@ MapView.prototype.updateLayer = (function() {
       } else {
         this.setTorquePosition();
       }
+
+    } else if(activeLayer.get('layer_type') === 'svg' &&
+      this.currentLayerConfig.layer_type === 'svg') {
+
+      this.currentLayer.options.state = this.state.toJSON();
+      this.currentLayer.fetchData();
+
+    } else {
+      _addLayer.call(this);
     }
+
   };
 
 })();
