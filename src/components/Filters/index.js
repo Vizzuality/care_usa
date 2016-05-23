@@ -370,6 +370,9 @@ class FiltersView extends Backbone.View {
     else {
       this.options.closeCallback();
     }
+
+    /* Google Analytics */
+    ga && ga('send', 'event', 'Settings', 'Menu', 'Apply filters');
   }
 
   onClear(e) {
