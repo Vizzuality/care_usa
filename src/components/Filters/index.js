@@ -59,6 +59,48 @@ class FiltersView extends Backbone.View {
   }
 
   initFiltersModel() {
+    if(this.options.initialFilters.from) {
+      const date = moment.utc(this.options.initialFilters.from)
+        .format('MM:DD:YYYY');
+
+      /* Google Analytics */
+      ga && ga('send', 'event', 'Settings', 'Start date', date);
+    }
+
+    if(this.options.initialFilters.to) {
+      const date = moment.utc(this.options.initialFilters.to)
+        .format('MM:DD:YYYY');
+
+      /* Google Analytics */
+      ga && ga('send', 'event', 'Settings', 'End date', date);
+    }
+
+    if(this.options.initialFilters.region) {
+      const regionModel = this.regionsCollection.findWhere({
+        iso: this.options.initialFilters.region
+      });
+
+      if(regionModel) {
+        const region = regionModel.attributes.name;
+
+        /* Google Analytics */
+        ga && ga('send', 'event', 'Settings', 'Country', region);
+      }
+    }
+
+    if(this.options.initialFilters.sectors &&
+      this.options.initialFilters.sectors.length) {
+      this.options.initialFilters.sectors.forEach(sector => {
+        const sectorModel = this.sectorsCollection.findWhere({ slug: sector });
+        if(sectorModel) {
+          const sectorName = sectorModel.attributes.name;
+
+          /* Google Analytics */
+          ga && ga('send', 'event', 'Settings', 'Sector', sectorName);
+        }
+      })
+    }
+
     filtersModel.set(this.options.initialFilters);
   }
 
