@@ -27,7 +27,6 @@
     align-items: center;
   }
 
-
   .box-text-container {
     display: flex;
     flex-flow: column;
@@ -111,25 +110,19 @@
   .list-item {
     display: flex;
     align-items: center;
+    margin-bottom: rem(10);
 
     @media screen and (min-width: $screen-m) {
       position: absolute;
       display: block;
       cursor: pointer;
+      margin: 0;
     }
   }
 
-  .list-item:hover {
+  .text-legend {
     @media screen and (min-width: $screen-m) {
-      z-index: 3;
-    }
-  }
-
-  .list-item:hover .text-legend {
-    @media screen and (min-width: $screen-m) {
-      visibility: visible;
       position: absolute;
-      display: block;
       top: -55%;
       left: 50%;
       -webkit-transform: translate(-50%, -50%);
@@ -139,26 +132,42 @@
       background-color: $white-bone;
       border: rem(1) solid #E2D6C1;
       white-space: nowrap;
+      box-shadow: 0 0 5px 0 rgba(40, 40, 42, 0.3);
+      transition: .2s;
+      opacity: 0;
+      display: none;
+    }
+  }
+
+  .list-item:hover {
+    @media screen and (min-width: $screen-m) {
+      z-index: 3;
     }
 
-    @media screen and (min-width: $screen-l) {
-      top: -54%;
-    }
+    .text-legend {
+      opacity: 1;
+      display: block;
 
-    @media screen and (min-width: $screen-xl) {
-      top: -39%;
+      @media screen and (min-width: $screen-l) {
+        top: -55%;
+      }
+
+      @media screen and (min-width: $screen-xl) {
+        top: -39%;
+      }
     }
   }
 
   /* Tooltip arrow */
-  .list-item:hover .text-legend::after, .list-item:hover .text-legend:before {
+  .list-item:hover .text-legend::after,
+  .list-item:hover .text-legend:before {
     @media screen and (min-width: $screen-m) {
       content: " ";
       position: absolute;
       top: 100%;
       left: 50%;
       transform: translatex(-50%);
-      border-width: rem(8);
+      border-width: rem(6);
       border-style: solid;
       border-color: $white-bone transparent transparent transparent;
     }
@@ -166,7 +175,7 @@
 
   .list-item:hover .text-legend:after {
     @media screen and (min-width: $screen-m) {
-      border-width: rem(10);
+      border-width: rem(8);
       border-top-color: $white-bone;
       top: 100%;
     }
@@ -174,17 +183,11 @@
 
   .list-item:hover .text-legend:before {
     @media screen and (min-width: $screen-m) {
-      border-width: rem(12);
+      border-width: rem(10);
       border-top-color: #E2D6C1;
+      opacity: .7;
       top: 100%;
       transform: translatex(-50%);
-    }
-  }
-
-  .text-legend {
-    @media screen and (min-width: $screen-m) {
-      visibility: hidden;
-      display: none;
     }
   }
 
@@ -192,9 +195,16 @@
     width: rem(55);
     height: rem(55);
     padding: rem(5);
-    margin: 0 rem(14) rem(10) 0;
+    margin-right: rem(14);
     background-color: $white-bone;
     border-radius: rem(50);
+    transition: .2s;
+
+    &:hover {
+      @media screen and (min-width: $screen-m) {
+        transform: scale(1.2);
+      }
+    }
 
     @media screen and (min-width: $screen-m) {
       width: rem(66);
@@ -213,12 +223,6 @@
       width: rem(103);
       height: rem(103);
       padding: rem(16);
-    }
-  }
-
-  .small-image:hover {
-    @media screen and (min-width: $screen-m) {
-      transform: scale(1.2);
     }
   }
 
