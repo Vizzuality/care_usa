@@ -9,8 +9,6 @@ class MenuDevice extends React.Component {
     super(props);
   }
 
-
-
   render() {
     return (
       <div className={ this.props.deviceMenuOpen ?  "is-visible m-menu--device"  : "m-menu--device" }
