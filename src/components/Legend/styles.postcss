@@ -1,3 +1,5 @@
+@import'../../styles/settings.postcss';
+
 .m-legend {
   padding-top: rem(20);
 
@@ -12,7 +14,13 @@
     align-items: center;
     margin-bottom: rem(1);
 
+    @media screen and (min-width: $screen-xxl) {
+      margin-bottom: rem(2);
+    }
+
     .text {
+      //Keep this here. Is specific for this text.
+      line-height: .5em;
       padding-top: rem(3);
     }
   }
