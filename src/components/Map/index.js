@@ -113,7 +113,7 @@ class MapView extends Backbone.View {
 
     //I implemented this to avoid issues when setting a lat/lng form the donation
     //mode.
-    //As we were setting many params at a time, the
+    //As we were setting many params at a time, the event got stuck when setting params one by one.
     this.state.on('change', () => {
       if (this.state.changed.lat && this.state.changed.lng){
         const latlng = L.latLng(this.state.attributes.lat, this.state.attributes.lng);
