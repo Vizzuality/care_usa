@@ -60,6 +60,7 @@ class MapView extends Backbone.View {
     let markerLayer = this.donationMarker.addLayer(this.map);
     markerLayer.on('click', this.drawDonationPopUp.bind(this));
     this.drawDonationPopUp();
+    this.state.set({ lat: options.position[0], lng: options.position[1], zoom: 3 });
   }
 
   drawDonationPopUp() {
@@ -110,17 +111,23 @@ class MapView extends Backbone.View {
       this.map.setZoom(this.state.attributes.zoom);
     });
 
-    this.state.on('change:lat', () => {
-      const center = this.map.getCenter();
-      const latlng = L.latLng(this.state.attributes.lat, center.lng);
-      this.map.setView(latlng, this.map.getZoom());
-    });
-
-    this.state.on('change:lng', () => {
-      const center = this.map.getCenter();
-      const latlng = L.latLng(center.lat, this.state.attributes.lng);
-      this.map.setView(latlng, this.map.getZoom());
-    });
+    //I implemented this to avoid issues when setting a lat/lng form the donation
+    //mode.
+    //As we were setting many params at a time, the
+    this.state.on('change', () => {
+      if (this.state.changed.lat && this.state.changed.lng){
+        const latlng = L.latLng(this.state.attributes.lat, this.state.attributes.lng);
+        this.map.setView(latlng, this.state.attributes.zoom);
+      } else if (this.state.changed.lat && !this.state.changed.lng){
+        const center = this.map.getCenter();
+        const latlng = L.latLng(this.state.attributes.lat, center.lng);
+        this.map.setView(latlng, this.map.getZoom());
+      } else if (!this.state.changed.lat && this.state.changed.lng){
+        const center = this.map.getCenter();
+        const latlng = L.latLng(this.state.attributes.lat, center.lng);
+        this.map.setView(latlng, this.map.getZoom());
+      }
+    })
 
     this.state.on('change:filters', () => this.updateLayer());
     this.state.on('change:timelineDate', () => this.updateLayer());

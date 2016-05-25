@@ -304,27 +304,6 @@ class App extends React.Component {
       mode: this.state.mode
     });
 
-    if (this.state.donation) {
-      donationModel.getDonationInfo(this.state.donation).done(() => {
-        console.log(donationModel.toJSON());
-
-        const donationInfo = {
-          name: donationModel.toJSON().nickname,
-          amount: donationModel.toJSON().donation,
-          position: [donationModel.toJSON().lat, donationModel.toJSON().lng]
-        };
-
-        // this.setState(
-        //   {lat: donationModel.toJSON().lat},
-        //   {lng: donationModel.toJSON().lng}
-        // );
-
-        this.mapView.drawDonationMarker(donationInfo);
-        //We force this zoom for donations to avoid user get another zoom from url
-        this.mapView.map.setZoom(3);
-      })
-    }
-
     this.mapView.state.on('change:zoom', () => {
       const mapZoom = this.mapView.state.get('zoom');
       this.router.update({ zoom: mapZoom });
@@ -342,38 +321,18 @@ class App extends React.Component {
       this.router.update({ lng: mapLng });
       this.setState({ lng: mapLng });
     })
-  }
 
-  updateBBox() {
-    $.when(
-      this.geo.fetch({
-        data: {q: this.router.params.get('city')}
+    if (this.state.donation) {
+      donationModel.getDonationInfo(this.state.donation).done(() => {
+
+        const donationInfo = {
+          name: donationModel.toJSON().nickname,
+          amount: donationModel.toJSON().donation,
+          position: [donationModel.toJSON().lat, donationModel.toJSON().lng]
+        };
+
+        this.mapView.drawDonationMarker(donationInfo);
       })
-    ).done(() => {
-      const nextState = _.extend({}, this.router.params.attributes, {
-        bbox: this.geo.attributes.bbox,
-        position: this.geo.attributes.position,
-      });
-
-      this.setState(nextState);
-
-      this._updateMapWithRouterParams();
-
-      //Here we tell the map to draw donation marker;
-      if (nextState.mode === 'donations') {
-        this.mapView.drawDonationMarker(nextState);
-      }
-    });
-  }
-
-  _updateMapWithRouterParams() {
-    //Fit map to bbox of city.
-    if (this.state.donation && this.geo.attributes.bbox) {
-      const bbox = [
-        [this.geo.attributes.bbox[1], this.geo.attributes.bbox[0]],
-        [this.geo.attributes.bbox[3], this.geo.attributes.bbox[2]]
-      ];
-      this.mapView.map.fitBounds(bbox);
     }
   }
 
