@@ -69,7 +69,8 @@ class MapView extends Backbone.View {
       currentLayer: 'my-donation',
       latLng: this.markerOptions.position,
       map: this.map,
-      name: this.markerOptions.name
+      name: this.markerOptions.name,
+      amount: this.markerOptions.amount
     })
 
     this.myDonationPopUp.getPopUp();

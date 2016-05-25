@@ -327,7 +327,7 @@ class App extends React.Component {
 
         const donationInfo = {
           name: donationModel.toJSON().nickname,
-          amount: donationModel.toJSON().donation,
+          amount: donationModel.toJSON().amount,
           position: [donationModel.toJSON().lat, donationModel.toJSON().lng]
         };
 
