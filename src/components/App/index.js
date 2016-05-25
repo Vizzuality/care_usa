@@ -20,6 +20,7 @@ import utils from '../../scripts/helpers/utils';
 import ModalShare from '../ModalShare';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
+import donationModel from '../../scripts/models/donationModel';
 import DonorsModalModel from '../../scripts/models/DonorsModalModel';
 
 import sectorsCollection from '../../scripts/collections/SectorsCollection';
@@ -85,7 +86,7 @@ class App extends React.Component {
     const newParams = Object.assign({},
       this.router.params.attributes,
       {
-        donation: !!this.router.params.attributes.donation,
+        donation: this.router.params.attributes.gift_id || false,
         embed: !!this.router.params.attributes.embed
       });
 
@@ -303,20 +304,25 @@ class App extends React.Component {
       mode: this.state.mode
     });
 
-    //Donation
-    //If unless we have not lat lng, we avoid to use geolocation
     if (this.state.donation) {
-      if ( !this.router.params.get('lat')) {
-        this.geo = new GeoModel();
-        this.updateBBox();
-      } else {
-        const state = _.extend({}, this.router.params.attributes, {
-          position: [this.router.params.attributes.lat, this.router.params.attributes.lng]
-        });
-        this.mapView.drawDonationMarker(state);
-      }
-      // Setting to default zoom in case there is already set up a zoom parameter
-      this.mapView.map.setZoom(3);
+      donationModel.getDonationInfo(this.state.donation).done(() => {
+        console.log(donationModel.toJSON());
+
+        const donationInfo = {
+          name: donationModel.toJSON().nickname,
+          amount: donationModel.toJSON().donation,
+          position: [donationModel.toJSON().lat, donationModel.toJSON().lng]
+        };
+
+        // this.setState(
+        //   {lat: donationModel.toJSON().lat},
+        //   {lng: donationModel.toJSON().lng}
+        // );
+
+        this.mapView.drawDonationMarker(donationInfo);
+        //We force this zoom for donations to avoid user get another zoom from url
+        this.mapView.map.setZoom(3);
+      })
     }
 
     this.mapView.state.on('change:zoom', () => {
