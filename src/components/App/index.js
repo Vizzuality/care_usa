@@ -86,7 +86,7 @@ class App extends React.Component {
     const newParams = Object.assign({},
       this.router.params.attributes,
       {
-        donation: this.router.params.attributes.gift_id || false,
+        donation: this.router.params.attributes.gift || false,
         embed: !!this.router.params.attributes.embed
       });
 
