@@ -77,7 +77,7 @@ class MapView extends Backbone.View {
 }
 
 MapView.prototype.defaults = {
-  zoom: 7,
+  zoom: 3,
   center: [40.71455, -74.00714], // New York
   scrollWheelZoom: false
 };

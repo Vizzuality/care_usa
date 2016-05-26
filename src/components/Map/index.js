@@ -108,46 +108,12 @@ class MapView extends Backbone.View {
   _setEvents() {
     this.map.on('click', this._infowindowSetUp.bind(this));
 
-    this.state.on('change:zoom', () => {
-      this.map.setZoom(this.state.attributes.zoom);
-    });
-
-    //I implemented this to avoid issues when setting a lat/lng form the donation
-    //mode.
-    //As we were setting many params at a time, the event got stuck when setting params one by one.
-    this.state.on('change', () => {
-      if (this.state.changed.lat && this.state.changed.lng){
-        const latlng = L.latLng(this.state.attributes.lat, this.state.attributes.lng);
-        this.map.setView(latlng, this.state.attributes.zoom);
-      } else if (this.state.changed.lat && !this.state.changed.lng){
-        const center = this.map.getCenter();
-        const latlng = L.latLng(this.state.attributes.lat, center.lng);
-        this.map.setView(latlng, this.map.getZoom());
-      } else if (!this.state.changed.lat && this.state.changed.lng){
-        const center = this.map.getCenter();
-        const latlng = L.latLng(this.state.attributes.lat, center.lng);
-        this.map.setView(latlng, this.map.getZoom());
-      }
-    })
-
     this.state.on('change:filters', () => this.updateLayer());
     this.state.on('change:timelineDate', () => this.updateLayer());
 
     this.state.on('change:mode', _.bind(this.updateLayer, this));
     layersCollection.on('change', _.bind(this.updateLayer, this));
     filtersModel.on('change', _.bind(this._updateFilters, this));
-
-    this.map.on('zoomend', _.bind(this._setStateZoom, this));
-    this.map.on('dragend', _.bind(this._setStatePosition, this));
-  }
-
-  _setStateZoom() {
-    this.state.set({zoom: this.map.getZoom()});
-  }
-
-  _setStatePosition() {
-    const position = this.map.getCenter();
-    this.state.set({ lat: position.lat, lng: position.lng });
   }
 
   _updateFilters() {
@@ -160,7 +126,7 @@ class MapView extends Backbone.View {
       layer: this.state.get('layer'),
       latLng: e.latlng,
       map: this.map,
-      zoom: this.state.get('zoom'),
+      zoom: this.map.getZoom(),
       timelineDate: this.state.get('timelineDate'),
     });
 

@@ -48,10 +48,6 @@ class Map extends React.Component {
     );
   }
 
-  setView(center, zoom) {
-    this.mapView.map.setView(center, zoom || this.mapView.map.getZoom());
-  }
-
 }
 
 Map.propTypes = {
