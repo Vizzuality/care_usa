@@ -83,10 +83,13 @@ class App extends React.Component {
     /* TODO: we shouldn't put all the params in the state: some of them aren't
      * needed because are stored in models, and other need to be parsed */
     /* Here we update general state with router params and our device check. */
+    /* To get to the my donation page we are now using the param: g ; instead
+    *  of gift or gift_id. This is the identification of the donation on
+    *  Carto DB*/
     const newParams = Object.assign({},
       this.router.params.attributes,
       {
-        donation: this.router.params.attributes.gift || false,
+        donation: this.router.params.attributes.g || false,
         embed: !!this.router.params.attributes.embed
       });
 
