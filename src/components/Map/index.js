@@ -114,6 +114,17 @@ class MapView extends Backbone.View {
     this.state.on('change:mode', _.bind(this.updateLayer, this));
     layersCollection.on('change', _.bind(this.updateLayer, this));
     filtersModel.on('change', _.bind(this._updateFilters, this));
+    this.map.on('zoomend', _.bind(this._setStateZoom, this));
+    this.map.on('dragend', _.bind(this._setStatePosition, this));
+  }
+
+  _setStateZoom() {
+    this.state.set({zoom: this.map.getZoom()});
+  }
+
+  _setStatePosition() {
+    const position = this.map.getCenter();
+    this.state.set({ lat: position.lat, lng: position.lng });
   }
 
   _updateFilters() {
