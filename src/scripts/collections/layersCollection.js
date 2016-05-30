@@ -12,15 +12,11 @@ class LayersCollection extends Backbone.Collection {
 
   parse(data) {
     const donorsLayer = _.findWhere(data, { slug: 'number-of-donors' });
-    const experimentalDonorsLayer = Object.assign({}, donorsLayer);
 
-    experimentalDonorsLayer.slug = 'experimental-' + experimentalDonorsLayer.slug;
-    experimentalDonorsLayer.name = 'Experimental ' + experimentalDonorsLayer.name;
-    experimentalDonorsLayer.layer_type = 'svg';
-    // experimentalDonorsLayer.geo_query = 'SELECT iso, ST_RemoveRepeatedPoints(the_geom, $TOLERANCE) AS the_geom FROM borders';
-    experimentalDonorsLayer.geo_query = 'SELECT iso, CASE WHEN ST_Intersects(the_geom, ST_SetSRID(st_makebox2d(ST_MakePoint($EAST, $NORTH), ST_MakePoint($WEST, $SOUTH)), 4326)) THEN ST_RemoveRepeatedPoints(the_geom, $TOLERANCE) END AS the_geom FROM borders';
-    experimentalDonorsLayer.sql_template = 'SELECT count(country_iso) AS total, country_iso AS iso FROM donors $WHERE GROUP BY country_iso';
-    experimentalDonorsLayer.geo_cartocss = [
+    donorsLayer.layer_type = 'svg';
+    donorsLayer.geo_query = 'SELECT iso, CASE WHEN ST_Intersects(the_geom, ST_SetSRID(st_makebox2d(ST_MakePoint($EAST, $NORTH), ST_MakePoint($WEST, $SOUTH)), 4326)) THEN ST_RemoveRepeatedPoints(the_geom, $TOLERANCE) END AS the_geom FROM borders';
+    donorsLayer.sql_template = 'SELECT count(country_iso) AS total, country_iso AS iso FROM donors $WHERE GROUP BY country_iso';
+    donorsLayer.geo_cartocss = [
       {
         limit: 50,
         color: '#A6DBEC',
@@ -47,9 +43,8 @@ class LayersCollection extends Backbone.Collection {
         opacity: 1
       }
     ];
-    experimentalDonorsLayer.timeline.speed = 10;
+    donorsLayer.timeline.speed = 10;
 
-    data.push(experimentalDonorsLayer);
     return data;
   }
 
