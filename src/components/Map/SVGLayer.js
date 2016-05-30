@@ -74,7 +74,6 @@ class CreateTileLayer {
   /* Called by this.layer to update the color of each geometry depending on the
    * data */
   updateGeometry(geo, data) {
-    /* TODO: iso should be a parameter within the layer specs */
     const geometryData = _.findWhere(data, { iso: geo.feature.properties.iso });
 
     /* If we don't have data, we hide the geometry */
@@ -83,7 +82,6 @@ class CreateTileLayer {
       return;
     }
 
-    /* TODO: total should be a parameter too */
     geo.setStyle(this._getGeoAppearance(geometryData[this.comparisonColumn]));
   }
 
@@ -105,12 +103,18 @@ class CreateTileLayer {
   }
 
   _getGeoQuery() {
-    const sql = this.options.geo_query;
+    let sql = this.options.geo_query;
 
     /* TODO: adapt depending on the zoom level */
-    const tolerance = .5;
+    let tolerance = .5;
+    if(this.options.state.zoom >= 5) tolerance = .3;
+    if(this.options.state.zoom >= 8) tolerance = .1;
 
-    return sql.replace('$TOLERANCE', tolerance.toString());
+    return sql.replace('$TOLERANCE', tolerance.toString())
+      .replace('$EAST', this.options.state.bounds.getEast())
+      .replace('$NORTH', this.options.state.bounds.getNorth())
+      .replace('$WEST', this.options.state.bounds.getWest())
+      .replace('$SOUTH', this.options.state.bounds.getSouth());
   }
 
   _getQuery() {

@@ -93,6 +93,9 @@ class MapView extends Backbone.View {
     };
     this.map = L.mapbox.map(this.el, this.options.style, mapOptions);
 
+    /* Needed for the initialization of the SVG layer */
+    this.state.set({ bounds: this.map.getBounds() });
+
     this._addAttributions();
   }
 
@@ -130,17 +133,34 @@ class MapView extends Backbone.View {
     layersCollection.on('change', _.bind(this.updateLayer, this));
     filtersModel.on('change', _.bind(this._updateFilters, this));
 
-    this.map.on('zoomend', _.bind(this._setStateZoom, this));
-    this.map.on('dragend', _.bind(this._setStatePosition, this));
+    this.map.on('zoomend', _.bind(this.onZoomMap, this));
+    this.map.on('dragend', _.bind(this.onDragEndMap, this));
   }
 
-  _setStateZoom() {
+  onZoomMap() {
     this.state.set({zoom: this.map.getZoom()});
+
+    /* We eventually reload the layer if it's an SVG one */
+    if(this.currentLayerConfig.layer_type === 'svg') {
+      this._removeCurrentLayer();
+      this._addLayer();
+    }
   }
 
-  _setStatePosition() {
+  onDragEndMap() {
+    /* We update the map's state */
     const position = this.map.getCenter();
-    this.state.set({ lat: position.lat, lng: position.lng });
+    this.state.set({
+      lat: position.lat,
+      lng: position.lng,
+      bounds: this.map.getBounds()
+    });
+
+    /* We eventually reload the layer if it's an SVG one */
+    if(this.currentLayerConfig.layer_type === 'svg') {
+      this._removeCurrentLayer();
+      this._addLayer();
+    }
   }
 
   _updateFilters() {

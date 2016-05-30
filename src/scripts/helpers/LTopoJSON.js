@@ -19,7 +19,6 @@ L.TopoJSON = L.GeoJSON.extend({
 
     this.parseData();
 
-    /* TODO: should be transparent */
     this.eachLayer(function(layer) {
       layer.setStyle({
         fillOpacity: 0,
