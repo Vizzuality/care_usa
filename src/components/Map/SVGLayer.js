@@ -95,7 +95,8 @@ class CreateTileLayer {
 
   _getGeoAppearance(value) {
     let index = 0;
-    while(value > this.options.geo_cartocss[index].limit) index++;
+    while(index < this.options.geo_cartocss.length - 1 &&
+      value > this.options.geo_cartocss[index].limit) index++;
     return {
       fillColor: this.options.geo_cartocss[index].color,
       fillOpacity:this.options.geo_cartocss[index].opacity

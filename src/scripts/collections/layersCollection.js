@@ -38,7 +38,7 @@ class LayersCollection extends Backbone.Collection {
         opacity: 1
       },
       {
-        limit: Infinity,
+        limit: -1,
         color: '#022D3B',
         opacity: 1
       }
