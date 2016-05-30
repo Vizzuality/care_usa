@@ -110,8 +110,54 @@
     }
   }
 
+  .-project {
+    .numbers-donation {
+      display: flex;
+      flex-flow: column;
+      margin-top: rem(10);
+      margin-bottom: rem(15);
+
+      &:first-child {
+        margin-right: rem(10);
+      }
+
+      @media screen and (min-width: $screen-m) {
+        flex-flow: row;
+        justify-content: space-between;
+        margin-bottom: rem(15);
+        flex-wrap: wrap;
+      }
+    }
+
+    .numbers-donation p {
+      margin-bottom: rem(20) !important;
+
+      @media screen and (min-width: $screen-m) {
+        margin-bottom: 0;
+      }
+    }
+
+    .text-cta {
+      font-style: none;
+      margin-right: rem(4);
+      // margin-bottom: rem(25);
+    }
+
+    .text-cta:hover {
+      color: $white;
+    }
+
+    .icon-externallink {
+      padding-top: rem(2);
+    }
+
+    & + hr {
+      margin-top: 0;
+    }
+  }
+
   .title-sector {
-    margin-bottom: 0;
+    margin-bottom: rem(10);
   }
 
   .number-m {
@@ -134,42 +180,6 @@
     padding: rem(7) rem(10);
     background-color: $orange-yellow;
     margin: 0 rem(10) rem(10) 0;
-  }
-
-  .numbers-donation {
-    display: flex;
-    flex-flow: column;
-    margin-top: rem(10);
-    margin-bottom: rem(15);
-
-    &:first-child {
-      margin-right: rem(10);
-    }
-
-    @media screen and (min-width: $screen-m) {
-      flex-flow: row;
-      justify-content: space-between;
-      /* margin-top: rem(45); */
-      margin-bottom: rem(15);
-      flex-wrap: wrap;
-    }
-  }
-
-  .numbers-donation p {
-    margin-bottom: rem(20) !important;
-
-    @media screen and (min-width: $screen-m) {
-      margin-bottom: 0;
-    }
-  }
-
-  .text-cta {
-    font-style: none;
-    margin-bottom: rem(25);
-  }
-
-  .text-cta:hover {
-    color: $white;
   }
 
   hr {
