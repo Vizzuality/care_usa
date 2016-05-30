@@ -9,7 +9,7 @@
   right: 0;
   height: 100vh;
   z-index: 20;
-  padding: rem(30);
+  padding: rem(50) rem(17) rem(30);
   transform: translate3d(0) !important;
 
   color: $font-color-3;
@@ -17,14 +17,13 @@
 
   @media screen and (min-width: $screen-m) {
     /* min-width: rem(250); */
-    padding-bottom: rem(16) !important;
+    padding: rem(30) rem(50) rem(10) rem(30);
   }
 
   .donation-header {
     display: flex;
 
     .text-module-title {
-      margin-top: rem(15);
       margin-bottom: rem(9);
 
       @media screen and (min-width: $screen-m) {
@@ -71,7 +70,7 @@
     }
 
     &.-donations-dist {
-      width: rem(150);
+      width: rem(170);
     }
 
     &.-project {
@@ -96,7 +95,7 @@
     /* min-width: rem(250); */
     /* max-width: rem(450); */
     min-height: rem(100);
-    padding: rem(30) rem(40);
+    //padding: rem(30) rem(40);
     box-shadow: 0 0 5px 0 rgba(40, 40, 42, 0.3);
 
     &:after {
@@ -112,7 +111,7 @@
   }
 
   .title-sector {
-    margin-bottom: rem(10);
+    margin-bottom: 0;
   }
 
   .number-m {
@@ -121,7 +120,7 @@
   }
 
   .sectors-container {
-    margin: rem(10) 0 rem(19) 0;
+    margin: rem(8) 0 rem(11) 0;
 
     @media screen and (min-width: $screen-m) {
       margin: rem(9) 0 rem(12) 0;
@@ -177,6 +176,7 @@
     background-color: transparent;
     border: rem(1) solid transparent;
     border-bottom: rem(1) solid $orange-yellow;
+    margin-top: rem(14);
     margin-bottom: rem(16);
   }
 
@@ -307,4 +307,15 @@
 .map-tooltip {
   background-color: transparent;
   box-shadow: none;
+}
+
+.leaflet-container h1,
+.leaflet-container h2  {
+  font-weight: 700;
+  font-size: rem(20);
+  line-height: rem(18);
+
+  @media screen and (min-width: $screen-xxl) {
+    font-size: rem(22);
+  }
 }
