@@ -36,9 +36,14 @@ $l-margin-vt: 50;
   right: 0;
   height: 100%;
 
-  .logo {
+  .l-header {
+    position: absolute;
     pointer-events: none;
-    cursor: pointer;
+  }
+
+  .logo {
+    pointer-events: visible;
+    cursor: default;
   }
 }
 
@@ -115,14 +120,6 @@ $l-margin-vt: 50;
 
   .menu-link:hover {
     color: $color-1;
-  }
-}
-
-#app {
-  .l-header {
-    position: absolute;
-    pointer-events: none;
-
   }
 }
 
