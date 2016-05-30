@@ -59,6 +59,48 @@ class FiltersView extends Backbone.View {
   }
 
   initFiltersModel() {
+    if(this.options.initialFilters.from) {
+      const date = moment.utc(this.options.initialFilters.from)
+        .format('MM:DD:YYYY');
+
+      /* Google Analytics */
+      ga && ga('send', 'event', 'Settings', 'Start date', date);
+    }
+
+    if(this.options.initialFilters.to) {
+      const date = moment.utc(this.options.initialFilters.to)
+        .format('MM:DD:YYYY');
+
+      /* Google Analytics */
+      ga && ga('send', 'event', 'Settings', 'End date', date);
+    }
+
+    if(this.options.initialFilters.region) {
+      const regionModel = this.regionsCollection.findWhere({
+        iso: this.options.initialFilters.region
+      });
+
+      if(regionModel) {
+        const region = regionModel.attributes.name;
+
+        /* Google Analytics */
+        ga && ga('send', 'event', 'Settings', 'Country', region);
+      }
+    }
+
+    if(this.options.initialFilters.sectors &&
+      this.options.initialFilters.sectors.length) {
+      this.options.initialFilters.sectors.forEach(sector => {
+        const sectorModel = this.sectorsCollection.findWhere({ slug: sector });
+        if(sectorModel) {
+          const sectorName = sectorModel.attributes.name;
+
+          /* Google Analytics */
+          ga && ga('send', 'event', 'Settings', 'Sector', sectorName);
+        }
+      })
+    }
+
     filtersModel.set(this.options.initialFilters);
   }
 
@@ -254,17 +296,20 @@ class FiltersView extends Backbone.View {
     if(serializedFilters['from-day'] && serializedFilters['from-month'] &&
       serializedFilters['from-year']) {
       serializedFilters.from = new Date(`${serializedFilters['from-year']}-${utils.pad(serializedFilters['from-month'], 2, '0')}-${utils.pad(serializedFilters['from-day'], 2, '0')}`);
+    } else {
+      /* We need to silently remove the property "from" which isns't
+       * present in the object serializedFilters as it's virtual */
+      this.status.unset('from', { silent: true });
     }
 
     if(serializedFilters['to-day'] && serializedFilters['to-month'] &&
       serializedFilters['to-year']) {
       serializedFilters.to = new Date(`${serializedFilters['to-year']}-${utils.pad(serializedFilters['to-month'], 2, '0')}-${utils.pad(serializedFilters['to-day'], 2, '0')}`);
+    } else {
+      /* We need to silently remove the property "to" which isns't
+       * present in the object serializedFilters as it's virtual */
+      this.status.unset('to', { silent: true });
     }
-
-    /* We need to silently remove the properties "from" and "to" which aren't
-     * present in the object serializedFilters as they are virtual */
-    this.status.unset('from', { silent: true });
-    this.status.unset('to', { silent: true });
 
     this.status.set(serializedFilters, { validate: true });
   }
@@ -368,13 +413,68 @@ class FiltersView extends Backbone.View {
       this.$el.prepend(errorHtml);
     }
     else {
+      const updatedFilters = this.status.changedAttributes();
+
+      for(let filter in updatedFilters) {
+        if(filter === 'from') {
+          const date = moment.utc(updatedFilters.from)
+            .format('MM:DD:YYYY');
+
+          /* Google Analytics */
+          ga && ga('send', 'event', 'Settings', 'Start date', date);
+        }
+
+        if(filter === 'to') {
+          const date = moment.utc(updatedFilters.to)
+            .format('MM:DD:YYYY');
+
+          /* Google Analytics */
+          ga && ga('send', 'event', 'Settings', 'End date', date);
+        }
+
+        if(filter === 'region') {
+          const regionModel = this.regionsCollection.findWhere({
+            iso: updatedFilters.region
+          });
+
+          if(regionModel) {
+            const region = regionModel.attributes.name;
+
+            /* Google Analytics */
+            ga && ga('send', 'event', 'Settings', 'Country', region);
+          }
+        }
+
+        if(filter === 'sectors') {
+          const previousSectors = this.status.previous('sectors');
+          const updatedSectors = updatedFilters.sectors;
+          const newSectors = _.difference(updatedSectors, previousSectors);
+
+          newSectors.forEach(sector => {
+            const sectorModel = this.sectorsCollection.findWhere({ slug: sector });
+            if(sectorModel) {
+              const sectorName = sectorModel.attributes.name;
+
+              /* Google Analytics */
+              ga && ga('send', 'event', 'Settings', 'Sector', sectorName);
+            }
+          });
+        }
+      }
+
       this.options.closeCallback();
     }
+
+    /* Google Analytics */
+    ga && ga('send', 'event', 'Settings', 'Menu', 'Apply filters');
   }
 
   onClear(e) {
     e.preventDefault();
     this.resetFilters();
+
+    /* Google Analytics */
+    ga && ga('send', 'event', 'Settings', 'Menu', 'Clear filters');
   }
 
   onDateChange(e) {

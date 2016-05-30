@@ -1,3 +1,5 @@
+@import'../../styles/settings.postcss';
+
 .m-legend {
   padding-top: rem(20);
 
@@ -8,11 +10,17 @@
   .legend-item {
     display: flex;
     flex: 1 1 100%;
-    justify-content: flex-start;
-    align-items: center;
+    //justify-content: flex-start;
+    //align-items: center;
     margin-bottom: rem(1);
 
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: rem(3);
+    }
+
     .text {
+      //Keep this here. Is specific for this text.
+      line-height: .5em;
       padding-top: rem(3);
     }
   }
@@ -22,8 +30,9 @@
     width: rem(20);
     height: rem(20);
     background-color: #ddd;
-    margin-right: rem(15);
+    margin-right: rem(13);
     border: 1px solid #ddd;
+    flex-shrink: 0;
 
     &.all-projects {
       background-image: url('../../images/projectspattern.png');

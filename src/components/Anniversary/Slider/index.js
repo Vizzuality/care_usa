@@ -50,7 +50,15 @@ class Slider extends React.Component {
           }
         }
       ]
+    }).on('afterChange', (e, slick, currentSlide) => {
+      /* Google Analytics */
+      ga && ga('send', 'event', 'History', 'By Numbers', currentSlide + 1);
     });
+  }
+
+  onClickAnnualReport() {
+    /* Google Analytics */
+    ga && ga('send', 'event', 'History', 'Annual Report');
   }
 
   render() {
@@ -76,7 +84,7 @@ class Slider extends React.Component {
             </div>
           </div>
           <aside className="btn-container">
-            <a className="btn btn-secondary" href="http://www.care.org/newsroom/annual-reports" target="_blank">annual report</a>
+            <a className="btn btn-secondary" href="http://www.care.org/newsroom/annual-reports" target="_blank" onClick={this.onClickAnnualReport.bind(this)}>annual report</a>
           </aside>
         </div>
       </article>

@@ -10,7 +10,10 @@ class CaresPackage extends React.Component {
     super(props);
   }
 
-  scrollToContent() {
+  onClickFindMore() {
+    /* Google Analytics */
+    ga && ga('send', 'event', 'History', 'Find out more');
+
     $('html, body').animate({
         scrollTop: $('.l-power-box').offset().top
     }, 500);
@@ -26,7 +29,7 @@ class CaresPackage extends React.Component {
           </header>
           <p className="text text-highlighted -light">CARE was founded in 1945 to rush lifesaving CARE Packages to survivors of World War II. The generosity of millions of Americans turned a simple box into an icon.</p>
           <aside className="find-more">
-            <button className="btn btn-primary" onClick={ this.scrollToContent.bind(this) }>Find out more</button>
+            <button className="btn btn-primary" onClick={ this.onClickFindMore.bind(this) }>Find out more</button>
           </aside>
         </div>
       </article>

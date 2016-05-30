@@ -26,6 +26,10 @@
     right: $wrap-padding-desktop-xl;
   }
 
+  @media screen and (min-width: $screen-xxl) {
+    right: $wrap-padding-desktop-xxl;
+  }
+
   .leaflet-control {
     @media screen and (min-width: $screen-m) {
       margin: 0;
@@ -86,6 +90,10 @@
 
   @media screen and (min-width: $screen-xl) {
     margin-left: calc($wrap-padding-desktop-xl + rem(160));
+  }
+
+  @media screen and (min-width: $screen-xxl) {
+    margin-left: calc($wrap-padding-desktop-xxl + rem(160));
   }
 }
 

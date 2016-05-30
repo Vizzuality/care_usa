@@ -20,6 +20,7 @@ import utils from '../../scripts/helpers/utils';
 import ModalShare from '../ModalShare';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
+import donationModel from '../../scripts/models/donationModel';
 import DonorsModalModel from '../../scripts/models/DonorsModalModel';
 
 import sectorsCollection from '../../scripts/collections/SectorsCollection';
@@ -82,10 +83,13 @@ class App extends React.Component {
     /* TODO: we shouldn't put all the params in the state: some of them aren't
      * needed because are stored in models, and other need to be parsed */
     /* Here we update general state with router params and our device check. */
+    /* To get to the my donation page we are now using the param: g ; instead
+    *  of gift or gift_id. This is the identification of the donation on
+    *  Carto DB*/
     const newParams = Object.assign({},
       this.router.params.attributes,
       {
-        donation: !!this.router.params.attributes.donation,
+        donation: this.router.params.attributes.g || false,
         embed: !!this.router.params.attributes.embed
       });
 
@@ -238,7 +242,8 @@ class App extends React.Component {
       cursor,
       interval,
       triggerDate: this.updateTimelineDate.bind(this),
-      ticksAtExtremities: filters.from || filters.to
+      ticksAtExtremities: filters.from || filters.to,
+      layerName: layer.name
     };
 
     /* We retrieve the position of the cursor from the URL if exists */
@@ -269,6 +274,7 @@ class App extends React.Component {
     this.timeline.options.cursor = cursor;
     this.timeline.options.interval = interval;
     this.timeline.options.ticksAtExtremities = filters.from || filters.to;
+    this.timeline.options.layerName = layer.name;
 
     this.timeline.render();
   }
@@ -301,22 +307,6 @@ class App extends React.Component {
       mode: this.state.mode
     });
 
-    //Donation
-    //If unless we have not lat lng, we avoid to use geolocation
-    if (this.state.donation) {
-      if ( !this.router.params.get('lat')) {
-        this.geo = new GeoModel();
-        this.updateBBox();
-      } else {
-        const state = _.extend({}, this.router.params.attributes, {
-          position: [this.router.params.attributes.lat, this.router.params.attributes.lng]
-        });
-        this.mapView.drawDonationMarker(state);
-      }
-      // Setting to default zoom in case there is already set up a zoom parameter
-      this.mapView.map.setZoom(3);
-    }
-
     this.mapView.state.on('change:zoom', () => {
       const mapZoom = this.mapView.state.get('zoom');
       this.router.update({ zoom: mapZoom });
@@ -334,43 +324,27 @@ class App extends React.Component {
       this.router.update({ lng: mapLng });
       this.setState({ lng: mapLng });
     })
-  }
 
-  updateBBox() {
-    $.when(
-      this.geo.fetch({
-        data: {q: this.router.params.get('city')}
+    if (this.state.donation) {
+      donationModel.getDonationInfo(this.state.donation).done(() => {
+
+        const donationInfo = {
+          name: donationModel.toJSON().nickname,
+          amount: donationModel.toJSON().amount,
+          position: [donationModel.toJSON().lat, donationModel.toJSON().lng]
+        };
+
+        this.mapView.drawDonationMarker(donationInfo);
       })
-    ).done(() => {
-      const nextState = _.extend({}, this.router.params.attributes, {
-        bbox: this.geo.attributes.bbox,
-        position: this.geo.attributes.position,
-      });
-
-      this.setState(nextState);
-
-      this._updateMapWithRouterParams();
-
-      //Here we tell the map to draw donation marker;
-      if (nextState.mode === 'donations') {
-        this.mapView.drawDonationMarker(nextState);
-      }
-    });
-  }
-
-  _updateMapWithRouterParams() {
-    //Fit map to bbox of city.
-    if (this.state.donation && this.geo.attributes.bbox) {
-      const bbox = [
-        [this.geo.attributes.bbox[1], this.geo.attributes.bbox[0]],
-        [this.geo.attributes.bbox[3], this.geo.attributes.bbox[2]]
-      ];
-      this.mapView.map.fitBounds(bbox);
     }
   }
 
   changeMapMode(mode) {
     const layer = layersCollection.getActiveLayer(mode);
+
+    /* Google Analytics */
+    ga && ga('send', 'event', 'Map', 'Toggle', layer.toJSON().name);
+
     this.router.update({ mode: mode, layer: layer.toJSON().slug });
     this.setState({ mode: mode, layer: layer.toJSON() });
 

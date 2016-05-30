@@ -235,6 +235,9 @@ class TimelineView extends Backbone.View {
   play() {
     if(this.playing) return;
 
+    /* Google Analytics */
+    ga('send', 'event', 'Timeline', 'Play', this.options.layerName);
+
     this.playing = true;
     this.buttonIcon.setAttribute('xlink:href', '#icon-pause');
 
@@ -323,13 +326,24 @@ class TimelineView extends Backbone.View {
   }
 
   onCursorStartDrag() {
+    if(!d3.event.sourceEvent) return;
+
     this.stop();
     document.body.classList.add('-grabbing');
   }
 
   onCursorEndDrag() {
+    if(!d3.event.sourceEvent) return;
+
     this.cursorShadow.attr('filter', '')
     document.body.classList.remove('-grabbing');
+
+    if(this.currentDataIndex) {
+      /* Google Analytics */
+      const date = moment.utc(this.options.data[this.currentDataIndex].date)
+        .format('MM:DD:YYYY');
+      ga && ga('send', 'event', 'Timeline', 'Drag', date);
+    }
   }
 
   onCursorDrag() {

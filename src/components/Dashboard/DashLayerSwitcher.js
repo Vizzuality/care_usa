@@ -28,9 +28,9 @@ class DashLayerSwitcher extends React.Component {
   }
 
   _toogleLegend() {
-    $('.legend-wrapper').animate({ 'height': 0 + 'px'}, 200 );
+    $('.legend-wrapper').animate({ 'height': 0 + 'px'}, 300 );
     let height = $('.legend-wrapper.is-open .m-legend').height();
-    $('.legend-wrapper.is-open').animate({ 'height': height + 12 + 'px'}, 200 );
+    $('.legend-wrapper.is-open').animate({ 'height': height + 12 + 'px'}, 300 );
   }
 
   render() {

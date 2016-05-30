@@ -61,6 +61,7 @@ class MapView extends Backbone.View {
     let markerLayer = this.donationMarker.addLayer(this.map);
     markerLayer.on('click', this.drawDonationPopUp.bind(this));
     this.drawDonationPopUp();
+    this.state.set({ lat: options.position[0], lng: options.position[1], zoom: 3 });
   }
 
   drawDonationPopUp() {
@@ -69,7 +70,8 @@ class MapView extends Backbone.View {
       currentLayer: 'my-donation',
       latLng: this.markerOptions.position,
       map: this.map,
-      name: this.markerOptions.name
+      name: this.markerOptions.name,
+      amount: this.markerOptions.amount
     })
 
     this.myDonationPopUp.getPopUp();
@@ -109,22 +111,6 @@ class MapView extends Backbone.View {
 
   _setEvents() {
     this.map.on('click', this._infowindowSetUp.bind(this));
-
-    this.state.on('change:zoom', () => {
-      this.map.setZoom(this.state.attributes.zoom);
-    });
-
-    this.state.on('change:lat', () => {
-      const center = this.map.getCenter();
-      const latlng = L.latLng(this.state.attributes.lat, center.lng);
-      this.map.setView(latlng, this.map.getZoom());
-    });
-
-    this.state.on('change:lng', () => {
-      const center = this.map.getCenter();
-      const latlng = L.latLng(center.lat, this.state.attributes.lng);
-      this.map.setView(latlng, this.map.getZoom());
-    });
 
     this.state.on('change:filters', () => this.updateLayer());
     this.state.on('change:timelineDate', () => this.updateLayer());
@@ -173,7 +159,7 @@ class MapView extends Backbone.View {
       layer: this.state.get('layer'),
       latLng: e.latlng,
       map: this.map,
-      zoom: this.state.get('zoom'),
+      zoom: this.map.getZoom(),
       timelineDate: this.state.get('timelineDate'),
     });
 
