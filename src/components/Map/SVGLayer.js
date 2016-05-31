@@ -30,6 +30,7 @@ class CreateTileLayer {
    */
   constructor(options, state) {
     this.options = Object.assign(defaults, options);
+    this.options.geo_cartocss = JSON.parse(this.options.geo_cartocss);
     this.options.state = state;
     this.timestamp = +(new Date());
   }

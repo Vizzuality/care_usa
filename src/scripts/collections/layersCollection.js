@@ -10,44 +10,6 @@ class LayersCollection extends Backbone.Collection {
     return `${config.apiUrl}/layers`;
   }
 
-  parse(data) {
-    const donorsLayer = _.findWhere(data, { slug: 'number-of-donors' });
-
-    donorsLayer.layer_type = 'svg';
-    donorsLayer.geo_query = 'SELECT iso, CASE WHEN ST_Intersects(the_geom, ST_SetSRID(st_makebox2d(ST_MakePoint($EAST, $NORTH), ST_MakePoint($WEST, $SOUTH)), 4326)) THEN ST_RemoveRepeatedPoints(the_geom, $TOLERANCE) END AS the_geom FROM borders';
-    donorsLayer.sql_template = 'SELECT count(country_iso) AS total, country_iso AS iso FROM donors $WHERE GROUP BY country_iso';
-    donorsLayer.geo_cartocss = [
-      {
-        limit: 50,
-        color: '#A6DBEC',
-        opacity: 1
-      },
-      {
-        limit: 250,
-        color: '#63B2CB',
-        opacity: 1
-      },
-      {
-        limit: 1500,
-        color: '#1C88AC',
-        opacity: 1
-      },
-      {
-        limit: 3000,
-        color: '#0D5B74',
-        opacity: 1
-      },
-      {
-        limit: -1,
-        color: '#022D3B',
-        opacity: 1
-      }
-    ];
-    donorsLayer.timeline.speed = 10;
-
-    return data;
-  }
-
   /* Within the category "mode", set the layer "slug" as active and all the
    * other inactive */
   setActiveLayer(mode, slug) {
