@@ -190,6 +190,9 @@ class MapView extends Backbone.View {
         const domain = state.layer.domain.map(date => moment.utc(date, 'YYYY-MM-DD').toDate());
         if(+state.timelineDate < +domain[0]) state.timelineDate = domain[0];
         if(+state.timelineDate > +domain[1]) state.timelineDate = domain[1];
+      } else if(state.layer) { // ensure there's an initial timelineDate
+        const domain = state.layer.domain.map(date => moment.utc(date, 'YYYY-MM-DD').toDate());
+        state.timelineDate = domain[1];
       }
     }
 
