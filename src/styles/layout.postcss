@@ -140,23 +140,36 @@ $l-margin-vt: 50;
     left: $wrap-padding-desktop;
     top: rem(110);
     height: auto;
-    bottom: rem(250);
+    bottom: rem(270);
     width: rem(285);
     transform: translatex(rem(-325));
     /* max-height: 600px; */
+    
+    @media screen and (max-height: rem(750)) {
+      bottom: rem(120);   
+    }
+
   }
 
   @media screen and (min-width: $screen-xl) {
     width: rem(360);
     transform: translatex(0);
     left: $wrap-padding-desktop-xl;
-    bottom: rem(150);
+    bottom: rem(180);
+
+    @media screen and (max-height: rem(750)) {
+      bottom: rem(120);   
+    }
   }
 
   @media screen and (min-width: $screen-xxl) {
     width: rem(400);
     left: $wrap-padding-desktop-xxl;
     bottom: rem(350);
+
+    @media screen and (max-height: rem(750)) {
+      bottom: rem(120);   
+    }
   }
 
   &.is-open {
