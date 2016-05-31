@@ -31,8 +31,10 @@
       letter-spacing: rem(0.1);
       text-transform: uppercase;
       background-color: rgba($white, .3);
+      background-image: url('./../../images/legendpattern.png');
 
       @media screen and (min-width: $screen-m) {
+        background-image: none;
         border: 0;
         height: rem(54);
         color: $font-color-2;
@@ -42,11 +44,13 @@
 
         &:hover {
           background-color: $beige-7;
+          border-top: rem(3) solid $beige-7;
           color: $color-1;
         }
       }
 
       &.is-active {
+        background-image: none;
         color: $font-color-2;
         border: 0;
         background-color: $color-6;
