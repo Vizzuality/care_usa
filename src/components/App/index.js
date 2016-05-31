@@ -49,7 +49,7 @@ class App extends React.Component {
 
     this.state = {
       ready: false,
-      mode: 'donations',
+      mode: 'projects',
       currentPage: 'who-cares',
       device: null,
       menuDeviceOpen: false,
@@ -96,9 +96,13 @@ class App extends React.Component {
     if(newParams.layer) {
       const layer = layersCollection.findWhere({ slug: newParams.layer });
       newParams.layer = layer && layer.toJSON();
+    } else if (this.router.params.attributes.g) {
+      newParams.layer = layersCollection.getActiveLayer('donations').toJSON();
+      newParams.mode = 'donations';
     } else {
       newParams.layer = layersCollection.getActiveLayer(newParams.mode || this.state.mode).toJSON();
     }
+
 
     /* The sectors are saved in the filters model */
     delete newParams.sectors;

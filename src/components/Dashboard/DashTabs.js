@@ -17,14 +17,14 @@ class DashboardTabs extends React.Component {
         <ul className="m-dashboard-tabs">
           <li className='tab'>
             <button
-              className={ this.props.currentMode == 'donations' && 'is-active' }
-              onClick={ this.props.changeModeFn.bind(null, 'donations') }
-            >Donations</button></li>
-          <li className='tab'>
-            <button
               className={ this.props.currentMode == 'projects' && 'is-active' }
               onClick={ this.props.changeModeFn.bind(null, 'projects') }
             >Projects</button></li>
+          <li className='tab'>
+            <button
+              className={ this.props.currentMode == 'donations' && 'is-active' }
+              onClick={ this.props.changeModeFn.bind(null, 'donations') }
+            >Donations</button></li>
         </ul>
      </div>
     );
