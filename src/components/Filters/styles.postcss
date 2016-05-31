@@ -47,7 +47,11 @@
       margin-bottom: rem(10);
 
       @media screen and (min-width: $screen-m) {
-        margin-bottom: 0;
+        margin-bottom: rem(14);
+      }
+
+      @media screen and (min-width: $screen-xxl) {
+        margin-bottom: rem(20);
       }
     }
 
@@ -168,10 +172,6 @@
     }
 
     &.regions {
-      > legend {
-        margin-bottom: 0;
-      }
-
       > div {
         position: relative;
 
