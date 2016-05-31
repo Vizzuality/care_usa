@@ -9,7 +9,6 @@ import DashLayerSwitcher from './DashLayerSwitcher';
 import DashDates from './DashDates';
 import DashFilters from './DashFilters';
 import DashDonation from './DashDonation';
-
 import utils from '../../scripts/helpers/utils';
 
 class Dashboard extends React.Component {
