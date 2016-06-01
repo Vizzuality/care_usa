@@ -121,6 +121,10 @@ class MapView extends Backbone.View {
 
     this.map.on('zoomend', _.bind(this.onZoomMap, this));
     this.map.on('dragend', _.bind(this.onDragEndMap, this));
+
+    //Mthods to stop timeline when interacting with map.
+    this.map.on('mousedown', function() { Backbone.Events.trigger('map:clicked'); });
+    this.map.on('zoomstart', function() { Backbone.Events.trigger('map:clicked'); });
   }
 
   onZoomMap() {
