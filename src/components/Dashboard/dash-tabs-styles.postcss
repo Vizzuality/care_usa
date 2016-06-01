@@ -22,7 +22,8 @@
       position: relative;
       text-align: center;
       width: 100%;
-      height: rem(35);
+      padding-top: rem(13);
+      padding-bottom: rem(10);
       border: 1px solid rgba($color-1, 0.5);
       color: $font-color-4;
       font-family: $font-family-1;
@@ -31,9 +32,13 @@
       letter-spacing: rem(0.1);
       text-transform: uppercase;
       background-color: rgba($white, .3);
+      background-image: url('./../../images/legendpattern.png');
 
       @media screen and (min-width: $screen-m) {
+        background-image: none;
         border: 0;
+        padding-top: 0;
+        padding-bottom: 0;
         height: rem(54);
         color: $font-color-2;
         background-color: $color-6;
@@ -42,11 +47,13 @@
 
         &:hover {
           background-color: $beige-7;
+          border-top: rem(3) solid $beige-7;
           color: $color-1;
         }
       }
 
       &.is-active {
+        background-image: none;
         color: $font-color-2;
         border: 0;
         background-color: $color-6;

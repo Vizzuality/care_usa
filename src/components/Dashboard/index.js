@@ -113,7 +113,7 @@ class Dashboard extends React.Component {
 
               { !this.props.embed &&
                   <button
-                    className="text text-cta btn-filters-switcher"
+                    className="btn btn-third -small text text-cta btn-filters-switcher"
                     onClick={ this.props.toggleFiltersFn } >
                     filters
                   </button>

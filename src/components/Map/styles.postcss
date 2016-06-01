@@ -104,3 +104,8 @@
 .leaflet-container .leaflet-control-attribution.leaflet-compact-attribution {
   margin: 0;
 }
+
+.leaflet-overlay-pane > svg {
+  /* Enable the click to go through the SVG layer to reach the map */
+  pointer-events: none;
+}
