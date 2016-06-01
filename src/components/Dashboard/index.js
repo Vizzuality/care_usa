@@ -26,10 +26,6 @@ class Dashboard extends React.Component {
     this.setState(utils.checkDevice());
   }
 
-  componentDidMount() {
-    this.setScrollbar();
-  }
-
   toogleDashboard() {
     this.setState({ dashboardOpen: !this.state.dashboardOpen })
   }
@@ -46,10 +42,6 @@ class Dashboard extends React.Component {
     }
 
     return false;
-  }
-
-  setScrollbar() {
-    
   }
 
   render() {
@@ -135,10 +127,10 @@ class Dashboard extends React.Component {
 
             </div>
             <ScrollArea
-            speed={0.8}
-            className="scroll-wrapper"
-            horizontal={false}
-            >
+              speed={0.8}
+              className="scroll-wrapper"
+              horizontal={false}
+              >
               <DashDates
                 filters={ this.props.filters }
                 timelineDate={ this.props.timelineDate }
