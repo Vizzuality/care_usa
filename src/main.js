@@ -39,7 +39,7 @@ class Main extends React.Component {
   render() {
   	let menuDevice = null;
 
-    if (this.state.mobile) {
+    if (this.state.tablet) {
       menuDevice = (
         <MenuDevice
           deviceMenuOpen = { this.state.menuDeviceOpen }
