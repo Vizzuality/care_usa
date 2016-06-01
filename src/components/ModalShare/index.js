@@ -34,7 +34,7 @@ class ModalShare extends Modal {
     new Clipboard('.btn-copy');
 
     return (
-    	<div>
+    	<div className="m-share">
     		<h1 className="text text-module-title -dark">Share this view</h1>
     		<p className="text text-highlighted -dark">Click and paste HTML to embed in website</p>
     		<aside className="btn-container">

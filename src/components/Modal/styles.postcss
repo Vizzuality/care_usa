@@ -17,14 +17,14 @@
     transition: visibility 0s linear .3s, opacity .3s;
   }
 
-  > .content {
+   .content {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     overflow: scroll;
-    padding: rem(38) rem(20) rem(33) rem(20);
+    padding: 0 rem(20) 0 rem(20);
     background: url("../../images/mappattern.png") top left/50% repeat;
     background-attachment: local;
     transition: opacity .4s, transform .3s;
@@ -36,7 +36,7 @@
       transform: translate(-50%, -50%);
       left: 50%;
       max-width: 80%;
-      padding: rem(75) rem(50) rem(95) rem(50);
+      padding: 0 rem(50) 0 rem(50);
     }
 
     @media screen and (min-width: $screen-m) {
@@ -45,17 +45,17 @@
 
     @media screen and (min-width: $screen-l) {
       max-width: rem(925);
-      padding: rem(75) rem(40) rem(80) rem(40);
+      padding: 0 rem(40) 0 rem(40);
     }
 
     @media screen and (min-width: $screen-xl) {
       left: 50%;
       max-width: rem(960);
       transform: translate(-50%, -50%);
-      padding: rem(75) rem(50) rem(80) rem(50);
+      padding: 0 rem(50) 0 rem(50);
     }
 
-    > .close-button {
+    .close-button {
       position: absolute;
       top: rem(20);
       right: rem(20);
@@ -83,7 +83,7 @@
     }
   }
 
-  &.-hidden > .content {
+  &.-hidden > .scrollarea-content > .content {
     opacity: 0;
     transform: translateY(-100%);
 

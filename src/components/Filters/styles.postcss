@@ -2,12 +2,20 @@
 
 .m-filters {
   width: 100%;
+  padding-top: rem(38);
+  padding-bottom:  rem(33);
+
+  @media screen and (min-width: $screen-s) {
+    padding-top: rem(75);
+    padding-bottom: rem(95);
+  }
 
   @media screen and (min-width: $screen-l) {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
+    padding-bottom: rem(80);
   }
 
   .available-range {
