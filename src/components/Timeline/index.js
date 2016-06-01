@@ -268,6 +268,7 @@ class TimelineView extends Backbone.View {
   }
 
   stop() {
+    console.log('stop');
     if(!this.playing) return;
 
     this.playing = false;
