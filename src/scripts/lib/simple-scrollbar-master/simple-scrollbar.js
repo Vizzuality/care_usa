@@ -88,7 +88,7 @@
           _this.bar.classList.add('ss-hidden')
         } else {
           _this.bar.classList.remove('ss-hidden')
-          _this.bar.style.cssText = 'height:' + (_this.scrollRatio) * 100 + '%; top:' + (_this.el.scrollTop / totalHeight ) * 100 + '%;right:-' + (_this.target.clientWidth - _this.bar.clientWidth) + 'px;';
+          _this.bar.style.cssText = 'height:' + (_this.el.scrollHeight) * 100 + 'px; top:' + (_this.el.scrollTop) + 'px;right:-' + (_this.target.clientWidth - _this.bar.clientWidth) + 'px;';
         }
       });
     }
@@ -102,7 +102,7 @@
     }
   }
 
-  d.addEventListener('DOMContentLoaded', initAll);
+  d.addEventListener('change', initAll);
   ss.initEl = initEl;
   ss.initAll = initAll;
 

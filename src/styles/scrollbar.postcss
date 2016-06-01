@@ -1,0 +1,29 @@
+
+.scrollarea:hover .scrollbar {
+	opacity: 1 !important;
+}
+
+.scrollbar {
+	width: rem(4) !important;
+	opacity: 0;
+	background-color: $color-16 !important;
+	border-radius: 3px;
+
+	&:hover {
+		opacity: 1 !important;
+	}
+}
+
+.scrollbar-container {
+	background-color: transparent !important;
+	border-radius: rem(5);
+	width: rem(5) !important;
+
+	&:hover .scrollbar{
+        opacity: 1 !important;
+    }
+
+    &.active .scrollbar {
+        opacity: 1 !important;
+    }
+}
