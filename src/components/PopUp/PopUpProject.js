@@ -26,16 +26,15 @@ class PopUpProject extends PopUp {
 
   _getProjectsInfo() {
     const sectorsItems = (this.model.get('sectors').length > 0) ? this._getSectors() : '';
-    const womenText = this.model.get('totals')['women_and_girls'] ? `<p class="text-legend-s"><span class="number-m">${ utils.numberNotation(this.model.get('totals')['women_and_girls']) + '%' }</span> Women & girls</p>` : '';
+    const womenText = this.model.get('totals')['women_and_girls'] ? `<div><span class="number-l">${ utils.numberNotation(this.model.get('totals')['women_and_girls']) + '%' }</span><span class="text-legend-s"> Women & girls</span></div>` : '';
 
     return `
-      <h1 class="text text-module-title -light"> ${this.model.get('location')['name']} - <span class="number-m">${ utils.numberNotation(  this.model.get('totals')['projects'] )} projects in ${this.model.get('year')}
-      </span>
+      <h1 class="text text-highlighted -light"> ${this.model.get('location')['name']} - ${ utils.numberNotation(  this.model.get('totals')['projects'] )} projects in ${this.model.get('year')}
       </h1>
       <hr></hr>
       ${ sectorsItems }
       <div class="numbers-donation">
-        <p class="text-legend-s"><span class="number-m">${ utils.numberNotation(this.model.get('totals')['people']) }</span> People reached </p>
+        <div><span class="number-l">${ utils.numberNotation(this.model.get('totals')['people']) }</span><span class="text-legend-s"> People reached </span></div>
         ${ womenText }
       </div>
       <hr></hr>
@@ -47,10 +46,12 @@ class PopUpProject extends PopUp {
 
     return `<div class="wrapper -project">
               ${ projectsInfo }
-              <a class="text text-cta -light" href=${this.model.attributes.url}>Explore country page</a>
-              <svg class="icon icon-externallink -light">
-                <use xlink:href="#icon-externallink"></use>
-              </svg>
+              <div>
+                <a class="text text-cta -light" href=${this.model.attributes.url}>Explore country page</a>
+                <svg class="icon icon-externallink -light">
+                  <use xlink:href="#icon-externallink"></use>
+                </svg>
+              </div>
             </div>`
   }
 }
