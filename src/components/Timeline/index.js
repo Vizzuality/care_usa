@@ -55,17 +55,20 @@ class TimelineView extends Backbone.View {
 
   setListeners() {
     $(window).resize(_.debounce(this.render, 50).bind(this));
-    Backbone.Events.on('map:clicked', _.bind(this._stopsTimeline, this))
+    Backbone.Events.on('popUp:open', _.bind(this._pauseTimeline, this))
+    Backbone.Events.on('popUp:close', _.bind(this._rePlayTimeline, this))
   }
 
-  _stopsTimeline() {
+  _pauseTimeline() {
     if(!this.playing) return;
-    var timeout;
-    //If timeline is playing, stop it for a while and replay it again later.
-    //We are doing it for layers performance reasons.
+    this.paused = true;
     this.stop();
-    clearTimeout(timeout);
-    timeout = setTimeout(_.bind(this.play, this), 3000);
+  }
+
+  _rePlayTimeline() {
+    if(!this.paused) return;
+    this.paused = false;
+    this.play();
   }
 
   render() {

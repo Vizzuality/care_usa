@@ -21,6 +21,7 @@ class PopUp extends Backbone.View {
         if ( Object.keys(response).length ) {
           this.options.data = this.model;
           this.options.device.mobile ?  this._drawPopUpMobile() : this._drawPopUp();
+          Backbone.Events.trigger('popUp:open');
         } else {
           this.model.clear();
         }
@@ -46,6 +47,7 @@ class PopUp extends Backbone.View {
 
   closePopUp() {
     this.options.map.closePopup();
+    Backbone.Events.trigger('popUp:close');
   }
 
   _panMap() {
