@@ -8,18 +8,71 @@
 	border: 0;
 	border-radius: 0;
 	box-shadow: 0 rem(1) 0 $beige-7;
+	height: rem(50);
+	margin-top: rem(2);
+
+
+	@media screen and (min-width: $screen-m) {
+		height: rem(32) !important;
+		justify-content: flex-start !important;
+		align-items: flex-start !important;
+		margin-top: 0;	
+	}
+}
+
+.regions {
+	.select2-container--default .select2-selection--single {
+		height: rem(32) !important;
+		justify-content: flex-start !important;
+		align-items: flex-start !important;
+	}
+
+	.select2-container .select2-selection--single .select2-selection__rendered {
+		height: rem(32) !important;
+		justify-content: flex-start !important;
+		align-items: flex-start !important;
+	}
 }
 
 .select2-container .select2-selection--single .select2-selection__rendered {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	overflow: visible;
 	color: $color-1 !important;
 	font-weight: 600;
 	font-style: italic;
 	padding-left: 0;
+	padding-right: 0;
+	height: rem(50) !important;
+	width: 100%;
+
+	@media screen and (min-width: $screen-m) {
+		height: rem(32) !important;
+		justify-content: flex-start !important;
+		align-items: flex-start !important;
+	}
+}
+
+.select2 .select2-container .select2-container--default .select2-container--below .select2-container--open .select2-container--focus {
+	width: 100%;
+}
+
+.select2-selection .select2-selection--single {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	text-align: center;
 }
 
 .js-from-day + span, .js-to-day + span {
-	width: rem(65) !important;
+	width: 100%;
+
+	@media screen and (min-width: $screen-m) {
+		width: rem(65) !important;
+	}
+
+	
 }
 
 .select2-container--focus {
