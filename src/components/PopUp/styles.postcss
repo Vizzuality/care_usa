@@ -74,6 +74,10 @@
     }
 
     &.-project {
+       @media screen and (min-width: $screen-m) {
+        width: rem(400);
+      }
+
       .text-cta:hover {
         text-decoration: underline;
       }
@@ -124,6 +128,12 @@
         justify-content: space-between;
         margin-bottom: rem(15);
         flex-wrap: wrap;
+      }
+
+      & div:first-child {
+        @media screen and (min-width: $screen-xl) {
+          margin-bottom: rem(10);
+        }
       }
     }
 
