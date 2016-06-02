@@ -116,20 +116,26 @@
           border-right: rem(1) solid $color-6;
         }
 
-        &:nth-child(1) > select{
+        &:nth-child(1) {
           @media screen and (min-width: $screen-m) {
             width: rem(180);
           }
         }
 
-        &:nth-child(3) > select{
+        &:nth-child(2) {
+          @media screen and (min-width: $screen-m) {
+            width: rem(75);
+          }
+        }
+
+        &:nth-child(3) {
           @media screen and (min-width: $screen-m) {
             width: rem(80);
           }
         }
 
         @media screen and (min-width: $screen-m) {
-          width: auto;
+          //width: auto;
           margin-right: rem(30);
           border: none;
           &:last-of-type { border: none; }
@@ -182,6 +188,7 @@
     &.regions {
       > div {
         position: relative;
+        width: rem(257);
 
         @media screen and (min-width: $screen-m) {
           display: inline-block;
@@ -209,7 +216,6 @@
         font-style: italic;
 
         @media screen and (min-width: $screen-m) {
-          width: rem(257);
           padding-right: rem(20);
         }
       }
