@@ -37,7 +37,7 @@ class DashboardDates extends React.Component {
         <svg className="icon icon-calendar">
           <use xlinkHref="#icon-calendar"></use>
         </svg>
-        <div>
+        <div className="dates">
           <span className="start-date text text-legend-s">{ dates[0] }</span>
           <span className="text text-legend-s">&nbsp;-&nbsp;</span>
           <span className="end-date text text-legend-s">{ dates[1] }</span>

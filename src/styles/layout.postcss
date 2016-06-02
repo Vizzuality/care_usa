@@ -36,9 +36,14 @@ $l-margin-vt: 50;
   right: 0;
   height: 100%;
 
-  .logo {
+  .l-header {
+    position: absolute;
     pointer-events: none;
-    cursor: pointer;
+  }
+
+  .logo {
+    pointer-events: visible;
+    cursor: default;
   }
 }
 
@@ -118,14 +123,6 @@ $l-margin-vt: 50;
   }
 }
 
-#app {
-  .l-header {
-    position: absolute;
-    pointer-events: none;
-
-  }
-}
-
 .l-dashboard {
   position: absolute;
   left: 0;
@@ -143,23 +140,36 @@ $l-margin-vt: 50;
     left: $wrap-padding-desktop;
     top: rem(110);
     height: auto;
-    bottom: rem(250);
+    bottom: rem(270);
     width: rem(285);
     transform: translatex(rem(-325));
     /* max-height: 600px; */
+    
+    @media screen and (max-height: rem(750)) {
+      bottom: rem(120);   
+    }
+
   }
 
   @media screen and (min-width: $screen-xl) {
     width: rem(360);
     transform: translatex(0);
     left: $wrap-padding-desktop-xl;
-    bottom: rem(150);
+    bottom: rem(180);
+
+    @media screen and (max-height: rem(750)) {
+      bottom: rem(120);   
+    }
   }
 
   @media screen and (min-width: $screen-xxl) {
     width: rem(400);
     left: $wrap-padding-desktop-xxl;
     bottom: rem(350);
+
+    @media screen and (max-height: rem(750)) {
+      bottom: rem(120);   
+    }
   }
 
   &.is-open {
@@ -243,7 +253,6 @@ $l-margin-vt: 50;
 
 .l-map-credits {
   display: flex;
-
   align-items: center;
   justify-content: flex-start;
   position: absolute;
@@ -251,14 +260,13 @@ $l-margin-vt: 50;
   left: 0;
   right: 0;
   height: rem($credits-height-mb);
-  background-color: $beige-6;
+  background-color: $color-15;
   border-top: 1px solid $beige-4;
   padding: 0 $wrap-padding-mobile;
 
   @media screen and (min-width: $screen-m) {
     /* justify-content: center; */
     padding: 0 $wrap-padding-desktop;
-    background: transparent;
     border: 0;
   }
 
@@ -311,7 +319,6 @@ $l-margin-vt: 50;
     font-family: $font-family-2;
     font-weight: 700;
     font-size: rem(11);
-    letter-spacing: rem(2.1);
     right: $wrap-padding-desktop;
     width: rem(160);
     left: auto;
