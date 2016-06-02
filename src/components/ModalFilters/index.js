@@ -5,11 +5,18 @@ import Modal from '../Modal';
 import FiltersView from '../Filters';
 import React from 'react';
 import moment from 'moment';
+import utils from './../../scripts/helpers/utils';
 
 class ModalFilters extends Modal {
 
   constructor(props) {
     super(props);
+    this.state = {
+    }
+  }
+
+  componentWillMount() {
+    this.setState(utils.checkDevice());
   }
 
   shouldComponentUpdate(nextProps) {
@@ -82,6 +89,10 @@ class ModalFilters extends Modal {
   }
 
   getContent() {
+    const day = this.state.mobile ? 'DD' : 'Day';
+    const month = this.state.mobile ? 'MM' : 'Month';
+    const year = this.state.mobile ? 'YYYY' : 'Year';
+
     return <div id="filters" className="m-filters" ref="Filters">
       <div>
         <div className="available-range js-available-range text text-legend-s"></div>
@@ -90,17 +101,17 @@ class ModalFilters extends Modal {
           <div>
             <div>
               <select className="js-from-month" name="from-month">
-                <option value="" disabled="disabled">Month</option>
+                <option value="" disabled="disabled">{ month }</option>
               </select>
             </div>
             <div>
               <select className="js-from-day" name="from-day">
-                <option value="" disabled="disabled">Day</option>
+                <option value="" disabled="disabled">{ day }</option>
               </select>
             </div>
             <div>
               <select className="js-from-year" name="from-year">
-                <option value="" disabled="disabled">Year</option>
+                <option value="" disabled="disabled">{ year }</option>
               </select>
             </div>
           </div>
@@ -111,17 +122,17 @@ class ModalFilters extends Modal {
           <div>
             <div>
               <select className="js-to-month" name="to-month">
-                <option value="" disabled="disabled">Month</option>
+                <option value="" disabled="disabled">{ month }</option>
               </select>
             </div>
             <div>
               <select className="js-to-day" name="to-day">
-                <option value="" disabled="disabled">Day</option>
+                <option value="" disabled="disabled">{ day }</option>
               </select>
             </div>
             <div>
               <select className="js-to-year" name="to-year">
-                <option value="" disabled="disabled">Year</option>
+                <option value="" disabled="disabled">{ year }</option>
               </select>
             </div>
           </div>
