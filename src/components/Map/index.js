@@ -44,14 +44,27 @@ class MapView extends Backbone.View {
 
     // mobile
     if (this.device.mobile) {
-      this.state.attributes.lat = 7;
-      this.state.attributes.lng = -98;
+      if(this.state.attributes.mode === 'projects') {
+        this.state.attributes.lat = 3.8642546157214213;
+        this.state.attributes.lng = -25.3125;
+      }
+      else {
+        this.state.attributes.lat = 7;
+        this.state.attributes.lng = -98;
+      }
+      
     }
 
     // Ipad landscape
     if ( !this.device.tablet && this.device.device ) {
-      this.state.attributes.lat = 40;
-      this.state.attributes.lng = -120;
+      if(this.state.attributes.mode === 'projects') {
+        this.state.attributes.lat = 3.8642546157214213;
+        this.state.attributes.lng = -25.3125;
+      }
+      else {
+        this.state.attributes.lat = 40;
+        this.state.attributes.lng = -120;
+      }
     }
   }
 
