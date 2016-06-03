@@ -71,12 +71,21 @@ $l-margin-vt: 56;
   background-color: $color-1;
   padding: rem(7);
 
+  @media screen and (min-width: $screen-s) {
+    right: $wrap-padding-tablet;
+  }
+
   @media screen and (min-width: $screen-m) {
     right: $wrap-padding-desktop;
     top: rem(203);
   }
 
+  @media screen and (min-width: $screen-l) {
+    top: rem(215);
+  }
+
   @media screen and (min-width: $screen-xl) {
+    top: rem(227);
     right: $wrap-padding-desktop-xl;
   }
 
@@ -205,6 +214,11 @@ $l-margin-vt: 56;
   left: $wrap-padding-mobile;
   right: rem(60);
   height: rem($timeline-height);
+
+  @media screen and (min-width: $screen-s) {
+    left: $wrap-padding-tablet;
+    right: rem(70);
+  }
 
   @media screen and (min-width: $screen-m) {
    position: relative;
