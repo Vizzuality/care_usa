@@ -107,16 +107,33 @@ class CreateTileLayer {
   _getGeoQuery() {
     let sql = this.options.geo_query;
 
-    /* TODO: adapt depending on the zoom level */
+    let bounds = {
+      east:  this.options.state.bounds.getEast(),
+      north: this.options.state.bounds.getNorth(),
+      west:  this.options.state.bounds.getWest(),
+      south: this.options.state.bounds.getSouth()
+    };
+
+    /* If the zoom is lower than 5, we ask for the geometries for the whole
+     * world */
+    if(this.options.state.zoom < 5) {
+      bounds = {
+        east:  220.4296875,
+        north: 85.98213689652798,
+        west:  -228.1640625,
+        south: -83.71554430601263
+      };
+    }
+
     let tolerance = .5;
     if(this.options.state.zoom >= 5) tolerance = .3;
     if(this.options.state.zoom >= 8) tolerance = .1;
 
     return sql.replace('$TOLERANCE', tolerance.toString())
-      .replace('$EAST', this.options.state.bounds.getEast())
-      .replace('$NORTH', this.options.state.bounds.getNorth())
-      .replace('$WEST', this.options.state.bounds.getWest())
-      .replace('$SOUTH', this.options.state.bounds.getSouth());
+      .replace('$EAST',  bounds.east)
+      .replace('$NORTH', bounds.north)
+      .replace('$WEST',  bounds.west)
+      .replace('$SOUTH', bounds.south);
   }
 
   _getQuery() {

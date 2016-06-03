@@ -52,7 +52,7 @@ class MapView extends Backbone.View {
         this.state.attributes.lat = 7;
         this.state.attributes.lng = -98;
       }
-      
+
     }
 
     // Ipad landscape
@@ -137,10 +137,13 @@ class MapView extends Backbone.View {
   }
 
   onZoomMap() {
-    this.state.set({zoom: this.map.getZoom()});
+    const oldZoom = this.state.get('zoom');
+    const zoom    = this.map.getZoom();
+    this.state.set({ zoom });
 
-    /* We eventually reload the layer if it's an SVG one */
-    if(this.currentLayerConfig.layer_type === 'svg') {
+    /* We eventually reload the layer if it's an SVG one and the zoom pass 5 */
+    if(this.currentLayerConfig.layer_type === 'svg' &&
+      (oldZoom < 5 && zoom >= 5 || oldZoom >= 5 && zoom < 5 || oldZoom >= 5 && zoom >= 5)) {
       this._removeCurrentLayer();
       this._addLayer();
     }
@@ -155,8 +158,10 @@ class MapView extends Backbone.View {
       bounds: this.map.getBounds()
     });
 
-    /* We eventually reload the layer if it's an SVG one */
-    if(this.currentLayerConfig.layer_type === 'svg') {
+    /* We eventually reload the layer if it's an SVG one and the zoom is quite
+     * high */
+    const zoom = this.map.getZoom();
+    if(this.currentLayerConfig.layer_type === 'svg' && zoom >= 5) {
       this._removeCurrentLayer();
       this._addLayer();
     }
