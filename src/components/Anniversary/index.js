@@ -21,7 +21,7 @@ class Anniversary extends React.Component {
 
   render() {
     return (
-      <section>
+      <section id="anniversary">
         <Header
           currentTab = { this.props.currentTab }
           toggleMenuFn = { this.props.toggleMenuFn }

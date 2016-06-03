@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import MainMenu from '../MainMenu';
+import './styles.postcss';
 
 class Header extends React.Component {
 
@@ -9,14 +9,25 @@ class Header extends React.Component {
     super(props);
   }
 
-  render() {
+  componentWillMount() {
+    this.page = window.location.pathname;
+  }
 
+  setLogoClick() {
+    return this.page.indexOf('anniversary.html') === -1 ? 
+      <a className="logo">
+        <img className="icon icon-logo" src={ require('../../images/logoCARE.svg') }></img>
+      </a> :
+      <a href="/" className="logo">
+        <img className="icon icon-logo" src={ require('../../images/logoCARE.svg') }></img>
+      </a>;
+  }
+
+  render() {
     return (
       <div id="header" className="l-header">
         <div className="wrap">
-          <a  className="logo">
-            <img className="icon icon-logo" src={ require('../../images/logoCARE.svg') }></img>
-          </a>
+          { this.setLogoClick() }
 
           { !this.props.embed ?
             <div className="m-main-menu">
