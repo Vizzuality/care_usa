@@ -143,7 +143,7 @@ class MapView extends Backbone.View {
 
     /* We eventually reload the layer if it's an SVG one and the zoom pass 5 */
     if(this.currentLayerConfig.layer_type === 'svg' &&
-      (oldZoom < 5 && zoom >= 5 || oldZoom >= 5 && zoom < 5 || oldZoom >= 5 && zoom >= 5)) {
+      this.currentLayer.shouldLayerReload(oldZoom, zoom)) {
       this._removeCurrentLayer();
       this._addLayer();
     }
@@ -161,7 +161,8 @@ class MapView extends Backbone.View {
     /* We eventually reload the layer if it's an SVG one and the zoom is quite
      * high */
     const zoom = this.map.getZoom();
-    if(this.currentLayerConfig.layer_type === 'svg' && zoom >= 5) {
+    if(this.currentLayerConfig.layer_type === 'svg' &&
+      this.currentLayer.shouldLayerReload(zoom, zoom)) {
       this._removeCurrentLayer();
       this._addLayer();
     }

@@ -19,6 +19,23 @@ const optionalStatements = {
   }
 };
 
+/* The tolerance is the precision of the geometries. The smaller it is, the
+ * better precision they will have.
+ * This array contains the tolerance we should ask for depending on the zoom
+ * level of the map. We use it to reduce the footprint on smaller zoom levels
+ * as the precision is not a critical factor.
+ * Example:
+ * 	{ limit: 5,  value: .5 } means that until a zoom of 5 (excluded) the
+ * 	tolerance will have a value of .5
+
+ * NOTE: the last limit has the value of -1, as its tolerance will always be
+ * used if the zoom level is superior or equal to the previous limit */
+const toleranceConfig = [
+  { limit: 5,  value: .5 },
+  { limit: 8,  value: .3 },
+  { limit: -1, value: .1 },
+];
+
 class CreateTileLayer {
 
   /*
@@ -104,8 +121,22 @@ class CreateTileLayer {
     };
   }
 
+  /**
+   * Return the tolerance depending on the zoom level and based on the
+   * toleranceConfig object
+   * @param  {Number} zoom current zoom level of the map
+   * @return {Number}
+   */
+  _getTolerance(zoom) {
+    let index = 0;
+    while(index < toleranceConfig.length - 1 &&
+      zoom >= toleranceConfig[index].limit) index++;
+    return toleranceConfig[index].value;
+  }
+
   _getGeoQuery() {
     let sql = this.options.geo_query;
+    const zoom = this.options.state.zoom;
 
     let bounds = {
       east:  this.options.state.bounds.getEast(),
@@ -114,9 +145,11 @@ class CreateTileLayer {
       south: this.options.state.bounds.getSouth()
     };
 
-    /* If the zoom is lower than 5, we ask for the geometries for the whole
-     * world */
-    if(this.options.state.zoom < 5) {
+    /* If the zoom is lower than firstToleranceLimit, we ask for the geometries
+     * for the whole world because the tolerance is pretty high and the response
+     * will still have a reasonable size */
+    const firstToleranceLimit = toleranceConfig[0].limit;
+    if(zoom < firstToleranceLimit) {
       bounds = {
         east:  220.4296875,
         north: 85.98213689652798,
@@ -125,11 +158,7 @@ class CreateTileLayer {
       };
     }
 
-    let tolerance = .5;
-    if(this.options.state.zoom >= 5) tolerance = .3;
-    if(this.options.state.zoom >= 8) tolerance = .1;
-
-    return sql.replace('$TOLERANCE', tolerance.toString())
+    return sql.replace('$TOLERANCE', this._getTolerance(zoom).toString())
       .replace('$EAST',  bounds.east)
       .replace('$NORTH', bounds.north)
       .replace('$WEST',  bounds.west)
@@ -190,6 +219,24 @@ class CreateTileLayer {
     if (this.layer) {
       map.removeLayer(this.layer);
     }
+  }
+
+  /**
+   * Return whether the layer should be reloaded depending on the new zoom level
+   * compared to the old one. When the map is panned, the zoom doesn't change so
+   * both previousZoom and zoom should have the same value.
+   * @param  {Number}   previousZoom zoom before the zooming or panning
+   * @param  {Number}   zoom         zoom after the action
+   * @return {Boolean}               true if should be reloaded, false otherwise
+   */
+  shouldLayerReload(previousZoom, zoom) {
+    const firstToleranceLimit = toleranceConfig[0].limit;
+
+    /* The only case when we don't want the layer to be reloaded is if the zoom
+     * level stays below the first limit as the tolerance is really high and we
+     * already have loaded the geometries for the whole world */
+    return !(previousZoom < firstToleranceLimit &&
+      zoom < firstToleranceLimit);
   }
 
 }
