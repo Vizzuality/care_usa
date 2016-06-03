@@ -360,6 +360,9 @@ class App extends React.Component {
     });
 
     this.updateTimeline(layer.toJSON());
+
+    /* Stops timeline when changing tabs*/
+    this.timeline.stop();
   }
 
   changeLayer(layer) {

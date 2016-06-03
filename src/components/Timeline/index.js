@@ -55,6 +55,20 @@ class TimelineView extends Backbone.View {
 
   setListeners() {
     $(window).resize(_.debounce(this.render, 50).bind(this));
+    Backbone.Events.on('popUp:open', _.bind(this._pauseTimeline, this))
+    Backbone.Events.on('popUp:close', _.bind(this._rePlayTimeline, this))
+  }
+
+  _pauseTimeline() {
+    if(!this.playing) return;
+    this.paused = true;
+    this.stop();
+  }
+
+  _rePlayTimeline() {
+    if(!this.paused) return;
+    this.paused = false;
+    this.play();
   }
 
   render() {
