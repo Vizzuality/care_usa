@@ -508,7 +508,7 @@ class App extends React.Component {
     return (
       <div className={ 'l-app ' + (this.state.ready ? '' : 'is-loading ') + (this.state.embed ? 'is-embed' : '') }>
         { content }
-        { !localStorage.getItem('session') && !this.state.donation ? <Landing /> : '' }
+        { !localStorage.getItem('session') && !this.state.donation && <Landing /> }
       </div>
     );
   }

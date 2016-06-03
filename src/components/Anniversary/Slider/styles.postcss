@@ -113,9 +113,12 @@
 
     .slider-element:hover {
       background-color: $orange-yellow;
-      -ms-transform: scale(1.1); /* IE 9 */
-      -webkit-transform: scale(1.1); /* Safari */
-      transform: scale(1.1); /* Standard syntax */
+
+      @media screen and (min-width: $screen-m) {
+        -ms-transform: scale(1.1); /* IE 9 */
+        -webkit-transform: scale(1.1); /* Safari */
+        transform: scale(1.1); /* Standard syntax */
+      }
     }
   }
 

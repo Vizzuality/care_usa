@@ -69,6 +69,7 @@ class PopUpDonation extends PopUp {
         ${ btnTooltip }
       </header>
     <h2 class="text text-legend-s -light">${this.model.get('location')['city']}</h2>
+    <hr/>
     ${ sectorsItems }
     ${ regionsItems }
     </div>`

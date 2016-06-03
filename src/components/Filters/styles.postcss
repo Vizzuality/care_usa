@@ -2,12 +2,20 @@
 
 .m-filters {
   width: 100%;
+  padding-top: rem(38);
+  padding-bottom:  rem(33);
+
+  @media screen and (min-width: $screen-s) {
+    padding-top: rem(75);
+    padding-bottom: rem(95);
+  }
 
   @media screen and (min-width: $screen-l) {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
+    padding-bottom: rem(80);
   }
 
   .available-range {
@@ -47,7 +55,11 @@
       margin-bottom: rem(10);
 
       @media screen and (min-width: $screen-m) {
-        margin-bottom: 0;
+        margin-bottom: rem(14);
+      }
+
+      @media screen and (min-width: $screen-xxl) {
+        margin-bottom: rem(20);
       }
     }
 
@@ -104,20 +116,26 @@
           border-right: rem(1) solid $color-6;
         }
 
-        &:nth-child(1) > select{
+        &:nth-child(1) {
           @media screen and (min-width: $screen-m) {
             width: rem(180);
           }
         }
 
-        &:nth-child(3) > select{
+        &:nth-child(2) {
+          @media screen and (min-width: $screen-m) {
+            width: rem(75);
+          }
+        }
+
+        &:nth-child(3) {
           @media screen and (min-width: $screen-m) {
             width: rem(80);
           }
         }
 
         @media screen and (min-width: $screen-m) {
-          width: auto;
+          //width: auto;
           margin-right: rem(30);
           border: none;
           &:last-of-type { border: none; }
@@ -168,12 +186,9 @@
     }
 
     &.regions {
-      > legend {
-        margin-bottom: 0;
-      }
-
       > div {
         position: relative;
+        width: rem(257);
 
         @media screen and (min-width: $screen-m) {
           display: inline-block;
@@ -201,7 +216,6 @@
         font-style: italic;
 
         @media screen and (min-width: $screen-m) {
-          width: rem(257);
           padding-right: rem(20);
         }
       }
