@@ -2,10 +2,11 @@
 
 
 .l-landing {
+	position: relative;
 	display:flex;
 	flex-flow: column;
 	justify-content: space-between;
-	z-index: 1000;
+	z-index: 30;
 	overflow: hidden;
 	height: 100vh;
 
@@ -13,7 +14,7 @@
 		display: block;
 	}
 
-	@media screen and (max-height: rem(600)) {
+	@media screen and (max-height: rem(550)) {
 	  overflow: auto;
 	}
 
@@ -45,23 +46,23 @@
 		flex-grow: 1;
 
 		@media screen and (min-width: $screen-m) {
-			padding-top: rem(153);
-		 	padding-bottom: rem(120);
+			//padding-top: rem(45);
+		 	/* padding-bottom: rem(90); */
 		}
 
 		@media screen and (min-width: $screen-l) {
-			padding-top: rem(83);
-		 	padding-bottom: rem(12);
+			//padding-top: rem(83);
+		 	/* padding-bottom: rem(12); */
 		}
 
 		@media screen and (min-width: $screen-xl) {
-			padding-top: rem(92);
-			padding-bottom: 0;
+			//padding-top: rem(92);
+			/* padding-bottom: 0; */
 			margin-bottom: rem(-15);
 		}
 
 		@media screen and (min-width: $screen-xxl) {
-			padding-top: rem(183);
+			//padding-top: rem(183);
 			margin-bottom: rem(-20);
 		}
 	}
@@ -137,12 +138,20 @@
 		position: relative;
 		bottom: 0;
 
-		@media screen and (max-height: rem(600)) {
-		  bottom: rem(-100);
+		@media screen and (max-height: rem(450)) {
+		  display: none;
 		}
 
-		@media screen and (max-height: rem(400)) {
-		  bottom: 0;
+		@media screen and (min-width: $screen-m) {
+			display: inherit;
+
+		  @media screen and (max-height: rem(450)) {
+			  bottom: rem(-100);
+			}
+
+			@media screen and (max-height: rem(400)) {
+			  bottom: 0;
+			}
 		}
 	}
 }

@@ -34,7 +34,7 @@ class DashboardDates extends React.Component {
 
     return (
       <div className="m-dash-dates">
-        <svg className="icon icon-calendar">
+        <svg className="icon icon-calendar" onClick={ this.props.toggleFiltersFn } >
           <use xlinkHref="#icon-calendar"></use>
         </svg>
         <div className="dates">

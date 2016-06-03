@@ -76,6 +76,7 @@
     }
 
     .slider-element {
+      position: relative;
       display: flex;
       flex-flow: column;
       justify-content: center;
@@ -112,10 +113,23 @@
     }
 
     .slider-element:hover {
-      background-color: $orange-light-yellow;
       -ms-transform: scale(1.1); /* IE 9 */
       -webkit-transform: scale(1.1); /* Safari */
       transform: scale(1.1); /* Standard syntax */
+    }
+  }
+
+  .slider-viel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+
+    &:hover {
+      background-color: $color-13;
+      opacity: .3;
     }
   }
 
