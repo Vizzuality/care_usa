@@ -32,6 +32,7 @@ class MapView extends Backbone.View {
     this.state.set({ 'filters': filtersModel.toJSON() }, { silent: true });
     this._checkMapInitialSettings();
 
+    this.timestamp = null;
     this._createMap();
     this._addLayer();
     this._setEvents();
@@ -234,8 +235,9 @@ class MapView extends Backbone.View {
 
     newLayer.createLayer().done(() => {
       /* We ensure to always display the latest tiles */
-      if(!this.currentLayer ||
-        newLayer.timestamp > this.currentLayer.timestamp) {
+      if((!this.currentLayer ||
+        newLayer.timestamp > this.currentLayer.timestamp) &&
+        newLayer.timestamp > this.timestamp) {
         newLayer.addLayer(this.map);
         this.currentLayer = newLayer;
         this.currentLayerConfig = layerConfig;
@@ -296,11 +298,11 @@ MapView.prototype.updateLayer = (function() {
   let filtersChangeTimestamp = 0;
 
   return function() {
-    if(!this.currentLayer || !this.currentLayer.layer) return;
 
     const activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
     if(!activeLayer) return;
 
+    this.timestamp = +(new Date());
     if(activeLayer.get('layer_type') === 'torque' &&
       this.currentLayerConfig.layer_type === 'torque') {
 
