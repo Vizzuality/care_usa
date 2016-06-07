@@ -10,8 +10,6 @@ import App from './components/App';
 import Anniversary from './components/Anniversary';
 import utils from './scripts/helpers/utils';
 import MenuDevice from './components/MenuDevice';
-import MyDonation from './components/MyDonation';
-
 
 class Main extends React.Component {
 
@@ -67,7 +65,7 @@ class Main extends React.Component {
   }
 }
 
-const page = ['app', 'anniversary', 'donation']
+const page = ['app', 'anniversary']
   .filter(page => document.getElementById(page))[0];
 
 if (page.length > 0) {
@@ -77,8 +75,5 @@ if (page.length > 0) {
   	document.getElementById(page));
 }
 
-if (page === 'donation') {
-  ReactDOM.render(<MyDonation />, document.getElementById('myDonation'));
-}
 
 
