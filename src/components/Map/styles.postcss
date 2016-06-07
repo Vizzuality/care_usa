@@ -75,25 +75,21 @@
   display: none;
 }
 
+.leaflet-left.leaflet-bottom {
+  left: initial;
+  right: rem(250);
+
+  @media screen and (min-width: $screen-l) {
+    right: rem(270);
+  }
+}
+
 .leaflet-left .leaflet-control {
   margin: 0;
   display: none;
 
-  @media screen and (min-width: $screen-s) {
-    display: inherit;
-    margin-left: calc($wrap-padding-tablet + rem(20));
-  }
-
   @media screen and (min-width: $screen-m) {
-    margin-left: calc($wrap-padding-desktop-xl + rem(120));
-  }
-
-  @media screen and (min-width: $screen-xl) {
-    margin-left: calc($wrap-padding-desktop-xl + rem(160));
-  }
-
-  @media screen and (min-width: $screen-xxl) {
-    margin-left: calc($wrap-padding-desktop-xxl + rem(160));
+    display: inherit;
   }
 }
 
