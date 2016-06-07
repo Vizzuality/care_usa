@@ -90,4 +90,29 @@
   .menu-link {
     text-decoration: none;
   }
+
+  .care-page-link {
+    position: absolute;
+    bottom: rem(60);
+    display: flex;
+    justify-content: center;
+
+    p {
+      margin-right: rem(5);
+
+      @media screen and (min-width: $screen-xxl) {
+        margin-right: rem(8);
+      }
+    }
+
+    a {
+      text-decoration: none;
+      font-weight: 700;
+
+      &:hover {
+        cursor: pointer;
+        color: $color-5;
+      }
+    }
+  }
 }
