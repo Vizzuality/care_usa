@@ -453,12 +453,16 @@ class App extends React.Component {
 
         { !this.state.embed &&
           <div id="map-credits" className="l-map-credits">
-            <p className="about-label text text-cta" onClick={ () => this.handleModal('open', 'aboutOpen') }>About the data</p>
-            <a className="btn-about" onClick={ () => this.handleModal('open', 'aboutOpen') }>
-              <svg className="icon icon-info">
-                <use xlinkHref="#icon-info"></use>
-              </svg>
-            </a>
+            <div className="about-credits-container">
+              <p className="about-label text text-cta" onClick={ () => this.handleModal('open', 'aboutOpen') }>About the data</p>
+              <a className="btn-about" onClick={ () => this.handleModal('open', 'aboutOpen') }>
+                <svg className="icon icon-info">
+                  <use xlinkHref="#icon-info"></use>
+                </svg>
+              </a>
+            </div>
+            <div className="care-page-link text text-legend-s -dark"><p>Also visit our page</p><a href="http://www.care.org"  target="_blank" className="text -primary">www.care.org</a></div>
+            <div></div>
           </div>
         }
 
