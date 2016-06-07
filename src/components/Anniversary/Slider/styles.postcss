@@ -70,16 +70,17 @@
     .slick-dots li button:before{
       width: rem(35);
       height: rem(4);
-      background-color: $white;
+      background-color: $color-13;
       border-radius: rem(10);
       content: '';
     }
 
     .slider-element {
+      position: relative;
       display: flex;
       flex-flow: column;
       justify-content: center;
-      background-color: $orange-tangerine;
+      background-color: $color-5;
       margin: 0 rem(18);
       width: 100%;
       height: rem(302);
@@ -112,13 +113,25 @@
     }
 
     .slider-element:hover {
-      background-color: $orange-yellow;
-
       @media screen and (min-width: $screen-m) {
         -ms-transform: scale(1.1); /* IE 9 */
         -webkit-transform: scale(1.1); /* Safari */
         transform: scale(1.1); /* Standard syntax */
       }
+    }
+  }
+
+  .slider-viel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+
+    &:hover {
+      background-color: $color-13;
+      opacity: .3;
     }
   }
 
@@ -139,7 +152,7 @@
   }
 
   .number-xxl {
-    color: $white;
+    color: $color-13;
   }
 
 

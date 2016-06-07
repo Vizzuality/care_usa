@@ -169,10 +169,10 @@ class TimelineView extends Backbone.View {
     /* We add the ticks for the report */
     this.d3Axis.selectAll('.tick')
       .append('rect')
-      .attr('width', smallScreen ? 5 : 6)
-      .attr('height', smallScreen ? 5 : 6)
-      .attr('x', smallScreen ? -2.5 : -3)
-      .attr('y', smallScreen ? -2.5 : -3)
+      .attr('width', smallScreen ? 5 : 8)
+      .attr('height', smallScreen ? 5 : 8)
+      .attr('x', smallScreen ? -2.5 : -4)
+      .attr('y', smallScreen ? -2.5 : -4)
       .attr('transform', 'rotate(45)')
       .attr('class', 'report');
 

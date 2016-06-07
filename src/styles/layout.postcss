@@ -4,7 +4,7 @@ $header-height-mb: 70;
 $timeline-height: 45;
 $timeline-height-mb: 70;
 $credits-height-mb: 25;
-$l-margin-vt: 50;
+$l-margin-vt: 56;
 
 .wrap {
   position: relative;
@@ -71,12 +71,21 @@ $l-margin-vt: 50;
   background-color: $color-1;
   padding: rem(7);
 
+  @media screen and (min-width: $screen-s) {
+    right: $wrap-padding-tablet;
+  }
+
   @media screen and (min-width: $screen-m) {
     right: $wrap-padding-desktop;
     top: rem(203);
   }
 
+  @media screen and (min-width: $screen-l) {
+    top: rem(215);
+  }
+
   @media screen and (min-width: $screen-xl) {
+    top: rem(227);
     right: $wrap-padding-desktop-xl;
   }
 
@@ -87,7 +96,7 @@ $l-margin-vt: 50;
   .icon {
     width: 100%;
     height: 100%;
-    fill: $white;
+    fill: $color-13;
   }
 }
 
@@ -138,7 +147,7 @@ $l-margin-vt: 50;
   @media screen and (min-width: $screen-m) {
     position: absolute;
     left: $wrap-padding-desktop;
-    top: rem(110);
+    top: rem(120);
     height: auto;
     bottom: rem(270);
     width: rem(285);
@@ -148,10 +157,14 @@ $l-margin-vt: 50;
     @media screen and (max-height: rem(750)) {
       bottom: rem(120);   
     }
+  }
 
+  @media screen and (min-width: $screen-l) {
+    top: rem(116); 
   }
 
   @media screen and (min-width: $screen-xl) {
+    top: rem(130); 
     width: rem(360);
     transform: translatex(0);
     left: $wrap-padding-desktop-xl;
@@ -202,6 +215,11 @@ $l-margin-vt: 50;
   right: rem(60);
   height: rem($timeline-height);
 
+  @media screen and (min-width: $screen-s) {
+    left: $wrap-padding-tablet;
+    right: rem(70);
+  }
+
   @media screen and (min-width: $screen-m) {
    position: relative;
    top: 0;
@@ -228,22 +246,28 @@ $l-margin-vt: 50;
   left: 0;
   right: 0;
   height: rem($timeline-height-mb);
-  border-top: 1px solid $beige-7;
+  border-top: 1px solid $color-17;
 
   @media screen and (min-width: $screen-m) {
     border-top: 0;
     height: rem($timeline-height);
-    right: 260px;
+    right: 250px;
     left: $wrap-padding-desktop;
     bottom: rem($l-margin-vt);
   }
 
+  @media screen and (min-width: $screen-l) {
+    bottom: rem(30);
+  }
+
   @media screen and (min-width: $screen-xl) {
     left: $wrap-padding-desktop-xl;
+    bottom: rem(57);
   }
 
   @media screen and (min-width: $screen-xxl) {
     left: $wrap-padding-desktop-xxl;
+    bottom: rem(47);
   }
 
   .is-embed &  {
@@ -261,7 +285,7 @@ $l-margin-vt: 50;
   right: 0;
   height: rem($credits-height-mb);
   background-color: $color-15;
-  border-top: 1px solid $beige-4;
+  border-top: 1px solid $color-7;
   padding: 0 $wrap-padding-mobile;
 
   @media screen and (min-width: $screen-m) {
@@ -365,11 +389,17 @@ $l-margin-vt: 50;
     bottom: rem($l-margin-vt);
   }
 
+  @media screen and (min-width: $screen-l) {
+    bottom: rem(30);
+  }
+
   @media screen and (min-width: $screen-xl) {
     right: $wrap-padding-desktop-xl;
+    bottom: rem(57);
   }
 
   @media screen and (min-width: $screen-xxl) {
     right: $wrap-padding-desktop-xxl;
+    bottom: rem(47);
   }
 }
