@@ -294,6 +294,12 @@ $l-margin-vt: 50;
   }
 
   .care-page-link {
+    display: none;
+
+    @media screen and (min-width: $screen-m) {
+      display: inherit;
+    }
+
     p {
       margin-right: rem(5);
 
@@ -321,14 +327,6 @@ $l-margin-vt: 50;
     }
   }
 
-  .care-page-link {
-    display: none;
-
-    @media screen and (min-width: $screen-m) {
-      display: inherit;
-    }
-  }
-
   .btn-about {
     cursor: pointer;
     display:flex;
@@ -338,10 +336,6 @@ $l-margin-vt: 50;
     @media screen and (min-width: $screen-m) {
       margin-left: rem(6);
       margin-right: rem(20);
-    }
-
-    @media screen and (min-width: $screen-xl) {
-      margin-bottom: rem(2);
     }
   }
 }
