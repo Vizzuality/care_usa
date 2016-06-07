@@ -46,7 +46,6 @@ const config = {
   entry: [
     './index.html',
     './anniversary.html',
-    './my-donation.html',
     './main.js',
   ],
 

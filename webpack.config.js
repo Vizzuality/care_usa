@@ -19,7 +19,6 @@ const config = {
   entry: [
     'webpack-hot-middleware/client?reload=true',
     './index.html',
-    './my-donation.html',
     './anniversary.html',
     './main.js',
   ],
