@@ -23,7 +23,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    overflow: scroll;
+    overflow-y: auto;
     padding: 0 rem(20) 0 rem(20);
     background: url("../../images/mappattern.png") top left/50% repeat;
     background-attachment: local;
@@ -53,6 +53,10 @@
       max-width: rem(960);
       transform: translate(-50%, -50%);
       padding: 0 rem(50) 0 rem(50);
+    }
+
+    .close.wrap {
+      padding-bottom: rem(15);
     }
 
     .close-button {

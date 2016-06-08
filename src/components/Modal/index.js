@@ -2,6 +2,7 @@
 
 import './styles.postcss';
 import React from 'react';
+import utils from '../../scripts/helpers/utils';
 const ScrollArea = require('react-scrollbar');
 
 class Modal extends React.Component {
@@ -12,6 +13,10 @@ class Modal extends React.Component {
     this.state = {
       open: this.props.visible
     };
+  }
+
+  componentWillMount() {
+    this.setState(utils.checkDevice());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -50,14 +55,21 @@ class Modal extends React.Component {
 
       <div className={ className } onClick={ !this.state.locked ? this.close.bind(this) : () => {} }>
         <div ref="content">
-        <ScrollArea
+        { !this.state.mobile ? 
+          <ScrollArea
               speed={0.8}
               className="content"
               horizontal={false}
               >
-          { closeButton }
-          { content }
-          </ScrollArea>
+            { closeButton }
+            { content }
+          </ScrollArea> : 
+          <div className="content">
+            <div className=" close wrap">
+              { closeButton }
+            </div>
+              { content }
+          </div> }
         </div>
       </div>
     )
