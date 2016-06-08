@@ -14,6 +14,8 @@ import ModalNoData from '../ModalNoData';
 import MapView from '../Map';
 import ModalDonors from '../ModalDonors';
 import Landing from '../Landing';
+import PopUpContentView from './../PopUp/PopUpContentView';
+
 /* utils should always be called here because of the polyfill for
  * Object.assign */
 import utils from '../../scripts/helpers/utils';
@@ -72,6 +74,27 @@ class App extends React.Component {
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
     regionsCollection.fetch()
       .done(() => this.setState({ regions: regionsCollection.toJSON() }));
+
+    this.router = new Router();
+    this.router.start();
+    this._setMyDonationMobilePopUp(); 
+  }
+
+  _setMyDonationMobilePopUp() {
+    if (this.router.params.attributes.g) {
+      if (utils.checkDevice().mobile) {
+        donationModel.getDonationInfo(this.state.donation).done(() => {
+
+          const popup = new PopUpContentView({
+            currentMode: 'my-donation',
+            currentLayer: 'my-donation',
+            latLng: [donationModel.toJSON().lat, donationModel.toJSON().lng],
+            name: donationModel.toJSON().nickname,
+            amount: donationModel.toJSON().amount,
+          }).getPopUp();
+        });
+      }
+    }
   }
 
   componentDidMount() {
@@ -92,6 +115,8 @@ class App extends React.Component {
         donation: this.router.params.attributes.g || false,
         embed: !!this.router.params.attributes.embed
       });
+
+    
 
     if(newParams.layer) {
       const layer = layersCollection.findWhere({ slug: newParams.layer });
@@ -172,8 +197,7 @@ class App extends React.Component {
           this.router.update(this.parseFiltersForRouter());
         });
 
-        this.router = new Router();
-        this.router.start();
+
         this._updateRouterParams();
         this.router.params.on('change', this.onRouterChange.bind(this));
 
