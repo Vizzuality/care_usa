@@ -331,11 +331,12 @@ class App extends React.Component {
 
     if (this.state.donation) {
       donationModel.getDonationInfo(this.state.donation).done(() => {
-
         const donationInfo = {
           name: donationModel.toJSON().nickname,
           amount: donationModel.toJSON().amount,
-          position: [donationModel.toJSON().lat, donationModel.toJSON().lng]
+          position: [donationModel.toJSON().lat, donationModel.toJSON().lng],
+          countries: donationModel.toJSON().countries,
+          sectors: donationModel.toJSON().sectors
         };
 
         this.mapView.drawDonationMarker(donationInfo);

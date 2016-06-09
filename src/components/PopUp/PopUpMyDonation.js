@@ -4,19 +4,22 @@ import './styles.postcss';
 import $ from 'jquery';
 import Backbone from 'backbone';
 import DonorModel from './../../scripts/models/DonorModel';
-
+import sectorsCollection from '../../scripts/collections/SectorsCollection';
+import regionsCollection from '../../scripts/collections/RegionsCollection';
 import PopUp from './PopUp';
 
 import utils from '../../scripts/helpers/utils';
 
 class PopUpMyDonation extends PopUp {
 
- _getSectors() {
+ _getSectors(sectors) {
     let items = '';
     let i = 0;
 
     while( i < 3 ) {
-      items = this.model.get('sectors')[i] && this.model.get('sectors')[i].name ? items + `<li class="sector text text-legend-s -light"> ${this.model.get('sectors')[i].name} </li>` : items + '';
+      const sector = sectorsCollection.findWhere({ slug: sectors[i] });
+      items = sectors[i] && sector ? 
+        items + `<li class="sector text text-legend-s -light"> ${sector.attributes.name} </li>` : items + '';
       i++;
     }
 
@@ -26,12 +29,13 @@ class PopUpMyDonation extends PopUp {
             </ul>`
   }
 
-  _getRegions() {
+  _getRegions(countries) {
     let items = '';
         let i = 0;
 
         while( i < 3 ) {
-          items = this.model.get('countries')[i] ? items + `<li class="sector text text-legend-s -light"> ${this.model.get('countries')[i].name} </li>` : items + '';
+          const country = regionsCollection.findWhere({ iso: countries[i] });
+          items = countries[i] && country ? items + `<li class="sector text text-legend-s -light"> ${country.attributes.name} </li>` : items + '';
           i++;
         }
 
@@ -43,8 +47,8 @@ class PopUpMyDonation extends PopUp {
 
 
   _popUpLayer(myDonation) {
-    const sectorsItems = this.model.get('sectors') && (this.model.get('sectors').length > 0) ? this._getSectors() : '';
-    const regionsItems = this.model.get('sectors') && (this.model.get('countries').length > 0) ? this._getRegions() : '';
+    const sectorsItems = myDonation.sectors && (myDonation.sectors.length > 0) ? this._getSectors(myDonation.sectors) : '';
+    const regionsItems = myDonation.countries && (myDonation.countries.length > 0) ? this._getRegions(myDonation.countries) : '';
 
     return `<div class="m-popup wrapper -my-donation">
             <button class="btn-close">

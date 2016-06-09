@@ -85,7 +85,9 @@ class MapView extends Backbone.View {
       latLng: this.markerOptions.position,
       map: this.map,
       name: this.markerOptions.name,
-      amount: this.markerOptions.amount
+      amount: this.markerOptions.amount,
+      countries: this.markerOptions.countries,
+      sectors: this.markerOptions.sectors
     })
 
     this.myDonationPopUp.getPopUp();
