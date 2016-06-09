@@ -74,7 +74,7 @@ class MapView extends Backbone.View {
     this.donationMarker = new MarkerLayer(options);
     let markerLayer = this.donationMarker.addLayer(this.map);
     markerLayer.on('click', this.drawDonationPopUp.bind(this));
-    this.drawDonationPopUp();
+    if ( !utils.checkDevice().mobile ) this.drawDonationPopUp();
     this.state.set({ lat: options.position[0], lng: options.position[1], zoom: 3 });
   }
 
