@@ -112,18 +112,16 @@ class TorqueLayer {
     const filters = this.state.filters;
     const statements = optionalStatements[this.options.category]
     return this.options.sql_template.replace('$WHERE', () => {
-      if(filters) {
-        const res = Object.keys(statements).map(name => {
-          return statements[name](filters, [
-            moment.utc(this.state.layer.domain[0], 'YYYY-MM-DD'),
-            moment.utc(this.state.layer.domain[1], 'YYYY-MM-DD')
-          ]);
-        }).filter(statement => !!statement)
-          .join(' AND ');
+      const res = Object.keys(statements).map(name => {
+        return statements[name](filters, [
+          moment.utc(this.state.layer.domain[0], 'YYYY-MM-DD'),
+          moment.utc(this.state.layer.domain[1], 'YYYY-MM-DD')
+        ]);
+      }).filter(statement => !!statement)
+        .join(' AND ');
 
-        if(res.length) {
-          return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
-        }
+      if(res.length) {
+        return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
       }
       return '';
     });
