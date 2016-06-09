@@ -51,7 +51,7 @@ class PopUpMyDonation extends PopUp {
               <svg class="icon icon-close"><use xlink:href="#icon-close"></use></svg>
             </button>
               <h1 class="text text-highlighted -light"> Thank you! ${myDonation.name ? `, ${myDonation.name}` : ''}
-              gave <span class="number-m">$${utils.numberNotation(myDonation.amount)}</span> to help CARE fight poverty and deliver lasting change in the world.
+              gave <span class="number-l">$${utils.numberNotation(myDonation.amount)}</span> to help CARE fight poverty and deliver lasting change in the world.
               </h1>
               <hr/>
               <div class="donation">
