@@ -303,7 +303,7 @@ MapView.prototype.updateLayer = (function() {
     if(!activeLayer) return;
 
     this.timestamp = +(new Date());
-    if(activeLayer.get('layer_type') === 'torque' &&
+    if(activeLayer.get('layer_type') === 'torque' && this.currentLayerConfig &&
       this.currentLayerConfig.layer_type === 'torque') {
 
       const filtersOldAttributes = filtersModel.previousAttributes();
@@ -320,6 +320,7 @@ MapView.prototype.updateLayer = (function() {
       }
 
     } else if(activeLayer.get('layer_type') === 'svg' &&
+      this.currentLayerConfig &&
       this.currentLayerConfig.layer_type === 'svg') {
 
       this.currentLayer.options.state = this.state.toJSON();
