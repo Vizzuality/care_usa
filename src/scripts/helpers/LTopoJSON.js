@@ -16,27 +16,30 @@ L.TopoJSON = L.GeoJSON.extend({
     this.topoJSON = options.topoJSON;
     this.data = options.data || {};
     this.update = options.update || this.update;
+    this.options = options;
 
     this.parseData();
-
-    this.eachLayer(function(layer) {
-      layer.setStyle({
-        fillOpacity: 0,
-        opacity: 0,
-        weight: 1
-      });
-    });
   },
 
   parseData() {
+    const geoStyles = {
+      fillOpacity: 0,
+      fillColor: this.options.defaultFillColor || undefined,
+      opacity: 0,
+      weight: 0,
+      className: 'topojson-geo'
+    };
+
     if (this.topoJSON.type.toLowerCase() === 'topology') {
       for(let key in this.topoJSON.objects) {
         const geojson = topojson.feature(this.topoJSON, this.topoJSON.objects[key]);
-        L.GeoJSON.prototype.addData.call(this, geojson);
+        this.addData(geojson);
       }
     } else {
-      L.GeoJSON.prototype.addData.call(this, this.topoJSON);
+      this.addData(this.topoJSON);
     }
+
+    this.setStyle(geoStyles);
   },
 
   /* Define the logic to update each geometry depending on the data object.

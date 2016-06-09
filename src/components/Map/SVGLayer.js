@@ -12,7 +12,7 @@ const defaults = {
 
 const optionalStatements = {
   donations: {
-    from:    (filters, timelineDate, layer) => filters && filters.from ? `date >= '${moment.utc(filters.from).format('MM-DD-YYYY')}'::date` : `date >= '${moment.utc(layer.domain[0], 'YYYY-MM-DD').format('MM-DD-YYYY')}'::date`,
+    from:    (filters, timelineDate, layer) => `date >= '${timelineDate ? moment.utc(timelineDate).subtract(7, 'days').format('MM-DD-YYYY') : moment.utc(filters && filters.from ? filters.from : layer.domain[0]).format('MM-DD-YYYY')}'::date`,
     to:      (filters, timelineDate) => `date <= '${moment.utc(timelineDate || filters && filters.to).format('MM-DD-YYYY')}'::date`,
     region:  filters => filters && filters.region ? `countries @> ARRAY[${filters.region.replace(/(\[|\])/g, '').split(',').map(region => `'${region}'`)}]` : '',
     sectors: filters => filters && filters.sectors.length ? `sectors && ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
@@ -65,7 +65,8 @@ class CreateTileLayer {
     }).done(topoJSON => {
       this.layer = new L.TopoJSON({
         topoJSON,
-        update: this.updateGeometry.bind(this)
+        update: this.updateGeometry.bind(this),
+        defaultFillColor: this._getDefaultGeoColor()
       });
 
       this.fetchData();
@@ -122,6 +123,16 @@ class CreateTileLayer {
   }
 
   /**
+   * Return the default color of the geometries when created. It uses the first
+   * color of the cartocss (supposedly the lightest) in order to provide a
+   * smooth animation to the color.
+   * @return {String} CSS color
+   */
+  _getDefaultGeoColor() {
+    return this.options.geo_cartocss[0].color;
+  }
+
+  /**
    * Return the tolerance depending on the zoom level and based on the
    * toleranceConfig object
    * @param  {Number} zoom current zoom level of the map
@@ -174,20 +185,18 @@ class CreateTileLayer {
     const templateYear = _.indexOf(this.options.sql_template.split(' '), '$YEAR') >= 0 ? true : false;
     if (templateWhere) {
       return this.options.sql_template.replace(/\$WHERE/g, () => {
-        if(filters || timelineDate) {
-          const res = Object.keys(statements).map(name => {
-            const filter = filters[name];
-              if(Array.isArray(filter) && filter.length ||
-                !Array.isArray(filter) && filter || timelineDate) {
-                return statements[name](filters, timelineDate, layer);
-              }
-              return null;
-            }).filter(statement => !!statement)
-              .join(' AND ');
+        const res = Object.keys(statements).map(name => {
+          const filter = filters[name];
+            if(Array.isArray(filter) && filter.length ||
+              !Array.isArray(filter) && filter || timelineDate) {
+              return statements[name](filters, timelineDate, layer);
+            }
+            return null;
+          }).filter(statement => !!statement)
+            .join(' AND ');
 
-          if(res.length) {
-            return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
-          }
+        if(res.length) {
+          return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
         }
         return '';
       });
