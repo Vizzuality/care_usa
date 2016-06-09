@@ -174,20 +174,18 @@ class CreateTileLayer {
     const templateYear = _.indexOf(this.options.sql_template.split(' '), '$YEAR') >= 0 ? true : false;
     if (templateWhere) {
       return this.options.sql_template.replace(/\$WHERE/g, () => {
-        if(filters || timelineDate) {
-          const res = Object.keys(statements).map(name => {
-            const filter = filters[name];
-              if(Array.isArray(filter) && filter.length ||
-                !Array.isArray(filter) && filter || timelineDate) {
-                return statements[name](filters, timelineDate, layer);
-              }
-              return null;
-            }).filter(statement => !!statement)
-              .join(' AND ');
+        const res = Object.keys(statements).map(name => {
+          const filter = filters[name];
+            if(Array.isArray(filter) && filter.length ||
+              !Array.isArray(filter) && filter || timelineDate) {
+              return statements[name](filters, timelineDate, layer);
+            }
+            return null;
+          }).filter(statement => !!statement)
+            .join(' AND ');
 
-          if(res.length) {
-            return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
-          }
+        if(res.length) {
+          return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
         }
         return '';
       });
