@@ -461,7 +461,7 @@ class App extends React.Component {
                 </svg>
               </a>
             </div>
-            <div className="care-page-link text text-legend-s -dark"><p>Also visit our page</p><a href="http://www.care.org"  target="_blank" className="text -primary">www.care.org</a></div>
+            <div className="care-page-link text text-legend-s -dark"><p>Visit us at </p><a href="http://www.care.org"  target="_blank" className="text -primary">www.care.org</a></div>
             <div></div>
           </div>
         }

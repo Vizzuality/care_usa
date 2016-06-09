@@ -27,7 +27,7 @@ class MenuDevice extends React.Component {
             </ul>
           </div>
           <div className="care-page-link text text-legend-s -dark wrap">
-            <p>Also visit our page</p><a href="http://www.care.org"  target="_blank" className="text -primary">www.care.org</a>
+            <p>Visit us at </p><a href="http://www.care.org"  target="_blank" className="text -primary">www.care.org</a>
           </div>
         </div>
       </div>
