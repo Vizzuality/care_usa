@@ -65,7 +65,8 @@ class CreateTileLayer {
     }).done(topoJSON => {
       this.layer = new L.TopoJSON({
         topoJSON,
-        update: this.updateGeometry.bind(this)
+        update: this.updateGeometry.bind(this),
+        defaultFillColor: this._getDefaultGeoColor()
       });
 
       this.fetchData();
@@ -119,6 +120,16 @@ class CreateTileLayer {
       fillColor: this.options.geo_cartocss[index].color,
       fillOpacity:this.options.geo_cartocss[index].opacity
     };
+  }
+
+  /**
+   * Return the default color of the geometries when created. It uses the first
+   * color of the cartocss (supposedly the lightest) in order to provide a
+   * smooth animation to the color.
+   * @return {String} CSS color
+   */
+  _getDefaultGeoColor() {
+    return this.options.geo_cartocss[0].color;
   }
 
   /**
