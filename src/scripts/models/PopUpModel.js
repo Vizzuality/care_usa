@@ -36,11 +36,11 @@ class PopUpModel extends Backbone.Model {
       }
     }
     else if(filters && filters.from) {
-      startDate = `start_date = ${moment.utc(filters.from).format('DD-MM-YYYY')}`;
+      startDate = `start_date=${moment.utc(filters.from).format('DD-MM-YYYY')}`;
     }
 
     //To be coherent with what we are seeing on the map, we have to give prevalence to "timelineDate".
-    const endDate = `end_date = ${moment.utc(this.options.timelineDate || filters && filters.to).format('DD-MM-YYYY')}`;
+    const endDate = `end_date=${moment.utc(this.options.timelineDate || filters && filters.to).format('DD-MM-YYYY')}`;
     const regions = filters.region && `countries_iso=${filters['region']}`;
 
     let sectors = null;
