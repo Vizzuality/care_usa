@@ -120,7 +120,7 @@ class Dashboard extends React.Component {
                   </button>
               }
               { !this.props.embed &&
-                  <a href="http://www.care.org/donate" rel="noreferrer" target="_blank"className="btn btn-contrast -small">
+                  <a href="http://my.care.org/site/Donation2?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank"className="btn btn-contrast -small">
                     Donate
                   </a>
               }
