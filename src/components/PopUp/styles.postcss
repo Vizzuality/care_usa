@@ -223,39 +223,42 @@
   }
 
   &.-my-donation {
-    padding-top: rem(50);
-    color: $font-color-1;
-    font-family: $font-family-1;
-    font-weight: 400;
-    background-color: #f0ebe4;
+    padding-top: rem(30);
+    width: 100%;
+
+    @media screen and (min-width: $screen-s) {
+      width: rem(400);
+    }
 
     @media screen and (min-width: $screen-m) {
+      padding-bottom: rem(10);
       transform: translatey(-30px);
-      padding: rem(50);
-      width: rem(300);
     }
 
     h1 {
-      font-size: rem(23);
+      margin-bottom: rem(15);
       line-height: rem(30);
-      font-weight: 400;
-      margin-bottom: rem(30);
     }
 
-    .icon-close {
-      fill: $color-1;
+    .text-highlighted {
+      font-weight: 700;
+    }
+
+    .number-l {
+      @media screen and (min-width: $screen-m) {
+        font-size: rem(25);
+      }
     }
 
     .donation {
+      display: flex;
+      align-items: center;
       color: $font-color-1;
+      margin-bottom: rem(15);
 
-      font-size: rem(15);
-      line-height: rem(18);
-    }
-
-    .text {
-      position: relative;
-      top: -5px;
+      .text-highlighted {
+        margin-top: rem(4);
+      }
     }
 
     .donation-box {
@@ -263,11 +266,7 @@
       width: rem(20);
       height: rem(20);
       background-color: $color-3;
-      margin-right: rem(10);
-    }
-
-    &:after {
-      border-top-color: #f0ebe4;
+      margin-right: rem(15);
     }
   }
 }
