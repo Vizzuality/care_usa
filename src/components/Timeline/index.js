@@ -354,7 +354,9 @@ class TimelineView extends Backbone.View {
 
     if(this.currentDataIndex) {
       /* Google Analytics */
-      const date = moment.utc(this.options.data[this.currentDataIndex].date)
+      /* If this.currentDataIndex === -1, we want to send the date of the lower
+       * domain extremity */
+      const date = moment.utc(!!~this.currentDataIndex ? this.options.data[this.currentDataIndex].date : this.options.domain[0])
         .format('MM:DD:YYYY');
       ga && ga('send', 'event', 'Timeline', 'Drag', date);
     }
