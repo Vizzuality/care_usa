@@ -40,29 +40,34 @@
 	-webkit-animation: pulse 2.5s ease-out 0s infinite;
  	animation: pulse 2.5s ease-out 0s infinite;
  	opacity: 1;
+
+ 	@media screen and (min-width: $screen-m) {
+ 		-webkit-animation: none;
+	    animation: none;
+	}
 }
 
 @-webkit-keyframes pulse {
  0%{
-	opacity: .5;
+	opacity: .6;
  }
  50%{
 	opacity: 1;
  }
  100% {
- 	opacity: .5;
+ 	opacity: .6;
  }
 }
 
 @keyframes pulse {
  0%{
-	opacity: .5;
+	opacity: .6;
  }
  50%{
 	opacity: 1;
  }
  100% {
- 	opacity: .5;
+ 	opacity: .6;
  }
 }
 
