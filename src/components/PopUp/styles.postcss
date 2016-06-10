@@ -23,7 +23,7 @@
   .donation-header {
     display: flex;
 
-    .text-module-title {
+    .text-report-title  {
       margin-bottom: rem(9);
 
       @media screen and (min-width: $screen-m) {
@@ -31,10 +31,19 @@
       }
     }
 
-    h2.text-legend-s {
+    h2 {
       padding-bottom: rem(15);
       margin-bottom: rem(15);
       border-bottom: rem(1) solid $color-5;
+      font-size: rem(14) !important;
+
+      @media screen and (min-width: $screen-xl) {
+        font-size: rem(15) !important;
+      }
+
+      @media screen and (min-width: $screen-xxl) {
+        font-size: rem(16) !important;
+      }
     }
 
     .btn-donors {
@@ -327,8 +336,7 @@
   box-shadow: none;
 }
 
-.leaflet-container h1,
-.leaflet-container h2  {
+.leaflet-container h1 {
   font-weight: 700;
   font-size: rem(20);
   line-height: rem(18);

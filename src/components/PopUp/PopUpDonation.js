@@ -64,11 +64,11 @@ class PopUpDonation extends PopUp {
 
     return `<div class="wrapper -donations">
       <header class="donation-header">
-        <h1 class="text text-module-title -light"> ${ tooltipTitle } -
-        <span class="number-m">$${ utils.numberNotation(  this.model.get('total_funds') )}</span></h1>
+        <h1 class="text text-report-title  -light"> ${ tooltipTitle } -
+        <span class="number-l">$${ utils.numberNotation(  this.model.get('total_funds') )}</span></h1>
         ${ btnTooltip }
       </header>
-    <h2 class="text text-legend-s -light">${this.model.get('location')['city']}</h2>
+    <h2 class="text text-legend-s -light subtitle">${this.model.get('location')['city']}</h2>
     <hr/>
     ${ sectorsItems }
     ${ regionsItems }
