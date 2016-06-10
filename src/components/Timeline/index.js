@@ -476,18 +476,22 @@ class TimelineView extends Backbone.View {
     /* Gap between the final position of the tooltip and its starting position */
     const animationOffset = 20;
 
-    /* We always want the animation to start here */
-    this.tooltip.style.transition = 'none';
-    this.tooltip.style.transform = `translate(calc(${x}px - 50%), calc(${y - cursorOffset + animationOffset}px - 100%))`;
-    this.tooltip.textContent = date;
+    /* The reason why we actually use a double rAF is explained over there:
+     * https://twitter.com/aerotwist/status/741238994055356416 */
+    requestAnimationFrame(() => {
+      /* We always want the animation to start here */
+      this.tooltip.style.transition = 'none';
+      this.tooltip.style.transform = `translate(calc(${x}px - 50%), calc(${y - cursorOffset + animationOffset}px - 100%))`;
+      this.tooltip.textContent = date;
 
-    /* Forces reflow to start the animation from the position above */
-    this.tooltip.offsetTop;
+      /* We actually start the animation */
+      requestAnimationFrame(() => {
+        this.tooltip.style.transition = 'transform .1s ease-in-out, opacity .3s';
+        this.tooltip.style.transform = `translate(calc(${x}px - 50%), calc(${y - cursorOffset}px - 100%))`;
+        this.tooltip.classList.remove('-hidden');
+      });
 
-    /* We actually start the animation */
-    this.tooltip.style.transition = 'transform .1s ease-in-out, opacity .3s';
-    this.tooltip.style.transform = `translate(calc(${x}px - 50%), calc(${y - cursorOffset}px - 100%))`;
-    this.tooltip.classList.remove('-hidden');
+    });
   }
 
   /**
