@@ -166,6 +166,31 @@ class TimelineView extends Backbone.View {
       .style('stroke-dasharray', 'none')
       .attr('class', 'cursor-line');
 
+    /* We add a clickable zone so when the user clicks around the path the
+     * cursor moves directly to where the user clicked and the date is
+     * triggered */
+    this.d3ClickableZone = this.d3Axis
+      .append('rect')
+      .attr('x', 0)
+      .attr('width', this.scale(domain[1]))
+      .attr('y', -5)
+      .attr('height', 10)
+      .style({
+        fill: 'transparent',
+        strokeWidth: 0,
+        cursor: 'pointer'
+      })
+      .on('click', () => {
+        const xPosition = d3.mouse(this.d3ClickableZone[0][0])[0];
+        const date = this.scale.invert(xPosition);
+        if(!moment.utc(this.cursorPosition).isSame(date)) {
+          this.cursorPosition = date;
+          this.moveCursor(this.cursorPosition);
+          this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
+          this.triggerDate()
+        }
+      });
+
     /* We add the ticks for the report */
     this.d3Axis.selectAll('.tick')
       .append('rect')
