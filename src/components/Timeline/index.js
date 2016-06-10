@@ -49,6 +49,8 @@ class TimelineView extends Backbone.View {
       this.cursorPosition = this.options.domain[this.options.domain.length - 1];
     }
 
+    this.createTooltip();
+
     this.render();
     this.setListeners();
   }
@@ -227,7 +229,14 @@ class TimelineView extends Backbone.View {
       .remove();
 
     this.d3Cursor = d3Slider
-      .attr('transform', () => `translate(${this.scale(this.cursorPosition)})`);
+      .attr('transform', () => `translate(${this.scale(this.cursorPosition)})`)
+      .on('mouseover', () => {
+        const position = this.d3Cursor[0][0].getBoundingClientRect();
+        const xPosition = position.left + position.width / 2;
+        const yPosition = position.top;
+        this.showTooltip(xPosition, yPosition);
+      })
+      .on('mouseout', () => this.hideTooltip());
 
     /* We add the blurred shadow of the cursor */
     this.svg
@@ -428,6 +437,64 @@ class TimelineView extends Backbone.View {
       this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
       this.triggerDate()
     }
+  }
+
+  /**
+   * Attach the tooltip elemtn to the DOM
+   */
+  createTooltip() {
+    this.tooltip = document.createElement('div');
+    this.tooltip.classList.add('timeline-tooltip');
+    this.tooltip.classList.add('-hidden');
+    document.body.appendChild(this.tooltip);
+  }
+
+  showTooltip(x, y) {
+    /* We always want the animation to start here */
+    this.tooltip.style.transition = 'none';
+    this.tooltip.style.transform = `translate(${x + 15}px, ${y + 15}px)`;
+    this.tooltip.textContent = date;
+
+    /* Forces reflow to start the animation from the position above */
+    this.tooltip.offsetTop;
+
+    /* We actually start the animation */
+    this.tooltip.style.transition = 'transform .1s ease-in-out, opacity .3s';
+    this.tooltip.style.transform = `translate(${x}px, ${y}px)`;
+    this.tooltip.classList.remove('-hidden');
+  }
+
+  /**
+   * Show a tooltip centered above the x and y position with the current date
+   * @param  {Number} x x position in px relative to the body
+   * @param  {Number} y y position in px relative to the body
+   */
+  showTooltip(x, y) {
+    const date = moment.utc(this.options.data[this.currentDataIndex].date).format('MM·DD·YYYY');
+    /* Gap between the center of the cursor and the tip of the tooltip */
+    const cursorOffset    = 15;
+    /* Gap between the final position of the tooltip and its starting position */
+    const animationOffset = 20;
+
+    /* We always want the animation to start here */
+    this.tooltip.style.transition = 'none';
+    this.tooltip.style.transform = `translate(calc(${x}px - 50%), calc(${y - cursorOffset + animationOffset}px - 100%))`;
+    this.tooltip.textContent = date;
+
+    /* Forces reflow to start the animation from the position above */
+    this.tooltip.offsetTop;
+
+    /* We actually start the animation */
+    this.tooltip.style.transition = 'transform .1s ease-in-out, opacity .3s';
+    this.tooltip.style.transform = `translate(calc(${x}px - 50%), calc(${y - cursorOffset}px - 100%))`;
+    this.tooltip.classList.remove('-hidden');
+  }
+
+  /**
+   * Hide the tooltip
+   */
+  hideTooltip() {
+    this.tooltip.classList.add('-hidden');
   }
 
 };
