@@ -7,7 +7,7 @@ class MarkerLayer {
     this.options = props;
   }
 
-  createLayer() {
+  setFeatures() {
 
     const latlng = [this.options.position[1], this.options.position[0]];
     // this.layer = L.marker(this.options.position || [0, 0]);
@@ -41,9 +41,8 @@ class MarkerLayer {
    * @param {Function} callback
    */
   addLayer(map, callback) {
-    this.map = map;
-    this.createLayer();
-    this.layer = L.mapbox.featureLayer().addTo(this.map);
+    this.setFeatures();
+    this.layer = L.mapbox.featureLayer().addTo(map);
 
     if (this.layer) {
       this.layer.on('layeradd', function(e) {
