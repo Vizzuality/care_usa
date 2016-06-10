@@ -36,6 +36,35 @@
 	left: rem(-10);
 }
 
+.animation {
+	-webkit-animation: pulse 2.5s ease-out 0s infinite;
+ 	animation: pulse 2.5s ease-out 0s infinite;
+ 	opacity: 1;
+}
+
+@-webkit-keyframes pulse {
+ 0%{
+	opacity: .5;
+ }
+ 50%{
+	opacity: 1;
+ }
+ 100% {
+ 	opacity: .5;
+ }
+}
+
+@keyframes pulse {
+ 0%{
+	opacity: .5;
+ }
+ 50%{
+	opacity: 1;
+ }
+ 100% {
+ 	opacity: .5;
+ }
+}
 
 .icon-facebook {
 	width: rem(15);

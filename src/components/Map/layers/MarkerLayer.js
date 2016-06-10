@@ -28,7 +28,7 @@ class MarkerLayer {
         // one can customize markers by adding simplestyle properties
         // https://www.mapbox.com/guides/an-open-platform/#simplestyle
         "icon": {
-          "className": "icon-my-donation", // class name to style
+          "className": "icon-my-donation animation", // class name to style
           "iconSize": null // size of icon, use null to set the size in CSS
         }
       }
