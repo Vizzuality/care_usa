@@ -7,11 +7,11 @@ class MarkerLayer {
     this.options = props;
   }
 
-  createLayer() {
+  setFeatures() {
 
     const latlng = [this.options.position[1], this.options.position[0]];
     // this.layer = L.marker(this.options.position || [0, 0]);
-    this.layer = L.mapbox.featureLayer({
+    this.features = {
       // this feature is in the GeoJSON format: see geojson.org
       // for the full specification
       type: 'Feature',
@@ -27,10 +27,12 @@ class MarkerLayer {
 
         // one can customize markers by adding simplestyle properties
         // https://www.mapbox.com/guides/an-open-platform/#simplestyle
-        'marker-size': 'medium',
-        'marker-color': '#f52c95'
+        "icon": {
+          "className": "icon-my-donation animation", // class name to style
+          "iconSize": null // size of icon, use null to set the size in CSS
+        }
       }
-    });
+    };
   }
 
   /**
@@ -39,10 +41,16 @@ class MarkerLayer {
    * @param {Function} callback
    */
   addLayer(map, callback) {
-    this.map = map;
-    this.createLayer();
+    this.setFeatures();
+    this.layer = L.mapbox.featureLayer().addTo(map);
+
     if (this.layer) {
-      map.addLayer(this.layer);
+      this.layer.on('layeradd', function(e) {
+        const marker = e.layer,
+            feature = marker.feature;
+        marker.setIcon(L.divIcon(feature.properties.icon));
+      });
+      this.layer.setGeoJSON(this.features);
     }
     return this.layer;
   }

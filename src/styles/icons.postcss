@@ -28,6 +28,49 @@
 	fill: #686354;
 }
 
+.icon-my-donation {
+	width: rem(20);
+	height: rem(20);
+	border-radius: 50%;
+	background-color: #f52c95;
+	left: rem(-10);
+}
+
+.animation {
+	-webkit-animation: pulse 2.5s ease-out 0s infinite;
+ 	animation: pulse 2.5s ease-out 0s infinite;
+ 	opacity: 1;
+
+ 	@media screen and (min-width: $screen-m) {
+ 		-webkit-animation: none;
+	    animation: none;
+	}
+}
+
+@-webkit-keyframes pulse {
+ 0%{
+	opacity: .6;
+ }
+ 50%{
+	opacity: 1;
+ }
+ 100% {
+ 	opacity: .6;
+ }
+}
+
+@keyframes pulse {
+ 0%{
+	opacity: .6;
+ }
+ 50%{
+	opacity: 1;
+ }
+ 100% {
+ 	opacity: .6;
+ }
+}
+
 .icon-facebook {
 	width: rem(15);
 	height: rem(20);

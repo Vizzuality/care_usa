@@ -91,6 +91,14 @@ class MapView extends Backbone.View {
     })
 
     this.myDonationPopUp.getPopUp();
+    this._stopAnimation();
+  }
+
+  _stopAnimation() {
+    const element = document.getElementsByClassName('icon-my-donation')[0];
+    const classes = element.getAttribute('class');
+    const newClasses = classes.replace('animation', '');
+    element.setAttribute('class', newClasses);
   }
 
   _createMap() {
