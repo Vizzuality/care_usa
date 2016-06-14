@@ -24,7 +24,6 @@ class Anniversary extends React.Component {
       <section id="anniversary">
         <Header
           currentTab = { this.props.currentTab }
-          toggleMenuFn = { this.props.toggleMenuFn }
           changePageFn = { this.props.changePageFn }
         />
         <CaresPackage />

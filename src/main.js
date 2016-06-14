@@ -9,7 +9,6 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import Anniversary from './components/Anniversary';
 import utils from './scripts/helpers/utils';
-import MenuDevice from './components/MenuDevice';
 
 class Main extends React.Component {
 
@@ -17,8 +16,7 @@ class Main extends React.Component {
     super(props);
     this.state = {
     	currentPage: 'who-cares',
-    	device: null,
-      menuDeviceOpen: false
+    	device: null
     };
   }
 
@@ -26,40 +24,21 @@ class Main extends React.Component {
     this.setState(utils.checkDevice());
   }
 
-  toggleMenu() {
-	 this.setState({ menuDeviceOpen: !this.state.menuDeviceOpen });
-  }
-
   changePage(page, e) {
 	 this.setState({ currentPage: page });
   }
 
   render() {
-  	let menuDevice = null;
-
-    if (this.state.tablet || this.state.mobile) {
-      menuDevice = (
-        <MenuDevice
-          deviceMenuOpen = { this.state.menuDeviceOpen }
-          toggleMenuFn = { this.toggleMenu.bind(this) }
-          currentPage = { this.props.currentPage }
-        />
-      );
-    }
-
     return (
     	<div>
         { this.props.currentPage === 'who-cares' ? <App
           currentTab = { this.props.currentTab }
-          toggleMenuFn = { this.toggleMenu.bind(this) }
           changePageFn = { this.changePage.bind(this) }
         />:
         this.props.currentPage === 'anniversary' ? <Anniversary
           currentTab = { this.props.currentTab }
-          toggleMenuFn = { this.toggleMenu.bind(this) }
           changePageFn = { this.changePage.bind(this) }
         /> : ''}
-       	{ menuDevice }
       </div>
     );
   }

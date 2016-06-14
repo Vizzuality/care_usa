@@ -409,7 +409,6 @@ class App extends React.Component {
 
         <Header
           currentTab = { this.props.currentTab }
-          toggleMenuFn = { this.props.toggleMenuFn }
           changePageFn = { this.props.changePageFn }
           embed = { this.state.embed }
         />
