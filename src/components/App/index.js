@@ -10,6 +10,7 @@ import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
 import ModalAbout from '../ModalAbout';
+import ModalAnniversary from '../ModalAnniversary';
 import ModalNoData from '../ModalNoData';
 import MapView from '../Map';
 import ModalDonors from '../ModalDonors';
@@ -60,6 +61,7 @@ class App extends React.Component {
       regions: [],
       shareOpen: false,
       aboutOpen: false,
+      anniversaryOpen: false,
       donorsOpen: false,
       embed: false
     };
@@ -461,7 +463,7 @@ class App extends React.Component {
                 </svg>
               </a>
             </div>
-            <div className="care-page-link text text-legend-s -dark"><p>Visit us at </p><a href="http://www.care.org"  target="_blank" className="text -primary">www.care.org</a></div>
+            <div className="care-page-link text text-legend-s -primary" onClick={ () => this.handleModal('open', 'anniversaryOpen') }>Learn About CARE</div>
             <div></div>
           </div>
         }
@@ -470,6 +472,13 @@ class App extends React.Component {
           <ModalAbout
             visible={ this.state.aboutOpen }
             onClose={ this.handleModal.bind(this, 'close', 'aboutOpen') }
+          />
+        }
+
+        { !this.state.embed &&
+          <ModalAnniversary
+            visible={ this.state.anniversaryOpen }
+            onClose={ this.handleModal.bind(this, 'close', 'anniversaryOpen') }
           />
         }
 
