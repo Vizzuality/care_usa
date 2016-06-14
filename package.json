@@ -48,7 +48,6 @@
     "postcss-simple-vars": "^1.2.0",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
-    "react-scrollbar": "^0.4.1",
     "select2": "^4.0.2",
     "slick-carousel": "^1.5.9",
     "style-loader": "^0.13.1",
