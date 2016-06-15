@@ -29,8 +29,11 @@ class Modal extends React.Component {
     this.props.onClose();
   }
 
+  getClassName() {}
+
   render() {
     const content = this.getContent();
+    const currentModal = this.getClassName();
 
     let closeButton;
     if(!this.state.locked) {
@@ -44,6 +47,7 @@ class Modal extends React.Component {
     let className = 'm-modal';
     if(!this.state.open) className += ' -hidden';
     if(this.state.className) className += ' ' + this.state.className;
+    if(currentModal) className += ' ' + this.getClassName();
 
     return (
        <div className={ className } onClick={ !this.state.locked ? this.close.bind(this) : () => {} }>
