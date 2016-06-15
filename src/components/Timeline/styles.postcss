@@ -102,13 +102,14 @@
   top: 0;
   left: 0;
   width: 120px;
-  padding: 10px;
+  padding: 23px 10px 20px 10px;
   text-align: center;
   font-family: $font-family-1;
-  font-size: 14px;
+  font-size: 15px;
+  line-height: 18px;
   color: $color-13;
   border-radius: 0;
-  background-color: $color-1;
+  background-color: $color-2;
   box-shadow: 0 0 5px 0 rgba(42, 41, 40, 0.2);
   opacity: 1;
   /* There's an animation property set in the JS for the transform and opacity
@@ -119,13 +120,13 @@
 
   &:after {
     content: '';
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     position: absolute;
     left: 50%;
-    bottom: -10px;
+    bottom: -15px;
     transform: translate(-50%, -50%) rotate(45deg);
-    background-color: $color-1;
+    background-color: $color-2;
   }
 
   &.-hidden { opacity: 0; }
