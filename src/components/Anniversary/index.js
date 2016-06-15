@@ -2,7 +2,6 @@
 
 import './styles.postcss';
 import React from 'react';
-import Header from '../Header';
 import CaresPackage from './CaresPackage';
 import PowerBox from './PowerBox';
 import CaresEvolution from './CaresEvolution';
@@ -22,10 +21,6 @@ class Anniversary extends React.Component {
   render() {
     return (
       <section id="anniversary">
-        <Header
-          currentTab = { this.props.currentTab }
-          changePageFn = { this.props.changePageFn }
-        />
         <CaresPackage />
         <PowerBox />
         <Retooling />
