@@ -62,6 +62,11 @@
 
   .text-highlighted {
     max-width: 100%;
+    margin-bottom: rem(50);
+
+    @media screen and (min-width: $screen-m) {
+      
+    }
 
     @media screen and (min-width: $screen-l) {
       max-width: 82.75%;
@@ -73,6 +78,19 @@
 
     @media screen and (min-width: $screen-xxl) {
       max-width: 65.5%;
+    }
+  }
+
+  .learn-more {
+    width: 100%;
+  }
+
+  .btn-primary {
+    width: 100%;
+
+    @media screen and (min-width: rem(500)) {
+      width: auto;
+      padding: rem(15) rem(47) rem(13) rem(47);
     }
   }
 }
