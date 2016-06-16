@@ -111,6 +111,10 @@ class App extends React.Component {
 
     if(newParams.careHistory) {
       if(newParams.careHistory !== 'true') {
+        const keys = Object.keys(newParams).filter(key => key !== 'careHistory');
+        let auxParams = {};
+        keys.map(key => auxParams[key] = newParams[key]);
+        newParams = auxParams;
         this.router.removeParams('careHistory');
       }
       else {
