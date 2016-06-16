@@ -492,7 +492,7 @@ class App extends React.Component {
                 </svg>
               </a>
             </div>
-            <div className="care-page-link text text-legend-s -primary" onClick={ () => this.handleModal('open', 'historyOpen') }>Learn About CARE</div>
+            <div className="care-page-link text text-form-labels -primary" onClick={ () => this.handleModal('open', 'historyOpen') }>Learn About CARE</div>
             <div></div>
           </div>
         }
