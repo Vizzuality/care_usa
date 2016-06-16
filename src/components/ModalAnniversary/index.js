@@ -1,6 +1,6 @@
 'use strict';
 
-// import './styles.postcss';
+import './styles.postcss';
 import Modal from '../Modal';
 import React from 'react';
 import Anniversary from '../Anniversary';
@@ -11,9 +11,15 @@ class ModalAnniversary extends Modal {
     super(props);
   }
 
+  getClassName() {
+    return 'm-anniversary-modal';
+  }
+
   getContent() {
     return (
-    	<Anniversary />
+    	<Anniversary 
+        toggleMenuFn = { this.props.toggleMenuFn }
+      />
     );
   }
 }

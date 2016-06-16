@@ -61,7 +61,7 @@ class App extends React.Component {
       regions: [],
       shareOpen: false,
       aboutOpen: false,
-      anniversaryOpen: false,
+      historyOpen: false,
       donorsOpen: false,
       embed: false
     };
@@ -81,6 +81,23 @@ class App extends React.Component {
     DonorsModalModel.on('change', () => !DonorsModalModel.get('donorsOpen') ? '' : this.setState({ donorsOpen: true }));
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.historyOpen !== this.state.historyOpen) {
+      let historyOpen = nextProps.historyOpen;
+      if(!nextProps.historyOpen) historyOpen = false;
+      this.setState({ historyOpen });
+      //this._updateHistoryRouter();
+    }
+  }
+
+  // _updateHistoryRouter() {
+  //   const newParams = Object.assign({},
+  //     this.router.params.attributes,
+  //     {
+  //       history: this.state.historyOpen
+  //   });
+  // }
+
   _updateRouterParams() {
     /* TODO: we shouldn't put all the params in the state: some of them aren't
      * needed because are stored in models, and other need to be parsed */
@@ -94,6 +111,10 @@ class App extends React.Component {
         donation: this.router.params.attributes.g || false,
         embed: !!this.router.params.attributes.embed
       });
+
+    if(this.state.historyOpen) {
+      newParams.history = true;
+    }
 
     if(newParams.layer) {
       const layer = layersCollection.findWhere({ slug: newParams.layer });
@@ -401,6 +422,13 @@ class App extends React.Component {
       localStorage.setItem('session', true);
   }
 
+  hanldeCloseHistory() {
+    const historyOpen = false;
+    const toggleMenu = false;
+    this.handleModal.bind(this, 'close', 'historyOpen');
+    this.props.toggleHistory(historyOpen, toggleMenu);
+  }
+
   render() {
     let content = '';
 
@@ -411,6 +439,7 @@ class App extends React.Component {
 
         <Header
           currentTab = { this.props.currentTab }
+          toggleMenuFn = { this.props.toggleMenuFn }
           changePageFn = { this.props.changePageFn }
           embed = { this.state.embed }
         />
@@ -463,7 +492,7 @@ class App extends React.Component {
                 </svg>
               </a>
             </div>
-            <div className="care-page-link text text-legend-s -primary" onClick={ () => this.handleModal('open', 'anniversaryOpen') }>Learn About CARE</div>
+            <div className="care-page-link text text-legend-s -primary" onClick={ () => this.handleModal('open', 'historyOpen') }>Learn About CARE</div>
             <div></div>
           </div>
         }
@@ -477,8 +506,9 @@ class App extends React.Component {
 
         { !this.state.embed &&
           <ModalAnniversary
-            visible={ this.state.anniversaryOpen }
-            onClose={ this.handleModal.bind(this, 'close', 'anniversaryOpen') }
+            visible={ this.state.historyOpen }
+            onClose={ () => this.hanldeCloseHistory() }
+            toggleMenuFn = { this.props.toggleMenuFn }
           />
         }
 

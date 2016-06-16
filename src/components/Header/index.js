@@ -29,8 +29,19 @@ class Header extends React.Component {
         <div className="wrap">
           { this.setLogoClick() }
 
-          { this.props.embed && <a href="#" className="btn btn-primary btn-embed -mobileHidden">Explore the map</a> }
-
+          { !this.props.embed ?
+            <div className="m-main-menu">
+              <button
+                className="btn-menu-toggle"
+                onClick={ this.props.toggleMenuFn }
+              >
+                <svg className="icon icon-menu">
+                  <use xlinkHref="#icon-menu"></use>
+                </svg>
+              </button>
+            </div> :
+            <a href="#" className="btn btn-primary btn-embed -mobileHidden">Explore the map</a>
+          }
         </div>
       </div>
     );

@@ -1,0 +1,30 @@
+
+@import'../../../styles/settings.postcss';
+
+.l-history-header {
+	.wrap {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-top: rem(10);
+		padding-bottom: rem(10);
+	}
+
+	.back-to-map {
+		cursor: pointer;
+	}
+
+	.history-logo {
+		height: rem(40);
+	}
+
+	.aux {
+		visibility: hidden;
+	}
+
+	.btn-menu-toggle {
+		@media screen and (min-width: $screen-m) {
+		  display: none;
+		}
+	}
+}
