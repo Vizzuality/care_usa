@@ -500,7 +500,7 @@ class App extends React.Component {
                 </svg>
               </a>
             </div>
-            <div className="care-page-link text text-form-labels -primary" onClick={ () => this.handleModal('open', 'careHistory') }>Learn About CARE</div>
+            <div className="care-page-link text text-form-labels -primary" onClick={ () => this.props.toggleHistory(true) }>Learn About CARE</div>
             <div></div>
           </div>
         }

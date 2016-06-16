@@ -51,6 +51,7 @@ class Main extends React.Component {
           deviceMenuOpen = { this.state.menuDeviceOpen }
           toggleMenuFn = { this.toggleMenu.bind(this) }
           toggleHistory = { this.toggleHistory.bind(this) }
+          careHistory = { this.state.careHistory }
           currentPage = { this.props.currentPage }
         />
       );
