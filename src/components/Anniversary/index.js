@@ -22,10 +22,6 @@ class Anniversary extends React.Component {
   render() {
     return (
       <section id="anniversary">
-        <Header
-          currentTab = { this.props.currentTab }
-          changePageFn = { this.props.changePageFn }
-        />
         <CaresPackage />
         <PowerBox />
         <Retooling />
