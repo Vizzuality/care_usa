@@ -18,8 +18,8 @@ class HistoryHeader extends React.Component {
               <use xlinkHref="#icon-preview"></use>
             </svg>
             Back to CARE's map</p>
-          <svg className="icon icon- history-logo">
-            <use xlinkHref="#icon-"></use>
+          <svg className="icon icon-logoCARE_simple history-logo">
+            <use xlinkHref="#icon-logoCARE_simple"></use>
           </svg>
           <div className="aux text text-cta">Back to CARE's map</div>
           <button
