@@ -94,3 +94,40 @@
     }
   }
 }
+
+/* Must be outside of the container because it will be absolutely positioned
+ * relative to the body */
+.timeline-tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  padding: 23px 10px 20px 10px;
+  text-align: center;
+  font-family: $font-family-1;
+  font-size: 15px;
+  line-height: 18px;
+  color: $color-13;
+  border-radius: 0;
+  background-color: $color-2;
+  box-shadow: 0 0 5px 0 rgba(42, 41, 40, 0.2);
+  opacity: 1;
+  /* There's an animation property set in the JS for the transform and opacity
+   * rules */
+  will-change: transform;
+  z-index: 1;
+  pointer-events: none;
+
+  &:after {
+    content: '';
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    left: 50%;
+    bottom: -15px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background-color: $color-2;
+  }
+
+  &.-hidden { opacity: 0; }
+}
