@@ -11,7 +11,18 @@
 	}
 
 	.back-to-map {
+		display: none;
 		cursor: pointer;
+
+		@media screen and (min-width: $screen-m) {
+		  display: flex;
+		  align-items: center;
+		}
+	}
+
+	.icon-preview {
+		margin-right: rem(5);
+		margin-bottom: rem(1);
 	}
 
 	.history-logo {

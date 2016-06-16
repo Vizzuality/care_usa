@@ -13,8 +13,14 @@ class HistoryHeader extends React.Component {
     return (
       <article className="l-history-header">
         <div className="wrap">
-          <p className="back-to-map text text-cta" onClick={ () => this.props.onClose() }><img src="" />Back to CARE's map</p>
-          <img src={ require('../../../images/CARE_HORIZ_2c.jpg') } className="history-logo"/>
+          <p className="back-to-map text text-cta" onClick={ () => this.props.onClose() }>
+            <svg className="icon icon-preview">
+              <use xlinkHref="#icon-preview"></use>
+            </svg>
+            Back to CARE's map</p>
+          <svg className="icon icon- history-logo">
+            <use xlinkHref="#icon-"></use>
+          </svg>
           <div className="aux text text-cta">Back to CARE's map</div>
           <button
                 className="btn-menu-toggle"

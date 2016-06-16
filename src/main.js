@@ -19,7 +19,7 @@ class Main extends React.Component {
     	currentPage: 'who-cares',
     	device: null,
       menuDeviceOpen: false,
-      historyOpen: false
+      careHistory: false
     };
   }
 
@@ -36,7 +36,7 @@ class Main extends React.Component {
   }
 
   toggleHistory(history) {
-    this.setState({ historyOpen: history });
+    this.setState({ careHistory: history });
     if (arguments.length < 2) {
       this.toggleMenu();
     }
@@ -62,7 +62,7 @@ class Main extends React.Component {
           currentTab = { this.props.currentTab }
           toggleMenuFn = { this.toggleMenu.bind(this) }
           toggleHistory = { this.toggleHistory.bind(this) }
-          historyOpen = { this.state.historyOpen }
+          careHistory = { this.state.careHistory }
           changePageFn = { this.changePage.bind(this) }
         />:
         this.props.currentPage === 'anniversary' ? <Anniversary

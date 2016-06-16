@@ -61,14 +61,14 @@ class App extends React.Component {
       regions: [],
       shareOpen: false,
       aboutOpen: false,
-      historyOpen: false,
+      careHistory: false,
       donorsOpen: false,
       embed: false
     };
   }
 
   componentWillMount() {
-    this.setState(utils.checkDevice());
+    this.setState(utils.checkDevice()); 
 
     sectorsCollection.fetch()
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
@@ -82,21 +82,18 @@ class App extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.historyOpen !== this.state.historyOpen) {
-      let historyOpen = nextProps.historyOpen;
-      if(!nextProps.historyOpen) historyOpen = false;
-      this.setState({ historyOpen });
-      //this._updateHistoryRouter();
+    if(nextProps.careHistory !== this.state.careHistory) {
+      let careHistory = nextProps.careHistory;
+      if(!nextProps.careHistory) careHistory = false;
+      this.setState({ careHistory });
+      if(careHistory) {
+        this.router.update({ careHistory });
+      }
+      else {
+        this.router.removeParams('careHistory');
+      }
     }
   }
-
-  // _updateHistoryRouter() {
-  //   const newParams = Object.assign({},
-  //     this.router.params.attributes,
-  //     {
-  //       history: this.state.historyOpen
-  //   });
-  // }
 
   _updateRouterParams() {
     /* TODO: we shouldn't put all the params in the state: some of them aren't
@@ -105,15 +102,22 @@ class App extends React.Component {
     /* To get to the my donation page we are now using the param: g ; instead
     *  of gift or gift_id. This is the identification of the donation on
     *  Carto DB*/
-    const newParams = Object.assign({},
+    let newParams = Object.assign({},
       this.router.params.attributes,
       {
         donation: this.router.params.attributes.g || false,
         embed: !!this.router.params.attributes.embed
       });
 
-    if(this.state.historyOpen) {
-      newParams.history = true;
+    if(newParams.careHistory) {
+      if(newParams.careHistory !== 'true') {
+        this.router.removeParams('careHistory');
+      }
+      else {
+        const careHistory = true;
+        newParams.careHistory = careHistory;
+        this.props.toggleHistory(careHistory, false);
+      }
     }
 
     if(newParams.layer) {
@@ -423,10 +427,10 @@ class App extends React.Component {
   }
 
   hanldeCloseHistory() {
-    const historyOpen = false;
+    const careHistory = false;
     const toggleMenu = false;
-    this.handleModal.bind(this, 'close', 'historyOpen');
-    this.props.toggleHistory(historyOpen, toggleMenu);
+    this.handleModal.bind(this, 'close', 'careHistory');
+    this.props.toggleHistory(careHistory, toggleMenu);
   }
 
   render() {
@@ -492,7 +496,7 @@ class App extends React.Component {
                 </svg>
               </a>
             </div>
-            <div className="care-page-link text text-form-labels -primary" onClick={ () => this.handleModal('open', 'historyOpen') }>Learn About CARE</div>
+            <div className="care-page-link text text-form-labels -primary" onClick={ () => this.handleModal('open', 'careHistory') }>Learn About CARE</div>
             <div></div>
           </div>
         }
@@ -506,7 +510,7 @@ class App extends React.Component {
 
         { !this.state.embed &&
           <ModalAnniversary
-            visible={ this.state.historyOpen }
+            visible={ this.state.careHistory }
             onClose={ () => this.hanldeCloseHistory() }
             toggleMenuFn = { this.props.toggleMenuFn }
           />
