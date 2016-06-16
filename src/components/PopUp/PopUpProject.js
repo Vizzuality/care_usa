@@ -26,6 +26,7 @@ class PopUpProject extends PopUp {
 
   _getProjectsInfo() {
     const sectorsItems = (this.model.get('sectors').length > 0) ? this._getSectors() : '';
+    const reachedPopText = `<div><span class="number-l">${ utils.numberNotation(this.model.get('totals')['reached_per_pop']) + '%' }</span><span class="text-legend-s"> of Country's population in ${this.model.get('year')}</span></div>`
     const womenText = this.model.get('totals')['women_and_girls'] ? `<div><span class="number-l">${ utils.numberNotation(this.model.get('totals')['women_and_girls']) + '%' }</span><span class="text-legend-s"> Women & girls</span></div>` : '';
 
     return `
@@ -35,6 +36,7 @@ class PopUpProject extends PopUp {
       ${ sectorsItems }
       <div class="numbers-donation">
         <div><span class="number-l">${ utils.numberNotation(this.model.get('totals')['people']) }</span><span class="text-legend-s"> People reached </span></div>
+        ${ reachedPopText}
         ${ womenText }
       </div>
       <hr></hr>
