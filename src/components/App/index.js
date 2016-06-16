@@ -263,6 +263,7 @@ class App extends React.Component {
     const cursor = { speed: layer.timeline.speed };
     const interval = Object.assign({}, layer.timeline.interval);
     interval.unit = d3.time[interval.unit];
+    interval.period = layer.timeline.interval.unit;
 
     let domain = layer.domain.map(date => moment.utc(date).toDate());
     let filters = filtersModel.toJSON();
@@ -298,6 +299,7 @@ class App extends React.Component {
     const cursor = { speed: layer.timeline.speed };
     const interval = Object.assign({}, layer.timeline.interval);
     interval.unit = d3.time[interval.unit];
+    interval.period = layer.timeline.interval.unit;
 
     let domain = layer.domain.map(date => moment.utc(date).toDate());
     let filters = filtersModel.toJSON();
