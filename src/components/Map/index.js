@@ -45,7 +45,10 @@ class MapView extends Backbone.View {
 
     // mobile
     if (this.device.mobile) {
-      if(this.state.attributes.mode === 'projects') {
+      if(this.state.attributes.g) {
+
+      }
+      else if(this.state.attributes.mode === 'projects') {
         this.state.attributes.lat = 3.8642546157214213;
         this.state.attributes.lng = -25.3125;
       }
@@ -292,6 +295,9 @@ class MapView extends Backbone.View {
     this.currentLayer.layer.setStep(step);
   }
 
+  setMapCenter(center) {
+    this.map.setView(center);
+  }
 };
 
 MapView.prototype.updateLayer = (function() {
