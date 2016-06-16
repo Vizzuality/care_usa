@@ -470,7 +470,14 @@ class TimelineView extends Backbone.View {
    * @param  {Number} y y position in px relative to the body
    */
   showTooltip(x, y) {
-    const date = moment.utc(this.options.data[this.currentDataIndex].date).format('MM·DD·YYYY');
+    let format;
+    if(this.options.interval.period === "year") {
+      format = 'YYYY';
+    } else {
+      format = 'MM·DD·YYYY';
+    }
+    const date = moment.utc(this.options.data[this.currentDataIndex].date)
+      .format(format);
     /* Gap between the center of the cursor and the tip of the tooltip */
     const cursorOffset    = 15;
     /* Gap between the final position of the tooltip and its starting position */
