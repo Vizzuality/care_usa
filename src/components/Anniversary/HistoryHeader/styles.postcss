@@ -19,7 +19,12 @@
 	}
 
 	.aux {
-		visibility: hidden;
+		display: none;
+		
+		@media screen and (min-width: $screen-m) {
+			display: inherit;
+			visibility: hidden;
+		}
 	}
 
 	.btn-menu-toggle {

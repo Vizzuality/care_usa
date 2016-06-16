@@ -19,6 +19,7 @@ class ModalAnniversary extends Modal {
     return (
     	<Anniversary 
         toggleMenuFn = { this.props.toggleMenuFn }
+        onClose = { this.props.onClose.bind(this) }
       />
     );
   }
