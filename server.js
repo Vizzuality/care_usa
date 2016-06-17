@@ -36,10 +36,10 @@ if (isDevelop) {
     res.end();
   });
 
-  app.get('/anniversary', function response(req, res) {
-    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'dist/anniversary.html')));
-    res.end();
-  });
+  // app.get('/anniversary', function response(req, res) {
+  //   res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'dist/anniversary.html')));
+  //   res.end();
+  // });
 } else {
   app.use(express.static(__dirname + '/dist'));
 
@@ -48,9 +48,9 @@ if (isDevelop) {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
   });
 
-  app.get('/anniversary', function response(req, res) {
-    res.sendFile(path.join(__dirname, 'dist/anniversary.html'));
-  });
+  // app.get('/anniversary', function response(req, res) {
+  //   res.sendFile(path.join(__dirname, 'dist/anniversary.html'));
+  // });
 }
 
 // Get port from environment and store in Express.

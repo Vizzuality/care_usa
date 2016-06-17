@@ -45,7 +45,6 @@ const config = {
 
   entry: [
     './index.html',
-    './anniversary.html',
     './main.js',
   ],
 

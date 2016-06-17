@@ -7,7 +7,6 @@ import './main.postcss';
 import React  from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import Anniversary from './components/Anniversary';
 import MenuDevice from './components/MenuDevice';
 import utils from './scripts/helpers/utils';
 
@@ -59,33 +58,25 @@ class Main extends React.Component {
 
     return (
     	<div>
-        { this.props.currentPage === 'who-cares' ? <App
+        <App
           currentTab = { this.props.currentTab }
           toggleMenuFn = { this.toggleMenu.bind(this) }
           toggleHistory = { this.toggleHistory.bind(this) }
           careHistory = { this.state.careHistory }
           changePageFn = { this.changePage.bind(this) }
-        />:
-        this.props.currentPage === 'anniversary' ? <Anniversary
-          currentTab = { this.props.currentTab }
-          toggleMenuFn = { this.toggleMenu.bind(this) }
-          changePageFn = { this.changePage.bind(this) }
-        /> : ''}
+        />
         { menuDevice }
       </div>
     );
   }
 }
 
-const page = ['app', 'anniversary']
-  .filter(page => document.getElementById(page))[0];
 
-if (page.length > 0) {
-  ReactDOM.render(
-    <Main currentTab={ page === 'app' ? 'who-cares' : page }
-  	currentPage={ page === 'app' ? 'who-cares' : page }/>,
-  	document.getElementById(page));
-}
+ReactDOM.render(
+  <Main currentTab='who-cares'
+	currentPage='who-cares'/>,
+	document.getElementById('app'));
+
 
 
 

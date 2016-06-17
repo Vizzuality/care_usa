@@ -13,21 +13,14 @@ class Header extends React.Component {
     this.page = window.location.pathname;
   }
 
-  setLogoClick() {
-    return this.page.indexOf('anniversary.html') === -1 ? 
-      <a className="logo">
-        <img className="icon icon-logo" src={ require('../../images/logoCARE.svg') }></img>
-      </a> :
-      <a href="/" className="logo">
-        <img className="icon icon-logo" src={ require('../../images/logoCARE.svg') }></img>
-      </a>;
-  }
 
   render() {
     return (
       <div id="header" className="l-header">
         <div className="wrap">
-          { this.setLogoClick() }
+          <p className="logo">
+            <img className="icon icon-logo" src={ require('../../images/logoCARE.svg') }></img>
+          </p>
 
           { !this.props.embed ?
             <div className="m-main-menu">
