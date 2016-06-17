@@ -31,6 +31,8 @@ class Modal extends React.Component {
 
   getClassName() {}
 
+  getId() {}
+
   render() {
     const content = this.getContent();
     const currentModal = this.getClassName();
@@ -51,7 +53,7 @@ class Modal extends React.Component {
 
     return (
        <div className={ className } onClick={ !this.state.locked ? this.close.bind(this) : () => {} }>
-        <div className="content" ref="content">
+        <div className="content" ref="content" id={ this.getId() }>
           { closeButton }
           { content }
         </div>
