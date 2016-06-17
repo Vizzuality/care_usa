@@ -24,12 +24,11 @@ class CaresPackage extends React.Component {
       <article className="l-cares-package background-image viel">
         <div className="wrap">
           <header className="cares-package-header">
-            <h1 className="text text-module-title -light">CARE Package at 70</h1>
             <h2 className="text text-claim -light">70 Years of Lasting Change</h2>
           </header>
           <p className="text text-highlighted -light">CARE was founded in 1945 to rush lifesaving CARE Packages to survivors of World War II. The generosity of millions of Americans turned a simple box into an icon.</p>
           <aside className="find-more">
-            <button className="btn btn-primary" onClick={ this.onClickFindMore.bind(this) }>Find out more</button>
+            <a href="http://www.care.org" className="btn btn-primary" onClick={ this.onClickFindMore.bind(this) } target="_blank">Visit care.org</a>
           </aside>
         </div>
       </article>
