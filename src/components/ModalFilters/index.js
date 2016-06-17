@@ -88,6 +88,10 @@ class ModalFilters extends Modal {
     });
   }
 
+  getId() {
+    return 'filters-content';
+  }
+
   getContent() {
     const day = this.state.mobile ? 'DD' : 'Day';
     const month = this.state.mobile ? 'MM' : 'Month';

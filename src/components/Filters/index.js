@@ -472,6 +472,7 @@ class FiltersView extends Backbone.View {
   onClear(e) {
     e.preventDefault();
     this.resetFilters();
+    document.getElementById('filters-content').scrollTop = 0;
 
     /* Google Analytics */
     ga && ga('send', 'event', 'Settings', 'Menu', 'Clear filters');
