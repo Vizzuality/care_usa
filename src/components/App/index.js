@@ -372,6 +372,10 @@ class App extends React.Component {
           sectors: donationModel.toJSON().sectors
         };
 
+        const displacement = this.state.mobile ? 30 : 0;
+        const donationPosition = L.latLng(donationModel.toJSON().lat - displacement, donationModel.toJSON().lng);
+
+        this.mapView.setMapCenter(donationPosition);
         this.mapView.drawDonationMarker(donationInfo);
       })
     }

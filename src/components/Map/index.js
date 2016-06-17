@@ -292,6 +292,9 @@ class MapView extends Backbone.View {
     this.currentLayer.layer.setStep(step);
   }
 
+  setMapCenter(center) {
+    this.map.setView(center);
+  }
 };
 
 MapView.prototype.updateLayer = (function() {
