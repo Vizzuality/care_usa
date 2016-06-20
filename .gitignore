@@ -12,11 +12,7 @@
 *.log*
 
 # Generated
-/dist/*
-!/dist/*.ico
-!/dist/care-map.jpg
-!/dist/favicons
-!/dist/favicons/*
+/dist
 
 # Enviroment variables
 .env

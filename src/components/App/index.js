@@ -68,7 +68,7 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.setState(utils.checkDevice()); 
+    this.setState(utils.checkDevice());
 
     sectorsCollection.fetch()
       .done(() => this.setState({ sectors: sectorsCollection.toJSON() }));
@@ -385,7 +385,9 @@ class App extends React.Component {
     const layer = layersCollection.getActiveLayer(mode);
 
     /* Google Analytics */
-    ga && ga('send', 'event', 'Map', 'Toggle', layer.toJSON().name);
+    if (ga && ENVIRONMENT === 'production') {
+      ga('send', 'event', 'Map', 'Toggle', layer.toJSON().name);
+    }
 
     this.router.update({ mode: mode, layer: layer.toJSON().slug });
     this.setState({ mode: mode, layer: layer.toJSON() });

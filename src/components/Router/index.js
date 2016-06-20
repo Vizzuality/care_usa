@@ -59,7 +59,7 @@ class Router extends Backbone.Router {
       opts = { pushState: false };
     }
     if (!Backbone.History.started) {
-      Backbone.history.start(options);
+      Backbone.history.start(opts);
     }
   }
 
