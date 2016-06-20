@@ -84,6 +84,7 @@ const webpackConfig = {
 if (process.env.NODE_ENV !== 'production') {
   webpackConfig.devtool = 'eval-source-map';
 } else {
+  webpackConfig.plugins.push(new webpack.optimize.DedupePlugin());
   webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
     compress: {
       warnings: false,
