@@ -19,9 +19,9 @@ class LayersCollection extends Backbone.Collection {
         const isActive = layer.slug === slug;
         layer.active = isActive;
 
-        if(isActive) {
+        if(isActive && ENVIRONMENT === 'production') {
           /* Google Analytics */
-          ga && ga('send', 'event', 'Map', 'Toggle', layer.name);
+          ga('send', 'event', 'Map', 'Toggle', layer.name);
         }
       });
     this.set(specs);

@@ -284,7 +284,9 @@ class TimelineView extends Backbone.View {
     if(this.playing) return;
 
     /* Google Analytics */
-    ga('send', 'event', 'Timeline', 'Play', this.options.layerName);
+    if (ga && ENVIRONMENT === 'production') {
+      ga('send', 'event', 'Timeline', 'Play', this.options.layerName);
+    }
 
     this.playing = true;
     this.buttonIcon.setAttribute('xlink:href', '#icon-pause');
@@ -392,7 +394,9 @@ class TimelineView extends Backbone.View {
        * domain extremity */
       const date = moment.utc(!!~this.currentDataIndex ? this.options.data[this.currentDataIndex].date : this.options.domain[0])
         .format('MM:DD:YYYY');
-      ga && ga('send', 'event', 'Timeline', 'Drag', date);
+      if (ga && ENVIRONMENT === 'production') {
+        ga('send', 'event', 'Timeline', 'Drag', date);
+      }
     }
   }
 

@@ -64,7 +64,9 @@ class FiltersView extends Backbone.View {
         .format('MM:DD:YYYY');
 
       /* Google Analytics */
-      ga && ga('send', 'event', 'Settings', 'Start date', date);
+      if (ga && ENVIRONMENT === 'production') {
+        ga('send', 'event', 'Settings', 'Start date', date);
+      }
     }
 
     if(this.options.initialFilters.to) {
@@ -72,7 +74,9 @@ class FiltersView extends Backbone.View {
         .format('MM:DD:YYYY');
 
       /* Google Analytics */
-      ga && ga('send', 'event', 'Settings', 'End date', date);
+      if (ga && ENVIRONMENT === 'production') {
+        ga('send', 'event', 'Settings', 'End date', date);
+      }
     }
 
     if(this.options.initialFilters.region) {
@@ -84,7 +88,9 @@ class FiltersView extends Backbone.View {
         const region = regionModel.attributes.name;
 
         /* Google Analytics */
-        ga && ga('send', 'event', 'Settings', 'Country', region);
+        if (ga && ENVIRONMENT === 'production') {
+          ga('send', 'event', 'Settings', 'Country', region);
+        }
       }
     }
 
@@ -96,7 +102,9 @@ class FiltersView extends Backbone.View {
           const sectorName = sectorModel.attributes.name;
 
           /* Google Analytics */
-          ga && ga('send', 'event', 'Settings', 'Sector', sectorName);
+          if (ga && ENVIRONMENT === 'production') {
+            ga('send', 'event', 'Settings', 'Sector', sectorName);
+          }
         }
       })
     }
@@ -421,7 +429,9 @@ class FiltersView extends Backbone.View {
             .format('MM:DD:YYYY');
 
           /* Google Analytics */
-          ga && ga('send', 'event', 'Settings', 'Start date', date);
+          if (ga && ENVIRONMENT === 'production') {
+            ga('send', 'event', 'Settings', 'Start date', date);
+          }
         }
 
         if(filter === 'to') {
@@ -429,7 +439,9 @@ class FiltersView extends Backbone.View {
             .format('MM:DD:YYYY');
 
           /* Google Analytics */
-          ga && ga('send', 'event', 'Settings', 'End date', date);
+          if (ga && ENVIRONMENT === 'production') {
+            ga('send', 'event', 'Settings', 'End date', date);
+          }
         }
 
         if(filter === 'region') {
@@ -441,7 +453,9 @@ class FiltersView extends Backbone.View {
             const region = regionModel.attributes.name;
 
             /* Google Analytics */
-            ga && ga('send', 'event', 'Settings', 'Country', region);
+            if (ga && ENVIRONMENT === 'production') {
+              ga('send', 'event', 'Settings', 'Country', region);
+            }
           }
         }
 
@@ -456,7 +470,9 @@ class FiltersView extends Backbone.View {
               const sectorName = sectorModel.attributes.name;
 
               /* Google Analytics */
-              ga && ga('send', 'event', 'Settings', 'Sector', sectorName);
+              if (ga && ENVIRONMENT === 'production') {
+                ga('send', 'event', 'Settings', 'Sector', sectorName);
+              }
             }
           });
         }
@@ -466,7 +482,9 @@ class FiltersView extends Backbone.View {
     }
 
     /* Google Analytics */
-    ga && ga('send', 'event', 'Settings', 'Menu', 'Apply filters');
+    if (ga && ENVIRONMENT === 'production') {
+      ga('send', 'event', 'Settings', 'Menu', 'Apply filters');
+    }
   }
 
   onClear(e) {
@@ -475,7 +493,9 @@ class FiltersView extends Backbone.View {
     document.getElementById('filters-content').scrollTop = 0;
 
     /* Google Analytics */
-    ga && ga('send', 'event', 'Settings', 'Menu', 'Clear filters');
+    if (ga && ENVIRONMENT === 'production') {
+      ga('send', 'event', 'Settings', 'Menu', 'Clear filters');
+    }
   }
 
   onDateChange(e) {

@@ -12,7 +12,9 @@ class CaresPackage extends React.Component {
 
   onClickFindMore() {
     /* Google Analytics */
-    ga && ga('send', 'event', 'History', 'Find out more');
+    if (ga && ENVIRONMENT === 'production') {
+      ga('send', 'event', 'History', 'Find out more');
+    }
 
     $('html, body').animate({
         scrollTop: $('.l-power-box').offset().top
