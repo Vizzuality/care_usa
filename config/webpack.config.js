@@ -22,7 +22,7 @@ const webpackConfig = {
 
   output: {
     path: path.join(rootPath, 'dist/'),
-    filename: 'bundle.js',
+    filename: '[name]-[hash].js',
     publicPath: '/'
   },
 

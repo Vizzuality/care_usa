@@ -4,7 +4,7 @@
   "description": "70 years of lasting change",
   "main": "server.js",
   "scripts": {
-    "build": "set NODE_ENV=production && webpack --config ./config/webpack.config.js --progress --profile --colors",
+    "build": "webpack --config ./config/webpack.config.js --progress --profile --colors",
     "postinstall": "npm run build",
     "test": ""
   },
@@ -62,6 +62,6 @@
     "webpack-dev-middleware": "^1.6.1"
   },
   "engines": {
-    "node": "5.x"
+    "node": "6.x"
   }
 }
