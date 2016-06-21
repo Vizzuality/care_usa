@@ -292,6 +292,9 @@ class MapView extends Backbone.View {
     this.currentLayer.layer.setStep(step);
   }
 
+  setMapCenter(center) {
+    this.map.setView(center);
+  }
 };
 
 MapView.prototype.updateLayer = (function() {
@@ -345,7 +348,7 @@ MapView.prototype.updateLayer = (function() {
 })();
 
 MapView.prototype.defaults = {
-  style: location.hostname === 'localhost' ? 'mapbox.streets' : 'jhanley.a25ffffe',
+  style: config.mapboxStyle,
   lat: 35,
   lng: -80,
   zoom: 3

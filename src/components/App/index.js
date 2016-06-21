@@ -10,6 +10,7 @@ import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
 import ModalAbout from '../ModalAbout';
+import ModalAnniversary from '../ModalAnniversary';
 import ModalNoData from '../ModalNoData';
 import MapView from '../Map';
 import ModalDonors from '../ModalDonors';
@@ -60,6 +61,7 @@ class App extends React.Component {
       regions: [],
       shareOpen: false,
       aboutOpen: false,
+      careHistory: false,
       donorsOpen: false,
       embed: false
     };
@@ -79,6 +81,20 @@ class App extends React.Component {
     DonorsModalModel.on('change', () => !DonorsModalModel.get('donorsOpen') ? '' : this.setState({ donorsOpen: true }));
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.careHistory !== this.state.careHistory) {
+      let careHistory = nextProps.careHistory;
+      if(!nextProps.careHistory) careHistory = false;
+      this.setState({ careHistory });
+      if(careHistory) {
+        this.router.update({ careHistory });
+      }
+      else {
+        this.router.removeParams('careHistory');
+      }
+    }
+  }
+
   _updateRouterParams() {
     /* TODO: we shouldn't put all the params in the state: some of them aren't
      * needed because are stored in models, and other need to be parsed */
@@ -86,12 +102,27 @@ class App extends React.Component {
     /* To get to the my donation page we are now using the param: g ; instead
     *  of gift or gift_id. This is the identification of the donation on
     *  Carto DB*/
-    const newParams = Object.assign({},
+    let newParams = Object.assign({},
       this.router.params.attributes,
       {
         donation: this.router.params.attributes.g || false,
         embed: !!this.router.params.attributes.embed
       });
+
+    if(newParams.careHistory) {
+      if(newParams.careHistory !== 'true') {
+        const keys = Object.keys(newParams).filter(key => key !== 'careHistory');
+        let auxParams = {};
+        keys.map(key => auxParams[key] = newParams[key]);
+        newParams = auxParams;
+        this.router.removeParams('careHistory');
+      }
+      else {
+        const careHistory = true;
+        newParams.careHistory = careHistory;
+        this.props.toggleHistory(careHistory, false);
+      }
+    }
 
     if(newParams.layer) {
       const layer = layersCollection.findWhere({ slug: newParams.layer });
@@ -232,6 +263,7 @@ class App extends React.Component {
     const cursor = { speed: layer.timeline.speed };
     const interval = Object.assign({}, layer.timeline.interval);
     interval.unit = d3.time[interval.unit];
+    interval.period = layer.timeline.interval.unit;
 
     let domain = layer.domain.map(date => moment.utc(date).toDate());
     let filters = filtersModel.toJSON();
@@ -267,6 +299,7 @@ class App extends React.Component {
     const cursor = { speed: layer.timeline.speed };
     const interval = Object.assign({}, layer.timeline.interval);
     interval.unit = d3.time[interval.unit];
+    interval.period = layer.timeline.interval.unit;
 
     let domain = layer.domain.map(date => moment.utc(date).toDate());
     let filters = filtersModel.toJSON();
@@ -339,6 +372,10 @@ class App extends React.Component {
           sectors: donationModel.toJSON().sectors
         };
 
+        const displacement = this.state.mobile ? 30 : 0;
+        const donationPosition = L.latLng(donationModel.toJSON().lat - displacement, donationModel.toJSON().lng);
+
+        this.mapView.setMapCenter(donationPosition);
         this.mapView.drawDonationMarker(donationInfo);
       })
     }
@@ -348,7 +385,9 @@ class App extends React.Component {
     const layer = layersCollection.getActiveLayer(mode);
 
     /* Google Analytics */
-    ga && ga('send', 'event', 'Map', 'Toggle', layer.toJSON().name);
+    if (ga && ENVIRONMENT === 'production') {
+      ga('send', 'event', 'Map', 'Toggle', layer.toJSON().name);
+    }
 
     this.router.update({ mode: mode, layer: layer.toJSON().slug });
     this.setState({ mode: mode, layer: layer.toJSON() });
@@ -397,6 +436,13 @@ class App extends React.Component {
   handleLanding() {
     this.state.donation && !localStorage.getItem('session') &&
       localStorage.setItem('session', true);
+  }
+
+  hanldeCloseHistory() {
+    const careHistory = false;
+    const toggleMenu = false;
+    this.handleModal.bind(this, 'close', 'careHistory');
+    this.props.toggleHistory(careHistory, toggleMenu);
   }
 
   render() {
@@ -462,7 +508,7 @@ class App extends React.Component {
                 </svg>
               </a>
             </div>
-            <div className="care-page-link text text-legend-s -dark"><p>Visit us at </p><a href="http://www.care.org"  target="_blank" className="text -primary">www.care.org</a></div>
+            <div className="care-page-link text text-form-labels -primary" onClick={ () => this.props.toggleHistory(true) }>Learn About CARE</div>
             <div></div>
           </div>
         }
@@ -471,6 +517,14 @@ class App extends React.Component {
           <ModalAbout
             visible={ this.state.aboutOpen }
             onClose={ this.handleModal.bind(this, 'close', 'aboutOpen') }
+          />
+        }
+
+        { !this.state.embed &&
+          <ModalAnniversary
+            visible={ this.state.careHistory }
+            onClose={ () => this.hanldeCloseHistory() }
+            toggleMenuFn = { this.props.toggleMenuFn }
           />
         }
 

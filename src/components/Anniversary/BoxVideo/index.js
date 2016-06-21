@@ -19,7 +19,9 @@ class BoxVideo extends React.Component {
     document.getElementsByTagName('html')[0].style.overflow = 'hidden';
 
     /* Google Analytics */
-    ga && ga('send', 'event', 'History', 'Play video');
+    if (ga && ENVIRONMENT === 'production') {
+      ga('send', 'event', 'History', 'Play video');
+    }
   }
 
   closeVideoModal() {

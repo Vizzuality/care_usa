@@ -2,8 +2,6 @@
 
 import './styles.postcss';
 import React from 'react';
-import utils from '../../scripts/helpers/utils';
-const ScrollArea = require('react-scrollbar');
 
 class Modal extends React.Component {
 
@@ -13,10 +11,6 @@ class Modal extends React.Component {
     this.state = {
       open: this.props.visible
     };
-  }
-
-  componentWillMount() {
-    this.setState(utils.checkDevice());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,8 +29,13 @@ class Modal extends React.Component {
     this.props.onClose();
   }
 
+  getClassName() {}
+
+  getId() {}
+
   render() {
     const content = this.getContent();
+    const currentModal = this.getClassName();
 
     let closeButton;
     if(!this.state.locked) {
@@ -50,26 +49,13 @@ class Modal extends React.Component {
     let className = 'm-modal';
     if(!this.state.open) className += ' -hidden';
     if(this.state.className) className += ' ' + this.state.className;
+    if(currentModal) className += ' ' + this.getClassName();
 
     return (
-
-      <div className={ className } onClick={ !this.state.locked ? this.close.bind(this) : () => {} }>
-        <div ref="content">
-        { !this.state.mobile ? 
-          <ScrollArea
-              speed={0.8}
-              className="content"
-              horizontal={false}
-              >
-            { closeButton }
-            { content }
-          </ScrollArea> : 
-          <div className="content">
-            <div className=" close wrap">
-              { closeButton }
-            </div>
-              { content }
-          </div> }
+       <div className={ className } onClick={ !this.state.locked ? this.close.bind(this) : () => {} }>
+        <div className="content" ref="content" id={ this.getId() }>
+          { closeButton }
+          { content }
         </div>
       </div>
     )

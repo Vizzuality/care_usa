@@ -10,7 +10,6 @@ import DashDates from './DashDates';
 import DashFilters from './DashFilters';
 import DashDonation from './DashDonation';
 import utils from '../../scripts/helpers/utils';
-const ScrollArea = require('react-scrollbar');
 
 class Dashboard extends React.Component {
 
@@ -126,16 +125,11 @@ class Dashboard extends React.Component {
               }
 
             </div>
-            <ScrollArea
-              speed={0.8}
-              className="scroll-wrapper"
-              horizontal={false}
-              >
+           <div className="scroll-wrapper">
               <DashDates
                 filters={ this.props.filters }
                 timelineDate={ this.props.timelineDate }
                 layer={ this.props.layer }
-                toggleFiltersFn={ this.props.toggleFiltersFn }
               />
               <DashFilters
                 filters={ this.props.filters }
@@ -149,8 +143,7 @@ class Dashboard extends React.Component {
                 timelineDate={ this.props.timelineDate }
               />
               { layersSwitcher }
-             </ScrollArea>
-
+            </div>
             { filtersSwitcher }
           </div>
         </div>

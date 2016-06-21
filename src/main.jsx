@@ -8,8 +8,8 @@ import React  from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import Anniversary from './components/Anniversary';
-import utils from './scripts/helpers/utils';
 import MenuDevice from './components/MenuDevice';
+import utils from './scripts/helpers/utils';
 
 class Main extends React.Component {
 
@@ -18,7 +18,8 @@ class Main extends React.Component {
     this.state = {
     	currentPage: 'who-cares',
     	device: null,
-      menuDeviceOpen: false
+      menuDeviceOpen: false,
+      careHistory: false
     };
   }
 
@@ -26,22 +27,31 @@ class Main extends React.Component {
     this.setState(utils.checkDevice());
   }
 
-  toggleMenu() {
-	 this.setState({ menuDeviceOpen: !this.state.menuDeviceOpen });
-  }
-
   changePage(page, e) {
 	 this.setState({ currentPage: page });
   }
 
+  toggleMenu() {
+   this.setState({ menuDeviceOpen: !this.state.menuDeviceOpen });
+  }
+
+  toggleHistory(history) {
+    this.setState({ careHistory: history });
+    if (arguments.length < 2) {
+      this.toggleMenu();
+    }
+  }
+
   render() {
-  	let menuDevice = null;
+    let menuDevice = null;
 
     if (this.state.tablet || this.state.mobile) {
       menuDevice = (
         <MenuDevice
           deviceMenuOpen = { this.state.menuDeviceOpen }
           toggleMenuFn = { this.toggleMenu.bind(this) }
+          toggleHistory = { this.toggleHistory.bind(this) }
+          careHistory = { this.state.careHistory }
           currentPage = { this.props.currentPage }
         />
       );
@@ -52,6 +62,8 @@ class Main extends React.Component {
         { this.props.currentPage === 'who-cares' ? <App
           currentTab = { this.props.currentTab }
           toggleMenuFn = { this.toggleMenu.bind(this) }
+          toggleHistory = { this.toggleHistory.bind(this) }
+          careHistory = { this.state.careHistory }
           changePageFn = { this.changePage.bind(this) }
         />:
         this.props.currentPage === 'anniversary' ? <Anniversary
@@ -59,21 +71,18 @@ class Main extends React.Component {
           toggleMenuFn = { this.toggleMenu.bind(this) }
           changePageFn = { this.changePage.bind(this) }
         /> : ''}
-       	{ menuDevice }
+        { menuDevice }
       </div>
     );
   }
 }
 
-const page = ['app', 'anniversary']
-  .filter(page => document.getElementById(page))[0];
+const page = ['app', 'anniversary'].filter(page => document.getElementById(page))[0];
 
 if (page.length > 0) {
   ReactDOM.render(
     <Main currentTab={ page === 'app' ? 'who-cares' : page }
-  	currentPage={ page === 'app' ? 'who-cares' : page }/>,
-  	document.getElementById(page));
+    currentPage={ page === 'app' ? 'who-cares' : page } />,
+    document.getElementById('app')
+  );
 }
-
-
-

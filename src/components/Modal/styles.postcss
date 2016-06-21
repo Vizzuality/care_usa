@@ -25,7 +25,7 @@
     height: 100%;
     overflow-y: auto;
     padding: 0 rem(20) 0 rem(20);
-    background: url("../../images/mappattern.png") top left/50% repeat;
+    background: url("../../images/mappattern.jpg") top left/50% repeat;
     background-attachment: local;
     transition: opacity .4s, transform .3s;
 
@@ -62,7 +62,7 @@
     .close-button {
       position: absolute;
       top: rem(20);
-      right: 0;
+      right: rem(20);
       width: rem(18);
       height: rem(18);
       cursor: pointer;
@@ -80,11 +80,16 @@
 
       @media screen and (min-width: $screen-s) {
         top: rem(40);
+        right: rem(30);
+      }
+
+      @media screen and (min-width: $screen-s) {
+        right: rem(40);
       }
     }
   }
 
-  &.-hidden > .scrollarea-content > .content {
+  &.-hidden > .content {
     opacity: 0;
     transform: translateY(-100%);
 

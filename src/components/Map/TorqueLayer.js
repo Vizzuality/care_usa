@@ -67,7 +67,9 @@ class TorqueLayer {
       table: this.options.tablename || 'donors',
       sql: this.getQuery(),
       provider: 'sql_api',
-      cartocss: this.getCartoCSS()
+      cartocss: this.getCartoCSS(),
+      steps: this.getSteps(),
+      valueDataType: Uint16Array // it allows values greater than 256
     });
 
     /* When CartoDB returns no data from the table, Torque throws an error
@@ -84,6 +86,20 @@ class TorqueLayer {
     deferred.resolve(this.layer);
 
     return deferred.promise();
+  }
+
+  /**
+   * Calculating steps by layerSpec
+   * @return {Number}
+   */
+  getSteps() {
+    var unit = this.state.layer.timeline.interval.unit || 'month';
+    var interval = this.state.layer.timeline.interval.count || 1;
+    var startDate = moment(this.state.layer.domain[0], 'YYYY-MM-DD').valueOf();
+    var endDate = moment(this.state.layer.domain[1], 'YYYY-MM-DD').valueOf();
+    // Using d3 time interval, more info: https://github.com/d3/d3/wiki/Time-Intervals
+    var numberOfSteps = d3.time[unit + 's'](startDate, endDate, interval);
+    return numberOfSteps.length || 1;
   }
 
   /**

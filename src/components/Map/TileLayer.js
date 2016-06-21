@@ -99,7 +99,7 @@ class CreateTileLayer {
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json; charset=UTF-8',
-      url: `http://${cartoAccount}.cartodb.com/api/v1/map/`,
+      url: `https://${cartoAccount}.cartodb.com/api/v1/map/`,
       data: JSON.stringify(request),
     }).done(data => {
       const tileUrl = `https://${cartoAccount}.cartodb.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png32`;

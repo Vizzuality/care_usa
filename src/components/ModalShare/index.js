@@ -18,13 +18,17 @@ class ModalShare extends Modal {
 
   onClickCopy() {
     /* Google Analytics */
-    ga && ga('send', 'event', 'Share', 'Copy Embed');
+    if (ga && ENVIRONMENT === 'production') {
+      ga('send', 'event', 'Share', 'Copy Embed');
+    }
   }
 
   onClickMedia(e) {
     const media = e.currentTarget.getAttribute('data-media');
     /* Google Analytics */
-    ga && ga('send', 'event', 'Share', media);
+    if (ga && ENVIRONMENT === 'production') {
+      ga('send', 'event', 'Share', media);
+    }
   }
 
   getContent() {

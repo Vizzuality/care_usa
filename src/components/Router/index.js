@@ -16,6 +16,12 @@ class Router extends Backbone.Router {
     this.navigate(`${this.currentRoute || ''}${routeString}`);
   }
 
+  removeParams(params) {
+    this.params.unset(params, { silent: true });
+    const routeString = this.serializeParams(this.params.attributes);
+    this.navigate(`${this.currentRoute || ''}${routeString}`);
+  }
+
   /**
    * Parse URL params using URI.js API
    * @param  {String} queryString https://medialize.github.io/URI.js/docs.html
@@ -53,7 +59,7 @@ class Router extends Backbone.Router {
       opts = { pushState: false };
     }
     if (!Backbone.History.started) {
-      Backbone.history.start(options);
+      Backbone.history.start(opts);
     }
   }
 

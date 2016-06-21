@@ -2,9 +2,9 @@
 @import'../../styles/helpers.postcss';
 
 .m-main-menu {
-  pointer-events: auto;
+  pointer-events: auto; 
 
-  .btn-menu-toggle {
+   .btn-menu-toggle {
     width: rem(30);
     height: rem(30);
 
@@ -22,37 +22,6 @@
       flex: 1 1 auto;
       justify-content: flex-end;
       align-items: center;
-    }
-  }
-
-  .menu-link {
-    position: relative;
-    margin-left: rem(50);
-    color: $font-color-2;
-    font-size: rem(18);
-    font-weight: 700;
-    line-height: rem(18);
-    text-decoration: none;
-
-     @media screen and (min-width: $screen-xl) {
-      font-size: rem(20);
-    }
-
-    &.is-active {
-      pointer-events: none;
-      cursor: pointer;
-
-      &:after {
-        content: "";
-        position: absolute;
-        bottom: rem(-15);
-        left: 0;
-        right: 0;
-        height: rem(4);
-        background-color: $color-1;
-        pointer-events: none;
-        cursor: pointer;
-      }
     }
   }
 }
