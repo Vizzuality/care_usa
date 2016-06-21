@@ -1,6 +1,7 @@
 'use strict';
 
-const envVariables = require('dotenv').config({silent: true});
+require('dotenv').config({silent: true});
+
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -13,6 +14,7 @@ const postcssImporter = require('postcss-import');
 const postcssFunctions = require('postcss-functions');
 const postcssHexRgba = require('postcss-hexrgba');
 const rootPath = path.join(__dirname, '../');
+const envVariables = process.env;
 
 const webpackConfig = {
 
