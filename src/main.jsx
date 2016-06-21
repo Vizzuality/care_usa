@@ -77,15 +77,12 @@ class Main extends React.Component {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  const page = ['app', 'anniversary'].filter(page => document.getElementById(page))[0];
+const page = ['app', 'anniversary'].filter(page => document.getElementById(page))[0];
 
-  if (page.length > 0) {
-    ReactDOM.render(
-      <Main currentTab={ page === 'app' ? 'who-cares' : page }
-      currentPage={ page === 'app' ? 'who-cares' : page } />,
-      document.getElementById('app')
-    );
-  }
-});
-
+if (page.length > 0) {
+  ReactDOM.render(
+    <Main currentTab={ page === 'app' ? 'who-cares' : page }
+    currentPage={ page === 'app' ? 'who-cares' : page } />,
+    document.getElementById('app')
+  );
+}
