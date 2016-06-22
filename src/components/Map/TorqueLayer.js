@@ -95,8 +95,8 @@ class TorqueLayer {
   getSteps() {
     var unit = this.state.layer.timeline.interval.unit || 'month';
     var interval = this.state.layer.timeline.interval.count || 1;
-    var startDate = moment(this.state.layer.domain[0], 'YYYY-MM-DD').valueOf();
-    var endDate = moment(this.state.layer.domain[1], 'YYYY-MM-DD').valueOf();
+    var startDate = moment.utc(this.state.layer.domain[0], 'YYYY-MM-DD').valueOf();
+    var endDate = moment.utc(this.state.layer.domain[1], 'YYYY-MM-DD').valueOf();
     // Using d3 time interval, more info: https://github.com/d3/d3/wiki/Time-Intervals
     var numberOfSteps = d3.time[unit + 's'](startDate, endDate, interval);
     return numberOfSteps.length || 1;
