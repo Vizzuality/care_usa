@@ -17,11 +17,11 @@ class HistoryHeader extends React.Component {
             <svg className="icon icon-preview">
               <use xlinkHref="#icon-preview"></use>
             </svg>
-            Back to CARE's map</p>
+            Back to the map</p>
           <svg className="icon icon-logoCARE_simple history-logo">
             <use xlinkHref="#icon-logoCARE_simple"></use>
           </svg>
-          <div className="aux text text-cta">Back to CARE's map</div>
+          <div className="aux text text-cta">Back to the map</div>
           <button
                 className="btn-menu-toggle"
                 onClick={ this.props.toggleMenuFn }
