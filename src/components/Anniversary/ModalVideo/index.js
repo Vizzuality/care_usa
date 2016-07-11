@@ -23,7 +23,6 @@ class ModalVideo extends Modal {
           className="video"
           src="https://www.youtube.com/embed/AgkhhjVotls?version=3&enablejsapi=1"
           frameBorder="0"
-          allowscriptaccess="always"
           allowFullScreen>
         </iframe>
       </div>
