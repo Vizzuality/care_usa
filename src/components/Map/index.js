@@ -153,8 +153,10 @@ class MapView extends Backbone.View {
     const zoom    = this.map.getZoom();
     this.state.set({ zoom });
 
-    /* We eventually reload the layer if it's an SVG one and the zoom pass 5 */
-    if((this.currentLayerConfig.layer_type === 'svg' ||
+    /* We eventually reload the layer
+     * We check whether this.currentLayer exists because the user could zoom
+     * while the layer still isn't initialized */
+    if(this.currentLayer && (this.currentLayerConfig.layer_type === 'svg' ||
       this.currentLayerConfig.layer_type === 'cluster') &&
       this.currentLayer.shouldLayerReload(oldZoom, zoom)) {
       this._removeCurrentLayer();
