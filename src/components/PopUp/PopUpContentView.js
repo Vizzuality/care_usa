@@ -16,6 +16,10 @@ class PopUpContentView extends Backbone.View {
   }
 
   closeCurrentPopup(){
+    /* Defensive programming: there's no else instruction in the getPopup method
+     * so we could eventually trigger an error here */
+    if(!this.currentPopUp) return;
+
     this.currentPopUp.closePopUp()
   }
 
