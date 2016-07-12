@@ -7,6 +7,7 @@ import TileLayer from './TileLayer';
 import MarkerLayer from './layers/MarkerLayer';
 import TorqueLayer from './TorqueLayer';
 import SVGLayer from './SVGLayer';
+import ClusterLayer from './ClusterLayer';
 import PopUpContentView from './../PopUp/PopUpContentView';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
@@ -153,7 +154,8 @@ class MapView extends Backbone.View {
     this.state.set({ zoom });
 
     /* We eventually reload the layer if it's an SVG one and the zoom pass 5 */
-    if(this.currentLayerConfig.layer_type === 'svg' &&
+    if((this.currentLayerConfig.layer_type === 'svg' ||
+      this.currentLayerConfig.layer_type === 'cluster') &&
       this.currentLayer.shouldLayerReload(oldZoom, zoom)) {
       this._removeCurrentLayer();
       this._addLayer();
@@ -237,11 +239,15 @@ class MapView extends Backbone.View {
         layerClass = SVGLayer;
         break;
 
+      case 'cluster':
+        layerClass = ClusterLayer;
+        break;
+
       default:
         layerClass = TileLayer;
     }
 
-    const newLayer = new layerClass(layerConfig, state);
+    const newLayer = new layerClass(layerConfig, state, this.map);
 
     newLayer.createLayer().done(() => {
       /* We ensure to always display the latest tiles */

@@ -114,3 +114,77 @@
 .topojson-geo {
   transition: fill .3s ease-in, fill-opacity .3s ease-in;
 }
+
+.bubble-marker {
+  &.-size-50 {
+    width:  rem(50) !important;
+    height: rem(50) !important;
+    font-size: rem(13);
+  }
+
+  &.-size-80 {
+    width:  rem(80) !important;
+    height: rem(80) !important;
+    font-size: rem(16);
+  }
+
+  &.-size-100 {
+    width:  rem(100) !important;
+    height: rem(100) !important;
+    font-size: rem(16);
+  }
+
+  &.-size-130 {
+    width:  rem(130) !important;
+    height: rem(130) !important;
+    font-size: rem(20);
+  }
+
+  &.-size-150 {
+    width:  rem(150) !important;
+    height: rem(150) !important;
+    font-size: rem(20);
+  }
+
+  &.-size-220 {
+    width:  rem(220) !important;
+    height: rem(220) !important;
+    font-size: rem(28);
+  }
+
+  > .bubble {
+    border-radius: 100%;
+    font-family: $font-family-2;
+    background-color: rgba($color-19, .7);
+    box-shadow: 0 0 rem(18) 0 rgba(#504c44, .2);
+    transition: box-shadow .3s ease-out, background-color .3s ease-out;
+
+    &:hover {
+      background-color: rgba($color-19, 1);
+      box-shadow: 0 0 rem(18) 0 rgba(#504c44, .6);
+    }
+
+    > .total {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      transform: translateY(-50%);
+      text-align: center;
+      color: $font-color-7;
+    }
+
+    > .title {
+      position: absolute;
+      left: 50%;
+      bottom: rem(-15);
+      transform: translate(-50%, 100%);
+      width: rem(200);
+      font-family: $font-family-1;
+      font-size: rem(15);
+      color: $font-color-1;
+      text-align: center;
+    }
+  }
+
+}

@@ -364,16 +364,17 @@ class App extends React.Component {
 
     if (this.state.donation) {
       donationModel.getDonationInfo(this.state.donation).done(() => {
+        const donation = donationModel.toJSON();
         const donationInfo = {
-          name: donationModel.toJSON().nickname,
-          amount: donationModel.toJSON().amount,
-          position: [donationModel.toJSON().lat, donationModel.toJSON().lng],
-          countries: donationModel.toJSON().countries,
-          sectors: donationModel.toJSON().sectors
+          name: donation.nickname,
+          amount: donation.amount,
+          position: [donation.lat, donation.lng],
+          countries: donation.countries,
+          sectors: donation.sectors
         };
 
         const displacement = this.state.mobile ? 30 : 0;
-        const donationPosition = L.latLng(donationModel.toJSON().lat - displacement, donationModel.toJSON().lng);
+        const donationPosition = L.latLng(donation.lat - displacement, donation.lng);
 
         this.mapView.setMapCenter(donationPosition);
         this.mapView.drawDonationMarker(donationInfo);
