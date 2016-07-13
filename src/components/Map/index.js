@@ -306,7 +306,6 @@ MapView.prototype.updateLayer = (function() {
   /* We can't use throttle here because we wanna be sure that the last call is
    * going to be painted */
   const _addLayer = _.debounce(function() {
-    console.log(this);
     this.removeCurrentLayer();
     this._addLayer();
   }, 100);

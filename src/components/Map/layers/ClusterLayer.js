@@ -28,7 +28,7 @@ export default class ClusterLayer {
   initLayer() {
     const deferred = $.Deferred();
 
-    $.get(`${config.apiUrl}/clustered_projects?zoom=${this.options.state.zoom}`,
+    $.get(`${config.apiUrl}/clustered_projects?zoom=${this.options.state.zoom}&year=${this.options.state.timelineDate.getUTCFullYear()}`,
       data => {
       this.addMarkers(data);
       return deferred.resolve(this.layer);
@@ -126,8 +126,10 @@ export default class ClusterLayer {
   }
 
   shouldLayerReload(oldState, state) {
+    const oldYear = oldState.timelineDate.getUTCFullYear();
+    const year    = state.timelineDate.getUTCFullYear();
     return oldState.zoom >= 4 && state.zoom <= 3 ||
-      oldState.zoom <= 3 && state.zoom >= 4;
+      oldState.zoom <= 3 && state.zoom >= 4 || oldYear !== year;
   }
 
   openPopup() {
