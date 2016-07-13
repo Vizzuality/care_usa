@@ -2,14 +2,14 @@
 
 import $ from 'jquery';
 import d3 from 'd3';
-import utils from '../../scripts/helpers/utils';
+import utils from '../../../scripts/helpers/utils';
 
 const defaults = {
   cartodbAccount: config.cartodbAccount,
   cartodbKey: config.cartodbKey
 };
 
-class ClusterLayer {
+export default class ClusterLayer {
 
   /*
    * Options: {
@@ -25,7 +25,7 @@ class ClusterLayer {
     this.timestamp = +(new Date());
   }
 
-  createLayer() {
+  initLayer() {
     const deferred = $.Deferred();
 
     $.get(`${config.apiUrl}/clustered_projects?zoom=${this.options.state.zoom}`,
@@ -87,8 +87,6 @@ class ClusterLayer {
    * @param {Array} markersList list of markers from the API
    */
   addMarkers(markersList) {
-    console.log(markersList);
-
     const bucketToSize = {
       cluster: { 1: 220, 2: 150, 3: 100         },
       marker:  { 1: 130, 2: 100, 3:  80, 4:  50 }
@@ -127,20 +125,24 @@ class ClusterLayer {
     this.options.map.setView([marker.lat, marker.lng], 4);
   }
 
-  addLayer(map) {
-    this.layer.addTo(map);
+  shouldLayerReload(oldState, state) {
+    return oldState.zoom >= 4 && state.zoom <= 3 ||
+      oldState.zoom <= 3 && state.zoom >= 4;
   }
 
-  removeLayer(map) {
-    if (this.layer) {
-      map.removeLayer(this.layer);
-    }
+  openPopup() {
+    /* TODO */
   }
 
-  shouldLayerReload(oldZoom, zoom) {
-    return oldZoom >= 4 && zoom <= 3 || oldZoom <= 3 && zoom >= 4;
+  closePopup() {
+    /* TODO */
+  }
+
+  /**
+   * Update the layer according to new state
+   */
+  updateLayer(state) {
+    return;
   }
 
 }
-
-export default ClusterLayer;

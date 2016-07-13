@@ -75,7 +75,7 @@ class PopUp extends Backbone.View {
 
   _popUpLayer(options) {
     let content = this._getContent();
-    
+
     return `<div class=m-popup>
             <button class="btn-close">
               <svg class="icon icon-close"><use xlink:href="#icon-close"></use></svg>

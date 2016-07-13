@@ -9,6 +9,7 @@ const defaults = {
   cartodbKey: config.cartodbKey
 };
 
+/* Optional statements for the query */
 const optionalStatements = {
   donations: {
     from:    (filters, timelineDate, layer) => filters && filters.from ? `date >= '${moment.utc(filters.from).format('MM-DD-YYYY')}'::date` : `date >= '${moment.utc(layer.domain[0], 'YYYY-MM-DD').format('MM-DD-YYYY')}'::date`,
@@ -23,21 +24,18 @@ const optionalStatements = {
   }
 };
 
-class CreateTileLayer {
+export default class TileLayer {
 
-  /*
-   * Options: {
-   *  account,
-   *  sql,
-   *  cartoCss
-   * }
-   */
   constructor(options, state) {
     this.options = Object.assign(defaults, options);
     this.options.state = state;
     this.timestamp = +(new Date());
   }
 
+  /**
+   * Return the query used to fetch the layer
+   * @return {String} SQL query
+   */
   _getQuery() {
     const filters = this.options.state.filters;
     const timelineDate = this.options.state.timelineDate;
@@ -76,50 +74,67 @@ class CreateTileLayer {
     }
   }
 
-  createLayer() {
-    this.options.sql = this._getQuery();
-    const cartoAccount = this.options.cartodbAccount;
-    const cartoKey = this.options.cartodbKey;
-    // data layers parameterization
-    const request = {
+  /**
+   * Init the layer and return a deferred Object
+   * @return {Object} jQuery deferred object
+   */
+  initLayer() {
+    const deferred = $.Deferred();
+    const query = this._getQuery();
+
+    const requestBody = {
       layers: [{
-        'user_name': cartoAccount,
+        'user_name': this.options.cartodbAccount,
         'type': 'cartodb',
         'options': {
-          'sql': this.options.sql,
-          'cartocss': this.options['geo_cartocss'],
+          'sql': query,
+          'cartocss': this.options.geo_cartocss,
           'cartocss_version': '2.3.0'
         }
       }]
     };
 
-    const deferred = $.Deferred();
-
     $.ajax({
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json; charset=UTF-8',
-      url: `https://${cartoAccount}.cartodb.com/api/v1/map/`,
-      data: JSON.stringify(request),
+      url: `https://${this.options.cartodbAccount}.cartodb.com/api/v1/map/`,
+      data: JSON.stringify(requestBody)
     }).done(data => {
-      const tileUrl = `https://${cartoAccount}.cartodb.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png32`;
+      const tileUrl = `https://${this.options.cartodbAccount}.cartodb.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png32`;
       this.layer = L.tileLayer(tileUrl, { noWrap: true });
-      return deferred.resolve(this.layer);
-    });
+      deferred.resolve(this.layer);
+    }).fail(deferred.reject);
 
     return deferred;
   }
 
-  addLayer(map) {
-    this.layer.addTo(map);
+  /**
+   * Return true if the layer should be reloaded due to new params
+   * @param  {Object} oldState old state of the map and the application
+   * @param  {Object} state    new state
+   * @return {Boolean}         true if should be reloaded, false otherwise
+   */
+  shouldLayerReload(oldState, state) {
+    return oldState.filters.timestamp !== state.filters.timestamp ||
+      oldState.timelineDate !== state.timelineDate ||
+      oldState.mode !== state.mode;
   }
 
-  removeLayer(map) {
-    if (this.layer) {
-      map.removeLayer(this.layer);
-    }
+  openPopup() {
+    /* TODO */
+  }
+
+  closePopup() {
+    /* TODO */
+  }
+
+  /**
+   * Update the layer according to new params
+   */
+  updateLayer() {
+    /* This layer is always reloaded */
+    return;
   }
 
 }
-
-export default CreateTileLayer;
