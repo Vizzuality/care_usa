@@ -94,7 +94,7 @@ export default class ClusterLayer {
     };
 
     this.layer = L.layerGroup(markersList.map(marker => {
-      const bubbleSize = bucketToSize[marker.clustered ? 'marker' : 'cluster'][marker.bucket];
+      const bubbleSize = bucketToSize[marker.clustered ? 'cluster': 'marker'][marker.bucket];
 
       const icon = L.divIcon({
         className: `bubble-marker -size-${bubbleSize}`,
@@ -104,7 +104,7 @@ export default class ClusterLayer {
           <div class="bubble">
             <div class="total">${utils.numberNotation(marker.total_people)}</div>
             ${this.generateBubble(marker.per_sector, marker.total_people, bubbleSize)}
-            ${!marker.clustered ? `
+            ${marker.clustered ? `
               <div class="title">
                 ${marker.name}
               </div>
