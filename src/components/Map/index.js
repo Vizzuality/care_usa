@@ -4,11 +4,10 @@ import './styles.postcss';
 import _ from 'underscore';
 import Backbone from 'backbone';
 import TileLayer from './layers/TileLayer';
-// import MarkerLayer from './layers/MarkerLayer';
 import TorqueLayer from './layers/TorqueLayer';
 import SVGLayer from './layers/SVGLayer';
 import ClusterLayer from './layers/ClusterLayer';
-import PopUpContentView from './../PopUp/PopUpContentView';
+import MyDonationMarker from './MyDonationMarker';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
 import utils from '../../scripts/helpers/utils';
@@ -68,6 +67,22 @@ class MapView extends Backbone.View {
         this.state.attributes.lng = -120;
       }
     }
+  }
+
+  /**
+   * Enable the donation marker on the map
+   * @param  {String} data the unique identifier of the donation
+   */
+  enableMyDonationMarker(donationId) {
+    this.myDonationMarker = new MyDonationMarker(donationId, this.state.get('layer').slug, this.map);
+  }
+
+  /**
+   * Update the visibility of the donation marker depending on the layer
+   */
+  updateMyDonationMakerVisibility() {
+    if(!this.myDonationMarker) return;
+    this.myDonationMarker.updateVisibility(this.state.get('layer').slug);
   }
 
   drawDonationMarker(options) {
@@ -137,10 +152,11 @@ class MapView extends Backbone.View {
   }
 
   _setEvents() {
-    this.map.on('click', this._infowindowSetUp.bind(this));
+    this.map.on('click', this.onMapClick.bind(this));
 
     this.state.on('change:filters', () => this.updateLayer());
     this.state.on('change:timelineDate', () => this.updateLayer());
+    this.state.on('change:layer', () => this.updateMyDonationMakerVisibility());
 
     this.state.on('change:mode', _.bind(this.updateLayer, this));
     layersCollection.on('change', _.bind(this.updateLayer, this));
@@ -176,6 +192,7 @@ class MapView extends Backbone.View {
   removeCurrentLayer() {
     if(!this.currentLayer) return;
 
+    this.currentLayer.closePopup();
     this.map.removeLayer(this.currentLayer.layer);
     this.currentLayer = null;
   }
@@ -218,18 +235,12 @@ class MapView extends Backbone.View {
     this.state.set({'filters': filtersModel.toJSON()});
   }
 
-  _infowindowSetUp(e) {
-    /* TODO */
-    // this.popUp = new PopUpContentView({
-    //   currentMode: this.state.get('mode'),
-    //   layer: this.state.get('layer'),
-    //   latLng: e.latlng,
-    //   map: this.map,
-    //   zoom: this.map.getZoom(),
-    //   timelineDate: this.state.get('timelineDate'),
-    // });
-    //
-    // this.popUp.getPopUp();
+  onMapClick(e) {
+    if(!this.currentLayer) return;
+
+    this.currentLayer.onMapClick(this.map, [e.latlng.lat, e.latlng.lng],
+      this.map.getZoom(), this.state.get('timelineDate'),
+      this.state.get('layer').slug);
   }
 
   _setFilters() {
@@ -241,9 +252,6 @@ class MapView extends Backbone.View {
   }
 
   _addLayer() {
-    /* TODO */
-    // if(this.popUp) this.popUp.closeCurrentPopup();
-
     let activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
     if(!activeLayer) return;
 
@@ -296,10 +304,6 @@ class MapView extends Backbone.View {
     });
   }
 
-  setMapCenter(center) {
-    /* TODO: remove, the main JS file shouldn't trigger that */
-    // this.map.setView(center);
-  }
 };
 
 MapView.prototype.updateLayer = (function() {

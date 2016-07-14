@@ -4,6 +4,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import moment from 'moment';
 import '../../../scripts/helpers/LTopoJSON';
+import PopupManager from '../../PopUp/PopupManager';
 
 const defaults = {
   cartodbAccount: config.cartodbAccount,
@@ -238,18 +239,23 @@ export default class SVGLayer {
       state.zoom < firstToleranceLimit);
   }
 
-  openPopup() {
-    /* TODO */
+  onMapClick(map, [lat, lng], zoom, date, slug) {
+    this.closePopup();
+    this.popup = new PopupManager(map, lat, lng, zoom, date, slug);
   }
 
+  /**
+   * Close the popup
+   */
   closePopup() {
-    /* TODO */
+    if(this.popup) this.popup.close();
   }
 
   /**
    * Update the layer according to new state
    */
   updateLayer(state) {
+    this.closePopup();
     this.options.state = state;
     this.fetchData();
   }

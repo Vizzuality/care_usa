@@ -21,7 +21,6 @@ import utils from '../../scripts/helpers/utils';
 import ModalShare from '../ModalShare';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
-import donationModel from '../../scripts/models/donationModel';
 import DonorsModalModel from '../../scripts/models/DonorsModalModel';
 
 import sectorsCollection from '../../scripts/collections/SectorsCollection';
@@ -363,22 +362,7 @@ class App extends React.Component {
     })
 
     if (this.state.donation) {
-      donationModel.getDonationInfo(this.state.donation).done(() => {
-        const donation = donationModel.toJSON();
-        const donationInfo = {
-          name: donation.nickname,
-          amount: donation.amount,
-          position: [donation.lat, donation.lng],
-          countries: donation.countries,
-          sectors: donation.sectors
-        };
-
-        const displacement = this.state.mobile ? 30 : 0;
-        const donationPosition = L.latLng(donation.lat - displacement, donation.lng);
-
-        this.mapView.setMapCenter(donationPosition);
-        this.mapView.drawDonationMarker(donationInfo);
-      })
+      this.mapView.enableMyDonationMarker(this.state.donation);
     }
   }
 

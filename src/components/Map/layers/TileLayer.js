@@ -3,6 +3,7 @@
 import $ from 'jquery';
 import _ from 'underscore';
 import moment from 'moment';
+import PopupManager from '../../PopUp/PopupManager';
 
 const defaults = {
   cartodbAccount: config.cartodbAccount,
@@ -121,12 +122,16 @@ export default class TileLayer {
       oldState.mode !== state.mode;
   }
 
-  openPopup() {
-    /* TODO */
+  onMapClick(map, [lat, lng], zoom, date, slug) {
+    this.closePopup();
+    this.popup = new PopupManager(map, lat, lng, zoom, date, slug);
   }
 
+  /**
+   * Close the popup
+   */
   closePopup() {
-    /* TODO */
+    if(this.popup) this.popup.close();
   }
 
   /**

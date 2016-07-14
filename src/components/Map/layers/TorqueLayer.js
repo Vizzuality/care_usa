@@ -1,9 +1,10 @@
 'use strict';
 
 import $ from 'jquery';
-import utils from '../../../scripts/helpers/utils';
 import _ from 'underscore';
 import moment from 'moment';
+import utils from '../../../scripts/helpers/utils';
+import PopupManager from '../../PopUp/PopupManager';
 
 /**
  * Here is the custom AnimatorStepsRange we use to override a non-desired
@@ -186,18 +187,23 @@ export default class TorqueLayer {
         oldState.filters.region !== state.filters.region);
   }
 
-  openPopup() {
-    /* TODO */
+  onMapClick(map, [lat, lng], zoom, date, slug) {
+    this.closePopup();
+    this.popup = new PopupManager(map, lat, lng, zoom, date, slug);
   }
 
+  /**
+   * Close the popup
+   */
   closePopup() {
-    /* TODO */
+    if(this.popup) this.popup.close();
   }
 
   /**
    * Update the layer according to new state
    */
   updateLayer(state) {
+    this.closePopup();
     this.options.state = state;
     this.setPosition();
   }

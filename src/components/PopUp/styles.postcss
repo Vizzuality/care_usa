@@ -55,7 +55,8 @@
       height: rem(29);
       border: rem(1) solid $color-13;
       cursor: pointer;
-      margin-top: rem(8);
+      margin-top: rem(-8);
+      margin-left: rem(20);
 
       @media screen and (min-width: $screen-s) {
         margin-top: rem(9);
@@ -231,16 +232,14 @@
     }
   }
 
-  &.-my-donation {
-    padding-top: rem(30);
+  .wrapper.-my-donation {
     width: 100%;
 
     @media screen and (min-width: $screen-s) {
-      width: rem(400);
+      width: rem(320);
     }
 
     @media screen and (min-width: $screen-m) {
-      padding-bottom: rem(10);
       transform: translatey(10px);
     }
 

@@ -3,6 +3,7 @@
 import $ from 'jquery';
 import d3 from 'd3';
 import utils from '../../../scripts/helpers/utils';
+import PopupManager from '../../PopUp/PopupManager';
 
 const defaults = {
   cartodbAccount: config.cartodbAccount,
@@ -28,7 +29,7 @@ export default class ClusterLayer {
   initLayer() {
     const deferred = $.Deferred();
 
-    $.get(`${config.apiUrl}/clustered_projects?zoom=${this.options.state.zoom}&year=${this.options.state.timelineDate.getUTCFullYear()}`,
+    $.get(`${config.apiUrl}/projects_layer?zoom=${this.options.state.zoom}&year=${this.options.state.timelineDate.getUTCFullYear()}`,
       data => {
       this.addMarkers(data);
       return deferred.resolve(this.layer);
@@ -132,12 +133,16 @@ export default class ClusterLayer {
       oldState.zoom <= 3 && state.zoom >= 4 || oldYear !== year;
   }
 
-  openPopup() {
-    /* TODO */
+  onMapClick(map, [lat, lng], zoom, date, slug) {
+    this.closePopup();
+    this.popup = new PopupManager(map, lat, lng, zoom, date, slug);
   }
 
+  /**
+   * Close the popup
+   */
   closePopup() {
-    /* TODO */
+    if(this.popup) this.popup.close();
   }
 
   /**
