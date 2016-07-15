@@ -32,7 +32,7 @@ class MapView extends Backbone.View {
     this.state.set({ 'filters': filtersModel.toJSON() }, { silent: true });
     this._checkMapInitialSettings();
 
-    this.timestamp = null;
+    this.timestamp = +(new Date());
     this._createMap();
     this._addLayer();
     this._setEvents();
@@ -84,40 +84,6 @@ class MapView extends Backbone.View {
     if(!this.myDonationMarker) return;
     this.myDonationMarker.updateVisibility(this.state.get('layer').slug);
   }
-
-  drawDonationMarker(options) {
-    /* TODO */
-    // this.markerOptions = options;
-    // this.donationMarker = new MarkerLayer(options);
-    // let markerLayer = this.donationMarker.addLayer(this.map);
-    // markerLayer.on('click', this.drawDonationPopUp.bind(this));
-    // if ( !utils.checkDevice().mobile ) this.drawDonationPopUp();
-    // this.state.set({ lat: options.position[0], lng: options.position[1], zoom: 3 });
-  }
-
-  drawDonationPopUp() {
-    /* TODO */
-    // this.myDonationPopUp = new PopUpContentView({
-    //   currentMode: 'my-donation',
-    //   currentLayer: 'my-donation',
-    //   latLng: this.markerOptions.position,
-    //   map: this.map,
-    //   name: this.markerOptions.name,
-    //   amount: this.markerOptions.amount,
-    //   countries: this.markerOptions.countries,
-    //   sectors: this.markerOptions.sectors
-    // })
-    //
-    // this.myDonationPopUp.getPopUp();
-    // this._stopAnimation();
-  }
-
-  // _stopAnimation() {
-  //   const element = document.getElementsByClassName('icon-my-donation')[0];
-  //   const classes = element.getAttribute('class');
-  //   const newClasses = classes.replace('animation', '');
-  //   element.setAttribute('class', newClasses);
-  // }
 
   _createMap() {
     const southWest = L.latLng(-80, 124),
@@ -310,6 +276,7 @@ MapView.prototype.updateLayer = (function() {
   /* We can't use throttle here because we wanna be sure that the last call is
    * going to be painted */
   const _addLayer = _.debounce(function() {
+    this.timestamp = +(new Date());
     this.removeCurrentLayer();
     this._addLayer();
   }, 100);
@@ -318,8 +285,6 @@ MapView.prototype.updateLayer = (function() {
 
     const activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
     if(!activeLayer) return;
-
-    this.timestamp = +(new Date());
 
     if(this.currentLayerConfig &&
       activeLayer.get('layer_type') !== this.currentLayerConfig.layer_type) {

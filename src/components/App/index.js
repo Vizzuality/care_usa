@@ -332,8 +332,9 @@ class App extends React.Component {
       layer: this.state.layer.slug
     });
 
+
     const state = this.router.params.toJSON();
-    state.timelineDate = moment.utc(this.state.timelineDate, 'YYYY-MM-DD').toDate();
+    state.timelineDate = moment.utc(this.state.timelineDate || this.state.layer.end_date, 'YYYY-MM-DD').toDate();
     state.layer = this.state.layer;
     state.mode = this.state.mode;
 
