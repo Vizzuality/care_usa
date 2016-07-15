@@ -6,18 +6,17 @@ import filtersModel from '../../../scripts/models/filtersModel';
 
 export default class AmountDonatedModel extends Backbone.Model {
 
-  constructor(lat, lng, date) {
+  constructor(iso, date) {
     super();
 
-    this.lat  = lat;
-    this.lng  = lng;
+    this.iso  = iso;
     this.date = date;
   }
 
   url() {
     const filters = filtersModel.toJSON();
 
-    const base = `${config.apiUrl}/projects?lat=${this.lat}&lng=${this.lng}`;
+    const base = `${config.apiUrl}/projects?iso=${this.iso}`;
     const year = `year=${moment.utc(this.date || filters && filters.to).format('YYYY')}`;
     const regions = filters.region && `&countries_iso=${filters['region']}`;
     const sectors = filters.sectors.length > 0 &&

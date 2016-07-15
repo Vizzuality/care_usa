@@ -12,7 +12,7 @@ export default class PeopleReachedPopup extends AbstractPopup {
   fetchData() {
     const deferred = $.Deferred();
 
-    this.model = new PeopleReachedModel(this.lat, this.lng, this.date);
+    this.model = new PeopleReachedModel(this.options.iso, this.date);
     this.model.fetch()
       .done(data => deferred.resolve(data))
       .fail(err  => deferred.reject(err));

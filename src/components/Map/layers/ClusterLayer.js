@@ -136,6 +136,7 @@ export default class ClusterLayer {
     const popupOffset = bucketToSize[marker.clustered ? 'cluster': 'marker'][marker.bucket] / 2;
 
     const options = {
+      iso: marker.iso,
       sectors: marker.per_sector,
       closeCallback: () => DOMMarker.classList.remove('-opened'),
       className: `-offset-${popupOffset}`
