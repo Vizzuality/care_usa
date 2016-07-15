@@ -114,7 +114,9 @@ export default class ClusterLayer {
       });
 
       return L.marker([marker.lat, marker.lng], { icon })
-        .on('click', () => this.onMarkerClick(marker));
+        .on('click', () => this.onMarkerClick(marker))
+        .on('mouseover', e => this.onMarkerEnter(e.target._icon))
+        .on('mouseout',  e => this.onMarkerLeave(e.target._icon));
     }, this));
   }
 
@@ -124,6 +126,23 @@ export default class ClusterLayer {
    */
   onMarkerClick(marker) {
     this.options.map.setView([marker.lat, marker.lng], 4);
+  }
+
+  /**
+   * Add a class to the marker to move it on top of the others when hovered
+   * @param  {Object} marker DOM element
+   */
+  onMarkerEnter(marker) {
+    marker.classList.add('-ontop');
+  }
+
+  /**
+   * Remove the class setting the marker on top of the others when the mouse
+   * leaves it
+   * @param  {Object} marker DOM element
+   */
+  onMarkerLeave(marker) {
+    marker.classList.remove('-ontop');
   }
 
   shouldLayerReload(oldState, state) {

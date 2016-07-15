@@ -116,6 +116,10 @@
 }
 
 .bubble-marker {
+  /* By default, Leaflet adds a z-index value to all the markers. To override it
+   * and make sure our is higher, we use a high value with "!important". */
+  &.-ontop { z-index: 5000 !important; }
+
   &.-size-50 {
     width:  rem(50) !important;
     height: rem(50) !important;
