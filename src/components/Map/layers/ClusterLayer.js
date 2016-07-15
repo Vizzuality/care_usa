@@ -93,6 +93,8 @@ export default class ClusterLayer {
       marker:  { 1: 130, 2: 100, 3:  80, 4:  50 }
     };
 
+    const zoom = this.options.map.getZoom();
+
     this.layer = L.layerGroup(markersList.map(marker => {
       const bubbleSize = bucketToSize[marker.clustered ? 'cluster': 'marker'][marker.bucket];
 
@@ -104,7 +106,7 @@ export default class ClusterLayer {
           <div class="bubble">
             <div class="total">${utils.numberNotation(marker.total_people)}</div>
             ${this.generateBubble(marker.per_sector, marker.total_people, bubbleSize)}
-            ${marker.clustered ? `
+            ${marker.clustered || zoom >= 6 ? `
               <div class="title">
                 ${marker.name}
               </div>
@@ -158,6 +160,10 @@ export default class ClusterLayer {
    * @param  {Object} marker DOM element
    */
   onMarkerLeave(marker) {
+    /* marker could be falsy if the user clicks on a high level cluster as this
+     * one automatically disappears */
+    if(!marker) return;
+
     marker.classList.remove('-ontop');
   }
 
@@ -165,7 +171,10 @@ export default class ClusterLayer {
     const oldYear = oldState.timelineDate.getUTCFullYear();
     const year    = state.timelineDate.getUTCFullYear();
     return oldState.zoom >= 4 && state.zoom <= 3 ||
-      oldState.zoom <= 3 && state.zoom >= 4 || oldYear !== year;
+      oldState.zoom <= 3 && state.zoom >= 4 ||
+      oldState.zoom >= 6 && state.zoom <= 5 ||
+      oldState.zoom <= 5 && state.zoom >= 6 ||
+      oldYear !== year;
   }
 
   onMapClick(map, [lat, lng], zoom, date, slug) {
