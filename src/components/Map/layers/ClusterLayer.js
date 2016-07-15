@@ -10,6 +10,11 @@ const defaults = {
   cartodbKey: config.cartodbKey
 };
 
+const bucketToSize = {
+  cluster: { 1: 220, 2: 150, 3: 100         },
+  marker:  { 1: 130, 2: 100, 3:  80, 4:  50 }
+};
+
 export default class ClusterLayer {
 
   /*
@@ -88,11 +93,6 @@ export default class ClusterLayer {
    * @param {Array} markersList list of markers from the API
    */
   addMarkers(markersList) {
-    const bucketToSize = {
-      cluster: { 1: 220, 2: 150, 3: 100         },
-      marker:  { 1: 130, 2: 100, 3:  80, 4:  50 }
-    };
-
     const zoom = this.options.map.getZoom();
 
     this.layer = L.layerGroup(markersList.map(marker => {
@@ -132,9 +132,13 @@ export default class ClusterLayer {
     const zoom = map.getZoom();
     const date = this.options.state.timelineDate;
     const slug = this.options.slug;
+
+    const popupOffset = bucketToSize[marker.clustered ? 'cluster': 'marker'][marker.bucket] / 2;
+
     const options = {
       sectors: marker.per_sector,
-      closeCallback: () => DOMMarker.classList.remove('-opened')
+      closeCallback: () => DOMMarker.classList.remove('-opened'),
+      className: `-offset-${popupOffset}`
     };
 
     if(zoom <= 3) {

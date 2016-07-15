@@ -281,10 +281,14 @@
 
 .leaflet-popup {
 
-  /* min-width: rem(250); */
+  &.-offset-25  { bottom:  calc(25px - 7px) !important; }
+  &.-offset-40  { bottom:  calc(40px - 7px) !important; }
+  &.-offset-50  { bottom:  calc(50px - 7px) !important; }
+  &.-offset-75  { bottom:  calc(75px - 7px) !important; }
+  &.-offset-65  { bottom:  calc(65px - 7px) !important; }
+  &.-offset-110 { bottom: calc(110px - 7px) !important; }
 
   @media screen and (min-width: $screen-m) {
-    /* min-width: rem(250); */
     width: auto;
   }
 }

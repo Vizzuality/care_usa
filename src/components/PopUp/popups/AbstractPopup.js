@@ -18,7 +18,15 @@ export default class AbstractPopup extends Backbone.View {
 
     this.fetchData()
       .done(data => {
-        if(!data || _.isEmpty(data)) return;
+        if(!data || _.isEmpty(data)) {
+          /* We don't want the map in an incoherent state */
+          if(this.options.closeCallback &&
+            typeof this.options.closeCallback === 'function') {
+            this.options.closeCallback();
+          }
+
+          return;
+        }
         this.open();
       })
       .fail(err => {
@@ -72,7 +80,10 @@ export default class AbstractPopup extends Backbone.View {
     if(isMobile) {
       this.popup = $('body').append(popupContent);
     } else {
-      this.popup = L.popup({ closeButton: false })
+      this.popup = L.popup({
+          closeButton: false,
+          className: this.options && this.options.className || ''
+        })
         .setLatLng([ this.lat, this.lng ])
         .setContent(popupContent)
         .openOn(this.map);
