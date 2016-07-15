@@ -114,7 +114,7 @@ export default class ClusterLayer {
       });
 
       return L.marker([marker.lat, marker.lng], { icon })
-        .on('click', () => this.onMarkerClick(marker))
+        .on('click', e => this.onMarkerClick(marker, e.target._icon))
         .on('mouseover', e => this.onMarkerEnter(e.target._icon))
         .on('mouseout',  e => this.onMarkerLeave(e.target._icon));
     }, this));
@@ -123,9 +123,25 @@ export default class ClusterLayer {
   /**
    * Center the map to the position of the marker and zoom in until zoom 4
    * @param  {Object} marker API entity
+   * @param  {Object} marker DOM element
    */
-  onMarkerClick(marker) {
-    this.options.map.setView([marker.lat, marker.lng], 4);
+  onMarkerClick(marker, DOMMarker) {
+    const map = this.options.map
+    const zoom = map.getZoom();
+    const date = this.options.state.timelineDate;
+    const slug = this.options.slug;
+    const options = {
+      sectors: marker.per_sector,
+      closeCallback: () => DOMMarker.classList.remove('-opened')
+    };
+
+    if(zoom <= 3) {
+      this.options.map.setView([marker.lat, marker.lng], 4);
+    } else {
+      this.closePopup();
+      this.popup = new PopupManager(map, marker.lat, marker.lng, zoom, date, slug, options);
+      DOMMarker.classList.add('-opened');
+    }
   }
 
   /**
@@ -154,7 +170,6 @@ export default class ClusterLayer {
 
   onMapClick(map, [lat, lng], zoom, date, slug) {
     this.closePopup();
-    this.popup = new PopupManager(map, lat, lng, zoom, date, slug);
   }
 
   /**

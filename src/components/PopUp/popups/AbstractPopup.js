@@ -14,7 +14,7 @@ export default class AbstractPopup extends Backbone.View {
     this.lng  = lng;
     this.date = date;
     this.zoom = zoom;
-    this.options = options;
+    this.options = options || {};
 
     this.fetchData()
       .done(data => {
@@ -99,6 +99,11 @@ export default class AbstractPopup extends Backbone.View {
       }
     } else {
       this.map.closePopup();
+    }
+
+    if(this.options.closeCallback &&
+      typeof this.options.closeCallback === 'function') {
+      this.options.closeCallback();
     }
   }
 

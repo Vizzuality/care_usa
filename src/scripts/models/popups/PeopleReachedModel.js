@@ -4,7 +4,7 @@ import Backbone from 'backbone';
 import moment from 'moment';
 import filtersModel from '../../../scripts/models/filtersModel';
 
-export default class RefugeesModel extends Backbone.Model {
+export default class AmountDonatedModel extends Backbone.Model {
 
   constructor(lat, lng, date) {
     super();
@@ -17,8 +17,8 @@ export default class RefugeesModel extends Backbone.Model {
   url() {
     const filters = filtersModel.toJSON();
 
-    const base = `${config.apiUrl}/projects/refugees?lat=${this.lat}&lng=${this.lng}`;
-    const year = `year=${moment.utc(this.date).format('YYYY')}`;
+    const base = `${config.apiUrl}/projects?lat=${this.lat}&lng=${this.lng}`;
+    const year = `year=${moment.utc(this.date || filters && filters.to).format('YYYY')}`;
     const regions = filters.region && `&countries_iso=${filters['region']}`;
     const sectors = filters.sectors.length > 0 &&
       filters.sectors

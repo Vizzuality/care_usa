@@ -118,7 +118,7 @@
 .bubble-marker {
   /* By default, Leaflet adds a z-index value to all the markers. To override it
    * and make sure our is higher, we use a high value with "!important". */
-  &.-ontop { z-index: 5000 !important; }
+  &.-ontop, &.-opened { z-index: 5000 !important; }
 
   &.-size-50 {
     width:  rem(50) !important;
@@ -164,11 +164,6 @@
     transition: box-shadow .3s ease-out, background-color .3s ease-out;
     height: 100%;
 
-    &:hover {
-      background-color: rgba($color-19, 1);
-      box-shadow: 0 0 rem(18) 0 rgba(#504c44, .6);
-    }
-
     > .total {
       position: absolute;
       top: 50%;
@@ -190,6 +185,13 @@
       color: $font-color-1;
       text-align: center;
     }
+  }
+
+
+  > .bubble:hover,
+  &.-opened > .bubble {
+    background-color: rgba($color-19, 1);
+    box-shadow: 0 0 rem(18) 0 rgba(#504c44, .6);
   }
 
 }
