@@ -478,9 +478,17 @@ class App extends React.Component {
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
-          <svg className="btn js-button">
-            <use xlinkHref="#icon-play" className="js-button-icon"></use>
+          <svg className="btn play-button js-play-button">
+            <use xlinkHref="#icon-play"></use>
           </svg>
+          <div className="arrow-buttons js-arrow-buttons">
+            <svg className="btn arrow-button js-previous-button">
+              <path d="M7.501 0L0 9.001 7.501 18l2.98-2.481L5.05 9l5.43-6.517z" fill-rule="evenodd" />
+            </svg>
+            <svg className="btn arrow-button js-next-button">
+              <path d="M2.98 0l7.5 9.001L2.98 18 0 15.519 5.43 9 0 2.484z" fill-rule="evenodd" />
+            </svg>
+          </div>
           <div className="svg-container js-svg-container"></div>
         </div>
 
