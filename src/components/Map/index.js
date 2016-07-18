@@ -295,7 +295,6 @@ MapView.prototype.updateLayer = (function() {
   }, 16);
 
   return function() {
-
     const activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
     if(!activeLayer) return;
 
@@ -307,6 +306,12 @@ MapView.prototype.updateLayer = (function() {
       _addLayer.call(this);
     } else if(this.currentLayer) {
       this.currentLayer.updateLayer(this.state.toJSON());
+    } else {
+      /* In some extreme cases, when switching quickly between the two dashboard
+       * tabs, the old and new layer will be the same, but this.currentLayer
+       * would be null because the map add sufficient time to remove the layer.
+       * So we want this fallback to re-add the layer. */
+      _addLayer.call(this);
     }
 
   };
