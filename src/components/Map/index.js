@@ -292,7 +292,7 @@ MapView.prototype.updateLayer = (function() {
     this.timestamp = +(new Date());
     this.removeCurrentLayer();
     this._addLayer();
-  }, 100);
+  }, 16);
 
   return function() {
 

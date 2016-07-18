@@ -18,13 +18,8 @@ export default class AmountDonatedModel extends Backbone.Model {
 
     const base = `${config.apiUrl}/projects?iso=${this.iso}`;
     const year = `year=${moment.utc(this.date || filters && filters.to).format('YYYY')}`;
-    const regions = filters.region && `&countries_iso=${filters['region']}`;
-    const sectors = filters.sectors.length > 0 &&
-      filters.sectors
-        .map(sector => `sectors_slug[]=${sector}`)
-        .join('&');
 
-    return [ base, year, regions, sectors ]
+    return [ base, year ]
       .filter(elem => !!elem)
       .join('&');
   }
