@@ -256,6 +256,19 @@ class MapView extends Backbone.View {
         layerClass = TileLayer;
     }
 
+    /* The layer "people-reached" doesn't support the filters, we thus need to
+     * disable them
+     * NOTE: layerConfig             -> new layer
+     * 			 this.currentLayerConfig -> old layer
+     */
+    if(layerConfig.slug === 'people-reached' &&
+      (!this.currentLayerConfig || this.currentLayerConfig.slug !== 'people-reached')) {
+      filtersModel.disable();
+    } else if(layerConfig.slug !== 'people-reached' && this.currentLayerConfig
+      && this.currentLayerConfig.slug == 'people-reached') {
+      filtersModel.restore();
+    }
+
     const newLayer = new layerClass(layerConfig, state, this.map);
 
     newLayer.initLayer().done(() => {
@@ -285,6 +298,7 @@ MapView.prototype.updateLayer = (function() {
 
     const activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
     if(!activeLayer) return;
+
 
     if(this.currentLayerConfig &&
       activeLayer.get('layer_type') !== this.currentLayerConfig.layer_type) {

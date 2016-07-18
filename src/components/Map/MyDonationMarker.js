@@ -23,8 +23,6 @@ export default class DonationMarker extends Backbone.View {
         if(layerSlug !== 'amount-of-money') return;
         map.setView([ data.lat - (isMobile ? 30 : 0), data.lng ]);
         if(!isMobile) this.openPopup();
-
-        console.log(data);
       })
       .fail(err => {
         throw new Error(`Unable to fetch the detail of the donation: ${err}`);

@@ -82,6 +82,26 @@ class FiltersModel extends Backbone.Model {
     return empty;
   }
 
+  /**
+   * Empty the model and save its content to be restored later
+   */
+  disable() {
+    if(this.snapshot) return;
+
+    this.snapshot = this.toJSON();
+    this.clear();
+  }
+
+  /**
+   * Restore the previously saved state of the mode;
+   */
+  restore() {
+    if(!this.snapshot) return;
+
+    this.set(this.snapshot);
+    this.snapshot = null;
+  }
+
 }
 
 /* Defaults are necessary to ensure the modal of filters is resetted each time
