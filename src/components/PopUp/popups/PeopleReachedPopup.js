@@ -62,7 +62,7 @@ export default class PeopleReachedPopup extends AbstractPopup {
         }
         <div class="numbers-donation">
           <div>
-            <span class="number-l">
+            <span class="number">
               ${utils.numberNotation(this.model.get('totals').people)}
             </span>
             <span class="text-legend-s">
@@ -72,7 +72,7 @@ export default class PeopleReachedPopup extends AbstractPopup {
           ${
             this.model.get('totals').women_and_girls ? `
               <div>
-                <span class="number-l">
+                <span class="number">
                   ${utils.numberNotation(this.model.get('totals').women_and_girls)}%
                 </span>
                 <span class="text-legend-s">

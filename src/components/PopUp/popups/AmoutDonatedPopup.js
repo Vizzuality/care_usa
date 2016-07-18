@@ -22,7 +22,7 @@ export default class AmountDonatedPopup extends AbstractPopup {
 
   getPopupContent() {
     const title = this.model.get('donors').length === 1 ?
-      this.model.get('donors').name :
+      this.model.get('donors')[0].name :
       `${utils.numberNotation(this.model.get('total_donors'))} donations`;
 
     const sectorsItems = (this.model.get('sectors').length > 0) ? `
@@ -65,21 +65,18 @@ export default class AmountDonatedPopup extends AbstractPopup {
       <div class="wrapper -donations">
         <header class="donation-header">
           <h1 class="text text-report-title  -light">
-            ${title} -&nbsp;
-            <span class="number-l">
-              $${utils.numberNotation(this.model.get('total_funds'))}
-            </span>
+            ${title} -
+            $${utils.numberNotation(this.model.get('total_funds'))}
+            <div id="btn-donors" class="btn-donors js-popup-donation">
+              +
+            </div>
           </h1>
-          <div id="btn-donors" class="btn-donors js-popup-donation">
-            <p>+</p>
-          </div>
         </header>
         <h2 class="text text-legend-s -light subtitle">
           ${this.model.get('location').city}
         </h2>
-      <hr/>
-      ${sectorsItems}
-      ${regionsItems}
+      ${sectorsItems.length ? `<hr />${sectorsItems}` : sectorsItems}
+      ${`${!sectorsItems.length && regionsItems.length ? '<hr />' : ''}${regionsItems}`}
       </div>
     `;
   }
