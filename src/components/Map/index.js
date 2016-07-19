@@ -256,18 +256,34 @@ class MapView extends Backbone.View {
         layerClass = TileLayer;
     }
 
+    /* Here we need to take care of a really nasty unwanted behavior. If we use
+     * this.currentLayerConfig as a reference to the previous layer, and
+     * layerConfig as the one for the new layer, we'll run into issues if the
+     * layers are switched quickly. What happens is that we won't be able to see
+     * all the transitions between the layers. For example, we could see A -> B
+     * but never B -> A if we switched alternatively between two of them.
+     * Instead, we could see A -> B and later A -> A, meaning we went back to
+     * the first layer.
+     * In order to fix this issue that messes up with the UI, we save the slug
+     * of the previous layer in a variable called this.previousLayerSlug and
+     * compare it to the new layer's slug. This way we can be sure of the
+     * transition. */
+
     /* The layer "people-reached" doesn't support the filters, we thus need to
      * disable them
-     * NOTE: layerConfig             -> new layer
-     * 			 this.currentLayerConfig -> old layer
+     * NOTE: layerConfig            -> new layer
+     * 			 this.previousLayerSlug -> old layer
      */
     if(layerConfig.slug === 'people-reached' &&
-      (!this.currentLayerConfig || this.currentLayerConfig.slug !== 'people-reached')) {
+      (!this.previousLayerSlug || this.previousLayerSlug !== 'people-reached')) {
       filtersModel.disable();
-    } else if(layerConfig.slug !== 'people-reached' && this.currentLayerConfig
-      && this.currentLayerConfig.slug == 'people-reached') {
+    } else if(layerConfig.slug !== 'people-reached' && this.previousLayerSlug
+      && this.previousLayerSlug == 'people-reached') {
       filtersModel.restore();
     }
+
+    /* We finally update the "pointer" to the previous slug */
+    this.previousLayerSlug = layerConfig.slug;
 
     const newLayer = new layerClass(layerConfig, state, this.map);
 
