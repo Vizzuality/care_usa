@@ -132,6 +132,7 @@ class Dashboard extends React.Component {
                 filters={ this.props.filters }
                 timelineDate={ this.props.timelineDate }
                 layer={ this.props.layer }
+                currentMode = { this.props.currentMode }
               />
               <DashFilters
                 filters={ this.props.filters }
