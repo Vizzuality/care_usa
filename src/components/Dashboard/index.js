@@ -64,7 +64,9 @@ class Dashboard extends React.Component {
       tabsMobile = null;
     }
 
-    if (!this.state.mobile && !this.props.embed) {
+    /* The layer "people-reached" doesn't support the filters */
+    if (!this.state.mobile && !this.props.embed &&
+      this.props.layer.slug !== 'people-reached') {
       filtersSwitcher = <div
               className= 'btn btn-third btn-filters-switcher'
               onClick= { this.props.toggleFiltersFn } >
@@ -111,7 +113,7 @@ class Dashboard extends React.Component {
                 <a href="#" className="btn btn-primary btn-embed">Explore the map</a>
               }
 
-              { !this.props.embed &&
+              { !this.props.embed && this.props.layer.slug !== 'people-reached' &&
                   <button
                     className="btn btn-third -small text text-cta btn-filters-switcher"
                     onClick={ this.props.toggleFiltersFn } >
@@ -130,6 +132,7 @@ class Dashboard extends React.Component {
                 filters={ this.props.filters }
                 timelineDate={ this.props.timelineDate }
                 layer={ this.props.layer }
+                currentMode = { this.props.currentMode }
               />
               <DashFilters
                 filters={ this.props.filters }

@@ -47,29 +47,15 @@
     }
 
     .btn-donors {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0;
+      display: inline-block;
+      margin-left: rem(10);
       width: rem(29);
       height: rem(29);
       border: rem(1) solid $color-13;
+      vertical-align: middle;
       cursor: pointer;
-      margin-top: rem(8);
-
-      @media screen and (min-width: $screen-s) {
-        margin-top: rem(9);
-      }
-
-      @media screen and (min-width: $screen-m) {
-        margin-top: rem(-6);
-      }
-
-      & p {
-        font-size: rem(26);
-        font-weight: normal;
-        margin-top: rem(5);
-      }
+      line-height: rem(29);
+      text-align: center;
     }
   }
 
@@ -139,9 +125,19 @@
         flex-wrap: wrap;
       }
 
-      & div:first-child {
+      > div:first-child {
         @media screen and (min-width: $screen-xl) {
           margin-bottom: rem(10);
+        }
+      }
+
+      > div {
+        font-family: $font-family-1;
+
+        .number {
+          font-size: rem(20);
+          letter-spacing: .rem(.8);
+          font-family: $font-family-2;
         }
       }
     }
@@ -155,9 +151,9 @@
     }
 
     .text-cta {
-      font-style: none;
+      font-weight: 700;
       margin-right: rem(4);
-      // margin-bottom: rem(25);
+      text-decoration: none;
     }
 
     .text-cta:hover {
@@ -231,16 +227,14 @@
     }
   }
 
-  &.-my-donation {
-    padding-top: rem(30);
+  .wrapper.-my-donation {
     width: 100%;
 
     @media screen and (min-width: $screen-s) {
-      width: rem(400);
+      width: rem(320);
     }
 
     @media screen and (min-width: $screen-m) {
-      padding-bottom: rem(10);
       transform: translatey(10px);
     }
 
@@ -253,11 +247,11 @@
       font-weight: 700;
     }
 
-    .number-l {
+    /*.number-l {
       @media screen and (min-width: $screen-m) {
         font-size: rem(25);
       }
-    }
+    }*/
 
     .donation {
       display: flex;
@@ -282,10 +276,14 @@
 
 .leaflet-popup {
 
-  /* min-width: rem(250); */
+  &.-offset-25  { bottom:  calc(25px - 7px) !important; }
+  &.-offset-40  { bottom:  calc(40px - 7px) !important; }
+  &.-offset-50  { bottom:  calc(50px - 7px) !important; }
+  &.-offset-75  { bottom:  calc(75px - 7px) !important; }
+  &.-offset-65  { bottom:  calc(65px - 7px) !important; }
+  &.-offset-110 { bottom: calc(110px - 7px) !important; }
 
   @media screen and (min-width: $screen-m) {
-    /* min-width: rem(250); */
     width: auto;
   }
 }

@@ -14,21 +14,26 @@ class DashboardDates extends React.Component {
   }
 
   render() {
+    let outputFormat = 'MM·DD·YYYY';
+    /* When showing the "Projects" tab of the dashboard, we only want to display
+     * the years */
+    if(this.props.currentMode === 'projects') outputFormat = 'YYYY';
+
     let dates;
     if(this.props.filters.from && this.props.filters.to) {
       dates = [
-        moment.utc(this.props.filters.from).format('MM·DD·YYYY'),
-        moment.utc(this.props.filters.to).format('MM·DD·YYYY')
+        moment.utc(this.props.filters.from).format(outputFormat),
+        moment.utc(this.props.filters.to).format(outputFormat)
       ];
     } else if(this.props.timelineDate) {
       dates = [
-        moment.utc(this.props.layer.domain[0], 'YYYY-MM-DD').format('MM·DD·YYYY'),
-        moment.utc(+this.props.timelineDate).format('MM·DD·YYYY')
+        moment.utc(this.props.layer.domain[0], 'YYYY-MM-DD').format(outputFormat),
+        moment.utc(+this.props.timelineDate).format(outputFormat)
       ];
     } else {
       dates = [
-        moment.utc(this.props.layer.domain[0]).format('MM·DD·YYYY'),
-        moment.utc(this.props.layer.domain[1]).format('MM·DD·YYYY')
+        moment.utc(this.props.layer.domain[0]).format(outputFormat),
+        moment.utc(this.props.layer.domain[1]).format(outputFormat)
       ];
     }
 

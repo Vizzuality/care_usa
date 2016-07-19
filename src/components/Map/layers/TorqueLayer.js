@@ -1,8 +1,10 @@
 'use strict';
 
 import $ from 'jquery';
+import _ from 'underscore';
 import moment from 'moment';
-import utils from '../../scripts/helpers/utils';
+import utils from '../../../scripts/helpers/utils';
+import PopupManager from '../../PopUp/PopupManager';
 
 /**
  * Here is the custom AnimatorStepsRange we use to override a non-desired
@@ -50,18 +52,44 @@ const optionalStatements = {
   }
 };
 
-class TorqueLayer {
+export default class TorqueLayer {
 
   constructor(options, state) {
-    this.options = options;
-    this.state = state;
-    this.timestamp = new Date().getTime();
+    this.options = Object.assign({}, options);
+    this.options.state = state;
+    this.timestamp = +(new Date());
   }
 
-  createLayer() {
-    const deferred = new $.Deferred();
+  /**
+   * Return the query used to fetch the layer
+   * @return {String} SQL query
+   */
+   getQuery() {
+    const filters = this.options.state.filters;
+    const statements = optionalStatements[this.options.category]
+    return this.options.sql_template.replace('$WHERE', () => {
+      const res = Object.keys(statements).map(name => {
+        return statements[name](filters, [
+          moment.utc(this.options.state.layer.domain[0], 'YYYY-MM-DD'),
+          moment.utc(this.options.state.layer.domain[1], 'YYYY-MM-DD')
+        ]);
+      }).filter(statement => !!statement)
+        .join(' AND ');
 
-    // Creating torque layer
+      if(res.length) {
+        return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
+      }
+     return '';
+    });
+  }
+
+  /**
+   * Init the layer and return a deferred Object
+   * @return {Object} jQuery deferred object
+   */
+  initLayer() {
+    const deferred = $.Deferred();
+
     this.layer = new L.TorqueLayer({
       user: config.cartodbAccount,
       table: this.options.tablename || 'donors',
@@ -79,13 +107,35 @@ class TorqueLayer {
     this.layer.animator.steps = steps;
     this.layer.animator.stepsRange = stepsRange;
 
-    this.layer.error((err) => {
-      console.error(err);
-    });
-
+    this.layer.error(deferred.reject);
     deferred.resolve(this.layer);
 
-    return deferred.promise();
+    /* Hack to get to know when a torque layer has been loaded as there's no
+     * proper "loaded" working event in the torque library */
+    const callback = () => {
+      if(!this.hasData()) {
+        clearTimeout(timeout);
+        return;
+      }
+
+      if(this.isReady()) {
+        clearTimeout(timeout);
+        this.setPosition();
+      }
+    };
+    const timeout = setInterval(callback.bind(this), 200);
+
+    return deferred;
+  }
+
+  /**
+   * Set the step of the layer
+   */
+  setPosition() {
+    const currentDate = this.options.state.timelineDate
+      || this.options.state.filters.to;
+    const step = Math.round(this.layer.timeToStep(+new Date(currentDate)));
+    this.layer.setStep(step);
   }
 
   /**
@@ -93,54 +143,13 @@ class TorqueLayer {
    * @return {Number}
    */
   getSteps() {
-    var unit = this.state.layer.timeline.interval.unit || 'month';
-    var interval = this.state.layer.timeline.interval.count || 1;
-    var startDate = moment.utc(this.state.layer.domain[0], 'YYYY-MM-DD').valueOf();
-    var endDate = moment.utc(this.state.layer.domain[1], 'YYYY-MM-DD').valueOf();
+    var unit = this.options.state.layer.timeline.interval.unit || 'month';
+    var interval = this.options.state.layer.timeline.interval.count || 1;
+    var startDate = moment.utc(this.options.state.layer.domain[0], 'YYYY-MM-DD').valueOf();
+    var endDate = moment.utc(this.options.state.layer.domain[1], 'YYYY-MM-DD').valueOf();
     // Using d3 time interval, more info: https://github.com/d3/d3/wiki/Time-Intervals
     var numberOfSteps = d3.time[unit + 's'](startDate, endDate, interval);
     return numberOfSteps.length || 1;
-  }
-
-  /**
-   * Add layer to map
-   * @param  {L.Map} map
-   * @param {Function} callback
-   */
-  addLayer(map) {
-    if (!map) {
-      throw new Error('map param is required');
-    }
-    map.addLayer(this.layer);
-  }
-
-  /**
-   * Remove layer from map
-   * @param  {L.Map} map
-   */
-  removeLayer(map) {
-    if (map && this.layer) {
-      map.removeLayer(this.layer);
-    }
-  }
-
-  getQuery() {
-    const filters = this.state.filters;
-    const statements = optionalStatements[this.options.category]
-    return this.options.sql_template.replace('$WHERE', () => {
-      const res = Object.keys(statements).map(name => {
-        return statements[name](filters, [
-          moment.utc(this.state.layer.domain[0], 'YYYY-MM-DD'),
-          moment.utc(this.state.layer.domain[1], 'YYYY-MM-DD')
-        ]);
-      }).filter(statement => !!statement)
-        .join(' AND ');
-
-      if(res.length) {
-        return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
-      }
-      return '';
-    });
   }
 
   getCartoCSS() {
@@ -166,6 +175,37 @@ class TorqueLayer {
       this.layer.animator._defaultStepsRange.start === 0);
   }
 
-}
+  /**
+   * Return true if the layer should be reloaded due to new params
+   * @param  {Object} oldState old state of the map and the application
+   * @param  {Object} state    new state
+   * @return {Boolean}         true if should be reloaded, false otherwise
+   */
+  shouldLayerReload(oldState, state) {
+    return oldState.filters.timestamp !== state.filters.timestamp &&
+      (!_.isEqual(oldState.filters.sectors, state.filters.sectors) ||
+        oldState.filters.region !== state.filters.region);
+  }
 
-export default TorqueLayer;
+  onMapClick(map, [lat, lng], zoom, date, slug) {
+    this.closePopup();
+    this.popup = new PopupManager(map, lat, lng, zoom, date, slug);
+  }
+
+  /**
+   * Close the popup
+   */
+  closePopup() {
+    if(this.popup) this.popup.close();
+  }
+
+  /**
+   * Update the layer according to new state
+   */
+  updateLayer(state) {
+    this.closePopup();
+    this.options.state = state;
+    this.setPosition();
+  }
+
+}

@@ -21,7 +21,6 @@ import utils from '../../scripts/helpers/utils';
 import ModalShare from '../ModalShare';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
-import donationModel from '../../scripts/models/donationModel';
 import DonorsModalModel from '../../scripts/models/DonorsModalModel';
 
 import sectorsCollection from '../../scripts/collections/SectorsCollection';
@@ -333,8 +332,9 @@ class App extends React.Component {
       layer: this.state.layer.slug
     });
 
+
     const state = this.router.params.toJSON();
-    state.timelineDate = this.state.timelineDate;
+    state.timelineDate = moment.utc(this.state.timelineDate || this.state.layer.end_date, 'YYYY-MM-DD').toDate();
     state.layer = this.state.layer;
     state.mode = this.state.mode;
 
@@ -363,21 +363,7 @@ class App extends React.Component {
     })
 
     if (this.state.donation) {
-      donationModel.getDonationInfo(this.state.donation).done(() => {
-        const donationInfo = {
-          name: donationModel.toJSON().nickname,
-          amount: donationModel.toJSON().amount,
-          position: [donationModel.toJSON().lat, donationModel.toJSON().lng],
-          countries: donationModel.toJSON().countries,
-          sectors: donationModel.toJSON().sectors
-        };
-
-        const displacement = this.state.mobile ? 30 : 0;
-        const donationPosition = L.latLng(donationModel.toJSON().lat - displacement, donationModel.toJSON().lng);
-
-        this.mapView.setMapCenter(donationPosition);
-        this.mapView.drawDonationMarker(donationInfo);
-      })
+      this.mapView.enableMyDonationMarker(this.state.donation);
     }
   }
 
@@ -492,9 +478,17 @@ class App extends React.Component {
         />
 
         <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
-          <svg className="btn js-button">
-            <use xlinkHref="#icon-play" className="js-button-icon"></use>
+          <svg className="btn play-button js-play-button">
+            <use xlinkHref="#icon-play"></use>
           </svg>
+          <div className="arrow-buttons js-arrow-buttons">
+            <svg className="btn arrow-button js-previous-button">
+              <path d="M7.501 0L0 9.001 7.501 18l2.98-2.481L5.05 9l5.43-6.517z" fill-rule="evenodd" />
+            </svg>
+            <svg className="btn arrow-button js-next-button">
+              <path d="M2.98 0l7.5 9.001L2.98 18 0 15.519 5.43 9 0 2.484z" fill-rule="evenodd" />
+            </svg>
+          </div>
           <div className="svg-container js-svg-container"></div>
         </div>
 
