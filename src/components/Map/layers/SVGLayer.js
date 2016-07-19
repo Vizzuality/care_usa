@@ -3,13 +3,15 @@
 import $ from 'jquery';
 import _ from 'underscore';
 import moment from 'moment';
-import '../../scripts/helpers/LTopoJSON';
+import '../../../scripts/helpers/LTopoJSON';
+import PopupManager from '../../PopUp/PopupManager';
 
 const defaults = {
   cartodbAccount: config.cartodbAccount,
   cartodbKey: config.cartodbKey
 };
 
+/* Optional statements for the query */
 const optionalStatements = {
   donations: {
     from:    (filters, timelineDate, layer) => `date >= '${timelineDate ? moment.utc(timelineDate).subtract(7, 'days').format('MM-DD-YYYY') : moment.utc(filters && filters.from ? filters.from : layer.domain[0]).format('MM-DD-YYYY')}'::date`,
@@ -36,15 +38,8 @@ const toleranceConfig = [
   { limit: -1, value: .1 },
 ];
 
-class CreateTileLayer {
+export default class SVGLayer {
 
-  /*
-   * Options: {
-   *  account,
-   *  sql,
-   *  cartoCss
-   * }
-   */
   constructor(options, state) {
     this.options = Object.assign(defaults, options);
     this.options.geo_cartocss = JSON.parse(this.options.geo_cartocss);
@@ -52,15 +47,61 @@ class CreateTileLayer {
     this.timestamp = +(new Date());
   }
 
-  createLayer() {
+  /**
+   * Return the query used to fetch the layer
+   * @return {String} SQL query
+   */
+  _getQuery() {
+    const filters = this.options.state.filters;
+    const timelineDate = this.options.state.timelineDate;
+    const layer = this.options.state.layer;
+    const statements = optionalStatements[this.options.category];
+    const templateWhere = _.indexOf(this.options.sql_template.split(' '), '$WHERE') >= 0 ? true : false;
+    const templateYear = _.indexOf(this.options.sql_template.split(' '), '$YEAR') >= 0 ? true : false;
+    if (templateWhere) {
+      return this.options.sql_template.replace(/\$WHERE/g, () => {
+        const res = Object.keys(statements).map(name => {
+          const filter = filters[name];
+            if(Array.isArray(filter) && filter.length ||
+              !Array.isArray(filter) && filter || timelineDate) {
+              return statements[name](filters, timelineDate, layer);
+            }
+            return null;
+          }).filter(statement => !!statement)
+            .join(' AND ');
+
+        if(res.length) {
+          return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
+        }
+        return '';
+      });
+    }
+
+    if(templateYear) {
+      return this.options.sql_template.replace(/\s\$YEAR/g, () => {
+        if(timelineDate || filters && filters['to']) {
+         return ` WHERE ${statements['to'](filters, timelineDate)}`;
+        }
+        return '';
+      });
+    }
+  }
+
+  /**
+   * Init the layer and return a deferred Object
+   * @return {Object} jQuery deferred object
+   */
+  initLayer() {
     const deferred = $.Deferred();
+    const query = this._getQuery();
+    const geoQuery = this._getGeoQuery();
 
     $.ajax({
-      url: `https://${defaults.cartodbAccount}.cartodb.com/api/v2/sql`,
       dataType: 'json',
+      url: `https://${this.options.cartodbAccount}.cartodb.com/api/v2/sql`,
       data: {
-        q: this._getGeoQuery(),
-        format: 'topojson',
+        q: geoQuery,
+        format: 'topojson'
       }
     }).done(topoJSON => {
       this.layer = new L.TopoJSON({
@@ -77,9 +118,12 @@ class CreateTileLayer {
     return deferred;
   }
 
+  /**
+   * Fetch the data associated with the geometries
+   */
   fetchData() {
     $.ajax({
-      url: `https://${defaults.cartodbAccount}.cartodb.com/api/v2/sql`,
+      url: `https://${this.options.cartodbAccount}.cartodb.com/api/v2/sql`,
       dataType: 'json',
       data: {
         q: this._getQuery()
@@ -90,8 +134,11 @@ class CreateTileLayer {
     });
   }
 
-  /* Called by this.layer to update the color of each geometry depending on the
-   * data */
+  /**
+   * Update the color of each geometry depending on the data
+   * @param  {Object} geo  geometry
+   * @param  {Object} data data
+   */
   updateGeometry(geo, data) {
     const geometryData = _.findWhere(data, { iso: geo.feature.properties.iso });
 
@@ -176,78 +223,41 @@ class CreateTileLayer {
       .replace('$SOUTH', bounds.south);
   }
 
-  _getQuery() {
-    const filters = this.options.state.filters;
-    const timelineDate = this.options.state.timelineDate;
-    const layer = this.options.state.layer;
-    const statements = optionalStatements[this.options.category];
-    const templateWhere = _.indexOf(this.options.sql_template.split(' '), '$WHERE') >= 0 ? true : false;
-    const templateYear = _.indexOf(this.options.sql_template.split(' '), '$YEAR') >= 0 ? true : false;
-    if (templateWhere) {
-      return this.options.sql_template.replace(/\$WHERE/g, () => {
-        const res = Object.keys(statements).map(name => {
-          const filter = filters[name];
-            if(Array.isArray(filter) && filter.length ||
-              !Array.isArray(filter) && filter || timelineDate) {
-              return statements[name](filters, timelineDate, layer);
-            }
-            return null;
-          }).filter(statement => !!statement)
-            .join(' AND ');
-
-        if(res.length) {
-          return (this.options.category === 'donations' ? 'WHERE ' : 'AND ') + res;
-        }
-        return '';
-      });
-    }
-
-    if(templateYear) {
-      return this.options.sql_template.replace(/\s\$YEAR/g, () => {
-        if(timelineDate || filters && filters['to']) {
-          return ` WHERE ${statements['to'](filters, timelineDate)}`;
-        }
-        return '';
-      });
-    }
-  }
-
   /**
-   * Add layer to map
-   * @param  {L.Map} map
-   * @param {Function} callback
+   * Return true if the layer should be reloaded due to new params
+   * @param  {Object} oldState old state of the map and the application
+   * @param  {Object} state    new state
+   * @return {Boolean}         true if should be reloaded, false otherwise
    */
-  addLayer(map) {
-    if (!map) {
-      throw new Error('map param is required');
-    }
-    map.addLayer(this.layer);
-  }
-
-  removeLayer(map) {
-    if (this.layer) {
-      map.removeLayer(this.layer);
-    }
-  }
-
-  /**
-   * Return whether the layer should be reloaded depending on the new zoom level
-   * compared to the old one. When the map is panned, the zoom doesn't change so
-   * both previousZoom and zoom should have the same value.
-   * @param  {Number}   previousZoom zoom before the zooming or panning
-   * @param  {Number}   zoom         zoom after the action
-   * @return {Boolean}               true if should be reloaded, false otherwise
-   */
-  shouldLayerReload(previousZoom, zoom) {
+  shouldLayerReload(oldState, state) {
     const firstToleranceLimit = toleranceConfig[0].limit;
 
     /* The only case when we don't want the layer to be reloaded is if the zoom
      * level stays below the first limit as the tolerance is really high and we
      * already have loaded the geometries for the whole world */
-    return !(previousZoom < firstToleranceLimit &&
-      zoom < firstToleranceLimit);
+    return !(oldState.zoom < firstToleranceLimit &&
+      state.zoom < firstToleranceLimit);
+  }
+
+  onMapClick(map, [lat, lng], zoom, date, slug) {
+    this.closePopup();
+    this.popup = new PopupManager(map, lat, lng, zoom, date, slug);
+  }
+
+  /**
+   * Close the popup
+   */
+  closePopup() {
+    if(this.popup) this.popup.close();
+  }
+
+  /**
+   * Update the layer according to new state
+   */
+  updateLayer(state) {
+    this.closePopup();
+    this.options.state = state;
+    this.fetchData();
   }
 
 }
-
-export default CreateTileLayer;

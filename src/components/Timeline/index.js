@@ -29,7 +29,9 @@ class TimelineView extends Backbone.View {
 
   events() {
     return {
-      'click .js-button': 'togglePlay'
+      'click .js-play-button': 'togglePlay',
+      'click .js-previous-button': 'goToPreviousYear',
+      'click .js-next-button': 'goToNextYear'
     };
   }
 
@@ -38,8 +40,11 @@ class TimelineView extends Backbone.View {
 
     /* Cache */
     this.svgContainer = this.el.querySelector('.js-svg-container');
-    this.button = this.el.querySelector('.js-button');
-    this.buttonIcon = this.el.querySelector('.js-button-icon');
+
+    this.playButton = this.el.querySelector('.js-play-button');
+    this.arrowButtons = this.el.querySelector('.js-arrow-buttons');
+    this.previousButton = this.el.querySelector('.js-previous-button');
+    this.nextButton = this.el.querySelector('.js-next-button');
 
     /* Position of the cursor
      * NOTE: doesn't contain a position in pixels but a date */
@@ -76,6 +81,16 @@ class TimelineView extends Backbone.View {
   render() {
     const smallScreen = utils.checkDevice().mobile ||
       utils.checkDevice().tablet;
+
+    if(this.options.interval.period === 'year') {
+      this.hidePlayButton();
+      this.showArrows();
+      this.svgContainer.style.width = 'calc(100% - 70px)';
+    } else {
+      this.hideArrows();
+      this.showPlayButton();
+      this.svgContainer.style.width = 'calc(100% - 30px)';
+    }
 
     const svgContainerDimensions = this.svgContainer.getBoundingClientRect();
 
@@ -280,6 +295,104 @@ class TimelineView extends Backbone.View {
     }
   }
 
+  /**
+   * Show the control arrows
+   */
+  showArrows() {
+    this.arrowButtons.style.display = '';
+
+    const currentYear  = this.cursorPosition.getUTCFullYear();
+    this.previousButton.classList.toggle('-disabled',
+      this.isFirstDomainYear(currentYear));
+    this.nextButton.classList.toggle('-disabled',
+      this.isLastDomainYear(currentYear));
+  }
+
+  /**
+   * Hide the control arrows
+   */
+  hideArrows() {
+    this.arrowButtons.style.display = 'none';
+  }
+
+  /**
+   * Show the play/pause control button
+   * @return {[type]} [description]
+   */
+  showPlayButton() {
+    this.playButton.style.display = '';
+  }
+
+  /**
+   * Hide the play/pause control button
+   */
+  hidePlayButton() {
+    this.playButton.style.display = 'none';
+  }
+
+  /**
+   * Subtract one year to the current position of the cursor and update the
+   * next and previous arrow buttons according to their availability with the
+   * move
+   */
+  goToPreviousYear() {
+    const currentYear  = this.cursorPosition.getUTCFullYear();
+
+    if(this.isFirstDomainYear(currentYear)) return;
+
+    this.cursorPosition = new Date(Date.UTC(currentYear - 1, 0, 1));
+    this.moveCursor(this.cursorPosition);
+    this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
+    this.triggerDate()
+
+    if(this.isFirstDomainYear(currentYear - 1)) {
+      this.previousButton.classList.add('-disabled');
+    }
+
+    this.nextButton.classList.remove('-disabled');
+  }
+
+  /**
+   * Add one year to the current position of the cursor and update the next and
+   * previous arrow buttons according to their availability with the move
+   */
+  goToNextYear() {
+    const currentYear  = this.cursorPosition.getUTCFullYear();
+
+    if(this.isLastDomainYear(currentYear)) return;
+
+    this.cursorPosition = new Date(Date.UTC(currentYear + 1, 0, 1));
+    this.moveCursor(this.cursorPosition);
+    this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
+    this.triggerDate()
+
+    if(this.isLastDomainYear(currentYear + 1)) {
+      this.nextButton.classList.add('-disabled');
+    }
+
+    this.previousButton.classList.remove('-disabled');
+  }
+
+  /**
+   * Return true if the passed year is the first year of the domain
+   * @param  {Number}  year year to compare
+   * @return {Boolean}      true if first year of the domain, false otherwise
+   */
+  isFirstDomainYear(year) {
+    const firstDomainYear = this.options.domain[0].getUTCFullYear();
+    return firstDomainYear === year;
+  }
+
+  /**
+   * Return true if the passed year is the last year of the domain
+   * @param  {Number}  year year to compare
+   * @return {Boolean}      true if last year of the domain, false otherwise
+   */
+  isLastDomainYear(year) {
+    const lastDomainYear = this.options.domain[1].getUTCFullYear();
+    return lastDomainYear === year;
+  }
+
   play() {
     if(this.playing) return;
 
@@ -289,7 +402,7 @@ class TimelineView extends Backbone.View {
     }
 
     this.playing = true;
-    this.buttonIcon.setAttribute('xlink:href', '#icon-pause');
+    this.playButton.querySelector('use').setAttribute('xlink:href', '#icon-pause');
 
     /* We move the cursor at the beginning if it's at the end */
     if(this.cursorPosition === this.options.domain[1]) {
@@ -310,7 +423,7 @@ class TimelineView extends Backbone.View {
     if(!this.playing) return;
 
     this.playing = false;
-    this.buttonIcon.setAttribute('xlink:href', '#icon-play');
+    this.playButton.querySelector('use').setAttribute('xlink:href', '#icon-play');
 
     cancelAnimationFrame(this.animationFrame);
     this.animationFrame = null;
@@ -521,7 +634,7 @@ TimelineView.prototype.triggerDate = (function() {
    * last position. */
   const trigger = _.debounce(function(date) {
     this.options.triggerDate(date);
-  }, 100);
+  }, 16);
 
   return function() {
     if(this.currentDataIndex < 0) {

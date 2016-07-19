@@ -3,11 +3,11 @@
 import './styles.postcss';
 import _ from 'underscore';
 import Backbone from 'backbone';
-import TileLayer from './TileLayer';
-import MarkerLayer from './layers/MarkerLayer';
-import TorqueLayer from './TorqueLayer';
-import SVGLayer from './SVGLayer';
-import PopUpContentView from './../PopUp/PopUpContentView';
+import TileLayer from './layers/TileLayer';
+import TorqueLayer from './layers/TorqueLayer';
+import SVGLayer from './layers/SVGLayer';
+import ClusterLayer from './layers/ClusterLayer';
+import MyDonationMarker from './MyDonationMarker';
 import layersCollection from '../../scripts/collections/layersCollection';
 import filtersModel from '../../scripts/models/filtersModel';
 import utils from '../../scripts/helpers/utils';
@@ -32,7 +32,7 @@ class MapView extends Backbone.View {
     this.state.set({ 'filters': filtersModel.toJSON() }, { silent: true });
     this._checkMapInitialSettings();
 
-    this.timestamp = null;
+    this.timestamp = +(new Date());
     this._createMap();
     this._addLayer();
     this._setEvents();
@@ -69,36 +69,20 @@ class MapView extends Backbone.View {
     }
   }
 
-  drawDonationMarker(options) {
-    this.markerOptions = options;
-    this.donationMarker = new MarkerLayer(options);
-    let markerLayer = this.donationMarker.addLayer(this.map);
-    markerLayer.on('click', this.drawDonationPopUp.bind(this));
-    if ( !utils.checkDevice().mobile ) this.drawDonationPopUp();
-    this.state.set({ lat: options.position[0], lng: options.position[1], zoom: 3 });
+  /**
+   * Enable the donation marker on the map
+   * @param  {String} data the unique identifier of the donation
+   */
+  enableMyDonationMarker(donationId) {
+    this.myDonationMarker = new MyDonationMarker(donationId, this.state.get('layer').slug, this.map);
   }
 
-  drawDonationPopUp() {
-    this.myDonationPopUp = new PopUpContentView({
-      currentMode: 'my-donation',
-      currentLayer: 'my-donation',
-      latLng: this.markerOptions.position,
-      map: this.map,
-      name: this.markerOptions.name,
-      amount: this.markerOptions.amount,
-      countries: this.markerOptions.countries,
-      sectors: this.markerOptions.sectors
-    })
-
-    this.myDonationPopUp.getPopUp();
-    this._stopAnimation();
-  }
-
-  _stopAnimation() {
-    const element = document.getElementsByClassName('icon-my-donation')[0];
-    const classes = element.getAttribute('class');
-    const newClasses = classes.replace('animation', '');
-    element.setAttribute('class', newClasses);
+  /**
+   * Update the visibility of the donation marker depending on the layer
+   */
+  updateMyDonationMakerVisibility() {
+    if(!this.myDonationMarker) return;
+    this.myDonationMarker.updateVisibility(this.state.get('layer').slug);
   }
 
   _createMap() {
@@ -134,10 +118,11 @@ class MapView extends Backbone.View {
   }
 
   _setEvents() {
-    this.map.on('click', this._infowindowSetUp.bind(this));
+    this.map.on('click', this.onMapClick.bind(this));
 
     this.state.on('change:filters', () => this.updateLayer());
     this.state.on('change:timelineDate', () => this.updateLayer());
+    this.state.on('change:layer', () => this.updateMyDonationMakerVisibility());
 
     this.state.on('change:mode', _.bind(this.updateLayer, this));
     layersCollection.on('change', _.bind(this.updateLayer, this));
@@ -147,16 +132,53 @@ class MapView extends Backbone.View {
     this.map.on('dragend', _.bind(this.onDragEndMap, this));
   }
 
+  /**
+   * Return true if the layer should be reloaded due to changes in the app
+   * @return {Boolean} true if should be reloaded, false otherwise
+   */
+  shouldLayerReload() {
+    if(!this.currentLayer) return false;
+
+    /* The timestamp is used to determine if the filters changed */
+    if(!this.filtersTimestamp) this.filtersTimestamp = +(new Date());
+
+    const oldState = this.state.previousAttributes();
+    oldState.filters.timestamp = this.filtersTimestamp;
+    const state = this.state.toJSON();
+    state.filters.timestamp = filtersModel._timestamp;
+
+    this.filtersTimestamp = filtersModel._timestamp;
+
+    return this.currentLayer.shouldLayerReload(oldState, state);
+  }
+
+  /**
+   * Remove the current layer from the map
+   */
+  removeCurrentLayer() {
+    if(!this.currentLayer) return;
+
+    this.currentLayer.closePopup();
+    this.map.removeLayer(this.currentLayer.layer);
+    this.currentLayer = null;
+  }
+
+  /**
+   * Add a new layer to the map
+   */
+  addNewLayer() {
+    /* TODO */
+    this._addLayer();
+  }
+
   onZoomMap() {
     const oldZoom = this.state.get('zoom');
     const zoom    = this.map.getZoom();
     this.state.set({ zoom });
 
-    /* We eventually reload the layer if it's an SVG one and the zoom pass 5 */
-    if(this.currentLayerConfig.layer_type === 'svg' &&
-      this.currentLayer.shouldLayerReload(oldZoom, zoom)) {
-      this._removeCurrentLayer();
-      this._addLayer();
+    if(this.shouldLayerReload()) {
+      this.removeCurrentLayer();
+      this.addNewLayer();
     }
   }
 
@@ -169,13 +191,9 @@ class MapView extends Backbone.View {
       bounds: this.map.getBounds()
     });
 
-    /* We eventually reload the layer if it's an SVG one and the zoom is quite
-     * high */
-    const zoom = this.map.getZoom();
-    if(this.currentLayerConfig.layer_type === 'svg' &&
-      this.currentLayer.shouldLayerReload(zoom, zoom)) {
-      this._removeCurrentLayer();
-      this._addLayer();
+    if(this.shouldLayerReload()) {
+      this.removeCurrentLayer();
+      this.addNewLayer();
     }
   }
 
@@ -183,17 +201,12 @@ class MapView extends Backbone.View {
     this.state.set({'filters': filtersModel.toJSON()});
   }
 
-  _infowindowSetUp(e) {
-    this.popUp = new PopUpContentView({
-      currentMode: this.state.get('mode'),
-      layer: this.state.get('layer'),
-      latLng: e.latlng,
-      map: this.map,
-      zoom: this.map.getZoom(),
-      timelineDate: this.state.get('timelineDate'),
-    });
+  onMapClick(e) {
+    if(!this.currentLayer) return;
 
-    this.popUp.getPopUp();
+    this.currentLayer.onMapClick(this.map, [e.latlng.lat, e.latlng.lng],
+      this.map.getZoom(), this.state.get('timelineDate'),
+      this.state.get('layer').slug);
   }
 
   _setFilters() {
@@ -205,8 +218,6 @@ class MapView extends Backbone.View {
   }
 
   _addLayer() {
-    if(this.popUp) this.popUp.closeCurrentPopup();
-
     let activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
     if(!activeLayer) return;
 
@@ -237,109 +248,85 @@ class MapView extends Backbone.View {
         layerClass = SVGLayer;
         break;
 
+      case 'cluster':
+        layerClass = ClusterLayer;
+        break;
+
       default:
         layerClass = TileLayer;
     }
 
-    const newLayer = new layerClass(layerConfig, state);
+    /* Here we need to take care of a really nasty unwanted behavior. If we use
+     * this.currentLayerConfig as a reference to the previous layer, and
+     * layerConfig as the one for the new layer, we'll run into issues if the
+     * layers are switched quickly. What happens is that we won't be able to see
+     * all the transitions between the layers. For example, we could see A -> B
+     * but never B -> A if we switched alternatively between two of them.
+     * Instead, we could see A -> B and later A -> A, meaning we went back to
+     * the first layer.
+     * In order to fix this issue that messes up with the UI, we save the slug
+     * of the previous layer in a variable called this.previousLayerSlug and
+     * compare it to the new layer's slug. This way we can be sure of the
+     * transition. */
 
-    newLayer.createLayer().done(() => {
+    /* The layer "people-reached" doesn't support the filters, we thus need to
+     * disable them
+     * NOTE: layerConfig            -> new layer
+     * 			 this.previousLayerSlug -> old layer
+     */
+    if(layerConfig.slug === 'people-reached' &&
+      (!this.previousLayerSlug || this.previousLayerSlug !== 'people-reached')) {
+      filtersModel.disable();
+    } else if(layerConfig.slug !== 'people-reached' && this.previousLayerSlug
+      && this.previousLayerSlug == 'people-reached') {
+      filtersModel.restore();
+    }
+
+    /* We finally update the "pointer" to the previous slug */
+    this.previousLayerSlug = layerConfig.slug;
+
+    const newLayer = new layerClass(layerConfig, state, this.map);
+
+    newLayer.initLayer().done(() => {
       /* We ensure to always display the latest tiles */
       if((!this.currentLayer ||
         newLayer.timestamp > this.currentLayer.timestamp) &&
         newLayer.timestamp > this.timestamp) {
-        newLayer.addLayer(this.map);
+        newLayer.layer.addTo(this.map);
         this.currentLayer = newLayer;
         this.currentLayerConfig = layerConfig;
-
-        if(this.currentLayerConfig.layer_type === 'torque') {
-          this.initTorqueLayer();
-        }
       }
     });
   }
 
-  /* Hack to get to know when a torque layer has been loaded as there's no
-   * proper "loaded" working event in the torque library */
-  initTorqueLayer() {
-    const callback = () => {
-      if(!this.currentLayer || !this.currentLayer.hasData()) {
-        clearTimeout(timeout);
-        return;
-      }
-
-      const isReady = this.currentLayer.isReady();
-      if(isReady) {
-        clearTimeout(timeout);
-        this.setTorquePosition();
-      }
-    };
-    const timeout = setInterval(callback.bind(this), 200);
-  }
-
-  _removeCurrentLayer() {
-    if (this.currentLayer && this.currentLayer.removeLayer) {
-      this.currentLayer.removeLayer(this.map);
-      this.currentLayer = null;
-    }
-  }
-
-  setTorquePosition() {
-    /* We just update the layer */
-    const currentDate = this.state.toJSON().timelineDate
-      || this.state.toJSON().filters.to;
-    const step = Math.round(this.currentLayer.layer.timeToStep(currentDate));
-    this.currentLayer.layer.setStep(step);
-  }
-
-  setMapCenter(center) {
-    this.map.setView(center);
-  }
 };
 
 MapView.prototype.updateLayer = (function() {
   /* We can't use throttle here because we wanna be sure that the last call is
    * going to be painted */
   const _addLayer = _.debounce(function() {
-    this._removeCurrentLayer();
+    this.timestamp = +(new Date());
+    this.removeCurrentLayer();
     this._addLayer();
-  }, 100);
-
-  /* Store the timestamp of the last change of the filtersModel to only
-   * reload Torque's layer when the model changed ie when the timestamp changed
-   */
-  let filtersChangeTimestamp = 0;
+  }, 16);
 
   return function() {
-
     const activeLayer = layersCollection.getActiveLayer(this.state.get('mode'));
     if(!activeLayer) return;
 
-    this.timestamp = +(new Date());
-    if(activeLayer.get('layer_type') === 'torque' && this.currentLayerConfig &&
-      this.currentLayerConfig.layer_type === 'torque') {
 
-      const filtersOldAttributes = filtersModel.previousAttributes();
-      const filtersNewAttributes = filtersModel.toJSON();
-
-      if(filtersChangeTimestamp !== filtersModel._timestamp &&
-        (!_.isEqual(filtersOldAttributes.sectors, filtersNewAttributes.sectors) ||
-        filtersOldAttributes.region !== filtersNewAttributes.region)) {
-        /* We reload the layer */
-        _addLayer.call(this);
-        filtersChangeTimestamp = filtersModel._timestamp;
-      } else {
-        this.setTorquePosition();
-      }
-
-    } else if(activeLayer.get('layer_type') === 'svg' &&
-      this.currentLayerConfig &&
-      this.currentLayerConfig.layer_type === 'svg') {
-
-      this.currentLayer.options.state = this.state.toJSON();
-      this.currentLayer.fetchData();
-
+    if(this.currentLayerConfig &&
+      activeLayer.get('layer_type') !== this.currentLayerConfig.layer_type) {
+      _addLayer.call(this);
+    } else if(this.shouldLayerReload()) {
+      _addLayer.call(this);
+    } else if(this.currentLayer) {
+      this.currentLayer.updateLayer(this.state.toJSON());
     } else {
+      /* In some extreme cases, when switching quickly between the two dashboard
+       * tabs, the old and new layer will be the same, but this.currentLayer
+       * would be null because the map add sufficient time to remove the layer.
+       * So we want this fallback to re-add the layer. */
       _addLayer.call(this);
     }
 
