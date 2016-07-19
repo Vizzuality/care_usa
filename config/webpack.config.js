@@ -67,7 +67,7 @@ const webpackConfig = {
 
   postcss: (webpack) => [
     postcssImporter({ addDependencyTo: webpack }),
-    autoprefixer,
+    autoprefixer({ browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Safari >= 8'] }),
     postcssMixins,
     postcssExtend,
     postcssSimpleVars,
