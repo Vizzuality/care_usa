@@ -275,14 +275,6 @@
 }
 
 .leaflet-popup {
-
-  &.-offset-25  { bottom:  calc(25px - 7px) !important; }
-  &.-offset-40  { bottom:  calc(40px - 7px) !important; }
-  &.-offset-50  { bottom:  calc(50px - 7px) !important; }
-  &.-offset-75  { bottom:  calc(75px - 7px) !important; }
-  &.-offset-65  { bottom:  calc(65px - 7px) !important; }
-  &.-offset-110 { bottom: calc(110px - 7px) !important; }
-
   @media screen and (min-width: $screen-m) {
     width: auto;
   }
@@ -297,10 +289,12 @@
   padding: 0 !important;
   width: auto !important;
   background-color: transparent;
+  margin-bottom: 0;
 }
 
+/* We use our own tip in the m-popup component */
 .leaflet-popup-tip {
-  border-top-color: transparent;
+  display: none;
 }
 
 .leaflet-popup-close-button {
