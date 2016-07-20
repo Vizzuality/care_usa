@@ -80,13 +80,28 @@ export default class AbstractPopup extends Backbone.View {
     if(isMobile) {
       this.popup = $('body').append(popupContent);
     } else {
-      this.popup = L.popup({
-          closeButton: false,
-          className: this.options && this.options.className || ''
-        })
-        .setLatLng([ this.lat, this.lng ])
-        .setContent(popupContent)
-        .openOn(this.map);
+      this.map.setView([ this.lat, this.lng ]);
+
+      /* If the popup is attached to a marker, we want it to open the marker */
+      if(this.options.marker) {
+        this.popup = L.popup({
+            closeButton: false,
+            className: this.options && this.options.className || ''
+          })
+          .setContent(popupContent);
+
+        this.options.marker
+          .bindPopup(this.popup)
+          .openPopup();
+      } else {
+        this.popup = L.popup({
+            closeButton: false,
+            className: this.options && this.options.className || ''
+          })
+          .setLatLng([ this.lat, this.lng ])
+          .setContent(popupContent)
+          .openOn(this.map);
+      }
     }
 
     (this.popup._contentNode || document.querySelector('.m-popup'))
@@ -94,8 +109,6 @@ export default class AbstractPopup extends Backbone.View {
       .addEventListener('click', () => this.close());
 
     this.setListeners(this.popup._contentNode || document.querySelector('.m-popup'));
-
-    if(!isMobile) this.map.setView([ this.lat, this.lng ]);
   }
 
   /**
@@ -109,7 +122,13 @@ export default class AbstractPopup extends Backbone.View {
         document.querySelector('.m-popup').remove();
       }
     } else {
-      this.map.closePopup();
+      if(this.options.marker) {
+        this.options.marker
+          .closePopup()
+          .unbindPopup();
+      } else {
+        this.map.closePopup();
+      }
     }
 
     if(this.options.closeCallback &&

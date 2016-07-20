@@ -17,9 +17,6 @@ import moment from 'moment';
 class MapView extends Backbone.View {
 
   initialize(settings) {
-    // First configure mapbox
-    L.mapbox.accessToken = config.mapboxToken;
-
     // Setting default options
     this.options = _.extend({}, this.defaults, settings.options);
 
@@ -94,6 +91,7 @@ class MapView extends Backbone.View {
       zoom: this.state.attributes.zoom,
       center: [this.state.attributes.lat, this.state.attributes.lng],
       scrollWheelZoom: false,
+      zoomControl: false,
       // minZoom: 2,
       // maxBounds: bounds,
       tileLayer: {
@@ -101,7 +99,26 @@ class MapView extends Backbone.View {
         noWrap: true,
       }
     };
-    this.map = L.mapbox.map(this.el, this.options.style, mapOptions);
+
+    this.map = new L.Map(this.el, mapOptions)
+      .setActiveArea({
+        position: 'absolute',
+        top: '100px',
+        left: '0',
+        right: '0',
+        height: 'calc(100% - 100px)'
+      });
+
+    /* We use a custom zoom control in order to change the text used for the
+     * zoom out button: "–" instead of "-" (this first one is wider on screen)
+     */
+    L.control.zoom({ zoomOutText: '–' }).addTo(this.map);
+
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      id: this.options.style,
+      accessToken: config.mapboxToken
+    }).addTo(this.map);
 
     /* Needed for the initialization of the SVG layer */
     this.state.set({ bounds: this.map.getBounds() });
