@@ -102,6 +102,7 @@ export default class ClusterLayer {
         className: `bubble-marker -size-${bubbleSize}`,
         iconSize: bubbleSize,
         iconAnchor: [bubbleSize / 2, bubbleSize / 2],
+        popupAnchor: [0, -bubbleSize / 2],
         html: `
           <div class="bubble">
             <div class="total">${utils.numberNotation(marker.total_people)}</div>
@@ -116,7 +117,7 @@ export default class ClusterLayer {
       });
 
       return L.marker([marker.lat, marker.lng], { icon })
-        .on('click', e => this.onMarkerClick(marker, e.target._icon))
+        .on('click', e => this.onMarkerClick(marker, e.target._icon, e.target))
         .on('mouseover', e => this.onMarkerEnter(e.target._icon))
         .on('mouseout',  e => this.onMarkerLeave(e.target._icon));
     }, this));
@@ -126,8 +127,9 @@ export default class ClusterLayer {
    * Center the map to the position of the marker and zoom in until zoom 4
    * @param  {Object} marker API entity
    * @param  {Object} marker DOM element
+   * @param  {Object} marker Leaflet object
    */
-  onMarkerClick(marker, DOMMarker) {
+  onMarkerClick(marker, DOMMarker, LeafletMarker) {
     const map = this.options.map
     const zoom = map.getZoom();
     const date = this.options.state.timelineDate;
@@ -139,7 +141,7 @@ export default class ClusterLayer {
       iso: marker.iso,
       sectors: marker.per_sector,
       closeCallback: () => DOMMarker.classList.remove('-opened'),
-      className: `-offset-${popupOffset}`
+      marker: LeafletMarker
     };
 
     if(zoom <= 3) {
