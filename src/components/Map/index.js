@@ -3,6 +3,7 @@
 import './styles.postcss';
 import _ from 'underscore';
 import Backbone from 'backbone';
+import '../../lib/leaflet.activearea';
 import TileLayer from './layers/TileLayer';
 import TorqueLayer from './layers/TorqueLayer';
 import SVGLayer from './layers/SVGLayer';
