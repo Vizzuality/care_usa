@@ -1,42 +1,55 @@
 'use strict';
 
 import './styles.postcss';
+import $ from 'jquery';
 import React from 'react';
-import CaresPackage from './CaresPackage';
-import PowerBox from './PowerBox';
-import CaresEvolution from './CaresEvolution';
-import CatalystWomen from './CatalystWomen';
-import BoxVideo from './BoxVideo';
-import Slider from './Slider';
-import HistoryHeader from './HistoryHeader';
-import Retooling from './Retooling';
-import Donation from './Donation';
-import Footer from './Footer';
+import ModalAnniversary from '../ModalAnniversary';
+import ModalVideo from '../ModalVideo';
 
 class Anniversary extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      modalVideoOpen: false
+    };
+  }
+
+  openModalVideo() {
+    this.setState({
+      modalVideoOpen: true
+    });
+
+    /* Google Analytics */
+    if (ga && ENVIRONMENT === 'production') {
+      ga('send', 'event', 'History', 'Play video');
+    }
+  }
+
+  onCloseModalVideo() {
+    this.setState({
+      modalVideoOpen: false
+    });
+
+    $('.video').each(function() {
+      this.contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
+    });
   }
 
   render() {
     return (
-      <section id="anniversary">
-        <HistoryHeader 
-          toggleMenuFn = { this.props.toggleMenuFn }
-          onClose = { this.props.onClose.bind(this) }
+      <div className="m-anniversary">
+        <ModalVideo
+          visible={this.state.modalVideoOpen}
+          onClose={() => this.onCloseModalVideo()}
         />
-        <CaresPackage />
-        <PowerBox />
-        <Retooling />
-        <CaresEvolution />
-        <CatalystWomen />
-        <Slider />
-        <BoxVideo />
-        <Donation />
-        <Footer />
-      </section>
-    )
+        <ModalAnniversary
+          visible={this.props.visible}
+          onClose={this.props.onClose}
+          openModalVideo={() => this.openModalVideo()}
+        />
+      </div>
+    );
   }
 }
 
