@@ -77,13 +77,18 @@
 }
 
 .leaflet-control-attribution {
+  height: rem(25);
+  line-height: rem(25);
+  background: transparent !important;
+
+  a {
+    font-size: rem(12);
+    color: $color-4;
+  }
+
   .is-embed & {
     display: none;
   }
-}
-
-.leaflet-control-attribution:last-child {
-  display: none;
 }
 
 .leaflet-left.leaflet-bottom {

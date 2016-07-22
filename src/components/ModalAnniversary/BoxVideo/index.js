@@ -17,7 +17,7 @@ class BoxVideo extends React.Component {
           <h1 className="text text-module-title -primary">The power of a box</h1>
           <aside>
             <a className="btn btn-primary" onClick={ () => this.props.openModalVideo() }>
-              <svg className="icon icon-play"><use xlinkHref="#icon-play"></use></svg>
+              <svg className="icon icon-play" viewBox="0 0 16 21" preserveAspectRatio="xMaxYMid meet"><use xlinkHref="#icon-play"></use></svg>
               Play video
             </a>
           </aside>

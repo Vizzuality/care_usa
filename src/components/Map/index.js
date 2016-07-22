@@ -129,10 +129,9 @@ class MapView extends Backbone.View {
 
   _addAttributions() {
     // Add attribution to Mapbox and OpenStreetMap.
-    let attribution = L.control.attribution();
-    attribution.setPrefix('');
-    attribution.addAttribution('<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="http://openstreetmap.org/copyright"> | © OpenStreetMap</a><a href="https://cartodb.com/attributions/"> | © CartoDB</a>');
-    attribution.addTo(this.map);
+    this.map.attributionControl.removeAttribution('Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>')
+      .setPrefix('')
+      .addAttribution('<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="http://openstreetmap.org/copyright"> | © OpenStreetMap</a><a href="https://cartodb.com/attributions/"> | © CartoDB</a>');
   }
 
   _setEvents() {
