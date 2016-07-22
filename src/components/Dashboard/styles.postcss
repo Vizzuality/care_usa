@@ -83,14 +83,13 @@
 }
 
 .btn-dashboard-switcher {
-  flex: 1 1 100%;
-  justify-content: center;
-  align-items: center;
   position: absolute;
   width: rem(35);
   height: rem(25);
+  line-height: rem(40);
+  text-align: center;
   background-image: url('../../images/legendpattern.jpg');
-  background-size: contain;
+  cursor: pointer;
 
   @media screen and (min-width: $screen-m) {
     width: rem(35);
@@ -102,7 +101,7 @@
   }
 
   .icon {
-      display: block;
+      display: inline-block;
       width: rem(7);
       height: rem(8);
       width: 100%;
@@ -125,7 +124,7 @@
     display: none;
 
     @media screen and (min-width: $screen-m) {
-      display: flex;
+      display: block;
       top: rem(54);
       right: rem(-35);
     }
