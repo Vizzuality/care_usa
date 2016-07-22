@@ -10,7 +10,7 @@ import TimelineView from '../Timeline';
 import Dashboard from '../Dashboard';
 import ModalFilters from '../ModalFilters';
 import ModalAbout from '../ModalAbout';
-import ModalAnniversary from '../ModalAnniversary';
+import Anniversary from '../Anniversary';
 import ModalNoData from '../ModalNoData';
 import MapView from '../Map';
 import ModalDonors from '../ModalDonors';
@@ -424,7 +424,7 @@ class App extends React.Component {
       localStorage.setItem('session', true);
   }
 
-  hanldeCloseHistory() {
+  handleCloseHistory() {
     const careHistory = false;
     const toggleMenu = false;
     this.handleModal.bind(this, 'close', 'careHistory');
@@ -515,9 +515,9 @@ class App extends React.Component {
         }
 
         { !this.state.embed &&
-          <ModalAnniversary
+          <Anniversary
             visible={ this.state.careHistory }
-            onClose={ () => this.hanldeCloseHistory() }
+            onClose={ () => this.handleCloseHistory() }
             toggleMenuFn = { this.props.toggleMenuFn }
           />
         }
