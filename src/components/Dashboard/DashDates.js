@@ -37,16 +37,27 @@ class DashboardDates extends React.Component {
       ];
     }
 
+    let dateElem = (
+      <div className="dates">
+        <span className="start-date text text-legend-s">{ dates[0] }</span>
+        <span className="text text-legend-s">&nbsp;-&nbsp;</span>
+        <span className="end-date text text-legend-s">{ dates[1] }</span>
+      </div>
+    );
+    if(this.props.currentMode === 'projects') {
+      dateElem = (
+        <div className="dates">
+          <span className="end-date text text-legend-s">{ dates[1] }</span>
+        </div>
+      );
+    }
+
     return (
       <div className="m-dash-dates">
         <svg className="icon icon-calendar" onClick={ this.props.toggleFiltersFn } >
           <use xlinkHref="#icon-calendar"></use>
         </svg>
-        <div className="dates">
-          <span className="start-date text text-legend-s">{ dates[0] }</span>
-          <span className="text text-legend-s">&nbsp;-&nbsp;</span>
-          <span className="end-date text text-legend-s">{ dates[1] }</span>
-        </div>
+        { dateElem }
      </div>
     );
   }
