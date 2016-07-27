@@ -22,15 +22,15 @@ export default class DonationPopup extends AbstractPopup {
         </span>
         <ul class="sectors-container">
           ${
-            this.model.get('sectors')
+            this.options.sectors
               .slice(0, 3)
-              .map(sector => {
-                const name =  sectorsCollection.findWhere({ slug: sector });
-                if(!name) return '';
+              .map(slug => {
+                const sector =  sectorsCollection.findWhere({ slug });
+                if(!sector) return '';
 
                 return `
                   <li class="sector text text-legend-s -light">
-                    ${sector.name}
+                    ${sector.get('name')}
                   </li>
                 `;
               })
@@ -45,15 +45,15 @@ export default class DonationPopup extends AbstractPopup {
         </span>
         <ul class="sectors-container">
           ${
-            this.model.get('countries')
+            this.options.countries
               .slice(0, 3)
-              .map(country => {
-                const name =  regionsCollection.findWhere({ slug: country });
-                if(!name) return '';
+              .map(slug => {
+                const country =  regionsCollection.findWhere({ slug });
+                if(!country) return '';
 
                 return `
                   <li class="sector text text-legend-s -light">
-                    ${country.name}
+                    ${country.get('name')}
                   </li>
                 `
               })
