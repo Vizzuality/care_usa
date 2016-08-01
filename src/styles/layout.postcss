@@ -65,7 +65,7 @@ $l-margin-vt: 56;
 
 .l-share {
   position: absolute;
-  top: rem(70);
+  top: rem(120);
   right: $wrap-padding-mobile;
   width: rem(35);
   height: rem(35);
@@ -112,9 +112,12 @@ $l-margin-vt: 56;
   right: 0;
   height: rem($header-height-mb);
   z-index: 1;
+  background-image: url(/91ec4d9ec3b63933f482ee4281d23eea.jpg);
+  background-color: #ddd;
 
   @media screen and (min-width: $screen-m) {
     height: rem($header-height);
+    background: transparent;
   }
 
   @media screen and (min-width: $screen-xl) {
@@ -216,8 +219,8 @@ $l-margin-vt: 56;
 .l-dash-tabs {
   position: fixed;
   top: rem($header-height-mb);
-  left: $wrap-padding-mobile;
-  right: rem(60);
+  left: 0;
+  right: 0;
   height: rem($timeline-height);
 
   @media screen and (min-width: $screen-s) {
