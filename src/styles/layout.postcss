@@ -79,6 +79,8 @@ $l-margin-vt: 56;
   @media screen and (min-width: $screen-m) {
     right: $wrap-padding-desktop;
     top: rem(203);
+    width: rem(35);
+    height: rem(35);
   }
 
   @media screen and (min-width: $screen-l) {
@@ -112,6 +114,10 @@ $l-margin-vt: 56;
   border: solid 1px $color-1;
 
   @media screen and (min-width: $screen-s) {
+    right: $wrap-padding-tablet;
+  }
+
+  @media screen and (min-width: $screen-m) {
     display: none;
   }
 
@@ -244,11 +250,6 @@ $l-margin-vt: 56;
   left: 0;
   right: 0;
   height: rem($timeline-height);
-
-  @media screen and (min-width: $screen-s) {
-    left: $wrap-padding-tablet;
-    right: rem(70);
-  }
 
   @media screen and (min-width: $screen-m) {
    position: relative;

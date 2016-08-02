@@ -9,18 +9,28 @@
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
+
+    @media screen and (min-width: $screen-m) {
+
+    }
   }
 
   .legend-item {
     display: flex;
-    justify-content: center;
     //justify-content: flex-start;
     //align-items: center;
     margin-bottom: rem(1);
-    margin-right: 1%;
+    justify-content: center;
+    padding-right: 2px;
 
     @media screen and (min-width: $screen-m) {
       margin-bottom: rem(3);
+      justify-content: flex-start;
+      flex: 1 1 100%;
+    }
+
+    > .mobile-bucket {
+      width: 100%;
     }
 
     .text {
@@ -29,6 +39,12 @@
       padding-top: rem(3);
       color: $white;
       font-size: rem(11);
+      text-align: center;
+
+      @media screen and (min-width: $screen-m) {
+        text-align: left;
+        color: $black;
+      }
     }
   }
 

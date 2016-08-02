@@ -57,7 +57,7 @@ class DashboardDates extends React.Component {
       );
     }
 
-    if ( this.state.mobile && this.props.currentMode === 'projects' ) {
+    if ( (this.state.mobile || this.state.tablet) && this.props.currentMode === 'projects' ) {
       return (
         <div>
         </div>
