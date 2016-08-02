@@ -1,6 +1,6 @@
 $header-height-xl: 120;
 $header-height: 100;
-$header-height-mb: 70;
+$header-height-mb: 50;
 $timeline-height: 45;
 $timeline-height-mb: 55;
 $credits-height-mb: 25;
@@ -101,6 +101,27 @@ $l-margin-vt: 56;
   }
 }
 
+.l-filters {
+  position: absolute;
+  top: rem(160);
+  right: $wrap-padding-mobile;
+  width: rem(35);
+  height: rem(35);
+  padding: rem(7);
+  background-color: transparent;
+  border: solid 1px $color-1;
+
+  @media screen and (min-width: $screen-s) {
+    display: none;
+  }
+
+  .icon {
+    width: 100%;
+    height: 100%;
+    fill: $color-1;
+  }
+}
+
 
 .l-header {
   display: flex;
@@ -111,6 +132,7 @@ $l-margin-vt: 56;
   left: 0;
   right: 0;
   height: rem($header-height-mb);
+  padding: rem(10) 0;
   z-index: 1;
   background-image: url(/91ec4d9ec3b63933f482ee4281d23eea.jpg);
   background-color: #ddd;

@@ -457,6 +457,14 @@ class App extends React.Component {
         }
 
         { !this.state.embed &&
+          <button className="btn-filters l-filters" onClick={ this.toggleModalFilter.bind(this) }>
+            <svg className="icon icon-filters">
+              <use xlinkHref="#icon-filters"></use>
+            </svg>
+          </button>
+        }
+
+        { !this.state.embed &&
           <ModalShare
             visible={ this.state.shareOpen }
             onClose={ this.handleModal.bind(this, 'close', 'shareOpen') }
