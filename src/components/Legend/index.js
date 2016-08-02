@@ -18,10 +18,9 @@ class Legend extends React.Component {
     const legendHsh = JSON.parse(this.props.layerLegend);
 
     legendHsh.buckets.forEach(bucket => {
-      let style = { backgroundColor: bucket.color, borderColor: bucket.border };
+      let style = { backgroundColor: bucket.color, borderColor: bucket.border, width: legendHsh.width };
       legend.push(
-        <li className="legend-item" key={ bucket.color }>
-          <span className={ bucket.slug + " bucket" } style={ style }></span>
+        <li className="legend-item" key={ bucket.color } style={ style }>
           <span className="text text-legend-s">{ bucket.literal }</span>
         </li>
       );

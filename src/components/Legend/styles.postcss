@@ -5,14 +5,19 @@
 
   ul {
     list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
   }
 
   .legend-item {
     display: flex;
-    flex: 1 1 100%;
+    justify-content: center;
     //justify-content: flex-start;
     //align-items: center;
     margin-bottom: rem(1);
+    margin-right: 1%;
 
     @media screen and (min-width: $screen-m) {
       margin-bottom: rem(3);
@@ -22,6 +27,8 @@
       //Keep this here. Is specific for this text.
       line-height: .5em;
       padding-top: rem(3);
+      color: $white;
+      font-size: rem(11);
     }
   }
 
