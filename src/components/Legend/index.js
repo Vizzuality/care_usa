@@ -44,7 +44,7 @@ class Legend extends React.Component {
 
     if(legendHsh.suffix !== undefined) {
       legend.push(
-        <li className="legend-item" key="suffix">
+        <li className="legend-item suffix" key="suffix">
           <span className="bucket icon">
             <img src={legendHsh.suffix.svg}></img>
           </span>
