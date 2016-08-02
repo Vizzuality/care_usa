@@ -19,9 +19,10 @@
   }
 
   .available-range {
-    margin-bottom: rem(25);
+    margin-bottom: rem(15);
     color: $font-color-1;
-   /*  > span { display: block; } */
+
+    > span { display: block; }
 
     @media screen and (min-width: $screen-m) {
       > span { display: inline; }
@@ -30,7 +31,7 @@
 
   fieldset {
     margin: 0;
-    margin-top: rem(20);
+    margin-top: rem(25);
     padding: 0;
     border: none;
 
@@ -43,7 +44,7 @@
     }
 
     &:nth-child(3) {
-      margin-top: rem(30);
+      margin-top: rem(15);
 
       @media screen and (min-width: $screen-m) {
         margin-top: rem(35);
@@ -188,7 +189,7 @@
     &.regions {
       > div {
         position: relative;
-        width: rem(257);
+        width: 100%;
 
         @media screen and (min-width: $screen-m) {
           display: inline-block;
@@ -270,7 +271,7 @@
         height: rem(27);
         padding-left: rem(42);
         margin-bottom: rem(10);
-        line-height: rem(27);
+        line-height: rem(32);
         cursor: pointer;
 
         &:last-of-type {
