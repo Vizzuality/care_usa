@@ -25,10 +25,12 @@ class ModalAnniversary extends Modal {
   }
 
   getContent() {
+    console.log(this.props)
     return (
       <section id="anniversary">
         <HistoryHeader
           onClose = {this.props.onClose.bind(this)}
+          toggleMenuFn = {this.props.toggleMenuFn}
         />
         <CaresPackage />
         <PowerBox />

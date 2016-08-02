@@ -10,6 +10,7 @@ class HistoryHeader extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <article className="l-history-header">
         <div className="wrap">
