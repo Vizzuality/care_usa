@@ -449,7 +449,7 @@ class App extends React.Component {
         <div id="map" className="l-map" ref="Map"></div>
 
         { !this.state.embed &&
-          <button className="btn-share btn-primary l-share" onClick={ () => this.handleModal('open', 'shareOpen') }>
+          <button className={`btn-share btn-primary l-share ${this.state.mode}`} onClick={ () => this.handleModal('open', 'shareOpen') }>
             <svg className="icon icon-share">
               <use xlinkHref="#icon-share"></use>
             </svg>
@@ -457,12 +457,14 @@ class App extends React.Component {
         }
 
         { !this.state.embed &&
-          <button className="btn-filters l-filters" onClick={ this.toggleModalFilter.bind(this) }>
-            <svg className="icon icon-filters">
-              <use xlinkHref="#icon-filters"></use>
-            </svg>
-          </button>
+          this.state.mode === 'donations' &&
+            <button className="btn-filters l-filters" onClick={ this.toggleModalFilter.bind(this) }>
+              <svg className="icon icon-filters">
+                <use xlinkHref="#icon-filters"></use>
+              </svg>
+            </button>
         }
+
 
         { !this.state.embed &&
           <ModalShare
