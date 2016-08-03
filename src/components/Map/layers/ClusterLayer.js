@@ -107,11 +107,9 @@ export default class ClusterLayer {
           <div class="bubble">
             <div class="total">${utils.numberNotation(marker.total_people)}</div>
             ${this.generateBubble(marker.per_sector, marker.total_people, bubbleSize)}
-            ${marker.clustered || zoom >= 6 ? `
               <div class="title">
                 ${marker.name}
               </div>
-            ` : ''}
           </div>
         `
       });
