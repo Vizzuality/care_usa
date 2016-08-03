@@ -2,6 +2,7 @@
 
 import './styles.postcss';
 import React from 'react';
+import utils from '../../scripts/helpers/utils';
 
 class Legend extends React.Component {
 
@@ -12,6 +13,10 @@ class Legend extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.setState(utils.checkDevice());
+  }
+
   render() {
     let legend = [];
 
@@ -19,17 +24,27 @@ class Legend extends React.Component {
 
     legendHsh.buckets.forEach(bucket => {
       let style = { backgroundColor: bucket.color, borderColor: bucket.border };
-      legend.push(
+
+      if ( this.state.mobile || this.state.tablet) {
+        legend.push(
+          <li className="legend-item" key={ bucket.color } style={{ width: legendHsh.width}}>
+            <span className="text text-legend-s mobile-bucket" style={ style }>{ bucket.literal }</span>
+          </li>
+        );
+      } else {
+        legend.push(
         <li className="legend-item" key={ bucket.color }>
           <span className={ bucket.slug + " bucket" } style={ style }></span>
           <span className="text text-legend-s">{ bucket.literal }</span>
         </li>
       );
+      }
+
     });
 
     if(legendHsh.suffix !== undefined) {
       legend.push(
-        <li className="legend-item" key="suffix">
+        <li className="legend-item suffix" key="suffix">
           <span className="bucket icon">
             <img src={legendHsh.suffix.svg}></img>
           </span>

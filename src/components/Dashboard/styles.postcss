@@ -7,7 +7,7 @@
   @media screen and (min-width: $screen-m) {
     position: absolute;
     top: rem(54);
-    bottom: 0;
+    bottom: rem(20);
     left: 0;
     right: 0;
     padding: 0 rem(30);
@@ -19,13 +19,14 @@
   }
 
   .dashboard-header {
-    display: flex;
+    display: none;
     flex: 1 1 100%;
     justify-content: space-between;
     align-items: center;
     height: rem(40);
     border-bottom: 1px solid $color-7;
     margin-right: rem(15);
+    /*display: none;*/
 
     @media screen and (min-width: $screen-m) {
       display: none;
@@ -37,13 +38,13 @@
   }
 
   .scroll-wrapper {
-    height: rem(180);
+    height: rem(221);
     overflow-y: auto;
     padding-right: rem(15);
 
 
     @media screen and (min-width: $screen-m) {
-      height: auto;
+      height: 100%;
       position: absolute;
       top: 0;
       bottom: rem(80);
@@ -88,7 +89,7 @@
   height: rem(25);
   line-height: rem(40);
   text-align: center;
-  background-image: url('../../images/legendpattern.jpg');
+  background-image: url('../../images/cardboardpattern.jpg');
   cursor: pointer;
 
   @media screen and (min-width: $screen-m) {

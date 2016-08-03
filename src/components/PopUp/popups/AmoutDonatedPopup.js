@@ -66,11 +66,11 @@ export default class AmountDonatedPopup extends AbstractPopup {
         <header class="donation-header">
           <h1 class="text text-report-title  -light">
             ${title} -
-            $${utils.numberNotation(this.model.get('total_funds'))}
-            <div id="btn-donors" class="btn-donors js-popup-donation">
-              +
-            </div>
+            <span>${utils.numberNotation(this.model.get('total_funds'))}$</span>
           </h1>
+          <div id="btn-donors" class="btn-donors js-popup-donation">
+            +
+          </div>
         </header>
         <h2 class="text text-legend-s -light subtitle">
           ${this.model.get('location').city}

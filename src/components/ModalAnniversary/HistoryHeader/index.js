@@ -10,6 +10,7 @@ class HistoryHeader extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <article className="l-history-header">
         <div className="wrap">
@@ -18,9 +19,11 @@ class HistoryHeader extends React.Component {
               <use xlinkHref="#icon-preview"></use>
             </svg>
             Back to the map</p>
-          <svg className="icon icon-logoCARE_simple history-logo">
-            <use xlinkHref="#icon-logoCARE_simple"></use>
-          </svg>
+          <a href="http://www.care.org/" target="_blank">
+            <svg className="icon icon-logoCARE_simple history-logo">
+              <use xlinkHref="#icon-logoCARE_simple"></use>
+            </svg>
+          </a>
           <div className="aux text text-cta">Back to the map</div>
           <button
                 className="btn-menu-toggle"
