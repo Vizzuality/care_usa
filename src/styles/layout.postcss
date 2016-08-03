@@ -62,7 +62,6 @@ $l-margin-vt: 56;
   cursor: pointer;
 }
 
-
 .l-share {
   position: absolute;
   top: rem(150);
@@ -72,8 +71,10 @@ $l-margin-vt: 56;
   background-color: $color-1;
   padding: rem(7);
 
-  &.projects {
-    top: rem(110);
+  @media screen and (max-width: $screen-m) {
+    &.projects {
+      top: rem(110);
+    }
   }
 
   @media screen and (min-width: $screen-s) {
@@ -144,7 +145,7 @@ $l-margin-vt: 56;
   height: rem($header-height-mb);
   padding-top: rem(15);
   z-index: 1;
-  background-image: url(/91ec4d9ec3b63933f482ee4281d23eea.jpg);
+  background-image: url('../src/images/cardboardpattern.jpg');
   background-color: #ddd;
 
   @media screen and (min-width: $screen-m) {
@@ -179,7 +180,7 @@ $l-margin-vt: 56;
   bottom: rem(115);
   height: rem(220);
   background-color: #ddd;
-  background-image: url('../src/images/legendpattern.jpg');
+  background-image: url('../src/images/cardboardpattern.jpg');
   background-size: contain;
   transition: transform .5s ease-out;
   transform: translatey(rem(220));

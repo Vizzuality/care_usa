@@ -23,20 +23,20 @@
     justify-content: center;
     padding-right: 2px;
 
+    @media screen and (max-width: $screen-m) {
+      width: 100%;
+
+      &.suffix {
+        background: #d9d1c4;
+        font-size: rem(10);
+        width: calc(50% - rem(2));
+      }
+    }
+
     @media screen and (min-width: $screen-m) {
       margin-bottom: rem(3);
       justify-content: flex-start;
       flex: 1 1 100%;
-    }
-
-    &.suffix {
-      background: #686354;
-      font-size: rem(10);
-      width: calc(50% - rem(2));
-
-      @media screen and (min-width: $screen-m) {
-        width: 100%;
-      }
     }
 
     > .mobile-bucket {
