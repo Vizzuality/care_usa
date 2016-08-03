@@ -17,7 +17,7 @@ class ModalAbout extends Modal {
         <h3 className="text text-report-title -dark">Donations</h3>
         <p className="text text-highlighted -dark">This data displays only the subset of donations to CARE that are captured online. It is for exploration only, and should not be interpreted as an official financial record.</p>
         <h3 className="text text-report-title -dark">CARE’s projects</h3>
-        <p className="text text-highlighted -dark">This data shows the sector breadth and reach of CARE's work. It counts individuals directly receiving goods/services from or involved in activities supported by CARE. To avoid double-counting, please refrain from aggregating data across sectors or years</p>
+        <p className="text text-highlighted -dark">The Project-level data shows the number of participants receiving goods/services from or directly involved in activities supported by CARE. The colored arcs shown for each individual country highlight the three most important program sectors for that country each year. Some project participants are involved across multiple sectors but these participants are only counted once in order to avoid duplication.</p>
     	</div>
     );
   }
