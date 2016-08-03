@@ -14,7 +14,7 @@
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
-    transition: visibility 0s linear .3s, opacity .3s;
+
   }
 
    .content {
@@ -27,7 +27,7 @@
     padding: 0 rem(20) 0 rem(20);
     background: url("../../images/mappattern.jpg") top left/50% repeat;
     background-attachment: local;
-    transition: opacity .4s, transform .3s;
+
 
     @media screen and (min-width: $screen-s) {
       top: 50%;
@@ -102,10 +102,10 @@
 
   &.-hidden > .content {
     opacity: 0;
-    transform: translateY(-100%);
+
 
     @media screen and (min-width: $screen-s) {
-      transform: translate(-50%, -100%);
+
     }
   }
 }
