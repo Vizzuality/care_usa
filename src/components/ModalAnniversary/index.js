@@ -25,7 +25,6 @@ class ModalAnniversary extends Modal {
   }
 
   getContent() {
-    console.log(this.props)
     return (
       <section id="anniversary">
         <HistoryHeader
