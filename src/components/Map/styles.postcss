@@ -196,6 +196,20 @@
       color: $font-color-1;
       text-align: center;
     }
+
+    > .title-clustered {
+      position: absolute;
+      left: 50%;
+      bottom: rem(-15);
+      transform: translate(-50%, 100%);
+      width: rem(200);
+      font-family: $font-family-1;
+      font-size: rem(15);
+      color: $font-color-1;
+      text-align: center;
+      display: none;
+    }
+
   }
 
 
@@ -203,6 +217,9 @@
   &.-opened > .bubble {
     background-color: rgba($color-19, 1);
     box-shadow: 0 0 rem(18) 0 rgba(#504c44, .6);
-  }
 
+    > .title-clustered {
+      display: block;
+    }
+  }
 }

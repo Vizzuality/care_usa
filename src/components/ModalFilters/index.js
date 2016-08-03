@@ -143,7 +143,7 @@ class ModalFilters extends Modal {
         </fieldset>
 
         <fieldset className="regions">
-          <legend className="text -dark text-form-labels">Countries of interest</legend>
+          <legend className="text -dark text-form-labels">Countries (by Donor Interest)</legend>
           <div>
             <select className="js-regions" name="region">
               <option value="" disabled="disabeld">All regions</option>
@@ -154,7 +154,7 @@ class ModalFilters extends Modal {
 
       <div className="sectors">
         <fieldset>
-          <legend className="text -dark text-form-labels">Sectors</legend>
+          <legend className="text -dark text-form-labels">Sectors (by Donor Interest)</legend>
           <div className="js-sectors"></div>
         </fieldset>
       </div>
