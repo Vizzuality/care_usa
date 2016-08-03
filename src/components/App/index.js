@@ -529,6 +529,7 @@ class App extends React.Component {
             visible={ this.state.careHistory }
             onClose={ () => this.handleCloseHistory() }
             toggleMenuFn = { this.props.toggleMenuFn }
+            deviceMenuOpen = { this.props.deviceMenuOpen }
           />
         }
 
