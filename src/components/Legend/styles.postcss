@@ -3,6 +3,10 @@
 .m-legend {
   padding-top: rem(20);
 
+  @media screen and (min-width: $screen-m) {
+    padding-top: rem(30);
+  }
+
   ul {
     list-style: none;
     display: flex;
@@ -34,7 +38,7 @@
     }
 
     @media screen and (min-width: $screen-m) {
-      margin-bottom: rem(3);
+      margin-bottom: rem(1);
       justify-content: flex-start;
       flex: 1 1 100%;
     }

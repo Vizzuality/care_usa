@@ -7,7 +7,7 @@
   @media screen and (min-width: $screen-m) {
     position: absolute;
     top: rem(54);
-    bottom: rem(20);
+    bottom: rem(25);
     left: 0;
     right: 0;
     padding: 0 rem(30);
@@ -46,18 +46,33 @@
     @media screen and (min-width: $screen-m) {
       height: 100%;
       position: absolute;
-      top: 0;
+      top: rem(20);
       bottom: rem(80);
       left: rem(30);
-      right: rem(10);
-      padding-right: rem(20);
+      right: rem(15);
+      padding-right: rem(15);
+
+      &.donations {
+        height: calc(100% - rem(85));
+      }
     }
+
+  }
+  .scroll-wrapper::-webkit-scrollbar {
+    width: 4px;
+  }
+  .scroll-wrapper::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  .scroll-wrapper::-webkit-scrollbar-thumb {
+    border-radius: 2.5px;
+	  background-color: #d0cabe;
   }
 
   .btn-filters-switcher {
     @media screen and (min-width: $screen-m) {
       position: absolute;
-      bottom: rem(20);
+      bottom: 0;
       left: rem(30);
       right: rem(30);
       display: flex;
@@ -66,7 +81,7 @@
     }
 
     @media screen and (min-width: $screen-l) {
-       bottom: rem(26);
+       bottom: 0;
     }
 
     .icon {

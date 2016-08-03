@@ -6,7 +6,6 @@
   padding-bottom:  rem(33);
 
   @media screen and (min-width: $screen-s) {
-    padding-top: rem(75);
     padding-bottom: rem(95);
   }
 
@@ -20,6 +19,7 @@
 
   .available-range {
     margin-bottom: rem(15);
+    margin-top: rem(20);
     color: $font-color-1;
 
     > span { display: block; }
@@ -226,6 +226,10 @@
 
   > .sectors {
 
+    @media screen and (min-width: $screen-m) {
+      margin-top: rem(20);
+    }
+
     @media screen and (min-width: $screen-l) {
       flex-basis: calc(50% - rem(70));
       /* margin-left: rem(70); */
@@ -333,13 +337,13 @@
 
   > .error-message {
     border: rem(1) solid $color-11;
-    background: url("../../images/alert.svg") top 20px left 15px/22px no-repeat, rgba($color-11, .1);
+    background: url("../../images/alert.svg") top 13px left 15px/22px no-repeat, rgba($color-11, .1);
     color: $font-color-6;
     font-size: rem(15);
     line-height: rem(18);
-    padding: rem(23) rem(20) rem(20) rem(50);
+    width: 95%;
+    padding: rem(16) rem(20) rem(12) rem(50);
     margin-top: rem(20);
-    margin-bottom: rem(20);
 
     @media screen and (min-width: $screen-m) {
       margin-top: 0;

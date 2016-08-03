@@ -127,7 +127,7 @@ class Dashboard extends React.Component {
               }
 
             </div>
-           <div className="scroll-wrapper">
+           <div className={`scroll-wrapper ${this.props.currentMode}`}>
               <DashDates
                 filters={ this.props.filters }
                 timelineDate={ this.props.timelineDate }

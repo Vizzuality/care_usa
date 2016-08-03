@@ -27,7 +27,7 @@ class HistoryHeader extends React.Component {
           <div className="aux text text-cta">Back to the map</div>
           <button
                 className="btn-menu-toggle"
-                onClick={ this.props.toggleMenuFn }
+                onClick={this.props.toggleMenuFn}
               >
                 <svg className="icon icon-menu">
                   <use xlinkHref="#icon-menu"></use>
