@@ -4,6 +4,7 @@ import './dash-dates-styles.postcss';
 import React from 'react';
 import moment from 'moment';
 import _ from 'underscore';
+import utils from '../../scripts/helpers/utils';
 
 class DashboardDates extends React.Component {
 
@@ -11,6 +12,10 @@ class DashboardDates extends React.Component {
     super(props);
     this.props = props;
     this.state = {};
+  }
+
+  componentWillMount() {
+    this.setState(utils.checkDevice());
   }
 
   render() {
@@ -52,14 +57,23 @@ class DashboardDates extends React.Component {
       );
     }
 
-    return (
-      <div className="m-dash-dates">
-        <svg className="icon icon-calendar" onClick={ this.props.toggleFiltersFn } >
-          <use xlinkHref="#icon-calendar"></use>
-        </svg>
-        { dateElem }
-     </div>
-    );
+    if ( (this.state.mobile || this.state.tablet) && this.props.currentMode === 'projects' ) {
+      return (
+        <div>
+        </div>
+      );
+    } else {
+
+      return (
+        <div className="m-dash-dates">
+          <svg className="icon icon-calendar" onClick={ this.props.toggleFiltersFn } >
+            <use xlinkHref="#icon-calendar"></use>
+          </svg>
+          { dateElem }
+        </div>
+      );
+    };
+
   }
 
 }

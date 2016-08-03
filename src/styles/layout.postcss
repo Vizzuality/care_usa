@@ -1,8 +1,8 @@
 $header-height-xl: 120;
 $header-height: 100;
-$header-height-mb: 70;
+$header-height-mb: 50;
 $timeline-height: 45;
-$timeline-height-mb: 70;
+$timeline-height-mb: 55;
 $credits-height-mb: 25;
 $l-margin-vt: 56;
 
@@ -62,15 +62,20 @@ $l-margin-vt: 56;
   cursor: pointer;
 }
 
-
 .l-share {
   position: absolute;
-  top: rem(70);
+  top: rem(150);
   right: $wrap-padding-mobile;
-  width: rem(35);
-  height: rem(35);
+  width: rem(29);
+  height: rem(29);
   background-color: $color-1;
   padding: rem(7);
+
+  @media screen and (max-width: $screen-m) {
+    &.projects {
+      top: rem(110);
+    }
+  }
 
   @media screen and (min-width: $screen-s) {
     right: $wrap-padding-tablet;
@@ -79,6 +84,8 @@ $l-margin-vt: 56;
   @media screen and (min-width: $screen-m) {
     right: $wrap-padding-desktop;
     top: rem(203);
+    width: rem(35);
+    height: rem(35);
   }
 
   @media screen and (min-width: $screen-l) {
@@ -101,6 +108,31 @@ $l-margin-vt: 56;
   }
 }
 
+.l-filters {
+  position: absolute;
+  top: rem(110);
+  right: $wrap-padding-mobile;
+  width: rem(29);
+  height: rem(29);
+  padding: rem(7);
+  background-color: transparent;
+  border: solid 1px $color-1;
+
+  @media screen and (min-width: $screen-s) {
+    right: $wrap-padding-tablet;
+  }
+
+  @media screen and (min-width: $screen-m) {
+    display: none;
+  }
+
+  .icon {
+    width: 100%;
+    height: 100%;
+    fill: $color-1;
+  }
+}
+
 
 .l-header {
   display: flex;
@@ -111,10 +143,14 @@ $l-margin-vt: 56;
   left: 0;
   right: 0;
   height: rem($header-height-mb);
+  padding-top: rem(15);
   z-index: 1;
+  background-image: url('../src/images/cardboardpattern.jpg');
+  background-color: #ddd;
 
   @media screen and (min-width: $screen-m) {
     height: rem($header-height);
+    background: transparent;
   }
 
   @media screen and (min-width: $screen-xl) {
@@ -141,10 +177,10 @@ $l-margin-vt: 56;
   position: absolute;
   left: 0;
   right: 0;
-  bottom: rem(95);
+  bottom: rem(115);
   height: rem(220);
   background-color: #ddd;
-  background-image: url('../src/images/legendpattern.jpg');
+  background-image: url('../src/images/cardboardpattern.jpg');
   background-size: contain;
   transition: transform .5s ease-out;
   transform: translatey(rem(220));
@@ -214,16 +250,11 @@ $l-margin-vt: 56;
 }
 
 .l-dash-tabs {
-  position: fixed;
+  position: absolute;
   top: rem($header-height-mb);
-  left: $wrap-padding-mobile;
-  right: rem(60);
+  left: 0;
+  right: 0;
   height: rem($timeline-height);
-
-  @media screen and (min-width: $screen-s) {
-    left: $wrap-padding-tablet;
-    right: rem(70);
-  }
 
   @media screen and (min-width: $screen-m) {
    position: relative;
@@ -247,7 +278,7 @@ $l-margin-vt: 56;
 
 .l-timeline {
   position: absolute;
-  bottom: rem($credits-height-mb);
+  bottom: 3.7625rem;
   left: 0;
   right: 0;
   height: rem($timeline-height-mb);
@@ -371,14 +402,27 @@ $l-margin-vt: 56;
 }
 
 .l-donate {
-  display: none;
+  display: block;
+  position: absolute;
+  bottom: rem($credits-height-mb);
+  left: 0;
+  right: 0;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  background-color: $color-3;
+  text-transform: uppercase;
+  color: $font-color-3;
+  text-decoration: none;
+  font-family: $font-family-2;
+  font-weight: 700;
+  font-size: rem(11);
 
   @media screen and (min-width: $screen-m) {
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    right: $wrap-padding-desktop;
+    width: rem(160);
+    left: auto;
+    bottom: rem($l-margin-vt);
     height: rem($timeline-height);
     line-height: rem($timeline-height);
     text-align: center;
@@ -389,10 +433,6 @@ $l-margin-vt: 56;
     font-family: $font-family-2;
     font-weight: 700;
     font-size: rem(11);
-    right: $wrap-padding-desktop;
-    width: rem(160);
-    left: auto;
-    bottom: rem($l-margin-vt);
   }
 
   @media screen and (min-width: $screen-l) {

@@ -24,7 +24,15 @@
     display: flex;
 
     .text-report-title  {
-      margin-bottom: rem(9);
+      margin-bottom: rem(6);
+      margin-top: rem(5);
+
+      > span {
+        font-size: 14px;
+        font-family: $font-family-2;
+	      line-height: 1.4;
+	      letter-spacing: 0.8px;
+      }
 
       @media screen and (min-width: $screen-m) {
         margin-top: rem(0);
@@ -61,7 +69,7 @@
 
   .wrapper {
     &.-donations {
-      width: rem(300);
+      width: 100%;
     }
 
     &.-donations-dist {
@@ -190,7 +198,7 @@
     display: inline-block;
     width: fit-content;
     list-style-type: none;
-    padding: rem(7) rem(10);
+    padding: rem(8) rem(10) rem(5);
     background-color: $color-5;
     margin: 0 rem(10) rem(10) 0;
   }

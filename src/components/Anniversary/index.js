@@ -47,6 +47,7 @@ class Anniversary extends React.Component {
           visible={this.props.visible}
           onClose={this.props.onClose}
           openModalVideo={() => this.openModalVideo()}
+          toggleMenuFn={this.props.toggleMenuFn}
         />
       </div>
     );

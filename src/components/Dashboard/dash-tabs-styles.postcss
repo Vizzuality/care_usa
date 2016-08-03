@@ -5,13 +5,9 @@
 
   .tab {
     display: inline-block;
-    width: 49%;
-    margin-right: 1%;
-
-    @media screen and (min-width: $screen-m) {
-      width: 50%;
-      margin-right: 0;
-    }
+    width: 50%;
+    background-color: #ddd;
+    background-image: url('./../../images/cardboardpattern.jpg');
 
     &.is-active {
       background-color: red;
@@ -23,16 +19,15 @@
       text-align: center;
       width: 100%;
       padding-top: rem(11);
-      padding-bottom: rem(9);
-      border: 1px solid rgba($color-1, 0.5);
-      color: $font-color-4;
+      padding-bottom: rem(13);
+      color: $font-color-2;
       font-family: $font-family-1;
-      font-size: rem(11);
+      font-size: rem(12);
       font-weight: 700;
       letter-spacing: rem(0.1);
       text-transform: uppercase;
       background-color: rgba($white, .3);
-      background-image: url('./../../images/legendpattern.jpg');
+      background-image: url('./../../images/cardboardpattern.jpg');
 
       @media screen and (min-width: $screen-m) {
         background-image: none;
@@ -53,15 +48,15 @@
       }
 
       &.is-active {
-        background-image: none;
-        color: $font-color-2;
-        border: 0;
-        background-color: $color-6;
         pointer-events: none;
+        border-bottom: rem(4) solid $color-1;
+        padding-bottom: rem(9);
 
         @media screen and (min-width: $screen-m) {
           background-color: transparent;
           border-top: rem(3) solid $color-1;
+          border-bottom: 0;
+          padding-bottom: 0;
 
 
           /* span{
