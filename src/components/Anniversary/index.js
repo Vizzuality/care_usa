@@ -37,6 +37,7 @@ class Anniversary extends React.Component {
   }
 
   render() {
+        console.log(this.props)
     return (
       <div className="m-anniversary">
         <ModalVideo
@@ -48,6 +49,7 @@ class Anniversary extends React.Component {
           onClose={this.props.onClose}
           openModalVideo={() => this.openModalVideo()}
           toggleMenuFn={this.props.toggleMenuFn}
+          deviceMenuOpen={this.props.deviceMenuOpen}
         />
       </div>
     );
