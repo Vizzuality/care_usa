@@ -36,6 +36,13 @@ class Modal extends React.Component {
   render() {
     const content = this.getContent();
     const currentModal = this.getClassName();
+    let menuClass;
+    if (this.props.deviceMenuOpen) {
+      menuClass = "open";
+    }
+    else {
+      menuClass = "closed";
+    }
 
     let closeButton;
     if(!this.state.locked) {
@@ -53,7 +60,7 @@ class Modal extends React.Component {
 
     return (
        <div className={ className } onClick={ !this.state.locked ? this.close.bind(this) : () => {} }>
-        <div className="content" ref="content" id={ this.getId() }>
+        <div className={`content -menu-${menuClass}`} ref="content" id={ this.getId() }>
           { closeButton }
           { content }
         </div>

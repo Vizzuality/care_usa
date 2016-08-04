@@ -56,7 +56,6 @@ class Main extends React.Component {
         />
       );
     }
-
     return (
     	<div>
         { this.props.currentPage === 'who-cares' ? <App
@@ -65,11 +64,13 @@ class Main extends React.Component {
           toggleHistory = { this.toggleHistory.bind(this) }
           careHistory = { this.state.careHistory }
           changePageFn = { this.changePage.bind(this) }
+          deviceMenuOpen = { this.state.menuDeviceOpen }
         />:
         this.props.currentPage === 'anniversary' ? <Anniversary
           currentTab = { this.props.currentTab }
           toggleMenuFn = { this.toggleMenu.bind(this) }
           changePageFn = { this.changePage.bind(this) }
+
         /> : ''}
         { menuDevice }
       </div>
