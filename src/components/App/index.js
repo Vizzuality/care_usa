@@ -382,8 +382,18 @@ class App extends React.Component {
     this.mapView.state.set({
       mode,
       layer: layer.toJSON(),
-      currentLayer: layer.toJSON().slug
+      currentLayer: layer.toJSON().slug,
     });
+
+    if (this.state.mode === 'donations') {
+      const mapLatLng = {lat: 0, lng: 0};
+      this.mapView.map.panTo(new L.LatLng(mapLatLng.lat, mapLatLng.lng));
+      this.router.update({ lat: mapLatLng.lat, lng: mapLatLng.lng });
+    } else {
+      const mapLatLng = {lat: 33, lng: -108};
+      this.mapView.map.panTo(new L.LatLng(mapLatLng.lat, mapLatLng.lng));
+      this.router.update({ lat: mapLatLng.lat, lng: mapLatLng.lng });
+    }
 
     this.updateTimeline(layer.toJSON());
 
