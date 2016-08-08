@@ -11,7 +11,7 @@ const defaults = {
 };
 
 const bucketToSize = {
-  cluster: { 1: 220, 2: 150, 3: 100         },
+  cluster: { 1: 180, 2: 150, 3: 100         },
   marker:  { 1: 130, 2: 100, 3:  80, 4:  50 }
 };
 
