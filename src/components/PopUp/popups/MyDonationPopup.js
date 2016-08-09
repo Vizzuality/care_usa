@@ -48,7 +48,7 @@ export default class DonationPopup extends AbstractPopup {
             this.options.countries
               .slice(0, 3)
               .map(slug => {
-                const country =  regionsCollection.findWhere({ slug });
+                const country =  regionsCollection.findWhere({ iso: slug });
                 if(!country) return '';
 
                 return `
