@@ -44,6 +44,15 @@
     /* The width is set by the JS */
     height: 110%;
 
+    &.-projects {
+      .axis {
+        .cursor-line {
+          stroke: none;
+          stroke-width: 1px;  /* rem value not supported for this property */
+        }
+      }
+    }
+
     .axis {
       > .tick  {
         > .report { fill: $color-4; }
@@ -101,6 +110,7 @@
       }
 
       .cursor-line {
+        stroke: $color-4;
         stroke-width: 1px;  /* rem value not supported for this property */
 
         @media screen and (min-width: $screen-m) {

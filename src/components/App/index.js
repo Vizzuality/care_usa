@@ -509,7 +509,7 @@ class App extends React.Component {
               <path d="M2.98 0l7.5 9.001L2.98 18 0 15.519 5.43 9 0 2.484z" fillRule="evenodd" />
             </svg>
           </div>
-          <div className="svg-container js-svg-container"></div>
+          <div className={`svg-container js-svg-container -${this.state.mode}`}></div>
         </div>
 
         { !this.state.embed &&
