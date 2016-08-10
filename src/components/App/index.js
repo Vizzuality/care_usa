@@ -386,13 +386,13 @@ class App extends React.Component {
     });
 
     if (this.state.mode === 'donations') {
-      const mapLatLng = {lat: 0, lng: 0};
-      this.mapView.map.panTo(new L.LatLng(mapLatLng.lat, mapLatLng.lng));
-      this.router.update({ lat: mapLatLng.lat, lng: mapLatLng.lng });
+      const mapDefaultView = {lat: 0, lng: 0, zoom: 3};
+      this.mapView.map.setView(new L.LatLng(mapDefaultView.lat, mapDefaultView.lng), mapDefaultView.zoom);
+      this.router.update({ lat: mapDefaultView.lat, lng: mapDefaultView.lng, zoom: mapDefaultView.zoom });
     } else {
-      const mapLatLng = {lat: 33, lng: -108};
-      this.mapView.map.panTo(new L.LatLng(mapLatLng.lat, mapLatLng.lng));
-      this.router.update({ lat: mapLatLng.lat, lng: mapLatLng.lng });
+      const mapDefaultView = {lat: 33, lng: -108, zoom: 3};
+      this.mapView.map.setView(new L.LatLng(mapDefaultView.lat, mapDefaultView.lng), mapDefaultView.zoom);
+      this.router.update({ lat: mapDefaultView.lat, lng: mapDefaultView.lng, zoom: mapDefaultView.zoom });
     }
 
     this.updateTimeline(layer.toJSON());
