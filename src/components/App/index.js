@@ -382,8 +382,18 @@ class App extends React.Component {
     this.mapView.state.set({
       mode,
       layer: layer.toJSON(),
-      currentLayer: layer.toJSON().slug
+      currentLayer: layer.toJSON().slug,
     });
+
+    if (this.state.mode === 'donations') {
+      const mapDefaultView = {lat: 0, lng: 0, zoom: 3};
+      this.mapView.map.setView(new L.LatLng(mapDefaultView.lat, mapDefaultView.lng), mapDefaultView.zoom);
+      this.router.update({ lat: mapDefaultView.lat, lng: mapDefaultView.lng, zoom: mapDefaultView.zoom });
+    } else {
+      const mapDefaultView = {lat: 33, lng: -108, zoom: 3};
+      this.mapView.map.setView(new L.LatLng(mapDefaultView.lat, mapDefaultView.lng), mapDefaultView.zoom);
+      this.router.update({ lat: mapDefaultView.lat, lng: mapDefaultView.lng, zoom: mapDefaultView.zoom });
+    }
 
     this.updateTimeline(layer.toJSON());
 
@@ -499,7 +509,7 @@ class App extends React.Component {
               <path d="M2.98 0l7.5 9.001L2.98 18 0 15.519 5.43 9 0 2.484z" fillRule="evenodd" />
             </svg>
           </div>
-          <div className="svg-container js-svg-container"></div>
+          <div className={`svg-container js-svg-container -${this.state.mode}`}></div>
         </div>
 
         { !this.state.embed &&

@@ -17,7 +17,7 @@ const optionalStatements = {
     from:    (filters, timelineDate, layer) => `date >= '${timelineDate ? moment.utc(timelineDate).subtract(7, 'days').format('MM-DD-YYYY') : moment.utc(filters && filters.from ? filters.from : layer.domain[0]).format('MM-DD-YYYY')}'::date`,
     to:      (filters, timelineDate) => `date <= '${moment.utc(timelineDate || filters && filters.to).format('MM-DD-YYYY')}'::date`,
     region:  filters => filters && filters.region ? `countries @> ARRAY[${filters.region.replace(/(\[|\])/g, '').split(',').map(region => `'${region}'`)}]` : '',
-    sectors: filters => filters && filters.sectors.length ? `sectors && ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
+    sectors: filters => filters && filters && filters.sectors.length ? `sectors && ARRAY[${filters.sectors.map(sector => `'${sector}'`).join(', ')}]` : ''
   }
 };
 

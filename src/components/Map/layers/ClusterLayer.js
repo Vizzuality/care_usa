@@ -11,7 +11,7 @@ const defaults = {
 };
 
 const bucketToSize = {
-  cluster: { 1: 220, 2: 150, 3: 100         },
+  cluster: { 1: 180, 2: 150, 3: 100         },
   marker:  { 1: 130, 2: 100, 3:  80, 4:  50 }
 };
 
@@ -97,28 +97,54 @@ export default class ClusterLayer {
 
     this.layer = L.layerGroup(markersList.map(marker => {
       const bubbleSize = bucketToSize[marker.clustered ? 'cluster': 'marker'][marker.bucket];
-
-      const icon = L.divIcon({
-        className: `bubble-marker -size-${bubbleSize}`,
-        iconSize: bubbleSize,
-        iconAnchor: [bubbleSize / 2, bubbleSize / 2],
-        popupAnchor: [0, -bubbleSize / 2],
-        html: `
-          <div class="bubble">
-            <div class="total">${utils.numberNotation(marker.total_people)}</div>
-            ${this.generateBubble(marker.per_sector, marker.total_people, bubbleSize)}
-            ${marker.clustered || zoom >= 6 ? `
-              <div class="title">
+      let icon = {};
+      if (!marker.is_country_office) {
+        icon = L.divIcon({
+          className: `bubble-marker -size-50`,
+          iconSize: bubbleSize,
+          iconAnchor: [bubbleSize / 2, bubbleSize / 2],
+          popupAnchor: [0, -bubbleSize / 2],
+          html: `
+            <div class="bubble-dark">
+              <div class="total">CMP</div>
+              ${zoom >= 6 ? `
+                <div class="title">
+                  ${marker.name}
+                </div>
+              ` : `
+              <div class="title-clustered">
                 ${marker.name}
               </div>
-            ` : `
-            <div class="title-clustered">
-              ${marker.name}
+              `}
             </div>
-            `}
-          </div>
-        `
-      });
+          `
+        });
+      } else if (marker.is_country_office && marker.total_people < 200) {
+        icon = '';
+      } else {
+        icon = L.divIcon({
+          className: `bubble-marker -size-${bubbleSize}`,
+          iconSize: bubbleSize,
+          iconAnchor: [bubbleSize / 2, bubbleSize / 2],
+          popupAnchor: [0, -bubbleSize / 2],
+          html: `
+            <div class="bubble">
+              <div class="total">${utils.numberNotation(marker.total_people)}</div>
+              ${this.generateBubble(marker.per_sector, marker.total_people, bubbleSize)}
+              ${marker.clustered || zoom >= 6 ? `
+                <div class="title">
+                  ${marker.name}
+                </div>
+              ` : `
+              <div class="title-clustered">
+                ${marker.name}
+              </div>
+              `}
+            </div>
+          `
+        });
+      }
+
 
       return L.marker([marker.lat, marker.lng], { icon })
         .on('click', e => this.onMarkerClick(marker, e.target._icon, e.target))

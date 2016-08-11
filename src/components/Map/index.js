@@ -44,8 +44,8 @@ class MapView extends Backbone.View {
     // mobile
     if (this.device.mobile) {
       if(this.state.attributes.mode === 'projects') {
-        this.state.attributes.lat = 3.8642546157214213;
-        this.state.attributes.lng = -25.3125;
+        this.state.attributes.lat = 0;
+        this.state.attributes.lng = 0;
       }
       else {
         this.state.attributes.lat = 7;
@@ -57,8 +57,8 @@ class MapView extends Backbone.View {
     // Ipad landscape
     if ( !this.device.tablet && this.device.device ) {
       if(this.state.attributes.mode === 'projects') {
-        this.state.attributes.lat = 3.8642546157214213;
-        this.state.attributes.lng = -25.3125;
+        this.state.attributes.lat = 0;
+        this.state.attributes.lng = 0;
       }
       else {
         this.state.attributes.lat = 40;
@@ -353,8 +353,8 @@ MapView.prototype.updateLayer = (function() {
 
 MapView.prototype.defaults = {
   style: config.mapboxStyle,
-  lat: 35,
-  lng: -80,
+  lat: 0,
+  lng: 0,
   zoom: 3
 };
 
