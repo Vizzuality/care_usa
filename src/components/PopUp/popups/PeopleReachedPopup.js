@@ -30,8 +30,7 @@ export default class PeopleReachedPopup extends AbstractPopup {
       res[key] = o[key];
       return res;
     }, {});
-
-    const projectsInfo = (this.model.get('totals').projects) ? `
+    const projectsInfo = this.model.attributes.is_country_office ? `
         <h1 class="text text-highlighted -light">
           ${this.model.get('location').name} -
           ${utils.numberNotation(this.model.get('totals').projects)}
@@ -83,7 +82,12 @@ export default class PeopleReachedPopup extends AbstractPopup {
           }
         </div>
         <hr />
-      ` : '';
+      ` : `
+          <h1 class="text text-highlighted -light">
+            ${this.model.get('location').name} is a CARE Member partner
+          </h1>
+          <hr />
+        `;
 
     return `
       <div class="wrapper -project">

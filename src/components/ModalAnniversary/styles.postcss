@@ -5,9 +5,11 @@
 	> .content {
 		padding: 0;
 
-		&.-menu-open {
-			overflow: hidden;
-		}
+    @media screen and (max-width: $screen-s) {
+  		&.-menu-open {
+  			overflow: hidden;
+  		}
+    }
 
 		@media screen and (min-width: $screen-s) {
 	      top: 0;

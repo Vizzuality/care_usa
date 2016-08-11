@@ -44,6 +44,15 @@
     /* The width is set by the JS */
     height: 110%;
 
+    &.-projects {
+      .axis {
+        .cursor-line {
+          stroke: none;
+          stroke-width: 1px;  /* rem value not supported for this property */
+        }
+      }
+    }
+
     .axis {
       > .tick  {
         > .report { fill: $color-4; }
