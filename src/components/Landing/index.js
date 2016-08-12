@@ -1,6 +1,7 @@
 'use strict';
 
 import './styles.postcss';
+import utils from '../../scripts/helpers/utils';
 import React from 'react';
 
 class Landing extends React.Component {
@@ -13,7 +14,9 @@ class Landing extends React.Component {
   }
 
   getStarted() {
-    localStorage.setItem('session', true);
+    if(utils.storage) {
+      localStorage.setItem('session', true);
+    }
     this.setState({ visible: false });
   }
 
