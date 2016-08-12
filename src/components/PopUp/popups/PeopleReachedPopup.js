@@ -84,9 +84,12 @@ export default class PeopleReachedPopup extends AbstractPopup {
         <hr />
       ` : `
           <h1 class="text text-highlighted -light">
-            ${this.model.get('location').name} is a CARE Member partner
+            ${this.model.get('location').name} is a CARE Member partner.
           </h1>
           <hr />
+          <div class="title-sector text text-legend-s -light">
+            CARE Member Partners don’t deliver programming services, but are engaged in fighting global poverty by a range of fundraising as well as citizen & political advocacy efforts.
+          </div>
         `;
 
     return `
