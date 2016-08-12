@@ -306,9 +306,10 @@ class MapView extends Backbone.View {
 
     newLayer.initLayer().done(() => {
       /* We ensure to always display the latest tiles */
+
       if((!this.currentLayer ||
         newLayer.timestamp > this.currentLayer.timestamp) &&
-        newLayer.timestamp > this.timestamp) {
+        newLayer.timestamp >= this.timestamp) {
         newLayer.layer.addTo(this.map);
         this.currentLayer = newLayer;
         this.currentLayerConfig = layerConfig;
