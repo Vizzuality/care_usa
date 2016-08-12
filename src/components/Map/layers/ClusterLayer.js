@@ -12,7 +12,9 @@ const defaults = {
 
 const bucketToSize = {
   cluster: { 1: 180, 2: 150, 3: 100         },
-  marker:  { 1: 130, 2: 100, 3:  80, 4:  50 }
+  marker:  { 1: 130, 2: 100, 3:  80, 4:  50 },
+  cluster_mobile: { 1: 130, 2: 110, 3: 90 },
+  marker_mobile: { 1: 110, 2: 90, 3: 70, 4: 50 }
 };
 
 export default class ClusterLayer {
@@ -24,11 +26,12 @@ export default class ClusterLayer {
    *  cartoCss
    * }
    */
-  constructor(options, state, map) {
+  constructor(options, state, map, isMobile) {
     this.options = Object.assign(defaults, options);
     this.options.state = state;
     this.options.map = map;
     this.timestamp = +(new Date());
+    this.isMobile = isMobile;
   }
 
   initLayer() {
@@ -95,8 +98,9 @@ export default class ClusterLayer {
   addMarkers(markersList) {
     const zoom = this.options.map.getZoom();
 
+    const bubbleKeySufx = this.isMobile ? '_mobile' : '';
     this.layer = L.layerGroup(markersList.map(marker => {
-      const bubbleSize = bucketToSize[marker.clustered ? 'cluster': 'marker'][marker.bucket];
+      const bubbleSize = bucketToSize[(marker.clustered ? 'cluster': 'marker')+bubbleKeySufx][marker.bucket];
       let icon = {};
       if (!marker.is_country_office) {
         icon = L.divIcon({

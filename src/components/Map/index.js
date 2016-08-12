@@ -302,7 +302,7 @@ class MapView extends Backbone.View {
     /* We finally update the "pointer" to the previous slug */
     this.previousLayerSlug = layerConfig.slug;
 
-    const newLayer = new layerClass(layerConfig, state, this.map);
+    const newLayer = new layerClass(layerConfig, state, this.map, this.device.mobile);
 
     newLayer.initLayer().done(() => {
       /* We ensure to always display the latest tiles */
