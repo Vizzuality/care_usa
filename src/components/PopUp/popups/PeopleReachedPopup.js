@@ -84,7 +84,7 @@ export default class PeopleReachedPopup extends AbstractPopup {
         <hr />
       ` : `
           <h1 class="text text-highlighted -light">
-            ${this.model.get('location').name} is a CARE Member partner.
+            ${this.model.get('location').name} is a CARE Member Partner.
           </h1>
           <hr />
           <div class="title-sector text text-legend-s -light">
