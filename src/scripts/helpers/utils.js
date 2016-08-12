@@ -66,6 +66,19 @@ function numberNotation(number) {
   return number;
 }
 
+// check if local storage is available
+// Feature detect + local reference
+var storage;
+var fail;
+var uid;
+try {
+  uid = new Date;
+  (storage = window.localStorage).setItem(uid, uid);
+  fail = storage.getItem(uid) != uid;
+  storage.removeItem(uid);
+  fail && (storage = false);
+} catch (exception) {}
+
 /* Polyfill for Object.assign
  * Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
  */
