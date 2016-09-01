@@ -410,6 +410,10 @@ class App extends React.Component {
   }
 
   toggleModalFilter() {
+    if(!this.state.filtersOpen) {
+      /* Stops timeline when opening filters */
+      this.timeline.stop();
+    }
     this.setState({ filtersOpen: !this.state.filtersOpen });
   }
 
