@@ -311,6 +311,7 @@ class App extends React.Component {
     this.timeline.options.interval = interval;
     this.timeline.options.ticksAtExtremities = filters.from || filters.to;
     this.timeline.options.layerName = layer.name;
+    this.timeline.options.cursorPosition = filters.to !== undefined ? filters.to : moment.utc(layer.domain[1]).toDate();
 
     this.timeline.render();
   }
@@ -394,7 +395,6 @@ class App extends React.Component {
       this.mapView.map.setView(new L.LatLng(mapDefaultView.lat, mapDefaultView.lng), mapDefaultView.zoom);
       this.router.update({ lat: mapDefaultView.lat, lng: mapDefaultView.lng, zoom: mapDefaultView.zoom });
     }
-
     this.updateTimeline(layer.toJSON());
 
     /* Stops timeline when changing tabs*/
