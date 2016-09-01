@@ -113,9 +113,14 @@ class TimelineView extends Backbone.View {
      * NOTE: concat and clone are used to not modify the original array */
     const domain = this.options.domain.concat([]);
     domain[0] = moment.utc(domain[0]).clone().toDate();
-    /* We force the cursor to be within the domain */
-    if(+this.cursorPosition > +this.options.domain[1]) this.cursorPosition = this.options.domain[1];
-    if(+this.cursorPosition < +this.options.domain[0]) this.cursorPosition = this.options.domain[0];
+    // if new cursorPosition is passed in, use that.
+    if(this.options.cursorPosition !== undefined) {
+      this.cursorPosition = this.options.cursorPosition;
+    } else {
+      /* We force the cursor to be within the domain */
+      if(+this.cursorPosition > +this.options.domain[1]) this.cursorPosition = this.options.domain[1];
+      if(+this.cursorPosition < +this.options.domain[0]) this.cursorPosition = this.options.domain[0];
+    }
 
     this.scale = d3.time.scale.utc()
       .domain(domain)
