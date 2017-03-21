@@ -1,4 +1,4 @@
-import topojson from 'topojson';
+import * as topojson from 'topojson';
 
 L.TopoJSON = L.GeoJSON.extend({
 
