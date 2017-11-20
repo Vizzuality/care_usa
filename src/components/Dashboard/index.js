@@ -94,7 +94,7 @@ class Dashboard extends React.Component {
             className="btn-dashboard-switcher -left"
             onClick={ this.toogleDashboard.bind(this) }
           >
-            <svg className="icon icon-arrowleft"><use xlinkHref="#icon-arrowleft"></use></svg>
+            <svg className="icon icon-arrowleft"><use xlinkHref="#icon-close"></use></svg>
           </button>
 
           <button
@@ -103,51 +103,52 @@ class Dashboard extends React.Component {
           >
             <svg className="icon icon-arrow"><use xlinkHref="#icon-arrow"></use></svg>
           </button>
+          <div className="dashboard-inner-wrapper">
+            { tabsDesktop }
 
-          { tabsDesktop }
+            <div className="m-dashboard-panel">
+              <div className="dashboard-header">
 
-          <div className="m-dashboard-panel">
-            <div className="dashboard-header">
+                { this.props.embed &&
+                  <a href="#" className="btn btn-primary btn-embed">Explore the map</a>
+                }
 
-              { this.props.embed &&
-                <a href="#" className="btn btn-primary btn-embed">Explore the map</a>
-              }
+                { !this.props.embed && this.props.layer.slug !== 'people-reached' &&
+                    <button
+                      className="btn btn-third -small text text-cta btn-filters-switcher"
+                      onClick={ this.props.toggleFiltersFn } >
+                      filters
+                    </button>
+                }
+                { !this.props.embed &&
+                    <a href="http://my.care.org/site/Donation2?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank"className="btn btn-contrast -small">
+                      Donate
+                    </a>
+                }
 
-              { !this.props.embed && this.props.layer.slug !== 'people-reached' &&
-                  <button
-                    className="btn btn-third -small text text-cta btn-filters-switcher"
-                    onClick={ this.props.toggleFiltersFn } >
-                    filters
-                  </button>
-              }
-              { !this.props.embed &&
-                  <a href="http://my.care.org/site/Donation2?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank"className="btn btn-contrast -small">
-                    Donate
-                  </a>
-              }
-
+              </div>
+             <div className={`scroll-wrapper ${this.props.currentMode}`}>
+                <DashDates
+                  filters={ this.props.filters }
+                  timelineDate={ this.props.timelineDate }
+                  layer={ this.props.layer }
+                  currentMode = { this.props.currentMode }
+                />
+                <DashFilters
+                  filters={ this.props.filters }
+                  sectors={ this.props.sectors }
+                  regions={ this.props.regions }
+                />
+                <DashSummary
+                  filters={ this.props.filters }
+                  layer={ this.props.layer }
+                  currentMode = { this.props.currentMode }
+                  timelineDate={ this.props.timelineDate }
+                />
+                { layersSwitcher }
+              </div>
+              { filtersSwitcher }
             </div>
-           <div className={`scroll-wrapper ${this.props.currentMode}`}>
-              <DashDates
-                filters={ this.props.filters }
-                timelineDate={ this.props.timelineDate }
-                layer={ this.props.layer }
-                currentMode = { this.props.currentMode }
-              />
-              <DashFilters
-                filters={ this.props.filters }
-                sectors={ this.props.sectors }
-                regions={ this.props.regions }
-              />
-              <DashSummary
-                filters={ this.props.filters }
-                layer={ this.props.layer }
-                currentMode = { this.props.currentMode }
-                timelineDate={ this.props.timelineDate }
-              />
-              { layersSwitcher }
-            </div>
-            { filtersSwitcher }
           </div>
         </div>
       </div>
