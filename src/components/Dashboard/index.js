@@ -25,7 +25,7 @@ class Dashboard extends React.Component {
     this.setState(utils.checkDevice());
   }
 
-  toogleDashboard() {
+  togleDashboard() {
     this.setState({ dashboardOpen: !this.state.dashboardOpen })
   }
 
@@ -86,20 +86,24 @@ class Dashboard extends React.Component {
             "l-dashboard is-open -pc" :
           "l-dashboard";
 
+    const iconName = this.state.dashboardOpen ? 'icon-close' : 'icon-arrow';
+
     return (
       <div>
         { tabsMobile }
         <div className={ dashboardClass }>
           <button
             className="btn-dashboard-switcher -left"
-            onClick={ this.toogleDashboard.bind(this) }
+            onClick={ this.togleDashboard.bind(this) }
           >
-            <svg className="icon icon-arrowleft"><use xlinkHref="#icon-close"></use></svg>
+            <svg className={`icon ${iconName}`}>
+              <use xlinkHref={`#${iconName}`} />
+            </svg>
           </button>
 
           <button
             className="btn-dashboard-switcher -bottom"
-            onClick={ this.toogleDashboard.bind(this) }
+            onClick={ this.togleDashboard.bind(this) }
           >
             <svg className="icon icon-arrow"><use xlinkHref="#icon-arrow"></use></svg>
           </button>
