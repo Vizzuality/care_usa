@@ -40,7 +40,8 @@ export const routes = {
     component: Story
   },
   [MAP]: {
-    path: '/map'
+    path: '/map',
+    thunk: async () => window.location.replace('/map')
   },
   [ABOUT]: {
     path: '/about',

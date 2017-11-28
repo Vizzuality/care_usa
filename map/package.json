@@ -4,8 +4,7 @@
   "description": "70 years of lasting change",
   "scripts": {
     "start": "node dev-server.js",
-    "build": "webpack --config webpack.config.js --progress --profile --colors",
-    "postinstall": "npm run build"
+    "build": "webpack --config webpack.config.js --progress --profile --colors"
   },
   "repository": {
     "type": "git",
