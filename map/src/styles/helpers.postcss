@@ -1,0 +1,120 @@
+/*** EXTENDS  ***/
+
+/**
+ * Extends
+ * Place here in alphabetic order.
+ * Abstract classes to extend.
+ */
+%clearfix {
+  &:before, &:after {
+    display: table;
+    content: '';
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+%clean-button-or-input {
+  appearance: none;
+  padding: 0;
+  box-shadow: none;
+  background: none;
+  border: 0;
+  text-decoration: none;
+  outline: none;
+}
+
+%center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+%centerx {
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+%centery {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+%hidden {
+  display: none;
+  visibility: hidden;
+}
+
+
+/**** MIXINS ****/
+/* Forms mixins */
+/* @define-mixin placeholder() {
+  &::-webkit-input-placeholder ()
+  &:-moz-placeholder ()
+  &::-moz-placeholder ()
+  &:-ms-input-placeholder ()
+} */
+
+
+/* Decoration */
+@define-mixin fade $color {
+  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, $color), color-stop(1, rgba($color, 0)));
+  background-image: -o-linear-gradient(left, $color 0, rgba($color, 0) 100%);
+  background-image: -moz-linear-gradient(left, $color 0, rgba($color, 0) 100%);
+  background-image: -webkit-linear-gradient(left, $color 0, rgba($color, 0) 100%);
+  background-image: -ms-linear-gradient(left, $color 0, rgba($color, 0) 100%);
+  background-image: linear-gradient(to left, $color 0, rgba($color, 0) 100%);
+  pointer-events: none;
+}
+
+/* Loader */
+@define-mixin spinner $size, $border-width, $color, $color2 {
+
+  &:before {
+    content: '';
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: .6;
+  }
+
+  &:after {
+    z-index: 2;
+    content: '';
+    height: $size;
+    width: $size;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: calc(-1 * $size / 2 - $border-width) 0 0 calc(-1 * $size / 2);
+    transition: all .75s ease 0s;
+    border-radius: 100%;
+    border-top: $border-width solid $color2;
+    border-right: $border-width solid $color2;
+    border-bottom: $border-width solid $color;
+    border-left: $border-width solid $color;
+    animation: spinner .75s infinite linear;
+    transform-origin: center;
+  }
+}
+
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

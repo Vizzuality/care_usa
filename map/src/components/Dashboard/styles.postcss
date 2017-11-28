@@ -1,0 +1,172 @@
+@import'../../styles/settings.postcss';
+@import'../../styles/helpers.postcss';
+
+.m-dashboard-panel {
+  padding: 0 rem(5) 0 $wrap-padding-mobile;
+
+  @media screen and (min-width: $screen-m) {
+    position: absolute;
+    top: rem(54);
+    bottom: 25%;
+    left: 0;
+    right: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .dashboard-header {
+    display: none;
+    flex: 1 1 100%;
+    justify-content: space-between;
+    align-items: center;
+    height: rem(40);
+    border-bottom: 1px solid $color-7;
+    margin-right: rem(15);
+    /*display: none;*/
+
+    @media screen and (min-width: $screen-m) {
+      display: none;
+    }
+
+    .is-embed & {
+      justify-content: flex-end;
+    }
+  }
+
+  .scroll-wrapper {
+    height: rem(221);
+    overflow-y: auto;
+
+
+    @media screen and (min-width: $screen-m) {
+      height: 95%;
+      position: absolute;
+      top: rem(20);
+      bottom: rem(80);
+      left: 0;
+      right: rem(15);
+
+      &.donations {
+        height: calc(100% - rem(85));
+      }
+    }
+
+  }
+  .scroll-wrapper::-webkit-scrollbar {
+    width: 4px;
+  }
+  .scroll-wrapper::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  .scroll-wrapper::-webkit-scrollbar-thumb {
+    border-radius: 2.5px;
+	  background-color: #d0cabe;
+  }
+
+  .btn-filters-switcher {
+    @media screen and (min-width: $screen-m) {
+      position: absolute;
+      bottom: 0;
+      left: rem(30);
+      right: rem(30);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @media screen and (min-width: $screen-l) {
+       bottom: 0;
+    }
+
+    .icon {
+      display: none;
+
+      @media screen and (min-width: $screen-m) {
+        display: block;
+        width: rem(20);
+        height: rem(20);
+        fill: $color-1;
+      }
+    }
+
+  }
+}
+
+.btn-dashboard-switcher {
+  position: absolute;
+  width: rem(35);
+  height: rem(25);
+  line-height: rem(40);
+  background-color: $color-1;
+  border-radius: 0;
+  cursor: pointer;
+  z-index: 1;
+
+  @media screen and (min-width: $screen-m) {
+    width: rem(35);
+    height: rem(35);
+  }
+
+  &:hover .icon > use {
+    fill: $color-9;
+  }
+
+  .icon {
+      display: inline-block;
+      width: rem(7);
+      height: rem(8);
+      transform: rotate(180deg);
+      > use { fill: $color-13; }
+
+      @media screen and (min-width: $screen-m) {
+        width: rem(10);
+        height: rem(10);
+      }
+  }
+
+  .is-open & {
+    .icon {
+        transform: rotate(0);
+    }
+  }
+
+  &.-left {
+    display: none;
+
+    @media screen and (min-width: $screen-m) {
+      display: flex;
+      top: 0;
+      right: 0;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      display: none;
+    }
+
+    .icon {
+      transform: rotate(270deg);
+    }
+
+  }
+
+  &.-bottom {
+    display: flex;
+    top: rem(-25);
+    left: rem(20);
+    box-shadow: 0 rem(-0.5) rem(1) #888;
+
+    @media screen and (min-width: $screen-m) {
+      display: none;
+    }
+  }
+}
+
+.dashboard-inner-wrapper {
+  margin: rem(35);
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+  box-shadow: 2px 0 0 0 #e6e6e6;
+}

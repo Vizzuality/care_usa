@@ -1,0 +1,50 @@
+@import'../../../styles/settings.postcss';
+
+.l-donation {
+	background-color: $color-3;
+
+	.wrap {
+		padding-top: rem(50);
+		padding-bottom: rem(50);
+		display: flex;
+		flex-flow: column;
+		align-items: center;
+
+		@media screen and (min-width: $screen-m) {
+	      padding-top: rem(100);
+	      padding-bottom: rem(100);
+	    }
+	}
+
+	.text-module-title {
+		text-align: center;
+		padding-bottom: rem(40);
+
+		@media screen and (min-width: $screen-m) {
+	      padding-bottom: rem(50);
+	    }
+
+	    @media screen and (min-width: $screen-l) {
+	      padding-bottom: rem(55);
+	    }
+
+	    @media screen and (min-width: $screen-xxl) {
+	      padding-bottom: rem(85);
+	    }
+	}
+
+	.btn-secondary {
+		color: $color-3;
+		width: 100%;
+
+		@media screen and (min-width: rem(500)) {
+	      width: auto;
+	      padding: rem(15) rem(110) rem(13) rem(110);
+	    }
+
+	    @media screen and (min-width: $screen-l) {
+	      width: auto;
+	      padding: rem(15) rem(75) rem(13) rem(75);
+	    }
+	}
+}
