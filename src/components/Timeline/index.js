@@ -307,10 +307,16 @@ class TimelineView extends Backbone.View {
     this.arrowButtons.style.display = '';
 
     const currentYear  = this.cursorPosition.getUTCFullYear();
-    this.previousButton.classList.toggle('-disabled',
-      this.isFirstDomainYear(currentYear));
-    this.nextButton.classList.toggle('-disabled',
-      this.isLastDomainYear(currentYear));
+    if(this.previousButton.style.opacity === '' || this.previousButton.style.opacity === '1') {
+      this.previousButton.style.opacity = '0.5';
+    } else {
+      this.previousButton.style.opacity = '1';
+    }
+    if(this.nextButton.style.opacity === '' || this.nextButton.style.opacity === '1') {
+      this.nextButton.style.opacity = '0.5';
+    } else {
+      this.nextButton.style.opacity = '1';
+    }
   }
 
   /**
