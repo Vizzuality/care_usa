@@ -12,8 +12,6 @@ const postcssImporter = require('postcss-import');
 const postcssFunctions = require('postcss-functions');
 const postcssHexRgba = require('postcss-hexrgba');
 
-if (process.env.NODE_ENV !== 'production') require('dotenv').config({ silent: true, path: path.join(__dirname, '..', '.env') });
-
 process.env.BROWSERSLIST_CONFIG = 'browserslist';
 const envVariables = process.env;
 

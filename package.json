@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node dev.js",
-    "build": "(cd map; npm run build) && (cd stories; npm run build)",
+    "dev": "node config/dev.js",
+    "build": "node config/build.js",
     "postinstall": "(cd map; npm install) && (cd stories; npm install)"
   },
   "repository": {

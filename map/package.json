@@ -46,7 +46,6 @@
     "postcss-nested": "^1.0.0",
     "postcss-simple-vars": "^3.0.0",
     "html-webpack-plugin": "^2.22.0",
-    "dotenv": "^2.0.0",
     "css-loader": "^0.23.1",
     "autoprefixer": "^6.3.7",
     "babel-core": "^6.10.4",
