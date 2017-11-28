@@ -99,10 +99,10 @@ export default class TileLayer {
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json; charset=UTF-8',
-      url: `https://${this.options.cartodbAccount}.cartodb.com/api/v1/map/`,
+      url: `https://${this.options.cartodbAccount}.carto.com/api/v1/map/`,
       data: JSON.stringify(requestBody)
     }).done(data => {
-      const tileUrl = `https://${this.options.cartodbAccount}.cartodb.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png32`;
+      const tileUrl = `https://${this.options.cartodbAccount}.carto.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png32`;
       this.layer = L.tileLayer(tileUrl, { noWrap: true });
       deferred.resolve(this.layer);
     }).fail(deferred.reject);

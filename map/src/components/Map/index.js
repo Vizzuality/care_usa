@@ -131,7 +131,7 @@ class MapView extends Backbone.View {
     // Add attribution to Mapbox and OpenStreetMap.
     this.map.attributionControl.removeAttribution('Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>')
       .setPrefix('')
-      .addAttribution('<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="http://openstreetmap.org/copyright"> | © OpenStreetMap</a><a href="https://cartodb.com/attributions/"> | © CartoDB</a>');
+      .addAttribution('<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="http://openstreetmap.org/copyright"> | © OpenStreetMap</a><a href="https://carto.com/attributions/"> | © CartoDB</a>');
   }
 
   _setEvents() {

@@ -98,7 +98,7 @@ export default class SVGLayer {
 
     $.ajax({
       dataType: 'json',
-      url: `https://${this.options.cartodbAccount}.cartodb.com/api/v2/sql`,
+      url: `https://${this.options.cartodbAccount}.carto.com/api/v2/sql`,
       data: {
         q: geoQuery,
         format: 'topojson'
@@ -123,7 +123,7 @@ export default class SVGLayer {
    */
   fetchData() {
     $.ajax({
-      url: `https://${this.options.cartodbAccount}.cartodb.com/api/v2/sql`,
+      url: `https://${this.options.cartodbAccount}.carto.com/api/v2/sql`,
       dataType: 'json',
       data: {
         q: this._getQuery()
