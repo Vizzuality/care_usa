@@ -25,7 +25,7 @@ export default class DonationPopup extends AbstractPopup {
             this.options.sectors
               .slice(0, 3)
               .map(slug => {
-                const sector =  sectorsCollection.findWhere({ slug });
+                const sector =  sectorsCollection.findWhere({ slug: slug });
                 if(!sector) return '';
 
                 return `

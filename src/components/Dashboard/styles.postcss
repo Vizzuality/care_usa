@@ -7,15 +7,11 @@
   @media screen and (min-width: $screen-m) {
     position: absolute;
     top: rem(54);
-    bottom: rem(25);
+    bottom: 25%;
     left: 0;
     right: 0;
-    padding: 0 rem(30);
+    padding: 0;
     overflow: hidden;
-  }
-
-  @media screen and (min-width: $screen-xxl) {
-    padding: 0 rem(40);
   }
 
   .dashboard-header {
@@ -40,7 +36,6 @@
   .scroll-wrapper {
     height: rem(221);
     overflow-y: auto;
-    padding-right: rem(15);
 
 
     @media screen and (min-width: $screen-m) {
@@ -48,9 +43,8 @@
       position: absolute;
       top: rem(20);
       bottom: rem(80);
-      left: rem(30);
+      left: 0;
       right: rem(15);
-      padding-right: rem(15);
 
       &.donations {
         height: calc(100% - rem(85));
@@ -103,9 +97,10 @@
   width: rem(35);
   height: rem(25);
   line-height: rem(40);
-  text-align: center;
-  background-image: url('../../images/cardboardpattern.jpg');
+  background-color: $color-1;
+  border-radius: 0;
   cursor: pointer;
+  z-index: 1;
 
   @media screen and (min-width: $screen-m) {
     width: rem(35);
@@ -120,9 +115,8 @@
       display: inline-block;
       width: rem(7);
       height: rem(8);
-      width: 100%;
       transform: rotate(180deg);
-      > use { fill: $color-1; }
+      > use { fill: $color-13; }
 
       @media screen and (min-width: $screen-m) {
         width: rem(10);
@@ -140,13 +134,19 @@
     display: none;
 
     @media screen and (min-width: $screen-m) {
-      display: block;
-      top: rem(54);
-      right: rem(-35);
+      display: flex;
+      top: 0;
+      right: 0;
+      align-items: center;
+      justify-content: center;
     }
 
     @media screen and (min-width: $screen-xl) {
       display: none;
+    }
+
+    .icon {
+      transform: rotate(270deg);
     }
 
   }
@@ -161,4 +161,12 @@
       display: none;
     }
   }
+}
+
+.dashboard-inner-wrapper {
+  margin: rem(35);
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+  box-shadow: 2px 0 0 0 #e6e6e6;
 }
