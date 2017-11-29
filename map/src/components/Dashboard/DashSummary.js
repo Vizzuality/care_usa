@@ -62,8 +62,8 @@ class DashSummary extends React.Component {
             <span className="number number-l"> ${ utils.numberNotation(this.state.donationsAmount) }</span>
           </div>
           <div className="summary-item">
-            <p className="text text-legend-s">Donations </p>
-            <span className="number number-m">{ utils.numberNotation(this.state.totalDonations) }</span>
+            <p className="text text-dashboard-title">Donations </p>
+            <span className="number number-l">{ utils.numberNotation(this.state.totalDonations) }</span>
           </div>
         </div>
     } else {
@@ -73,8 +73,8 @@ class DashSummary extends React.Component {
           <span className="number number-l"> { utils.numberNotation(this.state.projects) }</span>
         </div>
         <div className="summary-item">
-          <p className="text text-legend-s">People reached </p>
-          <span className="number number-m">{ utils.numberNotation(this.state.people) }</span>
+          <p className="text text-dashboard-title">Total reached </p>
+          <span className="number number-l">{ utils.numberNotation(this.state.people) }</span>
         </div>
       </div>
     }
