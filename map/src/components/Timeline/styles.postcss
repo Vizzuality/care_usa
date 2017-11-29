@@ -43,6 +43,7 @@
   > .svg-container {
     /* The width is set by the JS */
     height: 110%;
+    min-height: rem(75);
 
     &.-projects {
       .axis {
@@ -55,26 +56,26 @@
 
     .axis {
       > .tick  {
-        > .report { fill: $color-4; }
+        > .report { fill: rgba($color-22, 0.7); }
 
         > text {
           font-size: rem(10);
           letter-spacing: .4px;
           line-height: 1.1;
           font-family: $font-family-2;
-          fill: $font-color-2;
+          fill: $font-color-1;
 
           @media screen and (min-width: $screen-s) {
-            font-size: rem(12);
-            letter-spacing: rem(.5);
+            font-size: rem(14);
+            letter-spacing: rem(.6);
           }
 
           @media screen and (min-width: $screen-m) {
-            font-size: rem(12);
+            font-size: rem(14);
           }
 
           @media screen and (min-width: $screen-xl) {
-            font-size: rem(13);
+            font-size: rem(14);
           }
 
           @media screen and (min-width: $screen-xxl) {
@@ -93,24 +94,24 @@
       }
 
       > .domain {
-        stroke-width: 1px; /* rem value not supported for this property */
-        stroke: rgba($color-4, .3);
+        stroke-width: 3px; /* rem value not supported for this property */
+        stroke: rgba($color-22, 0.7);
         fill: none;
       }
 
       .cursor {
-        fill: $color-4;
+        fill: rgba($color-22, 0.7);
         cursor: -webkit-grab; /* Autoprefixer doesn't work for that */
         cursor:    -moz-grab;
         cursor:         grab;
       }
 
       .cursor-shadow {
-        fill: $color-10;
+        fill: rgba($color-22, 0.3);;
       }
 
       .cursor-line {
-        stroke: $color-4;
+        stroke: rgba($color-22, 0.7);
         stroke-width: 1px;  /* rem value not supported for this property */
 
         @media screen and (min-width: $screen-m) {

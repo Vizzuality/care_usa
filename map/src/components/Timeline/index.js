@@ -163,7 +163,6 @@ class TimelineView extends Backbone.View {
     this.d3Axis = this.svg
         .append('g')
           .attr('class', 'axis')
-          .style('stroke-dasharray', '6, 6')
           .attr('transform', 'translate(0, ' + (svgContainerDimensions.height / 2 + 4) + ')')
           .call(this.axis);
 
@@ -216,16 +215,15 @@ class TimelineView extends Backbone.View {
     /* We add the ticks for the report */
     this.d3Axis.selectAll('.tick')
       .append('rect')
-      .attr('width', smallScreen ? 5 : 8)
-      .attr('height', smallScreen ? 5 : 8)
-      .attr('x', smallScreen ? -2.5 : -4)
-      .attr('y', smallScreen ? -2.5 : -4)
-      .attr('transform', 'rotate(45)')
+      .attr('width', smallScreen ? 1 : 2)
+      .attr('height', 12)
+      .attr('x', smallScreen ? -1 : -1)
+      .attr('y', -1.5)
       .attr('class', 'report');
 
     /* We slightly move the ticks' text to the top and center it */
     this.d3Axis.selectAll('.tick text')
-      .attr('y', smallScreen ? -11 : -15)
+      .attr('y', smallScreen ? 22 : 30)
       .style('text-anchor', 'middle');
 
     /* We add the milestones */
@@ -271,7 +269,6 @@ class TimelineView extends Backbone.View {
       .attr('cx', 0)
       .attr('cy', 0)
       .attr('r', smallScreen ? 6 : 10)
-      .attr('fill', '#686354')
       .attr('class', 'cursor-shadow');
 
     /* We add the real cursor */
@@ -281,7 +278,7 @@ class TimelineView extends Backbone.View {
       .on('mouseout', () => this.cursorShadow.attr('filter', ''))
       .attr('cx', 0)
       .attr('cy', 0)
-      .attr('r', smallScreen ? 6 : 10)
+      .attr('r', smallScreen ? 6 : 6)
       .attr('class', 'cursor')
       .call(this.brush.event);
 
