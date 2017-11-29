@@ -140,9 +140,26 @@
   @media screen and (min-width: $screen-m) {
     flex-direction: column;
     align-items: flex-start;
-    height: rem($header-height);
+    height: auto;
     padding-top: 0;
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
+  }
+
+  &:hover {
+    .nav-bar {
+      @media screen and (min-width: $screen-m) {
+        transition: all 0.16s ease-in-out 0.16s;
+        visibility: visible;
+        opacity: 1;
+        transform: translate(0, 0);
+      }
+    }
+
+    > .wrap {
+      @media screen and (min-width: $screen-m) {
+        padding-bottom: calc(rem(16) + 44px);
+      }
+    }
   }
 
   > .wrap {
@@ -154,7 +171,8 @@
     @media screen and (min-width: $screen-m) {
       flex: none;
       justify-content: center;
-      padding: rem(27) 0 rem(24);
+      padding: rem(16) 0;
+      transition: all 0.16s ease-in-out;
     }
   }
 
@@ -162,9 +180,17 @@
     display: none;
 
     @media screen and (min-width: $screen-m) {
+      background-color: $white;
+      visibility: hidden;
+      opacity: 0;
       display: flex;
       justify-content: center;
+      position: absolute;
+      bottom: 0;
+      left: 0;
       width: 100%;
+      transform: translate(0, -10%);
+      transition: all 0.08s ease-in-out;
     }
 
     .nav-item-list {
