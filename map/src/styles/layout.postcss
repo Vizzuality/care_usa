@@ -1,10 +1,3 @@
-$header-height: 156;
-$header-height-mb: 50;
-$timeline-height: 45;
-$timeline-height-mb: 55;
-$credits-height-mb: 25;
-$l-margin-vt: 48;
-
 .wrap {
   position: relative;
   width: 100%;
@@ -407,54 +400,5 @@ $l-margin-vt: 48;
       margin-left: rem(6);
       margin-right: rem(20);
     }
-  }
-}
-
-.l-donate {
-  display: block;
-  position: absolute;
-  bottom: rem($credits-height-mb);
-  left: 0;
-  right: 0;
-  height: 36px;
-  line-height: 36px;
-  text-align: center;
-  background-color: $color-3;
-  text-transform: uppercase;
-  color: $font-color-3;
-  text-decoration: none;
-  font-family: $font-family-2;
-  font-weight: 700;
-  font-size: rem(11);
-
-  @media screen and (min-width: $screen-m) {
-    right: $wrap-padding-desktop;
-    width: rem(160);
-    left: auto;
-    bottom: rem($l-margin-vt);
-    height: rem($timeline-height);
-    line-height: rem($timeline-height);
-    text-align: center;
-    background-color: $color-3;
-    text-transform: uppercase;
-    color: $font-color-3;
-    text-decoration: none;
-    font-family: $font-family-2;
-    font-weight: 700;
-    font-size: rem(11);
-  }
-
-  @media screen and (min-width: $screen-l) {
-    bottom: rem(57);
-  }
-
-  @media screen and (min-width: $screen-xl) {
-    right: $wrap-padding-desktop-xl;
-    bottom: rem(57);
-  }
-
-  @media screen and (min-width: $screen-xxl) {
-    right: $wrap-padding-desktop-xxl;
-    bottom: rem(47);
   }
 }

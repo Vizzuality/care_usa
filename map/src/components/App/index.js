@@ -567,12 +567,6 @@ class App extends React.Component {
           visible= { this.state.donorsOpen }
           onClose= { this.handleModal.bind(this, 'close', 'donorsOpen') }
         />
-
-        { !this.state.embed &&
-          <a href="http://my.care.org/site/Donation2?df_id=20646&mfc_pref=T&20646.donation=form1" rel="noreferrer" target="_blank" id="donate" className="l-donate btn-contrast">
-            Donate
-          </a>
-        }
       </div>;
     }
 

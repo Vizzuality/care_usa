@@ -14,18 +14,18 @@
   @media screen and (min-width: $screen-m) {
     display: block;
     position: absolute;
-    top: rem(120);
+    top: calc(rem($header-height) + rem(120));
     left: auto;
     z-index: 1;
     right: $wrap-padding-desktop;
   }
 
   @media screen and (min-width: $screen-l) {
-    top: rem(117);
+    top: calc(rem($header-height) + rem(117));
   }
 
   @media screen and (min-width: $screen-xl) {
-    top: rem(132);
+    top: calc(rem($header-height) + rem(120));
     right: $wrap-padding-desktop-xl;
   }
 
