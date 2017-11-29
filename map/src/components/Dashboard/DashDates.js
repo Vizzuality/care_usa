@@ -19,7 +19,7 @@ class DashboardDates extends React.Component {
   }
 
   render() {
-    let outputFormat = 'MM·DD·YYYY';
+    let outputFormat = 'MM / DD / YYYY';
     /* When showing the "Projects" tab of the dashboard, we only want to display
      * the years */
     if(this.props.currentMode === 'projects') outputFormat = 'YYYY';

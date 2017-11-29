@@ -4,6 +4,10 @@
 .m-dash-layer-switcher {
   padding: rem(9) 0 rem(0);
 
+  @media screen and (min-width: $screen-m) {
+    padding: rem(15) $sidebar-padding;
+  }
+
   .selector-wrapper {
     display: flex;
     flex: 1 1 100%;
