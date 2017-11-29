@@ -91,6 +91,8 @@ export default class TorqueLayer {
     const deferred = $.Deferred();
 
     this.layer = new L.TorqueLayer({
+      // WATCH OUT: sql_api_protocol is an undocumented feature
+      sql_api_protocol: 'https',
       user: config.cartodbAccount,
       table: this.options.tablename || 'donors',
       sql: this.getQuery(),
