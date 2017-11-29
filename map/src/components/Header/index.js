@@ -13,22 +13,13 @@ class Header extends React.Component {
     this.page = window.location.pathname;
   }
 
-  setLogoClick() {
-    return this.page.indexOf('anniversary.html') === -1 ? 
-      <a className="logo">
-        <img className="icon icon-logo" src={ require('../../images/logoCARE.svg') }></img>
-      </a> :
-      <a href="/" className="logo">
-        <img className="icon icon-logo" src={ require('../../images/logoCARE.svg') }></img>
-      </a>;
-  }
-
   render() {
     return (
       <div id="header" className="l-header">
         <div className="wrap">
-          { this.setLogoClick() }
-
+          <a className="logo">
+            <img className="icon icon-logo" src={ require('../../images/care-logo.png') } />
+          </a>
           { !this.props.embed ?
             <div className="m-main-menu">
               <button
@@ -36,13 +27,29 @@ class Header extends React.Component {
                 onClick={ this.props.toggleMenuFn }
               >
                 <svg className="icon icon-menu">
-                  <use xlinkHref="#icon-menu"></use>
+                  <use xlinkHref="#icon-menu" />
                 </svg>
               </button>
             </div> :
             <a href="#" className="btn btn-primary btn-embed -mobileHidden">Explore the map</a>
           }
         </div>
+        <nav className="nav-bar">
+          <ul className="nav-item-list">
+            <li className="nav-item text text-nav -active">
+              <a href="/map">Map of Impact</a>
+            </li>
+            <li className="nav-item text text-nav">
+              <a href="/stories">Stories</a>
+            </li>
+            <li className="nav-item text text-nav">
+              <a href="/about">About</a>
+            </li>
+            <li className="nav-item text text-nav">
+              <a href="/donate">Donate</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     );
   }

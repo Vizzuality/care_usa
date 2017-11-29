@@ -18,10 +18,8 @@ class HistoryHeader extends React.Component {
               <use xlinkHref="#icon-preview"></use>
             </svg>
             Back to the map</p>
-          <a href="http://www.care.org/" target="_blank">
-            <svg className="icon icon-logoCARE_simple history-logo">
-              <use xlinkHref="#icon-logoCARE_simple"></use>
-            </svg>
+          <a className="logo" href="http://www.care.org/" target="_blank">
+            <img className="icon icon-logo" src={ require('../../../images/care-logo.png') } />
           </a>
           <div className="aux text text-cta">Back to the map</div>
           <button
