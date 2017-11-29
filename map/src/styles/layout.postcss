@@ -185,6 +185,7 @@ $l-margin-vt: 48;
   z-index: 2;
 
   @media screen and (min-width: $screen-m) {
+    background-color: transparent;
     position: absolute;
     height: auto;
     width: $sidebar-width-m;
@@ -223,11 +224,9 @@ $l-margin-vt: 48;
   height: rem($timeline-height);
 
   @media screen and (min-width: $screen-m) {
-   position: relative;
-   top: 0;
-   left: 0;
-   right: 0;
-   height: auto;
+    position: static;
+    height: auto;
+    margin: $sidebar-padding $sidebar-padding 0;
   }
 
   .is-embed & {

@@ -6,12 +6,16 @@
 
   @media screen and (min-width: $screen-m) {
     position: absolute;
-    top: rem(54);
-    bottom: 25%;
-    left: 0;
-    right: 0;
+    top: rem(89);
+    bottom: 15%;
+    left: rem(35);
+    right: rem(35);
     padding: 0;
     overflow: hidden;
+  }
+
+  @media screen and (min-width: $screen-l) {
+    bottom: 10%;
   }
 
   .dashboard-header {
@@ -164,9 +168,10 @@
 }
 
 .dashboard-inner-wrapper {
-  margin: rem(35);
+  margin-right: $sidebar-padding;
   overflow: hidden;
   height: 100%;
   position: relative;
   box-shadow: 2px 0 0 0 #e6e6e6;
+  background-color: $white;
 }
