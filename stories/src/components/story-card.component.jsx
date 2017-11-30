@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import Link from 'redux-first-router-link';
+import Dotdotdot from 'react-dotdotdot'
 
 const getHeight = (w,h) => {
   const delta = w && h ? (Math.round((w/h) * 10) / 10) : null;
@@ -43,7 +44,11 @@ const StoryCard =  ({ link, sectorList, location, title, summary, cover }) => {
               <span className="country">{location}</span>
             </div>
             <h4>{title}</h4>
-            <p>{summary}</p>
+            <p>
+              <Dotdotdot clamp="120px">
+                {summary}
+              </Dotdotdot>
+            </p>
           </figcaption>
         </figure>
       </Link>

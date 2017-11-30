@@ -25,7 +25,8 @@
     "redux-first-router-link": "1.4.2",
     "redux-first-router-restore-scroll": "1.2.1",
     "redux-thunk": "2.2.0",
-    "slick-carousel": "1.8.1"
+    "slick-carousel": "1.8.1",
+    "react-dotdotdot": "^1.1.0"
   },
   "scripts": {
     "eject": "react-scripts eject",

@@ -104,7 +104,7 @@
                 }
               }
               p:not(.cat) {
-                max-width: 224px;
+                max-height: 170px;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 @media only screen and (max-width: $breakpoint-mobile) {

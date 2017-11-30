@@ -25,7 +25,7 @@
   //Collapse story banner-box
   &.collapse {
     .banner-box {
-      background-color: #fff;
+      background-color: rgba(#fff, 0.75);
       position: absolute;
       max-width: 52.3%;
       top: 12.3%;
@@ -207,7 +207,7 @@
   //Collapse story banner-box
   &.expanded {
     .banner-box {
-      background-color: #fff;
+      background-color: rgba(#fff, 0.75);
       position: absolute;
       max-width: 52.3%;
       top: 14.3%;
