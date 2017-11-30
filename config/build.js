@@ -10,6 +10,6 @@ const stories = exec('cd stories; NODE_PATH=src npm run build', (...args) => onE
 
 function onEnd(type, error, stdout, stderror) {
   if (stdout) console.log(stdout);
-  if (stderror) console.error(stderror)
-  console.log(`\n\n${type} build finished!`);
+  if (stderror) console.error(stderror);
+  console.log(`\n\n${type} build finished!\n\n`);
 }

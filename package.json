@@ -7,7 +7,7 @@
     "start": "node server.js",
     "dev": "node config/dev.js",
     "build": "node config/build.js",
-    "postinstall": "(cd map; npm install) && (cd stories; npm install) && npm run build"
+    "postinstall": "node config/install.js"
   },
   "repository": {
     "type": "git",
