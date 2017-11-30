@@ -1,7 +1,5 @@
 import React from "react";
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
 
 function Filters(props) {
   const {
@@ -9,11 +7,10 @@ function Filters(props) {
     countries,
     templates,
     query,
-    selectedDate,
-    selectedDateText,
-    onFilterChange,
-    onDateChange
+    years,
+    onFilterChange
   } = props;
+
   return (
     <section className="multi-search-container">
       <input
@@ -83,14 +80,22 @@ function Filters(props) {
               }
             </select>
           </div>
-          <div className="field date">
-            <DatePicker
-              dateFormat="YYYY-MM-DD"
-              placeholderText={selectedDateText}
-              selected={selectedDate}
-              onChange={onDateChange}
-            />
-            <i className="icon-calendar" />
+          <div className="field select">
+            <select
+              id="selectYear"
+              title="Select Year"
+              placeholder="Year"
+              name="date"
+              value={query.date_start || ''}
+              onChange={onFilterChange}
+            >
+              <option value={''}>Year</option>
+              {
+                years.map(year => (
+                  <option key={year} value={year}>{year}</option>
+                ))
+              }
+            </select>
           </div>
           <div className="field select">
             <select

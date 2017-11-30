@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import FiltersComponent from './filters.component';
 import filtersDuck, { updateFilters } from './filters.duck';
+import { DATE_FORMAT } from 'utils/stories';
 
 function mapStateToProps({ filters, location, stories }) {
   const categories = Object.values(filters.categories.entities.category || {})
@@ -21,7 +22,14 @@ function mapStateToProps({ filters, location, stories }) {
     'template'
   ).map(story => (({ value: kebabCase(story.template), label: story.template })));
 
+  const parseYear = story => (story.story_date ? moment(story.story_date).format(DATE_FORMAT) : moment().format(DATE_FORMAT));
+  const years = uniqBy(
+    Object.values(stories.all.entities.story || {}),
+    parseYear
+  ).map(story => parseYear(story));
+
   return {
+    years,
     categories,
     countries,
     templates,
@@ -52,35 +60,26 @@ class FiltersContainer extends React.Component {
   constructor(props) {
     super(props);
     this.onFilterChange = this.onFilterChange.bind(this);
-    this.onDateChange = this.onDateChange.bind(this);
     this.updateFilters = debounce(this.props.updateFilters, 350);
-    this.dateFormat = 'YYYY-MM-DD';
-  }
-
-  onDateChange(d) {
-    const { query } = this.props;
-    const date = d && d.format(this.dateFormat);
-    this.updateFilters({ ...query, date })
   }
 
   onFilterChange(e) {
     const { query } = this.props;
     const { value, name } = e.target;
-    this.updateFilters({ ...query, [name]: value });
+    let filters =  {};
+    if (name === 'date') {
+      filters = { ...query, date_start: value, date_end: (parseInt(value, 10) + 1).toString()  }
+    } else {
+      filters = { ...query, [name]: value };
+    }
+    this.updateFilters(filters);
   }
   render() {
-    const { query } = this.props;
-    const { onFilterChange, onDateChange, dateFormat } = this;
-
-    const selectedDate = query.date ? moment(query.date, dateFormat) : moment();
-    const selectedDateText = selectedDate.format(dateFormat);
+    const { onFilterChange } = this;
 
     return createElement(FiltersComponent, {
       ...this.props,
-      onFilterChange,
-      selectedDate,
-      onDateChange,
-      selectedDateText
+      onFilterChange
     });
   }
 }

@@ -1,17 +1,21 @@
 import moment from 'moment';
 import startCase from 'lodash/startCase';
 
+export const DATE_FORMAT = 'YYYY';
+
 export function buildFilters(query) {
   const keyMap = {
     category: 'fields.sectorList[in]',
     country: 'fields.countryList[in]',
     q: 'query',
-    date: 'fields.story_date[lte]',
+    date_start: 'fields.story_date[gte]',
+    date_end: 'fields.story_date[lt]',
     template: 'fields.template'
   };
   const formatQuery= (type, string) => {
     const formatter = {
-      date: s => moment(s, 'YYYY-MM-DD').toISOString(),
+      date_start: s => moment(s, DATE_FORMAT).toISOString(),
+      date_end: s => moment(s, DATE_FORMAT).toISOString(),
       category: startCase,
       template: startCase
     }[type];
