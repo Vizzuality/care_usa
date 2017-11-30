@@ -67,8 +67,9 @@ class FiltersContainer extends React.Component {
     const { query } = this.props;
     const { value, name } = e.target;
     let filters =  {};
-    if (name === 'date') {
-      filters = { ...query, date_start: value, date_end: (parseInt(value, 10) + 1).toString()  }
+    if (name === 'date_start') {
+      const date_end = value ? (parseInt(value, 10) + 1).toString() : '';
+      filters = { ...query, [name]: value, date_end }
     } else {
       filters = { ...query, [name]: value };
     }

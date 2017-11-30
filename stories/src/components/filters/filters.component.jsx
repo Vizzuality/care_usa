@@ -1,5 +1,4 @@
 import React from "react";
-import 'react-datepicker/dist/react-datepicker.css';
 
 function Filters(props) {
   const {
@@ -85,7 +84,7 @@ function Filters(props) {
               id="selectYear"
               title="Select Year"
               placeholder="Year"
-              name="date"
+              name="date_start"
               value={query.date_start || ''}
               onChange={onFilterChange}
             >
