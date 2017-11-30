@@ -42,8 +42,8 @@ export default class TileLayer {
     const timelineDate = this.options.state.timelineDate;
     const layer = this.options.state.layer;
     const statements = optionalStatements[this.options.category];
-    const templateWhere = _.indexOf(this.options.sql_template.split(' '), '$WHERE') >= 0 ? true : false;
-    const templateYear = _.indexOf(this.options.sql_template.split(' '), '$YEAR') >= 0 ? true : false;
+    const templateWhere = _.indexOf(this.options.sql_template.split(' '), '$WHERE') >= 0;
+    const templateYear = _.indexOf(this.options.sql_template.split(' '), '$YEAR') >= 0;
     if (templateWhere) {
       return this.options.sql_template.replace(/\s\$WHERE/g, () => {
         if(filters || timelineDate) {

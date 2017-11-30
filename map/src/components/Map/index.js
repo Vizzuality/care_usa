@@ -115,10 +115,11 @@ class MapView extends Backbone.View {
      */
     L.control.zoom({ zoomOutText: '–' }).addTo(this.map);
 
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    L.tileLayer('https://{cartodbAccount}.carto.com/api/v1/map/named/{basemap}/0/{z}/{x}/{y}.png', {
+      attribution: '<a href="https://carto.com/attributions/">© CartoDB</a>',
       id: this.options.style,
-      accessToken: config.mapboxToken
+      basemap: config.basemap,
+      cartodbAccount: config.cartodbAccount
     }).addTo(this.map);
 
     /* Needed for the initialization of the SVG layer */
@@ -129,9 +130,9 @@ class MapView extends Backbone.View {
 
   _addAttributions() {
     // Add attribution to Mapbox and OpenStreetMap.
-    this.map.attributionControl.removeAttribution('Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>')
+    this.map.attributionControl.removeAttribution('Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>')
       .setPrefix('')
-      .addAttribution('<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="http://openstreetmap.org/copyright"> | © OpenStreetMap</a><a href="https://carto.com/attributions/"> | © CartoDB</a>');
+      .addAttribution('<a href="http://openstreetmap.org/copyright"> © OpenStreetMap</a>');
   }
 
   _setEvents() {

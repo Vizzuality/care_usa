@@ -56,7 +56,7 @@
 
     .axis {
       > .tick  {
-        > .report { fill: rgba($color-22, 0.7); }
+        > .report { fill: $color-22; }
 
         > text {
           font-size: rem(10);
@@ -95,23 +95,23 @@
 
       > .domain {
         stroke-width: 3px; /* rem value not supported for this property */
-        stroke: rgba($color-22, 0.7);
+        stroke: $color-22;
         fill: none;
       }
 
       .cursor {
-        fill: rgba($color-22, 0.7);
+        fill: $color-22;
         cursor: -webkit-grab; /* Autoprefixer doesn't work for that */
         cursor:    -moz-grab;
         cursor:         grab;
       }
 
       .cursor-shadow {
-        fill: rgba($color-22, 0.3);;
+        fill: rgba($color-22, 0.7);
       }
 
       .cursor-line {
-        stroke: rgba($color-22, 0.7);
+        stroke: $color-22;
         stroke-width: 1px;  /* rem value not supported for this property */
 
         @media screen and (min-width: $screen-m) {
