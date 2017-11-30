@@ -39,12 +39,14 @@ export function getStory(story, entities) {
   const countries = story && getEntity(story.countries, entities, 'country');
   const pictures = pictureList && pictureList.filter(p => !p.cover);
   const cover = pictureList && pictureList.find(p => p.cover);
+  const agency = story && getEntity(story.agency, entities, 'agency');
   return {
     ...story,
     cover,
     pictures,
     videos,
     authors,
-    countries
+    countries,
+    agency
   };
 }

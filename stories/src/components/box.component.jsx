@@ -3,15 +3,23 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 function Box (props) {
-  const { title, sectorList, summary, authors, story_date, countries, showSummary } = props;
+  const { title, sectorList, summary, authors, story_date, countries, showSummary, agency = [] } = props;
   const date = story_date && moment(story_date).format('Do MMM YYYY');
   const avatar = author => (author.photo && author.photo.url);
   const countriesMarkup = countries.map(country => (
     <span key={country.iso} className="country">
+      {
+        agency.map(a => (
+          <a key={a.name} href={a.url}>
+            {a.name}
+          </a>
+        ))
+      }
+      <br />
       {country.name}
     </span>
   ));
-
+  console.log(props);
   return (
       <div className="banner-content">
         <h1>{title}</h1>

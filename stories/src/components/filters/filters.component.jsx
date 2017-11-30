@@ -94,13 +94,13 @@ function Filters(props) {
           </div>
           <div className="field select">
             <select
-              id="mostRecentFilter"
+              id="storyType"
               title="Templates"
               name="template"
               value={query.template || ''}
               onChange={onFilterChange}
             >
-              <option value={''}>Most Recent</option>
+              <option value={''}>All</option>
               {
                 templates.map(template => (
                   <option value={template.value} key={template.value}>

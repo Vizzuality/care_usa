@@ -27,12 +27,14 @@ const country = new schema.Entity('country', {}, contentful2Normalizr);
 const photo = new schema.Entity('photo', {}, spreadFileStrategy);
 const author = new schema.Entity('author', { photo }, contentful2Normalizr);
 const video =  new schema.Entity('video', {}, spreadFileStrategy);
+const agency = new schema.Entity('agency', {}, contentful2Normalizr);
 const story = new schema.Entity('story',
   {
     pictures: [picture],
     authors: [author],
     countries: [country],
-    videos: [video]
+    videos: [video],
+    agency: [agency]
   }, storyStrategy);
 
 export const stories = [story];

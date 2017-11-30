@@ -3,10 +3,18 @@ import cx from 'classnames';
 import Link from 'redux-first-router-link';
 
 function StorySlide (props) {
-  const { link, title, authors = [], sectorList = [], countries = [], cover } = props;
+  const { link, title, authors = [], sectorList = [], countries = [], cover, agency = [] } = props;
   const avatar = author => (author.photo && author.photo.url);
   const countriesMarkup = countries.map(country => (
     <span key={country.iso} className="country">
+      {
+        agency.map(a => (
+          <span key={a.name}>
+            {a.name}
+          </span>
+        ))
+      }
+      <br />
       {country.name}
     </span>
   ));
