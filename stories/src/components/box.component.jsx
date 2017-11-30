@@ -19,7 +19,7 @@ function Box (props) {
       {country.name}
     </span>
   ));
-  console.log(props);
+
   return (
       <div className="banner-content">
         <h1>{title}</h1>

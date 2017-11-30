@@ -17,18 +17,40 @@ function mapDispatchToProps(dispatch) {
 
 class ImageGalleryContainer extends React.PureComponent {
 
+  constructor(props) {
+    super(props);
+    this.onArrowPress = this.onArrowPress.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.onArrowPress)
+  }
+
   componentDidUpdate() {
     const { currentSlide } = this.props;
     this.gallerySlider.slickGoTo(currentSlide);
     this.thumbnailSlider.slickGoTo(currentSlide + 1);
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.onArrowPress)
+  }
+
   getImageGalleryRef = (el) => {
     this.gallerySlider = el;
   };
+
   getThumbnailsRef = (el) => {
     this.thumbnailSlider = el;
   };
+
+  onArrowPress(e) {
+    if ('ArrowRight' === e.key) {
+      this.gallerySlider.slickNext();
+    } else if ('ArrowLeft' === e.key) {
+      this.gallerySlider.slickPrev();
+    }
+  }
 
   render() {
     const { getImageGalleryRef, getThumbnailsRef } = this;
