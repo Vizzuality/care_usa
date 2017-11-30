@@ -19,9 +19,10 @@ prompt.get(schema, (err, result) => {
   if (err) return console.log(err);
 
   const script = {
-    m: `(cd map; npm start)`,
-    s: `(cd stories; NODE_PATH=src npm start)`
+    m: 'cd map; npm start',
+    s: 'cd stories; NODE_PATH=src npm start'
   }[result.app];
+
   if (script) {
     const child = exec(script);
     child.stdout.pipe(process.stdout);
