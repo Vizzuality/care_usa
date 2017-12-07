@@ -7,7 +7,6 @@ function ArticlePost (props) {
 
   return (
     <div className="article-expanded-holder">
-      <ShowOnMap className="__in-article" />
       <TextContent>
         {body}
       </TextContent>
