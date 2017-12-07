@@ -11,7 +11,8 @@ const settings = {
   slidesToShow: 1,
   adaptiveHeight: true,
   draggable: false,
-  autoplay: true
+  autoplay: true,
+  pauseOnHover: true
 };
 
 function StorySlider (props) {
