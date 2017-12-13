@@ -57,4 +57,13 @@ export const routes = {
   }
 };
 
-export default connectRoutes(history, routes, { querySerializer, restoreScroll: restoreScroll() });
+export default connectRoutes(
+  history,
+  routes,
+  {
+    querySerializer,
+    restoreScroll: restoreScroll({
+      shouldUpdateScroll: (prev, locationState) => (prev.type !== locationState.type)
+    })
+  }
+);
