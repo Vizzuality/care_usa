@@ -4,7 +4,7 @@ import moment from 'moment';
 
 function Box (props) {
   const { title, sectorList, summary, authors, story_date, countries, showSummary, agency = [] } = props;
-  const date = story_date && moment(story_date).format('Do MMM YYYY');
+  const date = story_date && moment(story_date).format('MMM. D, YYYY');
   const avatar = author => (author.photo && author.photo.url);
   const countriesMarkup = countries.map(country => (
     <span key={country.iso} className="country">

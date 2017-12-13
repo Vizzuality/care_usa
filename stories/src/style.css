@@ -757,9 +757,8 @@ input[type="search"]::-webkit-search-results-decoration {
   .article-expanded-container.gallery-widget-content .gallery-widget-container + .article-expanded-holder {
     flex-direction: column;
     position: relative;
-    margin-top: 0;
-    margin-right: 40px;
-    border-top: 1px solid #e6e6e6; }
+    margin-top: 20px;
+    margin-right: 40px; }
     .article-expanded-container.gallery-widget-content .gallery-widget-container + .article-expanded-holder .std {
       padding-right: 15%; }
     .article-expanded-container.gallery-widget-content .gallery-widget-container + .article-expanded-holder::after {
