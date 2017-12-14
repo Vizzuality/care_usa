@@ -58,8 +58,6 @@ class DashSummary extends React.Component {
       summary = <div className="m-dash-summary">
         <div className="summary-item">
               <p className="text text-dashboard-title">Total stories</p>
-        </div>
-        <div className="summary-item">
               <span className="number number-l"> { utils.numberNotation(this.state.stories) }</span>
         </div>
       </div>
