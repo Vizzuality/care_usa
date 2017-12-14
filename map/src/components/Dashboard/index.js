@@ -66,7 +66,7 @@ class Dashboard extends React.Component {
 
     /* The layer "people-reached" doesn't support the filters */
     if (!this.state.mobile && !this.props.embed &&
-      this.props.layer.slug !== 'people-reached') {
+      this.props.layer.slug === 'donations') {
       filtersSwitcher = <div
               className= 'btn btn-third btn-filters-switcher'
               onClick= { this.props.toggleFiltersFn } >

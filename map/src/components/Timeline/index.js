@@ -282,11 +282,13 @@ class TimelineView extends Backbone.View {
       .attr('class', 'cursor')
       .call(this.brush.event);
 
-    this.options.data = this.options.interval.unit.utc.range.apply(null, this.options.domain.concat(this.options.interval.count))
+    const unit = this.options.interval && this.options.interval.unit
+    this.options.data = unit && unit.utc.range.apply(null, this.options.domain.concat(this.options.interval.count))
       .map(date => ({ date }));
 
     this.currentDataIndex = this.getClosestDataIndex(this.cursorPosition);
-    this.triggerDate()
+    this.triggerDate();
+    this.el.classList.remove('-hidden');
   }
 
   togglePlay() {
@@ -545,6 +547,7 @@ class TimelineView extends Backbone.View {
    * as argument */
   getClosestDataIndex(date) {
     var current = 0;
+    if (!this.options.data || !this.options.data.length) return 0;
     while(current <= this.options.data.length - 1) {
       if(this.options.data[current].date > date) {
         if(current === 0) return -1;
@@ -633,6 +636,10 @@ class TimelineView extends Backbone.View {
     this.tooltip.classList.add('-hidden');
   }
 
+  hide() {
+    this.el.classList.add('-hidden')
+  }
+
 };
 
 TimelineView.prototype.triggerDate = (function() {
@@ -647,7 +654,7 @@ TimelineView.prototype.triggerDate = (function() {
   return function() {
     if(this.currentDataIndex < 0) {
       trigger.call(this, this.options.domain[0]);
-    } else {
+    } else if (this.options.data) {
       trigger.call(this, this.options.data[this.currentDataIndex].date);
     }
   };
