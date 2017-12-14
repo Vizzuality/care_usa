@@ -34,35 +34,37 @@ class DashLayerSwitcher extends React.Component {
   }
 
   render() {
+    // Return custom content when we need to filter by sectors
+    if (this.props.currentMode === 'stories') return null;
     let switchers = [];
     let legendState;
     let layer;
 
     let layers = layersCollection.filter(model => model.attributes.category === this.props.currentMode);
 
-      layers.forEach( (model) => {
-        layer = model.toJSON();
-        legendState = layer.active && 'is-open';
+    layers.forEach( (model) => {
+      layer = model.toJSON();
+      legendState = layer.active && 'is-open';
 
-        switchers.push( <div className="m-dash-layer-switcher" key={ layer.slug }>
-          <div className="map-mode">
-            <div className="selector-wrapper">
-              <input
-                type ="radio" name="mapMode" checked={ layer.active }
-                id = { layer.slug }
-                onChange = { this.props.changeLayerFn.bind(null, layer) }
-              />
-              <span></span>
-              <label htmlFor={ layer.slug } className="text text-legend">{ layer.name }</label>
-            </div>
-            <div className={ 'legend-wrapper ' + legendState }>
-              <Legend ref="legend"
-                layerLegend = { layer.legend }
-              />
-            </div>
+      switchers.push( <div className="m-dash-layer-switcher" key={ layer.slug }>
+        <div className="map-mode">
+          <div className="selector-wrapper">
+            <input
+              type ="radio" name="mapMode" checked={ layer.active }
+              id = { layer.slug }
+              onChange = { this.props.changeLayerFn.bind(null, layer) }
+            />
+            <span></span>
+            <label htmlFor={ layer.slug } className="text text-legend">{ layer.name }</label>
           </div>
-        </div> )
-      })
+          <div className={ 'legend-wrapper ' + legendState }>
+            <Legend ref="legend"
+              layerLegend = { layer.legend }
+            />
+          </div>
+        </div>
+      </div> )
+    })
 
     return (
       <div>

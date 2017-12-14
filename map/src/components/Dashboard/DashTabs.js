@@ -23,12 +23,21 @@ class DashboardTabs extends React.Component {
               <span>Projects</span>
             </button>
           </li>
-          <li className='tab'>
+          {/* Commented just in case we need to get this back one day */}
+          {/* <li className='tab'>
             <button
               className={ this.props.currentMode == 'donations' && 'is-active' }
               onClick={ this.props.changeModeFn.bind(null, 'donations') }
             >
               <span>Donations</span>
+            </button>
+          </li> */}
+          <li className='tab'>
+            <button
+              className={ this.props.currentMode == 'stories' && 'is-active' }
+              onClick={ this.props.changeModeFn.bind(null, 'stories') }
+            >
+              <span>Stories</span>
             </button>
           </li>
         </ul>

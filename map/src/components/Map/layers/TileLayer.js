@@ -44,6 +44,7 @@ export default class TileLayer {
     const statements = optionalStatements[this.options.category];
     const templateWhere = _.indexOf(this.options.sql_template.split(' '), '$WHERE') >= 0;
     const templateYear = _.indexOf(this.options.sql_template.split(' '), '$YEAR') >= 0;
+    const templateSector = _.indexOf(this.options.sql_template.split(' '), '$SECTOR') >= 0;
     if (templateWhere) {
       return this.options.sql_template.replace(/\s\$WHERE/g, () => {
         if(filters || timelineDate) {
@@ -73,6 +74,13 @@ export default class TileLayer {
         return '';
       });
     }
+
+    if(templateSector) {
+      return this.options.sql_template.replace(/\s\$SECTOR/g, () => {
+        return `data.total`; // Ready to filter by sector in stories
+      });
+    }
+    return this.options.sql_template;
   }
 
   /**
