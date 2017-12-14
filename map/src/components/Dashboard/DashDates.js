@@ -19,10 +19,11 @@ class DashboardDates extends React.Component {
   }
 
   render() {
-    let outputFormat = 'MM / DD / YYYY';
-    /* When showing the "Projects" tab of the dashboard, we only want to display
-     * the years */
-    if(this.props.currentMode === 'projects') outputFormat = 'YYYY';
+    const { currentMode } = this.props;
+    /* When showing the "Projects" and "Stories" tab of the dashboard, we only want to display
+    * the years */
+    const isYearFormat = currentMode === 'projects' || currentMode === 'stories';
+    const outputFormat =  isYearFormat ? 'YYYY' : 'MM / DD / YYYY';
 
     let dates;
     if(this.props.filters.from && this.props.filters.to) {
@@ -49,10 +50,11 @@ class DashboardDates extends React.Component {
         <span className="end-date text text-legend-s">{ dates[1] }</span>
       </div>
     );
-    if(this.props.currentMode === 'projects') {
+    if(isYearFormat) {
+      // Ugly hack to fix the stories year
       dateElem = (
         <div className="dates">
-          <span className="end-date text text-legend-s">{ dates[1] }</span>
+          <span className="end-date text text-legend-s">{ currentMode === 'stories' ? '2016' : dates[1] }</span>
         </div>
       );
     }

@@ -210,14 +210,16 @@ class App extends React.Component {
         const mode = this.router.params.attributes.mode || this.state.mode;
         const layerSlug = this.router.params.attributes.layer;
         if(layerSlug) layersCollection.setActiveLayer(mode, layerSlug);
+        const layer = layersCollection.getActiveLayer(mode)
 
         this.setState({
           ready: true,
-          layer: layersCollection.getActiveLayer(mode).toJSON()
+          layer: layer ? layer.toJSON() : ''
         });
 
         /* InitTimeline should be called before to trigger the current date */
-        this.initTimeline();
+        /* Stories doesn't need a timeline */
+        if (this.state.layer.slug !== 'stories') this.initTimeline();
         this.initMap();
       });
   }
@@ -295,25 +297,31 @@ class App extends React.Component {
   /* Update the timeline to reflect the attributes of the new layer and the
    * filters */
   updateTimeline(layer) {
-    const cursor = { speed: layer.timeline.speed };
-    const interval = Object.assign({}, layer.timeline.interval);
-    interval.unit = d3.time[interval.unit];
-    interval.period = layer.timeline.interval.unit;
+    /* Stories doesn't need a timeline */
+    if (this.state.layer.slug !== 'stories') {
+      if (!this.timeline) this.initTimeline();
+      const cursor = { speed: layer.timeline.speed };
+      const interval = Object.assign({}, layer.timeline.interval);
+      interval.unit = d3.time[interval.unit];
+      interval.period = layer.timeline.interval.unit;
 
-    let domain = layer.domain.map(date => moment.utc(date).toDate());
-    let filters = filtersModel.toJSON();
-    if(filters.from && filters.to) {
-      domain = [ filters.from, filters.to ];
+      let domain = layer.domain.map(date => moment.utc(date).toDate());
+      let filters = filtersModel.toJSON();
+      if(filters.from && filters.to) {
+        domain = [ filters.from, filters.to ];
+      }
+
+      this.timeline.options.domain = domain;
+      this.timeline.options.cursor = cursor;
+      this.timeline.options.interval = interval;
+      this.timeline.options.ticksAtExtremities = filters.from || filters.to;
+      this.timeline.options.layerName = layer.name;
+      this.timeline.options.cursorPosition = filters.to !== undefined ? filters.to : moment.utc(layer.domain[1]).toDate();
+
+      this.timeline.render();
+    } else if (this.timeline) {
+      this.timeline.hide();
     }
-
-    this.timeline.options.domain = domain;
-    this.timeline.options.cursor = cursor;
-    this.timeline.options.interval = interval;
-    this.timeline.options.ticksAtExtremities = filters.from || filters.to;
-    this.timeline.options.layerName = layer.name;
-    this.timeline.options.cursorPosition = filters.to !== undefined ? filters.to : moment.utc(layer.domain[1]).toDate();
-
-    this.timeline.render();
   }
 
   /* This method is called when the timeline triggers the new current date */
@@ -370,35 +378,41 @@ class App extends React.Component {
 
   changeMapMode(mode) {
     const layer = layersCollection.getActiveLayer(mode);
+    if (layer) {
+      /* Google Analytics */
+      if (ga && ENVIRONMENT === 'production') {
+        ga('send', 'event', 'Map', 'Toggle', layer.toJSON().name);
+      }
 
-    /* Google Analytics */
-    if (ga && ENVIRONMENT === 'production') {
-      ga('send', 'event', 'Map', 'Toggle', layer.toJSON().name);
+      this.router.update({ mode: mode, layer: layer.toJSON().slug });
+      this.setState({ mode: mode, layer: layer.toJSON() }, () => {
+
+        /* We should always update the map before the timeline */
+        this.mapView.state.set({
+          mode,
+          layer: layer.toJSON(),
+          currentLayer: layer.toJSON().slug,
+        });
+
+        if (this.state.mode === 'donations') {
+          const mapDefaultView = {lat: 0, lng: 0, zoom: 3};
+          this.mapView.map.setView(new L.LatLng(mapDefaultView.lat, mapDefaultView.lng), mapDefaultView.zoom);
+          this.router.update({ lat: mapDefaultView.lat, lng: mapDefaultView.lng, zoom: mapDefaultView.zoom });
+        } else if (this.state.mode === 'stories') {
+          const mapDefaultView = {lat: 5.35, lng: 18.98, zoom: 3};
+          this.mapView.map.setView(new L.LatLng(mapDefaultView.lat, mapDefaultView.lng), mapDefaultView.zoom);
+          this.router.update({ lat: mapDefaultView.lat, lng: mapDefaultView.lng, zoom: mapDefaultView.zoom });
+        } else {
+          const mapDefaultView = {lat: 33, lng: -108, zoom: 3};
+          this.mapView.map.setView(new L.LatLng(mapDefaultView.lat, mapDefaultView.lng), mapDefaultView.zoom);
+          this.router.update({ lat: mapDefaultView.lat, lng: mapDefaultView.lng, zoom: mapDefaultView.zoom });
+        }
+        this.updateTimeline(layer.toJSON());
+      });
+
+      /* Stops timeline when changing tabs*/
+      if (this.timeline) this.timeline.stop();
     }
-
-    this.router.update({ mode: mode, layer: layer.toJSON().slug });
-    this.setState({ mode: mode, layer: layer.toJSON() });
-
-    /* We should always update the map before the timeline */
-    this.mapView.state.set({
-      mode,
-      layer: layer.toJSON(),
-      currentLayer: layer.toJSON().slug,
-    });
-
-    if (this.state.mode === 'donations') {
-      const mapDefaultView = {lat: 0, lng: 0, zoom: 3};
-      this.mapView.map.setView(new L.LatLng(mapDefaultView.lat, mapDefaultView.lng), mapDefaultView.zoom);
-      this.router.update({ lat: mapDefaultView.lat, lng: mapDefaultView.lng, zoom: mapDefaultView.zoom });
-    } else {
-      const mapDefaultView = {lat: 33, lng: -108, zoom: 3};
-      this.mapView.map.setView(new L.LatLng(mapDefaultView.lat, mapDefaultView.lng), mapDefaultView.zoom);
-      this.router.update({ lat: mapDefaultView.lat, lng: mapDefaultView.lng, zoom: mapDefaultView.zoom });
-    }
-    this.updateTimeline(layer.toJSON());
-
-    /* Stops timeline when changing tabs*/
-    this.timeline.stop();
   }
 
   changeLayer(layer) {
@@ -412,8 +426,9 @@ class App extends React.Component {
   toggleModalFilter() {
     if(!this.state.filtersOpen) {
       /* Stops timeline when opening filters */
-      this.timeline.stop();
+      if (this.timeline) this.timeline.stop();
     }
+
     this.setState({ filtersOpen: !this.state.filtersOpen });
   }
 
@@ -501,7 +516,7 @@ class App extends React.Component {
           embed={ this.state.embed }
         />
 
-        <div id="timeline" className="l-timeline m-timeline" ref="Timeline">
+        <div id="timeline" className="l-timeline m-timeline -hidden" ref="Timeline">
           <div className={`svg-container js-svg-container -${this.state.mode}`}></div>
           <div className="arrow-buttons js-arrow-buttons">
             <svg className="btn arrow-button js-previous-button">

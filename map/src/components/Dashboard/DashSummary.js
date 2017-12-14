@@ -54,8 +54,19 @@ class DashSummary extends React.Component {
 
   render() {
     let summary;
-
-    if (this.props.currentMode === 'donations') {
+    if (this.props.currentMode === 'stories') {
+      summary = <div className="m-dash-summary">
+        <div>
+          <div className="summary-item">
+              <p className="text text-dashboard-title">Total stories</p>
+            </div>
+          </div>
+          <div className="summary-item">
+              <span className="number number-l"> { utils.numberNotation(this.state.stories) }</span>
+            </div>
+          </div>
+        </div>
+    } else if (this.props.currentMode === 'donations') {
       summary = <div className="m-dash-summary">
         <div className="summary-item">
             <p className="text text-dashboard-title">Amount donated</p>
@@ -102,7 +113,8 @@ DashSummary.prototype.fetchData = (function() {
           totalDonations: res.total_donations,
           donationsAmount: res.total_funds,
           projects: res.total_projects,
-          people: res.total_people
+          people: res.total_people,
+          stories: res.total_stories
         });
       });
   }, 500);

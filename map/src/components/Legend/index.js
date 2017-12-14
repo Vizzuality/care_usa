@@ -22,35 +22,37 @@ class Legend extends React.Component {
 
     const legendHsh = JSON.parse(this.props.layerLegend);
 
-    legendHsh.buckets.forEach(bucket => {
-      let style = { backgroundColor: bucket.color, borderColor: bucket.border };
+    if (legendHsh) {
+      legendHsh.buckets.forEach(bucket => {
+        let style = { backgroundColor: bucket.color, borderColor: bucket.border };
 
-      if ( this.state.mobile || this.state.tablet) {
-        legend.push(
-          <li className="legend-item" key={ bucket.color } style={{ width: legendHsh.width}}>
-            <span className="text text-legend-s mobile-bucket" style={ style }>{ bucket.literal }</span>
+        if ( this.state.mobile || this.state.tablet) {
+          legend.push(
+            <li className="legend-item" key={ bucket.color } style={{ width: legendHsh.width}}>
+              <span className="text text-legend-s mobile-bucket" style={ style }>{ bucket.literal }</span>
+            </li>
+          );
+        } else {
+          legend.push(
+          <li className="legend-item" key={ bucket.color }>
+            <span className={ bucket.slug + " bucket" } style={ style }></span>
+            <span className="text text-legend-s">{ bucket.literal }</span>
           </li>
         );
-      } else {
+        }
+
+      });
+
+      if(legendHsh.suffix !== undefined) {
         legend.push(
-        <li className="legend-item" key={ bucket.color }>
-          <span className={ bucket.slug + " bucket" } style={ style }></span>
-          <span className="text text-legend-s">{ bucket.literal }</span>
-        </li>
-      );
+          <li className="legend-item suffix" key="suffix">
+            <span className="bucket icon">
+              <img src={legendHsh.suffix.svg}></img>
+            </span>
+            <span className="text text-legend-s">{legendHsh.suffix.text}</span>
+          </li>
+        );
       }
-
-    });
-
-    if(legendHsh.suffix !== undefined) {
-      legend.push(
-        <li className="legend-item suffix" key="suffix">
-          <span className="bucket icon">
-            <img src={legendHsh.suffix.svg}></img>
-          </span>
-          <span className="text text-legend-s">{legendHsh.suffix.text}</span>
-        </li>
-      );
     }
 
     return (
