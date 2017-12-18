@@ -4,6 +4,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import moment from 'moment';
 import PopupManager from '../../PopUp/PopupManager';
+import countryCodes from '../../../lib/country-codes';
 
 const defaults = {
   cartodbAccount: config.cartodbAccount,
@@ -132,7 +133,20 @@ export default class TileLayer {
 
   onMapClick(map, [lat, lng], zoom, date, slug) {
     this.closePopup();
-    this.popup = new PopupManager(map, lat, lng, zoom, date, slug);
+    // we need to redirect to the stories country page
+    if (slug === 'stories') {
+      const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
+      $.getJSON(url)
+        .then(function(data) {
+          const countryCode = (data.address && data.address.country_code) ? data.address.country_code.toUpperCase() : '';
+          const isoCode = countryCodes[countryCode];
+          if (isoCode) {
+            window.location = `/stories?country=${isoCode}`;
+          }
+        })
+    } else {
+      this.popup = new PopupManager(map, lat, lng, zoom, date, slug);
+    }
   }
 
   /**
