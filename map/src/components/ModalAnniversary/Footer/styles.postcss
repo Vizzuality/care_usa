@@ -1,102 +1,121 @@
 @import'../../../styles/settings.postcss';
 @import'../../../styles/helpers.postcss';
 
-.l-footer {
-  background-color: $color-13;
+$brand-secondary-color: #191c25;
+$brand-primary-color: #f46508;
+$breakpoint-mobile: 767px;
+$facebook-color: rgb(59, 89, 152);
+$twitter-color: rgb(29, 161, 242);
 
-  .wrap {
+/* Footer
+================================================= */
+.footer-container {
+  background-color: $brand-secondary-color;
+  .footer-holder {
+    max-width: 1090px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
     display: flex;
-    flex-flow: column;
-    align-items: center;
-    padding-top: rem(40.9);
-    padding-bottom: rem(50);
-
-    @media screen and (min-width: $screen-m) {
-    	flex-flow: row;
-    	align-items: center;
-    	justify-content: space-between;
-    	min-height: rem(151);
-    	padding-top: rem(50);
+    justify-content: space-between;
+    @media only screen and (max-width: $breakpoint-mobile) {
+      flex-direction: column;
+      padding-top: 35px;
+      padding-left: 70px;
+      padding-right: 70px;
     }
+    .social-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      @media only screen and (max-width: $breakpoint-mobile) {
+        margin-bottom: 20px;
+      }
+      a {
+        font-size: 22px;
+        padding: 5px 14px;
+        color: #fff;
+        cursor: pointer;
 
-    @media screen and (min-width: $screen-l) {
-    	min-height: rem(105);
-	    padding-top: rem(27);
-	    padding-bottom: rem(27);
+        &.facebook-link {
+          &:hover {
+            i {
+              &:before {
+                color: $facebook-color;
+              }
+            }
+          }
+        }
+        &.twitter-link {
+          // font-size: 26px;
+          // padding: 0 10px 4px 2px;
+          &:hover {
+            i {
+              &:before {
+                color: $twitter-color;
+              }
+            }
+          }
+        }
+        &.instagram-link {
+          &:hover {
+            i{
+              &:before {
+                background: #d6249f;
+                background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+                box-shadow: 0px 3px 10px rgba(0,0,0,.25);
+                color: rgba(255, 255, 255, 0.6);
+                border-radius: 4px;
+              }
+            }
+          }
+        }
+        i {
+          &:before {
+            @extend %transition;
+          }
+        }
+        @media only screen and (min-width: $breakpoint-mobile +1px) {
+          &:first-child {
+            padding-left: 0;
+          }
+        }
+        @media only screen and (max-width: $breakpoint-mobile) {
+          padding-left: 20px;
+          padding-right: 20px;
+          &.twitter-link {
+            padding: 0 16px 6px 7px;
+          }
+        }
+      }
     }
-  }
-
-  .logo {
-  	margin-bottom: rem(41.5);
-
-  	@media screen and (min-width: $screen-m) {
-		margin-bottom: 0;
+    .footer-menu{
+      display: flex;
+      justify-content: space-between;
+      a,
+      span {
+        color: #ffffff;
+        font-family: $font-family-2;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 28px;
+        letter-spacing: 0.3px;
+        text-transform: capitalize;
+        padding: 5px 6px;
+        text-decoration: none;
+        cursor:  pointer;
+      }
+      a {
+        @media only screen and (max-width: $breakpoint-mobile) {
+          &:first-child {
+            padding-left: 0;
+          }
+        }
+        &:hover {
+          color: $brand-primary-color;
+        }
+      }
     }
-  }
-
-  .third-party-webs {
-	display: flex;
-	justify-content: space-around;
-	width: 100%;
-	margin-bottom: rem(46);
-
-	@media screen and (min-width: $screen-m) {
-		position: absolute;
-		top: rem(55);
-		right: rem(60);
-		justify-content: space-between;
-		align-items: center;
-		width: rem(300);
-		margin-bottom: 0;
-    }
-
-    @media screen and (min-width: $screen-l){
-		position: relative;
-		top: 0;
-		right: 0;
-		margin-left: rem(17);
-	}
-  }
-
-  .own-web {
-  	width: 100%;
-  	text-align: center;
-
-	@media screen and (min-width: $screen-m){
-		width: auto;
-		position: absolute;
-		right: rem(60);
-		top: rem(95);
-	}
-
-	@media screen and (min-width: $screen-l){
-		position: relative;
-		right: 0;
-		top: 0;
-	}
-  }
-
-  .text-legend-s {
-	display: none;
-	font-style: italic;
-	font-weight: 700;
-	color: $color-10;
-
-	@media screen and (min-width: $screen-m){
-		display:inherit;
-	}
-  }
-
-  .text-highlighted {
-  	color: $font-color-2;
-  	font-size: rem(14);
-
-	@media screen and (min-width: $screen-l){
-		font-size: rem(15);
-	}
-  }
-
-  a {
-  	text-decoration: none;
   }
 }

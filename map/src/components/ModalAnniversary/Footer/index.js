@@ -11,22 +11,20 @@ class Footer extends React.Component {
 
   render() {
     return (
-      <div id="footer" className="l-footer">
-       <div className="wrap">
-        <a href="http://www.care.org" target="_blank" className="logo">
-          <img className="icon icon-logo" src={ require('../../../images/logo.svg') }></img>
-        </a>
-        <div className="third-party-webs">
-          <p className="text text-legend-s">Follow us</p>
-          <a href="https://www.facebook.com/carefans" target="_blank" rel="noreferrer"><svg className="icon icon-facebook -primary"><use xlinkHref="#icon-facebook"></use></svg></a>
-          <a href="https://twitter.com/CARE" target="_blank" rel="noreferrer"><svg className="icon icon-twitter -primary"><use xlinkHref="#icon-twitter"></use></svg></a>
-          <a href="https://www.instagram.com/careorg" target="_blank" rel="noreferrer"><svg className="icon icon-instagram -primary"><use xlinkHref="#icon-instagram"></use></svg></a>
-          <a href="https://www.youtube.com/careusa" target="_blank" rel="noreferrer"><svg className="icon icon-youtube -primary"><use xlinkHref="#icon-youtube"></use></svg></a>
-          <a href="https://plus.google.com/+care" target="_blank" rel="noreferrer"><svg className="icon icon-googleplus -primary"><use xlinkHref="#icon-googleplus"></use></svg></a>
+      <footer className="footer-container">
+        <div className="footer-holder">
+          <section className="social-links">
+            <a className="social-links-item facebook-link"><i className="fa fa-facebook icon-facebook" aria-hidden="true"></i></a>
+            <a className="social-links-item twitter-link"><i className="fa fa-twitter icon-twitter"></i></a>
+            <a className="social-links-item instagram-link"><i className="fa fa-instagram icon-instagram"></i></a>
+          </section>
+          <section className="footer-menu">
+            <a className="footer-link">Map</a><span>❘</span>
+            <a href="/stories" className="footer-link">Stories</a>
+            <span>❘</span><a href="/about" className="footer-link">About</a>
+          </section>
         </div>
-        <div className="own-web text text-highlighted">Visit us at <a href="http://www.care.org"  target="_blank" className="text -primary">www.care.org</a></div>
-       </div>
-      </div>
+      </footer>
     );
   }
 }
