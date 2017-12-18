@@ -59,7 +59,7 @@ function Header (props) {
             <li className="menu-list-item">
               <NavLink
                 to={links.donate}
-                className="menu-link"
+                className="menu-link button"
               >
                 DONATE
               </NavLink>

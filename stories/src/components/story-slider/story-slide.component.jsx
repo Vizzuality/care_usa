@@ -26,37 +26,39 @@ function StorySlide (props) {
           className="slide-banner"
           style={{ backgroundImage: `url(${bannerBackground})` }}
         />
-        <figcaption className="slide-content">
-          <div className="tag">
-            <span>LAST STORIES</span>
-            <i className="icon-flag" />
-          </div>
-          <span>{sectorList.join(', ')}</span>
-          <h1>{title}</h1>
-          <div className="clearfix">
-            {authors.map(author => [
-              <div className="author-avatar-image" key="authorAvatar">
-                {avatar(author) &&
-                <img
-                  className="rounded-img"
-                  src={`http:${avatar(author)}`}
-                  alt={`By ${author.name}`}
-                />
-                }
-              </div>,
+        <div class="slide-wrapper">
+          <figcaption className="slide-content">
+            <div className="tag">
+              <span>LAST STORIES</span>
+              <i className="icon-flag" />
+            </div>
+            <span>{sectorList.join(', ')}</span>
+            <h1>{title}</h1>
+            <div className="clearfix">
+              {authors.map(author => [
+                <div className="author-avatar-image" key="authorAvatar">
+                  {avatar(author) &&
+                  <img
+                    className="rounded-img"
+                    src={`http:${avatar(author)}`}
+                    alt={`By ${author.name}`}
+                  />
+                  }
+                </div>,
+                <p key="authorName" className="author-data">
+                  <span className="author">By {author.name}</span>
+                  {countriesMarkup}
+                </p>
+              ])
+              }
+              {!authors.length && countries.length &&
               <p key="authorName" className="author-data">
-                <span className="author">By {author.name}</span>
                 {countriesMarkup}
               </p>
-            ])
-            }
-            {!authors.length && countries.length &&
-            <p key="authorName" className="author-data">
-              {countriesMarkup}
-            </p>
-            }
+              }
+            </div>
+          </figcaption>
           </div>
-        </figcaption>
       </figure>
     </Link>
   );

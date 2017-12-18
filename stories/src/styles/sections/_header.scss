@@ -5,7 +5,6 @@
 .main-head-holder{
   background: #fff;
   .main-head {
-    height: $header-height;
     overflow: hidden;
     .logo-wrap {
       margin: 0 auto;
@@ -43,6 +42,7 @@
           .menu-link {
             display: block;
             padding: 10px 15px;
+            letter-spacing: 1px;
             &.button {
               line-height: 20px;
             }
