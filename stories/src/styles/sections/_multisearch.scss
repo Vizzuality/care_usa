@@ -14,6 +14,9 @@
       align-items: center;
       margin: 0 auto;
       max-width: 1030px;
+      @media only screen and (max-width: $breakpoint-s) {
+        flex-direction: column;
+      }
       .field {
         position: relative;
         width: 100%;
@@ -29,6 +32,11 @@
           @media only screen and (min-width: 768px) and (max-width: $breakpoint-laptop) {
             padding-left: 15px;
             font-size: 12px;
+          }
+        }
+        select {
+          @media only screen and (max-width: $breakpoint-s) {
+            border-top: 1px solid #e6e6e6;
           }
         }
         &:first-child {
@@ -71,7 +79,7 @@
           select {
             display: block;
             background-image: url('#{$path-images}helpers/chevron-down.png');
-            background-position: 86% center;
+            background-position: right 26px center;
             background-repeat: no-repeat;
             background-size: inherit;
             cursor: pointer;

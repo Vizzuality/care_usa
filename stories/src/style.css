@@ -7,7 +7,7 @@ button.button:active, button.button:hover, button.button:focus, body a.button:ac
 .switchers-area button, .banner-story-container.no-image .switchers-area a, .footer-container .footer-holder .social-links a i:before, .multi-search-container .multisearch-form .filters-holder .field:first-child button:active i,
 .multi-search-container .multisearch-form .filters-holder .field:first-child button:hover i,
 .multi-search-container .multisearch-form .filters-holder .field:first-child button:focus i, form.newsletter-form input:active, form.newsletter-form input:focus, form.newsletter-form .button:active, form.newsletter-form .button:hover, form.newsletter-form .button:focus {
-  transition: all .3s ease-in; }
+  transition: all .2s ease-in; }
 
 .article-container .grid:before, .banner .slide .slide-content .clearfix:before, .article-container .grid:after, .banner .slide .slide-content .clearfix:after {
   content: " ";
@@ -450,7 +450,10 @@ body {
       margin-left: auto;
       margin-right: auto;
       margin-bottom: 20px;
-      max-width: 1030px; }
+      max-width: 1012px; }
+      @media only screen and (max-width: 1024px) {
+        body span.group {
+          max-width: 670px; } }
       @media only screen and (max-width: 767px) {
         body span.group {
           max-width: 264px;
@@ -943,13 +946,13 @@ input[type="search"]::-webkit-search-results-decoration {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(255, 255, 255, 0.75); }
+    background-color: rgba(255, 255, 255, 0.65); }
   .banner .slide .slide-banner {
     height: 540px;
     width: 100%;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center top; }
+    background-position: center; }
   .banner .slide .slide-wrapper {
     width: 90%;
     max-width: 1024px;
@@ -1754,6 +1757,9 @@ input[type="search"]::-webkit-search-results-decoration {
     align-items: center;
     margin: 0 auto;
     max-width: 1030px; }
+    @media only screen and (max-width: 750px) {
+      .multi-search-container .multisearch-form .filters-holder {
+        flex-direction: column; } }
     .multi-search-container .multisearch-form .filters-holder .field {
       position: relative;
       width: 100%; }
@@ -1772,6 +1778,9 @@ input[type="search"]::-webkit-search-results-decoration {
           .multi-search-container .multisearch-form .filters-holder .field select {
             padding-left: 15px;
             font-size: 12px; } }
+      @media only screen and (max-width: 750px) {
+        .multi-search-container .multisearch-form .filters-holder .field select {
+          border-top: 1px solid #e6e6e6; } }
       @media only screen and (min-width: 1024px) {
         .multi-search-container .multisearch-form .filters-holder .field:first-child {
           padding-left: 18px; } }
@@ -1801,7 +1810,7 @@ input[type="search"]::-webkit-search-results-decoration {
       .multi-search-container .multisearch-form .filters-holder .field.select select {
         display: block;
         background-image: url("/images/helpers/chevron-down.png");
-        background-position: 86% center;
+        background-position: right 26px center;
         background-repeat: no-repeat;
         background-size: inherit;
         cursor: pointer; }
