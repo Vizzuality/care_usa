@@ -49,7 +49,7 @@ export const routes = {
   },
   [DONATE]: {
     path: '/donate',
-    thunk: async () => window.location.replace('https://www.care.org/donate')
+    thunk: async () => window.location.href = 'https://www.care.org/donate'
   },
   [NOT_FOUND]: {
     path: '/404',

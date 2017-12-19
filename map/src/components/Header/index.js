@@ -56,7 +56,7 @@ class Header extends React.Component {
               <a href="/about">About</a>
             </li>
             <li className="nav-item text text-nav">
-              <a href="/donate">Donate</a>
+              <a href="http://www.care.org/donate">Donate</a>
             </li>
           </ul>
         </nav>
