@@ -45,11 +45,11 @@ export const routes = {
   },
   [ABOUT]: {
     path: '/about',
-    component: Placeholder
+    thunk: async () => window.location.replace('/map#?careHistory=true&hideBack=true')
   },
   [DONATE]: {
-    path: 'http://www.care.org/donate',
-    component: Placeholder
+    path: '/donate',
+    thunk: async () => window.location.href = 'https://www.care.org/donate'
   },
   [NOT_FOUND]: {
     path: '/404',

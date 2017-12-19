@@ -9,7 +9,7 @@ import CaresEvolution from './CaresEvolution';
 import CatalystWomen from './CatalystWomen';
 import BoxVideo from './BoxVideo';
 import Slider from './Slider';
-import HistoryHeader from './HistoryHeader';
+import Header from '../Header';
 import Retooling from './Retooling';
 import Donation from './Donation';
 import Footer from './Footer';
@@ -18,6 +18,10 @@ class ModalAnniversary extends Modal {
 
   constructor(props) {
     super(props);
+    const showBack = window.location.href.indexOf('hideBack') === -1;
+    this.state = {
+      showBack
+    };
   }
 
   getClassName() {
@@ -27,9 +31,9 @@ class ModalAnniversary extends Modal {
   getContent() {
     return (
       <section id="anniversary">
-        <HistoryHeader
+        <Header
+          showBack={this.state.showBack}
           onClose = {this.props.onClose.bind(this)}
-          toggleMenuFn = {this.props.toggleMenuFn}
         />
         <CaresPackage />
         <PowerBox />

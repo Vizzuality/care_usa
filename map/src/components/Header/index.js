@@ -17,6 +17,16 @@ class Header extends React.Component {
     return (
       <div id="header" className="l-header">
         <div className="wrap">
+          {this.props.showBack &&
+            <div className="l-back-to-map">
+              <p className="back-to-map text text-cta" onClick={ () => this.props.onClose() }>
+                <svg className="icon icon-preview">
+                  <use xlinkHref="#icon-preview"></use>
+                </svg>
+                Back to the map
+              </p>
+            </div>
+          }
           <a className="logo">
             <img className="icon icon-logo" src={ require('../../images/care-logo.png') } />
           </a>

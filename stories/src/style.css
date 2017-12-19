@@ -449,15 +449,7 @@ body {
       text-align: right;
       margin-left: auto;
       margin-right: auto;
-      margin-bottom: 20px;
-      max-width: 1012px; }
-      @media only screen and (max-width: 1024px) {
-        body span.group {
-          max-width: 670px; } }
-      @media only screen and (max-width: 767px) {
-        body span.group {
-          max-width: 264px;
-          margin-bottom: 15px; } }
+      margin-bottom: 20px; }
   body .tag {
     text-transform: uppercase; }
     body .tag span {
@@ -784,19 +776,19 @@ input[type="search"]::-webkit-search-results-decoration {
   .article-container .grid {
     max-width: 1030px;
     margin: 0 auto; }
+    @media only screen and (max-width: 1024px) {
+      .article-container .grid {
+        max-width: 90%; } }
     .article-container .grid .article-list {
-      margin: 0 auto; }
-      @media only screen and (max-width: 750px) {
-        .article-container .grid .article-list {
-          max-width: 264px; } }
+      margin: 0 auto;
+      width: 100% !important; }
       .article-container .grid .article-list .box {
         height: 650px;
-        width: 324px;
-        max-width: 324px; }
+        max-width: calc(33% - 10px); }
         @media only screen and (max-width: 750px) {
           .article-container .grid .article-list .box {
-            width: 264px;
-            max-width: 264px; } }
+            width: 100%;
+            max-width: 100%; } }
         .article-container .grid .article-list .box .holder {
           font-size: 0;
           line-height: 0;
@@ -809,6 +801,8 @@ input[type="search"]::-webkit-search-results-decoration {
             .article-container .grid .article-list .box .holder .article-content .article-layer {
               max-height: 350px;
               overflow: hidden; }
+              .article-container .grid .article-list .box .holder .article-content .article-layer img {
+                width: 100%; }
               .article-container .grid .article-list .box .holder .article-content .article-layer p {
                 display: none;
                 position: absolute;
