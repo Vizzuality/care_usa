@@ -1,0 +1,92 @@
+@import'../../styles/settings.postcss';
+
+.m-legend {
+  padding-top: rem(20);
+
+  @media screen and (min-width: $screen-m) {
+    padding-top: rem(30);
+  }
+
+  ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+
+    @media screen and (min-width: $screen-m) {
+
+    }
+  }
+
+  .legend-item {
+    display: flex;
+    //justify-content: flex-start;
+    //align-items: center;
+    margin-bottom: rem(1);
+    justify-content: center;
+    padding-right: 2px;
+
+    @media screen and (max-width: $screen-m) {
+      width: 100%;
+
+      &.suffix {
+        background: #d9d1c4;
+        font-size: rem(10);
+        width: calc(50% - rem(2));
+      }
+    }
+
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: rem(1);
+      justify-content: flex-start;
+      flex: 1 1 100%;
+    }
+
+    > .mobile-bucket {
+      width: 100%;
+    }
+
+    .text {
+      //Keep this here. Is specific for this text.
+      padding-top: rem(3);
+      color: $white;
+      font-size: rem(11);
+      text-align: center;
+
+      @media screen and (min-width: $screen-m) {
+        color: $font-color-8;
+        text-align: left;
+        font-size: rem(14);
+      }
+    }
+  }
+
+  .bucket {
+    display: inline-block;
+    width: rem(20);
+    height: rem(20);
+    background-color: #ddd;
+    margin-right: rem(13);
+    border: 1px solid #ddd;
+    flex-shrink: 0;
+
+    &.all-projects {
+      background-image: url('../../images/projectspattern.png');
+    }
+
+    &.countries {
+      background-image: url('../../images/refugeespattern.png');
+    }
+
+    &.icon {
+      background-color: transparent;
+      border: none;
+    }
+
+    img {
+      width: rem(19);
+    }
+  }
+
+}

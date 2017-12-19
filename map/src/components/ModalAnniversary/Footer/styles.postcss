@@ -1,0 +1,121 @@
+@import'../../../styles/settings.postcss';
+@import'../../../styles/helpers.postcss';
+
+$brand-secondary-color: #191c25;
+$brand-primary-color: #f46508;
+$breakpoint-mobile: 767px;
+$facebook-color: rgb(59, 89, 152);
+$twitter-color: rgb(29, 161, 242);
+
+/* Footer
+================================================= */
+.footer-container {
+  background-color: $brand-secondary-color;
+  .footer-holder {
+    max-width: 1090px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    @media only screen and (max-width: $breakpoint-mobile) {
+      flex-direction: column;
+      padding-top: 35px;
+      padding-left: 70px;
+      padding-right: 70px;
+    }
+    .social-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      @media only screen and (max-width: $breakpoint-mobile) {
+        margin-bottom: 20px;
+      }
+      a {
+        font-size: 22px;
+        padding: 5px 14px;
+        color: #fff;
+        cursor: pointer;
+
+        &.facebook-link {
+          &:hover {
+            i {
+              &:before {
+                color: $facebook-color;
+              }
+            }
+          }
+        }
+        &.twitter-link {
+          // font-size: 26px;
+          // padding: 0 10px 4px 2px;
+          &:hover {
+            i {
+              &:before {
+                color: $twitter-color;
+              }
+            }
+          }
+        }
+        &.instagram-link {
+          &:hover {
+            i{
+              &:before {
+                background: #d6249f;
+                background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+                box-shadow: 0px 3px 10px rgba(0,0,0,.25);
+                color: rgba(255, 255, 255, 0.6);
+                border-radius: 4px;
+              }
+            }
+          }
+        }
+        i {
+          &:before {
+            @extend %transition;
+          }
+        }
+        @media only screen and (min-width: $breakpoint-mobile +1px) {
+          &:first-child {
+            padding-left: 0;
+          }
+        }
+        @media only screen and (max-width: $breakpoint-mobile) {
+          padding-left: 20px;
+          padding-right: 20px;
+          &.twitter-link {
+            padding: 0 16px 6px 7px;
+          }
+        }
+      }
+    }
+    .footer-menu{
+      display: flex;
+      justify-content: space-between;
+      a,
+      span {
+        color: #ffffff;
+        font-family: $font-family-2;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 28px;
+        letter-spacing: 0.3px;
+        text-transform: capitalize;
+        padding: 5px 6px;
+        text-decoration: none;
+        cursor:  pointer;
+      }
+      a {
+        @media only screen and (max-width: $breakpoint-mobile) {
+          &:first-child {
+            padding-left: 0;
+          }
+        }
+        &:hover {
+          color: $brand-primary-color;
+        }
+      }
+    }
+  }
+}

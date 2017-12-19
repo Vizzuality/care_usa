@@ -1,0 +1,49 @@
+
+@import'../../../styles/settings.postcss';
+
+.l-history-header {
+	.wrap {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-top: rem(10);
+		padding-bottom: rem(10);
+	}
+
+	.back-to-map {
+		display: flex;
+		visibility: hidden;
+		width: rem(20);
+		cursor: pointer;
+
+		@media screen and (min-width: $screen-m) {
+		  visibility: visible;
+		  width: fit-content;
+		  align-items: center;
+		}
+	}
+
+	.icon-preview {
+		margin-right: rem(5);
+		margin-bottom: rem(1);
+
+		@media screen and (min-width: $screen-m) {
+			margin-bottom: rem(3);
+		}
+	}
+
+	.aux {
+		display: none;
+
+		@media screen and (min-width: $screen-m) {
+			display: inherit;
+			visibility: hidden;
+		}
+	}
+
+	.btn-menu-toggle {
+		@media screen and (min-width: $screen-m) {
+		  display: none;
+		}
+	}
+}

@@ -1,30 +1,35 @@
 # CARE USA
 
-We have worked closely with a team from [CARE USA](http://www.care.org) to build a beautiful visualization to explore donations and projects data on a beautiful map. Explore CARE's impact around the world and drill down to learn where CARE's donors are located. Check how CARE is contributing in aiding different countries in refugees crisis.
-
-![image](https://raw.githubusercontent.com/Vizzuality/care_usa/master/public/care-map.jpg)
-
-This application was built with [ReactJS](https://facebook.github.io/react/) and [BackboneJS](http://backbonejs.org/), and fetches it's data from [CAPI](https://github.com/Vizzuality/capi), an API built with [Ruby on Rails](http://weblog.rubyonrails.org/) that interfaces with [CartoDB](http://www.cartodb.com) where the data is being managed.
+![image](https://raw.githubusercontent.com/Vizzuality/care_usa/master/map/public/care-map.jpg)
 
 ## Installation
 
-Requirements:
-
-* NodeJs 5.2+ [How to install](https://nodejs.org/download/)
-
-Install dependencies:
-
-	npm install
+Install dependencies for both projects
+```bash
+$ npm i
+```
 
 ## Usage
 
-To run the server:
+Build for production in both problems
+```bash
+$ npm run build
+```
 
-	npm start
+Run application in production mode
+```bash
+$ npm start
+```
 
-To build:
+Run one of the application mode
+```bash
+$ npm run dev
+..
 
-	npm run build
+Choose an application (m/s): 
+m - opens map
+s - opens stories
+```
 
 ## Contributing
 
@@ -33,8 +38,3 @@ To build:
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin feature/my-new-feature`
 5. Submit a pull request :D
-
-## Notes
-
-If you are planning to work on this project, remember:
-*"timelineDate has to always prevail over any other date."*
