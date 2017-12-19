@@ -34,14 +34,20 @@ function StoriesGrid({ cards, setCardOffset, cardOffset, cardLimit }) {
               >
                 <h4 className="form-heading">Quick Donate</h4>
                 <fieldset className="holder">
-                  <button
+                  {/* <button
                     id="donateSubmit"
                     className="button"
                     type="button"
                     name="donateBtn"
                   >
                     DONATE
-                  </button>
+                  </button> */}
+                  <a
+                    href="https://www.care.org/donate"
+                    className="button"
+                  >
+                    DONATE
+                  </a>
                 </fieldset>
               </div>)]
           }
