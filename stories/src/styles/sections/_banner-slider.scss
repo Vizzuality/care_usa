@@ -7,18 +7,18 @@
     @media only screen and (min-width: $breakpoint-laptop) {
       max-height: 540px;
     }
-    @media only screen and (max-width: $breakpoint-s) {
-      max-height: 462px;
-    }
+    // @media only screen and (max-width: $breakpoint-s) {
+    //   height: 460px;
+    // }
   }
   .slick-dots {
     position: absolute;
-    bottom: 60px;
+    bottom: 40px;
     left: 0;
     right: 0;
     text-align: center;
     @media only screen and (max-width: $breakpoint-mobile) {
-      bottom: 50px;
+      bottom: 30px;
     }
     li {
       display: inline-block;
@@ -45,8 +45,9 @@
 
         }
         @media only screen and (max-width: $breakpoint-mobile) {
-          width: 13px;
-          height: 13px;
+          width: 11px;
+          height: 11px;
+          margin-right: 10px;
         }
       }
       &.slick-active {
@@ -89,13 +90,14 @@
       background-repeat: no-repeat;
       background-position: center top;
 
-      @media only screen and (min-width: 426px) and (max-width: $breakpoint-laptop) {
-        height: 460px;
-      }
     }
     .slide-wrapper {
-      max-width: 1030px;
+      width: 90%;
+      max-width: $breakpoint-laptop;
       margin: 0 auto;
+      @media only screen and (max-width: $breakpoint-laptop) {
+        max-width: $breakpoint-mobile;
+      }
     }
     .slide-content {
       position: absolute;
@@ -103,13 +105,6 @@
       transform: translateY(-50%);
       span {
         text-transform: none;
-      }
-      @media only screen and (min-width: 426px) and (max-width: $breakpoint-laptop) {
-        max-width: 420px;
-      }
-      @media only screen and (max-width: $breakpoint-s) {
-        // top: 65px;
-        // left: 8px;
       }
 
       h1 {
@@ -121,14 +116,15 @@
         line-height: 1.1;
         letter-spacing: -0.2px;
         text-transform: none;
-        max-width: 630px;
+        max-width: $breakpoint-s;
         @media only screen and (min-width: 426px) and (max-width: $breakpoint-laptop) {
           margin-top: 10px;
           margin-bottom: 20px;
-          font-size: 36px;
+          font-size: 38px;
         }
         @media only screen and (max-width: $breakpoint-s) {
           margin-bottom: 10px;
+          font-size: 38px;
         }
       }
       .clearfix {

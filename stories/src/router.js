@@ -48,7 +48,7 @@ export const routes = {
     component: Placeholder
   },
   [DONATE]: {
-    path: '/donate',
+    path: 'http://www.care.org/donate',
     component: Placeholder
   },
   [NOT_FOUND]: {
