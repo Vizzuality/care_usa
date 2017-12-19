@@ -3,16 +3,23 @@ import StoryCard from "../story-card.component";
 import Masonry from 'react-masonry-infinite';
 
 function StoriesGrid({ cards, setCardOffset, cardOffset, cardLimit }) {
+  const masonryColumns = [
+    { columns: 1, gutter: 20 },
+    { mq: '750px', columns: 3, gutter: 20 }
+  ];
   return (
     <section className="article-container">
       <h3>Total Stories</h3>
-      <span className="group">({cards.length} Stories)</span>
+      <div className="grid">
+        <span className="group">({cards.length} Stories)</span>
+      </div>
       <div className="grid">
         <Masonry
           pack={true}
           hasMore={false}
           loadMore={() => (null)}
           className="article-list"
+          sizes={masonryColumns}
         >
           {
             [...cards.map((storycard, key) => (
