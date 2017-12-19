@@ -9,6 +9,7 @@ function Filters(props) {
     years,
     onFilterChange
   } = props;
+  const { country: countrySelected } = query;
 
   return (
     <section className="multi-search-container">
@@ -72,7 +73,7 @@ function Filters(props) {
               <option value={''}>Country</option>
               {
                 countries.map(country => (
-                  <option value={country.value} key={country.value}>
+                  <option value={country.value} key={country.value} selected={!!(countrySelected && countrySelected[country])}>
                     {country.label}
                   </option>
                 ))

@@ -3,6 +3,13 @@
 .donate-form {
   background-image: linear-gradient(180deg, #f46508 0%, #f46508 100%);
   padding: 58px 36px 45px;
+  display: block;
+  width: 100%;
+
+  .form-heading {
+    text-align: center;
+    color: #fff;
+  }
   fieldset {
     margin-top: 35px;
     input {
@@ -28,6 +35,11 @@
         line-height: 22px;
       }
     }
+    a,
+    input,
+    button {
+      min-width: 240px;
+    }
   }
   @media only screen and (max-width: $breakpoint-mobile) {
     padding: 35px 28px 25px;
@@ -36,10 +48,8 @@
       line-height: 28px;
     }
     fieldset {
-      input {
-        width: 210px;
-      }
-      button {
+      input,
+      button, a {
         min-width: 210px;
       }
     }

@@ -1,8 +1,6 @@
 /* Gallery widget
 ================================================= */
 .gallery-widget-container {
-  min-width: 275px;
-  max-width: 275px;
   padding-top: 20px;
   .gallery-widget-holder {
     .gallery-widget-box {
@@ -49,7 +47,7 @@
   @media only screen and (max-width: $breakpoint-mobile) {
     margin-top: 32px;
     figcaption {
-      display: none;
+      display: block;
     }
     .gallery-widget-image {
       position: relative;

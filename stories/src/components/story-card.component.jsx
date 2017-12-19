@@ -1,7 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 import Link from 'redux-first-router-link';
-import Dotdotdot from 'react-dotdotdot'
+import Dotdotdot from 'react-dotdotdot';
+import kebabCase from 'lodash/kebabCase';
 
 const getHeight = (w,h) => {
   const delta = w && h ? (Math.round((w/h) * 10) / 10) : null;
@@ -21,37 +22,46 @@ const StoryCard =  ({ link, sectorList, location, title, summary, cover }) => {
   const height = getHeight(dimensions.width, dimensions.height);
   return (
     <article className="article-item box" style={{ height: (height + 285) }}>
-      <Link className="holder" to={link}>
+      <div className="holder">
         <figure className="article-content">
-          <div
-            className={cx('article-layer', { 'no-image': !cover })}
-            style={{ maxHeight: height }}
-          >
-            {cover &&
-            <img src={`http:${cover.url}`} alt={cover.title}/>
-            }
-            <p>
-              <button className="btn" type="button">
-                GO TO STORY
-              </button>
-            </p>
-          </div>
-          <figcaption>
-            <div className="article-data">
-              <p className="cat">
-                <span>{sectorList && sectorList.join(', ')}</span>
+          <Link to={link}>
+            <div
+              className={cx('article-layer', { 'no-image': !cover })}
+              style={{ maxHeight: height }}
+            >
+              {cover &&
+              <img src={`http:${cover.url}`} alt={cover.title}/>
+              }
+              <p>
+                <button className="btn" type="button">
+                  GO TO STORY
+                </button>
               </p>
-              <span className="country">{location}</span>
             </div>
-            <h4>{title}</h4>
-            <p>
-              <Dotdotdot clamp="120px">
-                {summary}
-              </Dotdotdot>
-            </p>
+          </Link>
+          <figcaption>
+              <div className="article-data">
+                <p className="cat">
+                  {sectorList.map((sector, i) => (
+                    <Link to={`/stories?category=${kebabCase(sector)}`}>
+                      {sector}
+                      {i === sectorList.length - 1? null : ','}
+                    </Link>
+                  ))}
+                </p>
+                <span className="country">{location}</span>
+              </div>
+            <Link to={link}>
+              <h4>{title}</h4>
+              <p>
+                <Dotdotdot clamp="120px">
+                  {summary}
+                </Dotdotdot>
+              </p>
+            </Link>
           </figcaption>
         </figure>
-      </Link>
+      </div>
     </article>
   );
 }

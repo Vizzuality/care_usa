@@ -130,6 +130,9 @@
     flex-direction: row-reverse;
     max-width: 1030px;
     margin: 0 auto;
+    @media only screen and (max-width: $breakpoint-mobile) {
+      flex-direction: column-reverse;
+    }
     @media only screen and (min-width: $breakpoint-mobile +1px) and(max-width: $breakpoint-laptop) {
       padding: 0 20px;
     }
@@ -140,11 +143,18 @@
       }
     }
     .gallery-widget-container {
+      @media only screen and (max-width: $breakpoint-mobile) {
+        padding-left: 30px;
+      }
+
       & + .article-expanded-holder {
         flex-direction: column;
         position: relative;
         margin-top: 20px;
         margin-right: 40px;
+        @media only screen and (max-width: $breakpoint-mobile) {
+          margin-right: 0;
+        }
         .std {
           padding-right: 15%;
         }
@@ -154,8 +164,8 @@
           right: 0;
           border-left: 1px solid #e6e6e6;
           height: 100%;
-          padding-top: 19%;
-          margin-top: -19%;
+          // padding-top: 19%;
+          // margin-top: -19%;
         }
       }
     }

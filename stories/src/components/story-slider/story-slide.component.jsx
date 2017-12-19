@@ -26,7 +26,7 @@ function StorySlide (props) {
           className="slide-banner"
           style={{ backgroundImage: `url(${bannerBackground})` }}
         />
-        <div class="slide-wrapper">
+        <div className="slide-wrapper">
           <figcaption className="slide-content">
             <div className="tag">
               <span>LAST STORIES</span>
