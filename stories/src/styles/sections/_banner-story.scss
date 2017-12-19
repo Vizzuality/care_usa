@@ -2,12 +2,15 @@
 ================================================= */
 .banner-story-container {
   position: relative;
-  
+
   .switchers-area {
     top: 35%;
-    right: 11%;
+    right: 5%;
     @media only screen and (min-width: $breakpoint-mobile + 1px) {
       top: 41%;
+    }
+    @media only screen and (max-width: $breakpoint-mobile ) {
+      top: 5%;
     }
   }
   .banner-holder {
@@ -27,10 +30,11 @@
     .banner-box {
       background-color: rgba(#fff, 0.75);
       position: absolute;
-      max-width: 52.3%;
-      top: 12.3%;
-      left: 5.2%;
-      padding: 72px 0;
+      max-width: 600px;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 5%;
+      padding: 70px 0;
       .banner-content {
         padding-left: 60px;
         padding-right: 60px;
@@ -153,8 +157,10 @@
         max-width: 90%;
         top: 0;
         left: 0;
-        padding-top: 18px;
-        margin-top: -95%;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        margin-top: -20%;
+        transform: none;
         margin-right: auto;
         margin-left: auto;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -185,6 +191,7 @@
                 padding-top: 27px;
                 padding-left: 0;
                 border-left: 0;
+                margin-left: 0;
                 border-top: 1px solid #e6e6e6;
                 clear: both;
               }
