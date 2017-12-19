@@ -10,6 +10,8 @@ import DashDates from './DashDates';
 import DashFilters from './DashFilters';
 import DashDonation from './DashDonation';
 import utils from '../../scripts/helpers/utils';
+import filtersModel from '../../scripts/models/filtersModel';
+import sectorsCollection from '../../scripts/collections/SectorsCollection';
 
 class Dashboard extends React.Component {
 
@@ -17,12 +19,21 @@ class Dashboard extends React.Component {
     super(props);
     this.props = props;
     this.state = {
-      dashboardOpen: true
+      dashboardOpen: true,
+      sectorsReady: false
     };
+    this.updateSectors = this.updateSectors.bind(this);
   }
 
   componentWillMount() {
     this.setState(utils.checkDevice());
+  }
+
+  componentDidMount() {
+    sectorsCollection.fetch()
+      .then((d) => {
+        this.setState({ sectorsReady: true })
+      });
   }
 
   togleDashboard() {
@@ -36,11 +47,28 @@ class Dashboard extends React.Component {
       this.props.filters !== nextProps.filters ||
       this.props.sectors !== nextProps.sectors ||
       this.props.timelineDate !== nextProps.timelineDate ||
+      this.state.sectorsReady !== nextState.sectorsReady ||
       this.state.dashboardOpen !== nextState.dashboardOpen) {
       return true;
     }
 
     return false;
+  }
+
+  updateSectors(e) {
+    const name = e.target.name ? e.target.name.replace('sector-', '') : null;
+    if (name) {
+      const sectorFilters = [...filtersModel.get('sectors')];
+      const index = sectorFilters.indexOf(name);
+      if (index > -1) {
+        sectorFilters.splice(index, 1);
+      } else {
+        sectorFilters.push(name)
+      }
+      filtersModel.set({
+        sectors: sectorFilters
+      }, { validate: true });
+    }
   }
 
   render() {
@@ -62,6 +90,34 @@ class Dashboard extends React.Component {
                     />
 
       tabsMobile = null;
+    }
+
+    let storiesFilters = null;
+    if (this.state.sectorsReady && this.props.layer.slug === 'stories') {
+      const sectorsModel = filtersModel.get('sectors') || [];
+      storiesFilters = <div className="m-filters sidebar">
+        <div className="sectors">
+          <fieldset>
+            {sectorsCollection.toJSON().map((sector) => [
+              <input
+                key={`inputkey-${sector.slug}`}
+                type="checkbox"
+                id={`filters-${sector.slug}`}
+                name={`sector-${sector.slug}`}
+                onChange={this.updateSectors}
+                checked={sectorsModel.indexOf(sector.slug) > -1}
+              />,
+              <label
+                key={`labelkey-${sector.slug}`}
+                className="text text-cta"
+                htmlFor={`filters-${sector.slug}`}
+              >
+                {sector.name}
+              </label>
+            ])}
+          </fieldset>
+        </div>
+      </div>
     }
 
     /* The layer "people-reached" doesn't support the filters */
@@ -138,11 +194,13 @@ class Dashboard extends React.Component {
                   layer={ this.props.layer }
                   currentMode = { this.props.currentMode }
                 />
-                <DashFilters
-                  filters={ this.props.filters }
-                  sectors={ this.props.sectors }
-                  regions={ this.props.regions }
-                />
+                {this.props.layer.slug !== 'stories' &&
+                  <DashFilters
+                    filters={ this.props.filters }
+                    sectors={ this.props.sectors }
+                    regions={ this.props.regions }
+                  />
+                }
                 <DashSummary
                   filters={ this.props.filters }
                   layer={ this.props.layer }
@@ -150,6 +208,7 @@ class Dashboard extends React.Component {
                   timelineDate={ this.props.timelineDate }
                 />
                 { layersSwitcher }
+                { storiesFilters }
               </div>
               { filtersSwitcher }
             </div>
