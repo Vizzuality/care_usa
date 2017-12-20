@@ -2,10 +2,14 @@
 ================================================= */
 .gallery-widget-container {
   padding-top: 20px;
+  width: 100%;
   .gallery-widget-holder {
     .gallery-widget-box {
       figcaption {
-        padding: 0 22px 60px 0;
+        padding: 0 0 40px 0;
+        @media only screen and (max-width: $breakpoint-mobile){
+          padding-right: 5%;
+        }
         p {
           color: $brand-primary-color;
           font-family: $mont-l;
@@ -51,7 +55,7 @@
     }
     .gallery-widget-image {
       position: relative;
-      left: -30px;
+      padding-right: 30px;
     }
     .view-gallery {
       padding-top: 20px;

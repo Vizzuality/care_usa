@@ -754,18 +754,21 @@ input[type="search"]::-webkit-search-results-decoration {
         margin-top: 0; } }
   @media only screen and (max-width: 767px) {
     .article-expanded-container.gallery-widget-content .gallery-widget-container {
-      padding-left: 30px; } }
+      padding-left: 30px;
+      padding-bottom: 60px; } }
   .article-expanded-container.gallery-widget-content .gallery-widget-container + .article-expanded-holder {
     flex-direction: column;
     position: relative;
     margin-top: 20px;
     margin-right: 40px; }
+    .article-expanded-container.gallery-widget-content .gallery-widget-container + .article-expanded-holder .std {
+      padding-right: 10%; }
     @media only screen and (max-width: 767px) {
       .article-expanded-container.gallery-widget-content .gallery-widget-container + .article-expanded-holder {
         margin-right: 0;
-        margin-top: 150px; } }
-    .article-expanded-container.gallery-widget-content .gallery-widget-container + .article-expanded-holder .std {
-      padding-right: 15%; }
+        margin-top: 150px; }
+        .article-expanded-container.gallery-widget-content .gallery-widget-container + .article-expanded-holder .std {
+          padding-right: 30px; } }
     .article-expanded-container.gallery-widget-content .gallery-widget-container + .article-expanded-holder::after {
       content: '';
       position: absolute;
@@ -1437,9 +1440,13 @@ input[type="search"]::-webkit-search-results-decoration {
 /* Gallery widget
 ================================================= */
 .gallery-widget-container {
-  padding-top: 20px; }
+  padding-top: 20px;
+  width: 100%; }
   .gallery-widget-container .gallery-widget-holder .gallery-widget-box figcaption {
-    padding: 0 22px 60px 0; }
+    padding: 0 0 40px 0; }
+    @media only screen and (max-width: 767px) {
+      .gallery-widget-container .gallery-widget-holder .gallery-widget-box figcaption {
+        padding-right: 5%; } }
     .gallery-widget-container .gallery-widget-holder .gallery-widget-box figcaption p {
       color: #f46508;
       font-family: "MontserratLight";
@@ -1472,7 +1479,7 @@ input[type="search"]::-webkit-search-results-decoration {
         display: block; }
       .gallery-widget-container .gallery-widget-image {
         position: relative;
-        left: -30px; }
+        padding-right: 30px; }
       .gallery-widget-container .view-gallery {
         padding-top: 20px; } }
 
