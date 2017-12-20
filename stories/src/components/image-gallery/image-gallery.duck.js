@@ -3,7 +3,7 @@ import { createReducer } from 'store';
 const SET_CURRENT_SLIDE = 'imageGallery/SET_CURRENT_SLIDE';
 
 const initialState = {
-  currentSlide: false
+  currentSlide: 0
 };
 
 const imageGalleryReducer = {

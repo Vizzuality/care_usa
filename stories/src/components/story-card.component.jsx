@@ -43,7 +43,7 @@ const StoryCard =  ({ link, sectorList, location, title, summary, cover }) => {
               <div className="article-data">
                 <p className="cat">
                   {sectorList.map((sector, i) => (
-                    <Link to={`/stories?category=${kebabCase(sector)}`}>
+                    <Link key={sector} to={`/stories?category=${kebabCase(sector)}`}>
                       {sector}
                       {i === sectorList.length - 1? null : ','}
                     </Link>

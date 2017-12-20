@@ -53,7 +53,7 @@ class Header extends React.Component {
               <a href="/stories">Stories</a>
             </li>
             <li className="nav-item text text-nav">
-              <a href="/about">About</a>
+              <a href="/map#?careHistory=true&hideBack=true">About</a>
             </li>
             <li className="nav-item text text-nav">
               <a href="http://www.care.org/donate">Donate</a>

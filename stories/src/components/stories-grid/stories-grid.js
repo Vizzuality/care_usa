@@ -43,7 +43,10 @@ function mapStateToProps({ storiesGrid, stories }) {
     ? stories.filtered.entities
     : stories.all.entities;
 
-  return { ...storiesGrid, storyEntities };
+  const cardLimit = Object.values((storyEntities.story || {})).length;
+
+
+  return { ...storiesGrid, cardLimit, storyEntities };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -16,7 +16,7 @@ function ThumbnailGallery(props) {
     <div className="slider-nav-thumbnails">
       <Slider
         {...settings}
-        initialSlide={(currentSlide + 1)}
+        initialSlide={currentSlide}
         ref={getThumbnailsRef}
       >
         {

@@ -862,7 +862,8 @@ input[type="search"]::-webkit-search-results-decoration {
                   justify-content: flex-start; }
               .article-container .grid .article-list .box .holder .article-content figcaption h4 {
                 margin-bottom: 4px;
-                letter-spacing: -0.1px; }
+                letter-spacing: -0.1px;
+                text-transform: none; }
                 @media only screen and (max-width: 767px) {
                   .article-container .grid .article-list .box .holder .article-content figcaption h4 {
                     margin-bottom: 20px; } }
@@ -870,7 +871,8 @@ input[type="search"]::-webkit-search-results-decoration {
                 max-height: 170px;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                line-height: 2; }
+                line-height: 2;
+                text-transform: none; }
                 @media only screen and (max-width: 767px) {
                   .article-container .grid .article-list .box .holder .article-content figcaption p:not(.cat) {
                     max-width: 210px; } }

@@ -104,6 +104,7 @@
               h4 {
                 margin-bottom: 4px;
                 letter-spacing: -0.1px;
+                text-transform: none;
                 @media only screen and (max-width: $breakpoint-mobile) {
                   margin-bottom: 20px;
                 }
@@ -113,6 +114,7 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 line-height: 2;
+                text-transform: none;
                 @media only screen and (max-width: $breakpoint-mobile) {
                   max-width: 210px;
                 }

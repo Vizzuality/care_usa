@@ -4,7 +4,7 @@ const SET_CARD_OFFSET = 'stories/SET_CARD_LIMIT';
 
 const initialState = {
   cardStart: 0,
-  cardOffset: 40
+  cardOffset: 20
 };
 
 const storiesGridReducer = {

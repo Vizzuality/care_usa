@@ -14,7 +14,7 @@ function mapStateToProps({ filters, location, stories }) {
   const categories = Object.values(filters.categories.entities.category || {})
     .map(category => ({ value: kebabCase(category.name), label: category.name }));
 
-  const countries = Object.values(filters.countries.entities.country || {})
+  const countries = Object.values(stories.all.entities.country || {})
     .map(country => ({ value: country.iso, label: country.name }));
 
   const templates = uniqBy(

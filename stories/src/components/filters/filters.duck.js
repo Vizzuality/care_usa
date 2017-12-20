@@ -56,7 +56,8 @@ export async function getCountriesThunk(dispatch, getState) {
   if (!countries.result.length) {
     const { items } = await contentful.getEntries({
       content_type: 'country',
-      order: 'fields.name'
+      order: 'fields.name',
+      limit: 1000
     });
     dispatch({
       type: GET_COUNTRIES,

@@ -59,12 +59,14 @@ function ImageGallery(props) {
                 <i className="icon-close-bold" />
               </button>
             </p>
-            <ThumbnailGallery
-              slides={slides}
-              currentSlide={currentSlide}
-              setCurrentSlide={setCurrentSlide}
-              getThumbnailsRef={getThumbnailsRef}
-            />
+            {slides && slides.length > 1 &&
+              <ThumbnailGallery
+                slides={slides}
+                currentSlide={currentSlide}
+                setCurrentSlide={setCurrentSlide}
+                getThumbnailsRef={getThumbnailsRef}
+              />
+            }
           </div>
         </div>
       </div>

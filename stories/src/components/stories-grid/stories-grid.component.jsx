@@ -11,7 +11,7 @@ function StoriesGrid({ cards, setCardOffset, cardOffset, cardLimit }) {
     <section className="article-container">
       <h3>Total Stories</h3>
       <div className="grid">
-        <span className="group">({cards.length} Stories)</span>
+        <span className="group">({cardLimit} Stories)</span>
       </div>
       <div className="grid">
         <Masonry
