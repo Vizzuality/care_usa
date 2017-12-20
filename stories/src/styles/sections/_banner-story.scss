@@ -1,39 +1,41 @@
 /* Banner story
 ================================================= */
 .banner-story-container {
-  position: relative;
 
   .switchers-area {
     top: 35%;
-    right: 5%;
+    right: 0;
     @media only screen and (min-width: $breakpoint-mobile + 1px) {
       top: 41%;
     }
     @media only screen and (max-width: $breakpoint-mobile ) {
       top: 5%;
+      left: 0;
     }
   }
   .banner-holder {
+    background-size: cover;
+    background-position: center;
+    height: 700px;
+    @media only screen and (max-width: $breakpoint-mobile ) {
+      height: 500px;
+    }
     .banner {
-      min-height: 400px;
-      picture {
-        display: block;
-        .banner-img {
-          width: 100%;
-          height: 100%;
-        }
-      }
+      position: relative;
+      width: 90%;
+      max-width: 1030px;
+      margin: 0 auto;
+      height: 700px;
     }
   }
   //Collapse story banner-box
   &.collapse {
     .banner-box {
       background-color: rgba(#fff, 0.75);
-      position: absolute;
+      position: relative;
       max-width: 600px;
       top: 50%;
       transform: translateY(-50%);
-      left: 5%;
       padding: 70px 0;
       .banner-content {
         padding-left: 60px;
@@ -102,7 +104,6 @@
         }
       }
       @media only screen and (min-width: $breakpoint-mobile + 1px) and (max-width: 1279px) {
-        padding-top: 30px;
         .banner-content {
           padding-left: 40px;
           padding-right: 40px;
@@ -153,13 +154,14 @@
         }
       }
       @media only screen and (max-width: $breakpoint-mobile){
-        position: relative;
-        max-width: 90%;
-        top: 0;
+        max-width: 100%;
+        width: 100%;
+        position: absolute;
+        bottom: 85px;
+        top: auto;
         left: 0;
         padding-top: 40px;
         padding-bottom: 40px;
-        margin-top: -20%;
         transform: none;
         margin-right: auto;
         margin-left: auto;
@@ -215,10 +217,6 @@
   &.expanded {
     .banner-box {
       background-color: rgba(#fff, 0.75);
-      position: absolute;
-      max-width: 52.3%;
-      top: 14.3%;
-      left: 5.2%;
       padding-top: 32px 0;
       .banner-content {
         padding-left: 60px;
@@ -292,7 +290,6 @@
         }
       }
       @media only screen and (min-width: $breakpoint-mobile + 1px) and (max-width: 1279px) {
-        padding-top: 30px;
         .banner-content {
           padding-left: 40px;
           padding-right: 40px;
