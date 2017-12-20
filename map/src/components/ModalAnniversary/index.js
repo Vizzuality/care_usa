@@ -39,10 +39,10 @@ class ModalAnniversary extends Modal {
         <PowerBox />
         <Retooling />
         <CaresEvolution />
-        <CatalystWomen />
         <Slider />
         <BoxVideo openModalVideo={this.props.openModalVideo} />
         <Donation />
+        <CatalystWomen />
         <Footer />
       </section>
     )
