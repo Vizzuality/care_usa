@@ -5,30 +5,18 @@ import DetailSwitch from "components/detail-switch/detail-switch";
 function DetailBanner ({ story, showSummary, showOnMap }) {
 
   const { cover } = story;
+  const bgStyle = { backgroundImage: `url(https://${cover.url})` };
 
   return (
     <section className="banner-story-container collapse">
-      <div className="banner-holder">
+      <div className="banner-holder" style={bgStyle} >
         <div className="banner">
-          {cover &&
-            <picture>
-              <source
-                media="(max-width: 767px)"
-                srcSet={`https://${cover.url}`}
-              />
-              <img
-                className="banner-img"
-                src={`https://${cover.url}`}
-                alt={cover.title}
-              />
-            </picture>
-          }
           <div className="banner-box">
             <Box showSummary={showSummary} {...story} />
           </div>
+          <DetailSwitch/>
         </div>
       </div>
-      <DetailSwitch/>
     </section>
   );
 }
