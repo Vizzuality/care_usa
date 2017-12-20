@@ -1707,9 +1707,11 @@ input[type="search"]::-webkit-search-results-decoration {
       align-items: baseline;
       padding-top: 46px; }
       .main-gallery-container .main-gallery-holder .slide-content h5 {
-        margin-right: 10px; }
+        margin-right: 10px;
+        min-width: 170px; }
       .main-gallery-container .main-gallery-holder .slide-content p {
-        width: 614px; }
+        color: #FFF;
+        line-height: 1.8; }
   .main-gallery-container .switchers-area {
     position: absolute;
     display: flex;
