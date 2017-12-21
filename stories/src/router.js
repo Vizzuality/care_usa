@@ -63,7 +63,7 @@ export default connectRoutes(
   {
     querySerializer,
     restoreScroll: restoreScroll({
-      shouldUpdateScroll: (prev, locationState) => (prev.type !== locationState.type)
+      shouldUpdateScroll: (prev, locationState) => (prev.pathname !== locationState.pathname)
     })
   }
 );
