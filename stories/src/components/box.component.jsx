@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import Link from 'redux-first-router-link';
+import kebabCase from 'lodash/kebabCase';
 
 function Box (props) {
   const { title, sectorList, summary, authors, story_date, countries, showSummary, agency = [] } = props;
@@ -49,7 +51,12 @@ function Box (props) {
               </p>
             }
             <p className="datetime-area">
-              <span>{sectorList.join(', ')}</span>
+              {sectorList.map((sector, i) => (
+                <Link key={sector} to={`/stories?category=${kebabCase(sector)}`}>
+                  {sector}
+                  {i === sectorList.length - 1? null : ','}
+                </Link>
+              ))}
               {date &&
                 <span className="datetime">
                   <time dateTime={date}>{date}</time>

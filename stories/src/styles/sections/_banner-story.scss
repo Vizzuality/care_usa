@@ -121,6 +121,14 @@
               font-size: 12px;
               line-height: 18px;
             }
+            a {
+              font-size: 12px;
+              line-height: 18px;
+              text-transform: none;
+              color: $brand-primary-color;
+              font-family: "MontserratRegular";
+              margin-right: 4px;
+            }
             .datetime-area {
               padding-left: 20px;
               line-height: 20px;

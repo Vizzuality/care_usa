@@ -7,6 +7,31 @@ function StoriesGrid({ cards, setCardOffset, cardOffset, cardLimit }) {
     { columns: 1, gutter: 20 },
     { mq: '750px', columns: 3, gutter: 20 }
   ];
+  const quickDonation = null;
+  // Removed from production for now,
+  // keeping it here just in case they want it back soon.
+  // const quickDonation = (<div
+  //   key="quickDonate"
+  //   className="donate-form box"
+  // >
+  //   <h4 className="form-heading">Quick Donate</h4>
+  //   <fieldset className="holder">
+  //     {/* <button
+  //       id="donateSubmit"
+  //       className="button"
+  //       type="button"
+  //       name="donateBtn"
+  //     >
+  //       DONATE
+  //     </button> */}
+  //     <a
+  //       href="https://www.care.org/donate"
+  //       className="button"
+  //     >
+  //       DONATE
+  //     </a>
+  //   </fieldset>
+  // </div>)
   return (
     <section className="article-container">
       <h3>Total Stories</h3>
@@ -28,28 +53,7 @@ function StoriesGrid({ cards, setCardOffset, cardOffset, cardLimit }) {
                 {...storycard}
               />
             )),
-              (<div
-                key="quickDonate"
-                className="donate-form box"
-              >
-                <h4 className="form-heading">Quick Donate</h4>
-                <fieldset className="holder">
-                  {/* <button
-                    id="donateSubmit"
-                    className="button"
-                    type="button"
-                    name="donateBtn"
-                  >
-                    DONATE
-                  </button> */}
-                  <a
-                    href="https://www.care.org/donate"
-                    className="button"
-                  >
-                    DONATE
-                  </a>
-                </fieldset>
-              </div>)]
+              quickDonation]
           }
         </Masonry>
         {(cardOffset < cardLimit) &&

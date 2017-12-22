@@ -8,8 +8,11 @@ function Story(props) {
 
   const Detail = template ? {
     photoStory: DetailThree,
-    videoStory: DetailTwo
+    videoStory: DetailTwo,
+    writtenStory: DetailThree
   }[template] : DetailThree;
+
+  if (!Detail) return null;
   return (
     <main id="pageContent" className="page-wrapper home">
       {template && <Detail story={story} />}

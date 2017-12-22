@@ -863,7 +863,8 @@ input[type="search"]::-webkit-search-results-decoration {
                     margin-bottom: 35px; } }
                 .article-container .grid .article-list .box .holder .article-content figcaption .article-data .cat {
                   display: flex;
-                  justify-content: flex-start; }
+                  justify-content: flex-start;
+                  flex-wrap: wrap; }
               .article-container .grid .article-list .box .holder .article-content figcaption h4 {
                 margin-bottom: 4px;
                 letter-spacing: -0.1px;
@@ -1095,6 +1096,13 @@ input[type="search"]::-webkit-search-results-decoration {
         .banner-story-container.collapse .banner-box .banner-content .story-data span {
           font-size: 12px;
           line-height: 18px; }
+        .banner-story-container.collapse .banner-box .banner-content .story-data a {
+          font-size: 12px;
+          line-height: 18px;
+          text-transform: none;
+          color: #f46508;
+          font-family: "MontserratRegular";
+          margin-right: 4px; }
         .banner-story-container.collapse .banner-box .banner-content .story-data .datetime-area {
           padding-left: 20px;
           line-height: 20px; }

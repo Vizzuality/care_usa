@@ -1,5 +1,8 @@
 import moment from 'moment';
-import startCase from 'lodash/startCase';
+import lowerCase from 'lodash/lowerCase';
+import upperFirst from 'lodash/upperFirst';
+
+const formatSlug = (f) => upperFirst(lowerCase(f));
 
 export const DATE_FORMAT = 'YYYY';
 
@@ -16,8 +19,8 @@ export function buildFilters(query) {
     const formatter = {
       date_start: s => moment(s, DATE_FORMAT).toISOString(),
       date_end: s => moment(s, DATE_FORMAT).toISOString(),
-      category: startCase,
-      template: startCase
+      category: formatSlug,
+      template: formatSlug
     }[type];
 
     if (!formatter) return string;
