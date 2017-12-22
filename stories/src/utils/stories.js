@@ -1,4 +1,5 @@
 import moment from 'moment';
+import startCase from 'lodash/startCase';
 import lowerCase from 'lodash/lowerCase';
 import upperFirst from 'lodash/upperFirst';
 
@@ -20,7 +21,7 @@ export function buildFilters(query) {
       date_start: s => moment(s, DATE_FORMAT).toISOString(),
       date_end: s => moment(s, DATE_FORMAT).toISOString(),
       category: formatSlug,
-      template: formatSlug
+      template: startCase
     }[type];
 
     if (!formatter) return string;
