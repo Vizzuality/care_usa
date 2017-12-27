@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "name": "care_usa_basemap",
+  "layergroup": {
+    "layers":
+    [
+      {
+        "type": "cartodb",
+        "options": {
+          "cartocss_version": "2.1.1",
+          "cartocss": "#world_complete_1 ::z1{ polygon-fill: #f1eae6; polygon-opacity: 0.9; line-width: 1; line-color: #ffffff; line-opacity: 0.4; }",
+          "sql": "SELECT * FROM world_complete_1"
+        }
+      }
+    ]
+  }
+}

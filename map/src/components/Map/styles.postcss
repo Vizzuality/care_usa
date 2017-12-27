@@ -1,0 +1,311 @@
+@import'../../styles/settings.postcss';
+
+.leaflet-container {
+  background-color: $color-13;
+}
+
+.leaflet-bottom, .leaflet-top {
+  z-index: 1;
+}
+
+.leaflet-top.leaflet-left {
+  display: none;
+
+  @media screen and (min-width: $screen-m) {
+    display: block;
+    position: absolute;
+    top: calc(rem($header-height) + rem(120));
+    left: auto;
+    z-index: 1;
+    right: $wrap-padding-desktop;
+  }
+
+  @media screen and (min-width: $screen-l) {
+    top: calc(rem($header-height) + rem(117));
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    top: calc(rem($header-height) + rem(120));
+    right: $wrap-padding-desktop-xl;
+  }
+
+  @media screen and (min-width: $screen-xxl) {
+    right: $wrap-padding-desktop-xxl;
+  }
+
+  .leaflet-control {
+    @media screen and (min-width: $screen-m) {
+      margin: 0;
+    }
+  }
+
+  .leaflet-bar {
+    border: 0;
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+
+    .leaflet-control-zoom-in,
+    .leaflet-control-zoom-out {
+      width: rem(35);
+      height: rem(35);
+      border: 1px solid $color-1;
+      border-radius: 0;
+      color: $orange-pumpkin;
+      font-family: $font-family-1;
+      font-size: rem(25);
+      font-weight: 400;
+      line-height: rem(35);
+      background-color: transparent;
+      background-size: rem(13);
+      background-position: center;
+      transition: color .3s, border-color .3s, backgroud-color .3s;
+
+      &:hover {
+        color: $orange-tangerine;
+        border-color: $orange-tangerine;
+        background-color: rgba($color-13, .6);
+      }
+    }
+
+    .leaflet-control-zoom-in {
+      margin-bottom: rem(7);
+    }
+  }
+}
+
+.leaflet-control-attribution {
+  height: rem(25);
+  line-height: rem(25);
+  background: transparent !important;
+
+  a {
+    font-size: rem(12);
+    color: $color-4;
+  }
+
+  .is-embed & {
+    display: none;
+  }
+}
+
+.leaflet-left.leaflet-bottom {
+  left: initial;
+  right: rem(250);
+
+  @media screen and (min-width: $screen-l) {
+    right: rem(270);
+  }
+}
+
+.leaflet-left .leaflet-control {
+  margin: 0;
+  display: none;
+
+  @media screen and (min-width: $screen-m) {
+    display: inherit;
+  }
+}
+
+.mapbox-logo-true:before {
+  height: rem(15);
+}
+
+.leaflet-container .leaflet-control-attribution.leaflet-compact-attribution {
+  margin: 0;
+}
+
+.leaflet-overlay-pane > svg {
+  /* Enable the click to go through the SVG layer to reach the map */
+  pointer-events: none;
+}
+
+.topojson-geo {
+  transition: fill .3s ease-in, fill-opacity .3s ease-in;
+}
+
+.bubble-marker {
+  /* By default, Leaflet adds a z-index value to all the markers. To override it
+   * and make sure our is higher, we use a high value with "!important". */
+  &.-ontop, &.-opened { z-index: 5000 !important; }
+
+  &.-size-50 {
+    width:  rem(50) !important;
+    height: rem(50) !important;
+    font-size: rem(13);
+  }
+
+  &.-size-70 {
+    width:  rem(70) !important;
+    height: rem(70) !important;
+    font-size: rem(16);
+  }
+
+  &.-size-80 {
+    width:  rem(80) !important;
+    height: rem(80) !important;
+    font-size: rem(16);
+  }
+
+  &.-size-90 {
+    width:  rem(90) !important;
+    height: rem(90) !important;
+    font-size: rem(16);
+  }
+
+  &.-size-100 {
+    width:  rem(100) !important;
+    height: rem(100) !important;
+    font-size: rem(16);
+  }
+
+  &.-size-110 {
+    width:  rem(110) !important;
+    height: rem(110) !important;
+    font-size: rem(16);
+  }
+
+  &.-size-120 {
+    width:  rem(120) !important;
+    height: rem(120) !important;
+    font-size: rem(16);
+  }
+
+  &.-size-130 {
+    width:  rem(130) !important;
+    height: rem(130) !important;
+    font-size: rem(20);
+  }
+
+  &.-size-140 {
+    width:  rem(140) !important;
+    height: rem(140) !important;
+    font-size: rem(20);
+  }
+
+  &.-size-150 {
+    width:  rem(150) !important;
+    height: rem(150) !important;
+    font-size: rem(20);
+  }
+
+  &.-size-180 {
+    width:  rem(180) !important;
+    height: rem(180) !important;
+    font-size: rem(26);
+  }
+
+  > .bubble {
+    border-radius: 100%;
+    font-family: $font-family-2;
+    background-color: rgba($color-19, .7);
+    box-shadow: 0 0 rem(18) 0 rgba(#504c44, .2);
+    transition: box-shadow .3s ease-out, background-color .3s ease-out;
+    height: 100%;
+
+    &.-dark {
+      background-color: $color-1;
+      color: white;
+    }
+
+    > .total {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      transform: translateY(-50%);
+      text-align: center;
+      color: $font-color-7;
+    }
+
+    > .title {
+      position: absolute;
+      left: 50%;
+      bottom: rem(-15);
+      transform: translate(-50%, 100%);
+      width: rem(200);
+      font-family: $font-family-1;
+      font-size: rem(15);
+      color: $font-color-1;
+      text-align: center;
+    }
+
+    > .title-clustered {
+      position: absolute;
+      left: 50%;
+      bottom: rem(-15);
+      transform: translate(-50%, 100%);
+      width: rem(200);
+      font-family: $font-family-1;
+      font-size: rem(15);
+      color: $font-color-1;
+      text-align: center;
+      display: none;
+    }
+
+  }
+
+  > .bubble-dark {
+    border-radius: 100%;
+    font-family: $font-family-2;
+    background-color: $color-20;
+    box-shadow: 0 0 rem(18) 0 rgba(#504c44, .2);
+    transition: box-shadow .3s ease-out, background-color .3s ease-out;
+    height: 100%;
+
+    > .total {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      transform: translateY(-50%);
+      text-align: center;
+      color: $font-color-7;
+    }
+
+    > .title {
+      position: absolute;
+      left: 50%;
+      bottom: rem(-15);
+      transform: translate(-50%, 100%);
+      width: rem(200);
+      font-family: $font-family-1;
+      font-size: rem(15);
+      color: $font-color-1;
+      text-align: center;
+    }
+
+    > .title-clustered {
+      position: absolute;
+      left: 50%;
+      bottom: rem(-15);
+      transform: translate(-50%, 100%);
+      width: rem(200);
+      font-family: $font-family-1;
+      font-size: rem(15);
+      color: $font-color-1;
+      text-align: center;
+      display: none;
+    }
+
+  }
+
+  > .bubble:hover,
+  &.-opened > .bubble {
+    background-color: rgba($color-19, 1);
+    box-shadow: 0 0 rem(18) 0 rgba(#504c44, .6);
+
+    > .title-clustered {
+      display: block;
+    }
+  }
+
+  > .bubble-dark:hover,
+  &.-opened > .bubble-dark {
+    box-shadow: 0 0 rem(18) 0 rgba(#504c44, .6);
+
+    > .title-clustered {
+      display: block;
+    }
+  }
+}
