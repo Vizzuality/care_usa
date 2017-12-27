@@ -1,0 +1,15 @@
+.is-hidden {
+  @extend %hidden;
+}
+
+.is-menu-open {
+  overflow: hidden;
+}
+
+.is-loading {
+  @mixin spinner rem(40), rem(5), $color-1, $color-2;
+
+  &.-small {
+    @mixin spinner rem(30), rem(5), $color-1, $color-2;
+  }
+}

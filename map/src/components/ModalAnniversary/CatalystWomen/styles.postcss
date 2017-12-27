@@ -1,0 +1,100 @@
+@import'../../../styles/settings.postcss';
+@import'../../../styles/helpers.postcss';
+
+.l-catalyst-women {
+  position: relative;
+  background-image: url("../../../images/backgroundmodules_anniversary02.jpg");
+  background-position: center;
+
+  .wrap {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: rem(51);
+    padding-bottom: rem(65);
+    min-height: rem(448);
+
+    @media screen and (min-width: $screen-m) {
+      padding-top: rem(98);
+      padding-bottom: rem(205);
+    }
+
+    @media screen and (min-width: $screen-l) {
+      padding-top: rem(100);
+      padding-bottom: rem(220);
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      padding-top: rem(110);
+      padding-bottom: rem(259);
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      padding-top: rem(120);
+      padding-bottom: rem(385);
+    }
+  }
+
+  .text-module-title {
+    margin-bottom: rem(22);
+    line-height: 1.5;
+	  letter-spacing: -0.3px;
+
+    @media screen and (min-width: $screen-m) {
+      margin-bottom: rem(90);
+    }
+
+    @media screen and (min-width: $screen-l) {
+      margin-bottom: rem(103);
+      max-width: 82.75%;
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      margin-bottom: rem(150);
+      max-width: 65.5%;
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      margin-bottom: rem(258.8);
+      max-width: 65.5%;
+    }
+  }
+
+  .text-highlighted {
+    max-width: 100%;
+    margin-bottom: rem(50);
+    font-size: 16px;
+	  line-height: 1.6;
+
+    @media screen and (min-width: $screen-m) {
+
+    }
+
+    @media screen and (min-width: $screen-l) {
+      max-width: 82.75%;
+    }
+
+    @media screen and (min-width: $screen-xl) {
+      max-width: 65.5%;
+    }
+
+    @media screen and (min-width: $screen-xxl) {
+      max-width: 65.5%;
+    }
+  }
+
+  .learn-more {
+    width: 100%;
+  }
+
+  .btn-primary {
+    width: 100%;
+
+    @media screen and (min-width: rem(500)) {
+      width: auto;
+      padding: rem(15) rem(47) rem(13) rem(47);
+    }
+  }
+}
