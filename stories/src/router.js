@@ -27,7 +27,8 @@ const dispatchPreFetchThunks = (...thunks) => async (...params) => thunks.forEac
 export const routes = {
   [HOME]: {
     path: '/',
-    thunk: async dispatch => dispatch(redirect({ type: STORIES }))
+    thunk: dispatchPreFetchThunks(getStoriesThunk, getFilteredStoriesThunk, getCategoriesThunk, getCountriesThunk),
+    component: Stories
   },
   [STORIES]: {
     path: '/stories',
