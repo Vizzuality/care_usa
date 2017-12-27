@@ -44,6 +44,7 @@ function Header (props) {
                 strict={false}
                 to={links.stories}
                 className="menu-link"
+                isActive={(match, location) => location.type === 'location/STORIES' || location.type === 'location/HOME'}
               >
                 STORIES
               </NavLink>
