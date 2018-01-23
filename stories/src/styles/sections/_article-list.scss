@@ -35,11 +35,13 @@
           line-height: 0;
           text-transform: none;
           display: block;
-          &:hover {
-            .article-content .article-layer p {
-              display: block;
-            }
+
+          .article-content .article-layer:hover p {
+            opacity: 1;
+            pointer-events: all;
+            transition: 0.1s opacity linear;
           }
+
           .article-content {
             position: relative;
             .article-layer {
@@ -49,7 +51,8 @@
                 width: 100%;
               }
               p {
-                display: none;
+                opacity: 0;
+                pointer-events: none;
                 position: absolute;
                 left: 0;
                 right: 0;

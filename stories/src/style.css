@@ -809,8 +809,10 @@ input[type="search"]::-webkit-search-results-decoration {
           line-height: 0;
           text-transform: none;
           display: block; }
-          .article-container .grid .article-list .box .holder:hover .article-content .article-layer p {
-            display: block; }
+          .article-container .grid .article-list .box .holder .article-content .article-layer:hover p {
+            opacity: 1;
+            pointer-events: all;
+            transition: 0.1s opacity linear; }
           .article-container .grid .article-list .box .holder .article-content {
             position: relative; }
             .article-container .grid .article-list .box .holder .article-content .article-layer {
@@ -819,7 +821,8 @@ input[type="search"]::-webkit-search-results-decoration {
               .article-container .grid .article-list .box .holder .article-content .article-layer img {
                 width: 100%; }
               .article-container .grid .article-list .box .holder .article-content .article-layer p {
-                display: none;
+                opacity: 0;
+                pointer-events: none;
                 position: absolute;
                 left: 0;
                 right: 0;
