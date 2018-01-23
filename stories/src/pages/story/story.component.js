@@ -1,5 +1,5 @@
 import React from "react";
-import DetailOne from './detail-one/detail-one.component';
+// import DetailOne from './detail-one/detail-one.component';
 import DetailTwo from './detail-two/detail-two.component';
 import DetailThree from './detail-three/detail-three.component';
 

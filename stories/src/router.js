@@ -8,9 +8,8 @@ import { getCategoriesThunk, getCountriesThunk } from 'components/filters/filter
 import { getStoriesThunk, getFilteredStoriesThunk } from 'pages/stories/stories.duck';
 
 // pages
-import Stories from 'pages/stories/stories'
-import Story from 'pages/story/story'
-import Placeholder from 'pages/placeholder.component'
+import Stories from 'pages/stories/stories';
+import Story from 'pages/story/story';
 
 const history = createHistory();
 
@@ -27,8 +26,7 @@ const dispatchPreFetchThunks = (...thunks) => async (...params) => thunks.forEac
 export const routes = {
   [HOME]: {
     path: '/',
-    thunk: dispatchPreFetchThunks(getStoriesThunk, getFilteredStoriesThunk, getCategoriesThunk, getCountriesThunk),
-    component: Stories
+    thunk: async () => window.location.replace('/map')
   },
   [STORIES]: {
     path: '/stories',

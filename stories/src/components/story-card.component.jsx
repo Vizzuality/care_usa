@@ -27,11 +27,8 @@ const StoryCard =  ({ link, sectorList, location, title, summary, cover }) => {
           <Link to={link}>
             <div
               className={cx('article-layer', { 'no-image': !cover })}
-              style={{ maxHeight: height }}
+              style={{ height, backgroundImage: `url(http:${cover.url})` }}
             >
-              {cover &&
-              <img src={`http:${cover.url}`} alt={cover.title}/>
-              }
               <p>
                 <button className="btn" type="button">
                   GO TO STORY
