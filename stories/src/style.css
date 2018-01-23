@@ -817,7 +817,8 @@ input[type="search"]::-webkit-search-results-decoration {
             position: relative; }
             .article-container .grid .article-list .box .holder .article-content .article-layer {
               max-height: 350px;
-              overflow: hidden; }
+              overflow: hidden;
+              background-size: cover; }
               .article-container .grid .article-list .box .holder .article-content .article-layer img {
                 width: 100%; }
               .article-container .grid .article-list .box .holder .article-content .article-layer p {

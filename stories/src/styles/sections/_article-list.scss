@@ -47,6 +47,8 @@
             .article-layer {
               max-height: 350px;
               overflow: hidden;
+              background-size: cover;
+
               img {
                 width: 100%;
               }
