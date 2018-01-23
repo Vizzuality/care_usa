@@ -40,7 +40,7 @@ export async function getStoriesThunk(dispatch, getState) {
   if (all.result.length === 0) {
     const { items } = await contentful.getEntries({
       content_type: 'story',
-      order: '-fields.story_date'
+      order: 'fields.title'
     });
 
     dispatch({
