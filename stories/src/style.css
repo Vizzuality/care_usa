@@ -968,7 +968,7 @@ input[type="search"]::-webkit-search-results-decoration {
     width: 100%;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center; }
+    background-position: top; }
   .banner .slide .slide-wrapper {
     width: 90%;
     max-width: 1024px;

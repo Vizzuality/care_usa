@@ -10,10 +10,11 @@ function mapStateToProps({ stories }) {
 
   if (!content || !content.length) return {};
 
+  const imgOptions = { q: '50', w: 2560, h: 1080 };
   const slides = sortBy(content
     .filter(story => story.featured)
     .map(({ id, ...story}) => ({
-      ...getStory(story, stories.all.entities),
+      ...getStory(story, stories.all.entities, imgOptions),
       link: { type: STORY, payload: { slug: id }}
     })),
     'featured');

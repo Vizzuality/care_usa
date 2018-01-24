@@ -7,7 +7,8 @@ function mapStateToProps({ stories, location }) {
   const { slug } = location.payload;
   const currentStory = stories.all.entities.story && stories.all.entities.story[slug];
   const template = currentStory && camelCase(currentStory.template);
-  const story = getStory(currentStory, stories.all.entities);
+  const imgOptions = { q: '80', w: 1440, h: 700 };
+  const story = getStory(currentStory, stories.all.entities, imgOptions);
   return { story, template };
 }
 
