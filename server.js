@@ -77,7 +77,7 @@ const storiesRouter = router
     getStoryDetails(req.params.slug)
       .then(({ item, img }) => {
         const seoStory = Object.assign(seoParams, tags);
-        seoStory.url = req.hostname + baseUrl
+        seoStory.url = req.hostname + req.baseUrl
 
         res.set('Content-Type', 'text/html');
         res.send(template(storiesContent)(seoStory))
@@ -87,7 +87,7 @@ const storiesRouter = router
     getOgTags()
       .then(function(tags) {
         const seoIndex = Object.assign(seoParams, tags);
-        seoStory.url = req.hostname + baseUrl
+        seoIndex.url = req.hostname + req.baseUrl
 
         res.set('Content-Type', 'text/html');
         res.send(template(storiesContent)(seoIndex))
