@@ -75,13 +75,17 @@ templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 const storiesRouter = router
   .get('/:slug', function(req, res, next) {
     getStoryDetails(req.params.slug)
-      .then(({ item, img }) => {
+      .then(tags => {
         const seoStory = Object.assign(seoParams, tags);
         seoStory.url = req.hostname + req.baseUrl
 
         res.set('Content-Type', 'text/html');
         res.send(template(storiesContent)(seoStory))
-      });
+      })
+      .catch(function(e) {
+        res.set('Content-Type', 'text/html');
+        res.send(template(storiesContent)(seoParams))
+      })
   })
   .get('/', (req, res) => {
     getOgTags()
@@ -91,6 +95,10 @@ const storiesRouter = router
 
         res.set('Content-Type', 'text/html');
         res.send(template(storiesContent)(seoIndex))
+      })
+      .catch(function(e) {
+        res.set('Content-Type', 'text/html');
+        res.send(template(storiesContent)(seoParams))
       })
   });
 
