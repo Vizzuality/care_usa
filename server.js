@@ -76,11 +76,8 @@ const storiesRouter = router
   .get('/:slug', function(req, res, next) {
     getStoryDetails(req.params.slug)
       .then(({ item, img }) => {
-        const seoStory = {
-          ...seoParams,
-          ...tags,
-          url: req.hostname + baseUrl
-        };
+        const seoStory = Object.assign(seoParams, tags);
+        seoStory.url = req.hostname + req.baseUrl
 
         res.set('Content-Type', 'text/html');
         res.send(template(storiesContent)(seoStory))
@@ -89,11 +86,8 @@ const storiesRouter = router
   .get('/', (req, res) => {
     getOgTags()
       .then(function(tags) {
-        const seoIndex = {
-          ...seoParams,
-          ...tags,
-          url: req.hostname + baseUrl
-        };
+        const seoIndex = Object.assign(seoParams, tags);
+        seoIndex.url = req.hostname + req.baseUrl
 
         res.set('Content-Type', 'text/html');
         res.send(template(storiesContent)(seoIndex))
