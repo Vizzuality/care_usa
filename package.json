@@ -26,5 +26,8 @@
   },
   "devDependencies": {
     "prompt": "^1.0.0"
+  },
+  "engines": {
+    "node": "8.x.x"
   }
 }
