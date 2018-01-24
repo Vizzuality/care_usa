@@ -2,6 +2,9 @@ import React, { createElement } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import qs from 'query-string';
+import lowerCase from 'lodash/lowerCase';
+import upperFirst from 'lodash/upperFirst';
 
 import { STORY } from 'router';
 import { getStory } from 'utils/entities';
@@ -39,15 +42,14 @@ class StoriesGridContainer extends React.Component {
   }
 }
 
-function mapStateToProps({ storiesGrid, stories }) {
+function mapStateToProps({ storiesGrid, location, stories }) {
   const storyEntities = stories.filtersActive
     ? stories.filtered.entities
     : stories.all.entities;
 
   const cardLimit = Object.values((storyEntities.story || {})).length;
-
-
-  return { ...storiesGrid, cardLimit, storyEntities };
+  const categorySelected = upperFirst(lowerCase(qs.parse(location.search || '').category)) || 'Total';
+  return { ...storiesGrid, cardLimit, storyEntities, categorySelected };
 }
 
 function mapDispatchToProps(dispatch) {
