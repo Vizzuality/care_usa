@@ -2,17 +2,16 @@ import React, { createElement } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import uniqBy from 'lodash/uniqBy';
-import kebabCase from 'lodash/kebabCase';
 import moment from 'moment';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import FiltersComponent from './filters.component';
 import filtersDuck, { updateFilters } from './filters.duck';
-import { DATE_FORMAT } from 'utils/stories';
+import { slugify, DATE_FORMAT } from 'utils/stories';
 
 function mapStateToProps({ filters, location, stories }) {
   const categories = Object.values(filters.categories.entities.category || {})
-    .map(category => ({ value: kebabCase(category.name), label: category.name }));
+    .map(category => ({ value: slugify(category.name), label: category.name }));
 
   const countries = Object.values(stories.all.entities.country || {})
     .map(country => ({ value: country.iso, label: country.name }));
@@ -20,7 +19,7 @@ function mapStateToProps({ filters, location, stories }) {
   const templates = uniqBy(
     Object.values(stories.all.entities.story || {}),
     'template'
-  ).map(story => (({ value: kebabCase(story.template), label: story.template })));
+  ).map(story => (({ value: slugify(story.template), label: story.template })));
 
   const parseYear = story => (story.story_date ? moment(story.story_date).format(DATE_FORMAT) : moment().format(DATE_FORMAT));
   const years = uniqBy(

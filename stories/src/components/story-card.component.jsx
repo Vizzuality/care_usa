@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import Link from 'redux-first-router-link';
 import Dotdotdot from 'react-dotdotdot';
-import kebabCase from 'lodash/kebabCase';
+import { slugify } from 'utils/stories';
 
 const getHeight = (w,h) => {
   const delta = w && h ? (Math.round((w/h) * 10) / 10) : null;
@@ -40,7 +40,7 @@ const StoryCard =  ({ link, sectorList, location, title, summary, cover }) => {
               <div className="article-data">
                 <p className="cat">
                   {sectorList.map((sector, i) => (
-                    <Link key={sector} to={`/stories?category=${kebabCase(sector)}`}>
+                    <Link key={sector} to={`/stories?category=${slugify(sector)}`}>
                       {sector}
                       {i === sectorList.length - 1? null : ','}
                     </Link>

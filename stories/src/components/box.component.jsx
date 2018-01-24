@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Link from 'redux-first-router-link';
-import kebabCase from 'lodash/kebabCase';
+import { slugify } from 'utils/stories';
 
 function Box (props) {
   const { title, sectorList, summary, authors, story_date, countries, showSummary, agency = [] } = props;
@@ -52,7 +52,7 @@ function Box (props) {
             }
             <p className="datetime-area">
               {sectorList.map((sector, i) => (
-                <Link key={sector} to={`/stories?category=${kebabCase(sector)}`}>
+                <Link key={sector} to={`/stories?category=${slugify(sector)}`}>
                   {sector}
                   {i === sectorList.length - 1? null : ','}
                 </Link>
