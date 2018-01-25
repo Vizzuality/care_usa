@@ -62,7 +62,7 @@ const seoParams = {
 }
 
 const routes = router
-  .get('/stories/:slug', function(req, res) {
+  .get('/:slug', function(req, res) {
     getStoryDetails(req.params.slug)
       .then(tags => {
         const seoStory = Object.assign(seoParams, tags);
@@ -76,7 +76,7 @@ const routes = router
         res.send(template(storiesContent)(seoParams))
       })
   })
-  .get('/stories', (req, res) => {
+  .get('/', (req, res) => {
     getOgTags()
       .then(function(tags) {
         const seoIndex = Object.assign(seoParams, tags);
@@ -90,11 +90,5 @@ const routes = router
         res.send(template(storiesContent)(seoParams))
       })
   })
-  .get('/map', function(req, res) {
-    res.sendFile(path.join(mapPath, 'map/index.html'));
-  })
-  .get('/', (req, res) => {
-    res.redirect('/map')
-  });
 
   module.exports = routes;
