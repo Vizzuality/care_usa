@@ -26,7 +26,7 @@ function getStoryDetails(slug) {
     const item = body.items[0].fields;
     const img = body.includes.Asset[0].fields.file;
     const seoStory = {};
-    if (item.title) seoStory.title = `Care story - ${item.title}`;
+    if (item.title) seoStory.title = `CARE story - ${item.title}`;
     if (item.summary) seoStory.description = item.summary;
     if (img && img.url) {
       seoStory.image = parseContentfulImg(img.url);
