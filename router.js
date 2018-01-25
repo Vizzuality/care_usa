@@ -6,8 +6,8 @@ const templateSettings = require('lodash/templateSettings');
 const path = require('path');
 const fs = require('fs');
 
-const storiesPath = path.join(process.cwd(), 'stories', 'build');
-const mapPath = path.join(process.cwd(), 'map', 'build');
+const storiesPath = path.join(__dirname, 'stories', 'build');
+const mapPath = path.join(__dirname, 'map', 'build');
 
 const token = process.env.REACT_APP_CONTENTFUL_TOKEN;
 const space = process.env.REACT_APP_SPACE_ID;
