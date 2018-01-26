@@ -78,6 +78,23 @@
       width: rem(170);
     }
 
+    &.-stories-dist {
+      width: rem(220);
+       > ul {
+        margin-top: 10px;
+        padding: 5px;
+        list-style: none;
+         > li {
+          margin: 5px 0;
+           > a {
+             font-size: rem(14);
+             color: $white;
+             text-decoration: none;
+           }
+         }
+       }
+    }
+
     &.-project {
        @media screen and (min-width: $screen-m) {
         width: rem(400);

@@ -6,6 +6,7 @@ import RefugeesPopup from './popups/RefugeesPopup';
 import DonationPopup from './popups/DonationPopup';
 import AmountDonatedPopup from './popups/AmoutDonatedPopup';
 import PeopleReachedPopup from './popups/PeopleReachedPopup';
+import StoriesPopup from './popups/StoriesPopup';
 import './styles.postcss';
 
 export default class PopupManager extends Backbone.View {
@@ -14,6 +15,9 @@ export default class PopupManager extends Backbone.View {
     super();
 
     switch(slug) {
+
+      case 'stories':
+        return new StoriesPopup(map, lat, lng, zoom, date, options);
 
       case 'refugee-assistance':
         return new RefugeesPopup(map, lat, lng, zoom, date, options);
