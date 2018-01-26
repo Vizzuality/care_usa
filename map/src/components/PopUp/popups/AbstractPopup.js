@@ -27,6 +27,7 @@ export default class AbstractPopup extends Backbone.View {
 
           return;
         }
+        this.data = data;
         this.open();
       })
       .fail(err => {
