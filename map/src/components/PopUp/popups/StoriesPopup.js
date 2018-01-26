@@ -25,7 +25,7 @@ export default class DonationPopup extends AbstractPopup {
                   if (!response || !response.items || !response.items.length) throw new Error('no stories');
                   const stories = response.items.map((s, i) => ({
                     title: upperFirst(lowerCase(s.fields.title)),
-                    img: `http:${response.includes.Asset[i].fields.file.url}?q=80&w=40&h=40`,
+                    img: `http:${response.includes.Asset[i].fields.file.url}?q=80&h=40`,
                     link: `/stories/${kebabCase(s.fields.title)}`
                   }))
                   return {
@@ -52,7 +52,10 @@ export default class DonationPopup extends AbstractPopup {
           `<ul>
             ${stories.map(s => (
               `<li>
-                <a href="${s.link}">${s.title}</a>
+                <a href="${s.link}">
+                  <span class="img-container" style="background-image: url(${s.img});"></span>
+                  <span class="text">${s.title}</span>
+                </a>
               </li>`
             )).join('')}
           </ul>`

@@ -26,7 +26,7 @@
           border-right: 0;
           border-top: 0;
           border-bottom: 0;
-          padding-right: 45px;
+          padding-right: 35px;
           @media only screen and (min-width: $breakpoint-laptop) {
             min-width: 210px;
           }
@@ -80,7 +80,7 @@
           select {
             display: block;
             background-image: url('#{$path-images}helpers/chevron-down.png');
-            background-position: right 26px center;
+            background-position: right 16px center;
             background-repeat: no-repeat;
             background-size: inherit;
             cursor: pointer;
@@ -133,7 +133,7 @@
             font-size: 12px;
           }
           &.select {
-            padding-right: 24px;
+            padding-right: 14px;
             select {
               background-position: 100% center;
 
