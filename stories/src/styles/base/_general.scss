@@ -130,6 +130,9 @@ body {
     &:hover {
       color: $brand-primary-color;
       @extend %transition;
+      > .icon {
+        fill: $brand-primary-color;
+      }
     }
     &.map-link {
       margin-top: 20px;
@@ -337,7 +340,7 @@ body {
     max-width: 210px;
     height: 55px;
     line-height: 58px;
-    padding-left: 28px;
+    padding-left: 18px;
     -webkit-appearance: none;
     -moz-appearance: none;
     &::-ms-clear,
@@ -397,4 +400,12 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .__modal-opened {
   overflow: hidden;
+}
+
+.external-icon {
+  width: 8px;
+  height: 8px;
+  fill: $secondary-text-color;
+  margin-left: 4px;
+  @extend %transition;
 }

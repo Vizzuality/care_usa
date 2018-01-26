@@ -1,11 +1,15 @@
-export function getPictures(pictures, stories = {}) {
+import qs from 'query-string';
+
+export function getPictures(pictures, stories = {}, imgOptions= {}) {
   if (!pictures) return;
+  const imgParams = qs.stringify(imgOptions);
+
   return pictures.map(id => {
     const pictureEntity = stories.picture || {};
     const picture = pictureEntity[id];
     const fileEntity = stories.file || {};
     const file = picture && fileEntity[picture.file];
-    if (file) return { ...picture, ...file };
+    if (file) return { ...picture, ...file, url: `${file.url}?${imgParams}` };
     return null;
   }).filter(p => !!p);
 }
@@ -32,8 +36,8 @@ export function getEntity(list, stories = {}, entity) {
   }).filter(a => !!a);
 }
 
-export function getStory(story, entities) {
-  const pictureList = story && getPictures(story.pictures, entities);
+export function getStory(story, entities, imgOptions = {}) {
+  const pictureList = story && getPictures(story.pictures, entities, imgOptions);
   const videos = story && getEntity(story.videos, entities, 'video');
   const authors = story && getAuthors(story.authors, entities);
   const countries = story && getEntity(story.countries, entities, 'country');

@@ -4,7 +4,6 @@ import $ from 'jquery';
 import _ from 'underscore';
 import moment from 'moment';
 import PopupManager from '../../PopUp/PopupManager';
-import countryCodes from '../../../lib/country-codes';
 
 const defaults = {
   cartodbAccount: config.cartodbAccount,
@@ -105,13 +104,12 @@ export default class TileLayer {
     };
 
     $.ajax({
-      type: 'POST',
+      type: 'GET',
       dataType: 'json',
       contentType: 'application/json; charset=UTF-8',
-      url: `https://${this.options.cartodbAccount}.carto.com/api/v1/map/`,
-      data: JSON.stringify(requestBody)
+      url: `https://${this.options.cartodbAccount}.carto.com/api/v1/map?stat_tag=API&config=${encodeURIComponent(JSON.stringify(requestBody))}`
     }).done(data => {
-      const tileUrl = `https://${this.options.cartodbAccount}.carto.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png32`;
+      const tileUrl = `${data.cdn_url.templates.https.url}/${this.options.cartodbAccount}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
       this.layer = L.tileLayer(tileUrl, { noWrap: true });
       deferred.resolve(this.layer);
     }).fail(deferred.reject);
@@ -134,19 +132,19 @@ export default class TileLayer {
   onMapClick(map, [lat, lng], zoom, date, slug) {
     this.closePopup();
     // we need to redirect to the stories country page
-    if (slug === 'stories') {
-      const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
-      $.getJSON(url)
-        .then(function(data) {
-          const countryCode = (data.address && data.address.country_code) ? data.address.country_code.toUpperCase() : '';
-          const isoCode = countryCodes[countryCode];
-          if (isoCode) {
-            window.location = `/stories?country=${isoCode}`;
-          }
-        })
-    } else {
-      this.popup = new PopupManager(map, lat, lng, zoom, date, slug);
-    }
+    // if (slug === 'stories') {
+    //   const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
+    //   $.getJSON(url)
+    //     .then(function(data) {
+    //       const countryCode = (data.address && data.address.country_code) ? data.address.country_code.toUpperCase() : '';
+    //       const isoCode = countryCodes[countryCode];
+    //       if (isoCode) {
+    //         window.location = `/stories?country=${isoCode}`;
+    //       }
+    //     })
+    // } else {
+    // }
+    this.popup = new PopupManager(map, lat, lng, zoom, date, slug);
   }
 
   /**

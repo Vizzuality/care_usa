@@ -49,6 +49,7 @@ function RecentStories (props) {
                     <div
                       className="recent-slide-img"
                       style={{ backgroundImage: `url(http:${getPictureUrl(story)})` }}
+                      title={story.title}
                     />
                     :
                     <div className="recent-slide-text">

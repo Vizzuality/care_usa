@@ -45,7 +45,9 @@ const webpackConfig = {
         cartodbKey: envVariables.CARTODB_KEY,
         nokiaAppId: envVariables.NOKIA_APP_ID,
         nokiaAppCode: envVariables.NOKIA_APP_CODE,
-        basemap: envVariables.BASEMAP
+        basemap: envVariables.BASEMAP,
+        ctoken: envVariables.REACT_APP_CONTENTFUL_TOKEN,
+        cspace: envVariables.REACT_APP_SPACE_ID,
       })
     })
   ],

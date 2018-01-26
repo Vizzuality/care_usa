@@ -3,7 +3,7 @@
 body {
   font-family: "MontserratBlack"; }
 
-button.button:active, button.button:hover, button.button:focus, body a.button:active, body a.button:hover, body a.button:focus, body a.more:hover, body a:hover, .switchers-area a,
+button.button:active, button.button:hover, button.button:focus, body a.button:active, body a.button:hover, body a.button:focus, body a.more:hover, body a:hover, .external-icon, .switchers-area a,
 .switchers-area button, .banner-story-container.no-image .switchers-area a, .footer-container .footer-holder .social-links a i:before, .multi-search-container .multisearch-form .filters-holder .field:first-child button:active i,
 .multi-search-container .multisearch-form .filters-holder .field:first-child button:hover i,
 .multi-search-container .multisearch-form .filters-holder .field:first-child button:focus i, form.newsletter-form input:active, form.newsletter-form input:focus, form.newsletter-form .button:active, form.newsletter-form .button:hover, form.newsletter-form .button:focus {
@@ -345,6 +345,8 @@ body {
           margin: 38px auto 5px; } }
     body a:hover {
       color: #f46508; }
+      body a:hover > .icon {
+        fill: #f46508; }
     body a.map-link {
       margin-top: 20px;
       padding-top: 10px;
@@ -520,7 +522,7 @@ body {
     max-width: 210px;
     height: 55px;
     line-height: 58px;
-    padding-left: 28px;
+    padding-left: 18px;
     -webkit-appearance: none;
     -moz-appearance: none; }
     body input::-ms-clear, body input::-ms-reveal,
@@ -585,6 +587,12 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .__modal-opened {
   overflow: hidden; }
+
+.external-icon {
+  width: 8px;
+  height: 8px;
+  fill: #808080;
+  margin-left: 4px; }
 
 /* Switchers
 ================================================= */
@@ -809,17 +817,21 @@ input[type="search"]::-webkit-search-results-decoration {
           line-height: 0;
           text-transform: none;
           display: block; }
-          .article-container .grid .article-list .box .holder:hover .article-content .article-layer p {
-            display: block; }
+          .article-container .grid .article-list .box .holder .article-content .article-layer:hover p {
+            opacity: 1;
+            pointer-events: all;
+            transition: 0.1s opacity linear; }
           .article-container .grid .article-list .box .holder .article-content {
             position: relative; }
             .article-container .grid .article-list .box .holder .article-content .article-layer {
               max-height: 350px;
-              overflow: hidden; }
+              overflow: hidden;
+              background-size: cover; }
               .article-container .grid .article-list .box .holder .article-content .article-layer img {
                 width: 100%; }
               .article-container .grid .article-list .box .holder .article-content .article-layer p {
-                display: none;
+                opacity: 0;
+                pointer-events: none;
                 position: absolute;
                 left: 0;
                 right: 0;
@@ -964,7 +976,7 @@ input[type="search"]::-webkit-search-results-decoration {
     width: 100%;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center; }
+    background-position: top; }
   .banner .slide .slide-wrapper {
     width: 90%;
     max-width: 1024px;
@@ -1800,7 +1812,7 @@ input[type="search"]::-webkit-search-results-decoration {
         border-right: 0;
         border-top: 0;
         border-bottom: 0;
-        padding-right: 45px; }
+        padding-right: 35px; }
         @media only screen and (min-width: 1024px) {
           .multi-search-container .multisearch-form .filters-holder .field input,
           .multi-search-container .multisearch-form .filters-holder .field select {
@@ -1842,7 +1854,7 @@ input[type="search"]::-webkit-search-results-decoration {
       .multi-search-container .multisearch-form .filters-holder .field.select select {
         display: block;
         background-image: url("/images/helpers/chevron-down.png");
-        background-position: right 26px center;
+        background-position: right 16px center;
         background-repeat: no-repeat;
         background-size: inherit;
         cursor: pointer; }
@@ -1884,7 +1896,7 @@ input[type="search"]::-webkit-search-results-decoration {
           .multi-search-container form.multisearch-form .filters-holder .field i {
             font-size: 12px; }
           .multi-search-container form.multisearch-form .filters-holder .field.select {
-            padding-right: 24px; }
+            padding-right: 14px; }
             .multi-search-container form.multisearch-form .filters-holder .field.select select {
               background-position: 100% center; }
           .multi-search-container form.multisearch-form .filters-holder .field:last-child {

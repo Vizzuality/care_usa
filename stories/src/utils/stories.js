@@ -1,9 +1,12 @@
 import moment from 'moment';
-import startCase from 'lodash/startCase';
-import lowerCase from 'lodash/lowerCase';
-import upperFirst from 'lodash/upperFirst';
 
-const formatSlug = (f) => upperFirst(lowerCase(f));
+export function slugify(string) {
+  return string.trim().split(' ').join('-');
+}
+
+export function deslugify(string) {
+  return string.split('-').join(' ');
+}
 
 export const DATE_FORMAT = 'YYYY';
 
@@ -20,8 +23,8 @@ export function buildFilters(query) {
     const formatter = {
       date_start: s => moment(s, DATE_FORMAT).toISOString(),
       date_end: s => moment(s, DATE_FORMAT).toISOString(),
-      category: formatSlug,
-      template: startCase
+      category: deslugify,
+      template: deslugify
     }[type];
 
     if (!formatter) return string;
