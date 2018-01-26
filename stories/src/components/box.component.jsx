@@ -12,8 +12,12 @@ function Box (props) {
     <span key={country.iso} className="country">
       {
         agency.map(a => (
-          <a key={a.name} href={a.url}>
+          <a key={a.name} href={a.url} target="_blank" rel="noopener noreferrer">
             {a.name}
+            <svg className="icon external-icon" viewBox="0 0 34 32">
+              <title>externallink</title>
+              <path d="M26.747 3.619h-8.948v-3.619h14.159v1.59l0.219 0.219-0.219 0.219v12.195h-3.387v-8.808l-14.316 14.317-1.811-1.811 14.303-14.301zM0 5.524v26.349h26.667v-15.746h-3.627v12.381h-19.548l0.072-19.683h12.372v-3.302h-15.937z"></path>
+            </svg>
           </a>
         ))
       }

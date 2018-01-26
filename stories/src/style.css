@@ -3,7 +3,7 @@
 body {
   font-family: "MontserratBlack"; }
 
-button.button:active, button.button:hover, button.button:focus, body a.button:active, body a.button:hover, body a.button:focus, body a.more:hover, body a:hover, .switchers-area a,
+button.button:active, button.button:hover, button.button:focus, body a.button:active, body a.button:hover, body a.button:focus, body a.more:hover, body a:hover, .external-icon, .switchers-area a,
 .switchers-area button, .banner-story-container.no-image .switchers-area a, .footer-container .footer-holder .social-links a i:before, .multi-search-container .multisearch-form .filters-holder .field:first-child button:active i,
 .multi-search-container .multisearch-form .filters-holder .field:first-child button:hover i,
 .multi-search-container .multisearch-form .filters-holder .field:first-child button:focus i, form.newsletter-form input:active, form.newsletter-form input:focus, form.newsletter-form .button:active, form.newsletter-form .button:hover, form.newsletter-form .button:focus {
@@ -345,6 +345,8 @@ body {
           margin: 38px auto 5px; } }
     body a:hover {
       color: #f46508; }
+      body a:hover > .icon {
+        fill: #f46508; }
     body a.map-link {
       margin-top: 20px;
       padding-top: 10px;
@@ -585,6 +587,12 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .__modal-opened {
   overflow: hidden; }
+
+.external-icon {
+  width: 8px;
+  height: 8px;
+  fill: #808080;
+  margin-left: 4px; }
 
 /* Switchers
 ================================================= */
