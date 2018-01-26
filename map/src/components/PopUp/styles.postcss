@@ -82,14 +82,19 @@
       width: rem(220);
        > ul {
         margin-top: 10px;
-        padding: 5px;
+        padding: 0px;
         list-style: none;
          > li {
           margin: 5px 0;
            > a {
-             font-size: rem(14);
-             color: $white;
-             text-decoration: none;
+            width: 100%;
+            display: block;
+            font-size: rem(14);
+            color: $white;
+            text-decoration: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
            }
          }
        }
