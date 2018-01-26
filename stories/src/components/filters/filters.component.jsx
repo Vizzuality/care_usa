@@ -1,4 +1,5 @@
 import React from "react";
+import { deslugify } from 'utils/stories';
 
 function Filters(props) {
   const {
@@ -9,7 +10,9 @@ function Filters(props) {
     years,
     onFilterChange
   } = props;
-
+  const categoryFilterTitle = query.category ? deslugify(query.category) : 'Select category';
+  const countrySelected = query.country && countries.find(c => c.value = query.country)
+  const countryFilterTitle = countrySelected ? countrySelected.label : 'Select country';
   return (
     <section className="multi-search-container">
       <input
@@ -44,7 +47,7 @@ function Filters(props) {
           <div className="field select">
             <select
               id="selectCategory"
-              title="Select Category"
+              title={categoryFilterTitle}
               name="category"
               placeholder="Category"
               value={query.category || ''}
@@ -63,7 +66,7 @@ function Filters(props) {
           <div className="field select">
             <select
               id="selectCountry"
-              title="Select Country"
+              title={countryFilterTitle}
               placeholder="Country"
               name="country"
               value={query.country || ''}

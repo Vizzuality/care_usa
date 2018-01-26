@@ -522,7 +522,7 @@ body {
     max-width: 210px;
     height: 55px;
     line-height: 58px;
-    padding-left: 28px;
+    padding-left: 18px;
     -webkit-appearance: none;
     -moz-appearance: none; }
     body input::-ms-clear, body input::-ms-reveal,
@@ -1812,7 +1812,7 @@ input[type="search"]::-webkit-search-results-decoration {
         border-right: 0;
         border-top: 0;
         border-bottom: 0;
-        padding-right: 45px; }
+        padding-right: 35px; }
         @media only screen and (min-width: 1024px) {
           .multi-search-container .multisearch-form .filters-holder .field input,
           .multi-search-container .multisearch-form .filters-holder .field select {
@@ -1854,7 +1854,7 @@ input[type="search"]::-webkit-search-results-decoration {
       .multi-search-container .multisearch-form .filters-holder .field.select select {
         display: block;
         background-image: url("/images/helpers/chevron-down.png");
-        background-position: right 26px center;
+        background-position: right 16px center;
         background-repeat: no-repeat;
         background-size: inherit;
         cursor: pointer; }
@@ -1896,7 +1896,7 @@ input[type="search"]::-webkit-search-results-decoration {
           .multi-search-container form.multisearch-form .filters-holder .field i {
             font-size: 12px; }
           .multi-search-container form.multisearch-form .filters-holder .field.select {
-            padding-right: 24px; }
+            padding-right: 14px; }
             .multi-search-container form.multisearch-form .filters-holder .field.select select {
               background-position: 100% center; }
           .multi-search-container form.multisearch-form .filters-holder .field:last-child {
