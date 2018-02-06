@@ -1113,8 +1113,9 @@ input[type="search"]::-webkit-search-results-decoration {
           line-height: 18px;
           text-transform: none;
           color: #f46508;
-          font-family: "MontserratRegular";
-          margin-right: 4px; }
+          font-family: "MontserratRegular"; }
+        .banner-story-container.collapse .banner-box .banner-content .story-data .cat-link {
+          margin-right: 12px; }
         .banner-story-container.collapse .banner-box .banner-content .story-data .datetime-area {
           padding-left: 20px;
           line-height: 20px; }

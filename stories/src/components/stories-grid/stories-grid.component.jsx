@@ -2,7 +2,7 @@ import React from "react";
 import StoryCard from "../story-card.component";
 import Masonry from 'react-masonry-infinite';
 
-function StoriesGrid({ cards, setCardOffset, cardOffset, cardLimit, categorySelected }) {
+function StoriesGrid({ cards, setCardOffset, cardOffset, cardLimit, sectionTitle }) {
   const masonryColumns = [
     { columns: 1, gutter: 20 },
     { mq: '750px', columns: 3, gutter: 20 }
@@ -34,7 +34,7 @@ function StoriesGrid({ cards, setCardOffset, cardOffset, cardLimit, categorySele
   // </div>)
   return (
     <section className="article-container">
-      <h3>{`${categorySelected} stories`}</h3>
+      <h3>{sectionTitle}</h3>
       <div className="grid">
         <span className="group">({cardLimit} Stories)</span>
       </div>

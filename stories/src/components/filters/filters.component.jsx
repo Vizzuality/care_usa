@@ -69,13 +69,14 @@ function Filters(props) {
               title={countryFilterTitle}
               placeholder="Country"
               name="country"
-              value={query.country || ''}
+              defaultValue={query.country || ''}
               onChange={onFilterChange}
-            >
+              >
               <option value={''}>Country</option>
               {
+                // Don't know why is not working without the selected attribute in the option
                 countries.map(country => (
-                  <option value={country.value} key={country.value}>
+                  <option selected={query.country === country.value} value={country.value} key={country.value + country.label}>
                     {country.label}
                   </option>
                 ))

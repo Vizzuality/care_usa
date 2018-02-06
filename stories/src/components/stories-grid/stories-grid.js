@@ -48,8 +48,9 @@ function mapStateToProps({ storiesGrid, location, stories }) {
     : stories.all.entities;
 
   const cardLimit = Object.values((storyEntities.story || {})).length;
-  const categorySelected = upperFirst(lowerCase(qs.parse(location.search || '').category)) || 'Total';
-  return { ...storiesGrid, cardLimit, storyEntities, categorySelected };
+  const categorySelected = upperFirst(lowerCase(qs.parse(location.search || '').category));
+  const sectionTitle = categorySelected ? categorySelected + ' stories' : 'Stories';
+  return { ...storiesGrid, cardLimit, storyEntities, sectionTitle };
 }
 
 function mapDispatchToProps(dispatch) {

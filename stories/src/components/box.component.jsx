@@ -56,7 +56,7 @@ function Box (props) {
             }
             <p className="datetime-area">
               {sectorList.map((sector, i) => (
-                <Link key={sector} to={`/stories?category=${slugify(sector)}`}>
+                <Link className="cat-link" key={sector} to={`/stories?category=${slugify(sector)}`}>
                   {sector}
                   {i === sectorList.length - 1? null : ','}
                 </Link>
