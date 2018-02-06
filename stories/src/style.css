@@ -2129,16 +2129,21 @@ form.newsletter-form {
 
 /* Video widget
 ================================================= */
+.video-content {
+  flex-direction: column;
+  align-items: center; }
+
 .video-container {
-  min-width: 420px;
-  max-width: 420px;
-  margin-right: 10%; }
+  width: 100%; }
   .video-container .video-box {
     position: relative;
-    height: 270px; }
+    width: 820px;
+    height: 480px;
+    margin: 0 auto; }
     @media only screen and (max-width: 990px) {
       .video-container .video-box {
-        height: 190px; } }
+        width: 480x;
+        height: 320px; } }
     .video-container .video-box .control {
       position: absolute;
       bottom: 1px;
@@ -2152,10 +2157,10 @@ form.newsletter-form {
       background-color: #f56608;
       cursor: pointer; }
     .video-container .video-box video {
-      height: 270px; }
+      height: 480px; }
       @media only screen and (max-width: 990px) {
         .video-container .video-box video {
-          height: 190px; } }
+          height: 320px; } }
   .video-container .video-content-area {
     padding: 44px 65px 105px;
     box-shadow: 0 0 10px 5px rgba(138, 157, 166, 0.1); }
@@ -2166,10 +2171,7 @@ form.newsletter-form {
       line-height: 34px; }
   @media only screen and (max-width: 990px) {
     .video-container {
-      min-width: 290px;
-      max-width: 290px;
-      margin-top: 30px;
-      margin-bottom: 20px; }
+      width: 100%; }
       .video-container .video-content-area {
         padding: 30px 35px 45px; }
         .video-container .video-content-area p {
