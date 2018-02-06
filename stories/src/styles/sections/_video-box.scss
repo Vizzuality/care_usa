@@ -1,14 +1,21 @@
 /* Video widget
 ================================================= */
+
+.video-content {
+  flex-direction: column;
+  align-items: center;
+}
+
 .video-container {
-  min-width: 420px;
-  max-width: 420px;
-  margin-right: 10%;
+  width: 100%;
+
   .video-box {
     position: relative;
-    height: 270px;
+    width: 820px;
+    height: 480px;
     @media only screen and (max-width: $breakpoint-tablet) {
-      height: 190px;
+      width: 480x;
+      height: 320px;
     }
     .control {
       position: absolute;
@@ -24,12 +31,13 @@
       cursor: pointer;
     }
     video {
-      height: 270px;
+      height: 480px;
       @media only screen and (max-width: $breakpoint-tablet) {
-        height: 190px;
+        height: 320px;
       }
     }
   }
+
   .video-content-area {
     padding: 44px 65px 105px;
     box-shadow: 0 0 10px 5px rgba(138, 157, 166, 0.1);
@@ -41,10 +49,8 @@
     }
   }
   @media only screen and (max-width: $breakpoint-tablet) {
-    min-width: 290px;
-    max-width: 290px;
-    margin-top: 30px;
-    margin-bottom: 20px;
+    width: 100%;
+
     .video-content-area {
       padding: 30px 35px 45px;
       p {
