@@ -2138,7 +2138,8 @@ form.newsletter-form {
   .video-container .video-box {
     position: relative;
     width: 820px;
-    height: 480px; }
+    height: 480px;
+    margin: 0 auto; }
     @media only screen and (max-width: 990px) {
       .video-container .video-box {
         width: 480x;
