@@ -6,8 +6,8 @@ function ArticleVideo ({ video, getVideoRef, onClickPlay, paused, quote }) {
       <div className="video-box">
         <video
           ref={getVideoRef}
-          width={420}
-          height={270}
+          width={820}
+          height={360}
         >
           <source src={`http://${video.url}`} />
         </video>
