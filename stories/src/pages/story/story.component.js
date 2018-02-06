@@ -8,6 +8,7 @@ function Story(props) {
 
   const Detail = template ? {
     photoStory: DetailThree,
+    photoGallery: DetailThree,
     videoStory: DetailTwo,
     writtenStory: DetailThree
   }[template] : DetailThree;
