@@ -5,6 +5,7 @@ import contentful from 'contentful-client';
 import { stories as storiesSchema } from 'schemas';
 import { buildFilters } from 'utils/stories';
 
+const GET_OGTAGS = 'stories/GET_OGTAGS';
 const GET_STORIES = 'stories/GET_STORIES';
 const GET_FILTERED_STORIES = 'stories/GET_FILTERED_STORIES';
 const SET_FITERS_ACTIVE = 'stories/SET_FITERS_ACTIVE';
@@ -18,10 +19,14 @@ const initialState = {
     entities: {},
     result: []
   },
-  filtersActive: false
+  filtersActive: false,
+  ogTags: {}
 };
 
 const storiesReducer = {
+  [GET_OGTAGS](state, action) {
+    return { ...state, ogTags: action.payload };
+  },
   [GET_STORIES](state, action) {
     return { ...state, all: action.payload };
   },
@@ -33,6 +38,28 @@ const storiesReducer = {
   }
 };
 
+
+// Navigation pre-fetching thunks
+export async function getOgTagsThunk(dispatch, getState) {
+  const { all } = getState().stories;
+  if (all.result.length === 0) {
+    const { items, includes } = await contentful.getEntries({
+      content_type: 'ogTags'
+    });
+
+    const field = items[0].fields;
+    const image = includes.Asset[0].fields.file;
+    const seo = {}
+    if (field.ogTitle) seo.title = field.ogTitle;
+    if (field.ogDescription) seo.description = field.ogDescription;
+    if (image && image.url) seo.image = 'http:' + image.url + '?q=50&w=800&h=800';
+
+    dispatch({
+      type: GET_OGTAGS,
+      payload: seo
+    });
+  }
+}
 
 // Navigation pre-fetching thunks
 export async function getStoriesThunk(dispatch, getState) {
