@@ -13,6 +13,8 @@
     position: relative;
     width: 820px;
     height: 480px;
+    margin: 0 auto;
+
     @media only screen and (max-width: $breakpoint-tablet) {
       width: 480x;
       height: 320px;

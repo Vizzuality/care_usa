@@ -23,7 +23,8 @@
     "dotenv": "4.0.0",
     "express": "^4.16.2",
     "lodash": "4.17.4",
-    "node-fetch": "^1.7.3"
+    "node-fetch": "^1.7.3",
+    "react-helmet": "5.2.0"
   },
   "devDependencies": {
     "prompt": "^1.0.0"

@@ -5,7 +5,7 @@ import restoreScroll from 'redux-first-router-restore-scroll'
 
 // thunks
 import { getCategoriesThunk, getCountriesThunk } from 'components/filters/filters.duck';
-import { getStoriesThunk, getFilteredStoriesThunk } from 'pages/stories/stories.duck';
+import { getOgTagsThunk, getStoriesThunk, getFilteredStoriesThunk } from 'pages/stories/stories.duck';
 
 // pages
 import Stories from 'pages/stories/stories';
@@ -30,7 +30,7 @@ export const routes = {
   },
   [STORIES]: {
     path: '/stories',
-    thunk: dispatchPreFetchThunks(getStoriesThunk, getFilteredStoriesThunk, getCategoriesThunk, getCountriesThunk),
+    thunk: dispatchPreFetchThunks(getOgTagsThunk, getStoriesThunk, getFilteredStoriesThunk, getCategoriesThunk, getCountriesThunk),
     component: Stories
   },
   [STORY]: {

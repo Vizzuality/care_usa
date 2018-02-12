@@ -4,9 +4,15 @@ import Filters from "components/filters/filters";
 import StoriesGrid from "components/stories-grid/stories-grid";
 import RecentStories from "components/recent-stories/recent-stories";
 
-function Stories () {
+import { Helmet } from "react-helmet";
+
+function Stories ({ tags }) {
   return (
     <main id="pageContent" className="page-wrapper home">
+      <Helmet key="helmet">
+        <title>{tags.title}</title>
+        <meta name="description" content={tags.description} />
+      </Helmet>,
       <Banner />
       <Filters />
       <StoriesGrid />
