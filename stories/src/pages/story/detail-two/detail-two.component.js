@@ -6,11 +6,13 @@ import ArticleVideo from 'components/article-video/article-video';
 import ArticleQuote from 'components/article-quote.component';
 import RecentStories from 'components/recent-stories/recent-stories';
 import TextContent from 'components/text-content.component';
+import Embed from 'components/embed.component';
 
 function DetailTwo ({ story }) {
-  const { quote, cite, pictures = [], videos = [], summary, body = '' } = story;
+  const { quote, cite, pictures = [], videos = [], summary, body = '', videoLink = '' } = story;
   const [quotePicture] = pictures;
   const [video] = videos;
+  const parsedVideoLink = videoLink && videoLink.replace('watch?v=', 'embed/');
   const hasQuote = quotePicture || quote;
   const bodyParts = body.split('\n');
   const separator = Math.floor(bodyParts.length / 2);
@@ -26,6 +28,7 @@ function DetailTwo ({ story }) {
       <article className="article-expanded-container">
         <div className="article-expanded-holder video-content">
           {video && <ArticleVideo video={video} />}
+          {parsedVideoLink && <Embed url={parsedVideoLink} />}
           <div className={cx(['std', { noMedia: !video }])}>
             <p className="marked">
               {summary}
