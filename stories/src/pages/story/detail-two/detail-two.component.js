@@ -30,10 +30,10 @@ function DetailTwo ({ story }) {
             <p className="marked">
               {summary}
             </p>
-            <TextContent>
-              {bodyTop}
-            </TextContent>
           </div>
+          <TextContent>
+            {bodyTop}
+          </TextContent>
         </div>
         <div className="article-expanded-holder quote-content">
           {hasQuote &&
@@ -43,7 +43,7 @@ function DetailTwo ({ story }) {
               cite={cite}
             />
           }
-          <div className={cx(['std', { noMedia: !hasQuote }])}>
+          <div className={{ noMedia: !hasQuote }}>
             <TextContent>
               {bodyBottom}
             </TextContent>
