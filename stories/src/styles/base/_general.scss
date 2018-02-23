@@ -163,6 +163,11 @@ body {
       }
     }
   }
+
+  pre, code {
+    white-space: pre-wrap;
+  }
+
   .std {
     p {
       font-family: $karla-r;
