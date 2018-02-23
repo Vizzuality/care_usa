@@ -371,6 +371,8 @@ body {
         @media only screen and (max-width: 767px) {
           body a.map-link.__in-article {
             padding-bottom: 38px; } }
+  body pre, body code {
+    white-space: pre-wrap; }
   body .std p {
     font-family: "KarlaRegular";
     font-size: 16px;
