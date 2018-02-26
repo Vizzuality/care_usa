@@ -25,6 +25,8 @@ function ImageGallery(props) {
         <div className="main-gallery-box">
           <Slider
             {...settings}
+            arrows
+            nextArrow={<button><i className="icon-arrow-right"></i></button>}
             ref={getImageGalleryRef}
             afterChange={setCurrentSlide}
           >
@@ -41,6 +43,7 @@ function ImageGallery(props) {
               ))
             }
           </Slider>
+
         </div>
         {activeSlide &&
           <div className="slide-content">
