@@ -20,7 +20,7 @@ function Story(props) {
       <Helmet key="helmet">
         <title>{story.title}</title>
         <meta name="description" content={story.description} />
-      </Helmet>,
+      </Helmet>
       {template && <Detail story={story} />}
     </main>
   );

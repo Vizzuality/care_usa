@@ -1715,6 +1715,10 @@ input[type="search"]::-webkit-search-results-decoration {
     margin: 0 auto;
     flex-direction: column;
     width: 50vw; }
+    @media only screen and (max-width: 767px) {
+      .main-gallery-container .main-gallery-holder {
+        width: 100%;
+        height: 100%; } }
     .main-gallery-container .main-gallery-holder .main-gallery-box {
       height: 60vh;
       width: 100%; }
@@ -1728,6 +1732,9 @@ input[type="search"]::-webkit-search-results-decoration {
           background-repeat: no-repeat;
           background-size: cover;
           background-position: center; }
+          @media only screen and (max-width: 767px) {
+            .main-gallery-container .main-gallery-holder .main-gallery-box .gallery-box-item .gallery-slide {
+              width: calc(100% - 36px); } }
           .main-gallery-container .main-gallery-holder .main-gallery-box .gallery-box-item .gallery-slide cite {
             position: absolute;
             bottom: 0;
@@ -1742,9 +1749,15 @@ input[type="search"]::-webkit-search-results-decoration {
       justify-content: space-between;
       align-items: baseline;
       padding-top: 46px; }
+      @media only screen and (max-width: 767px) {
+        .main-gallery-container .main-gallery-holder .slide-content {
+          padding: 20px; } }
       .main-gallery-container .main-gallery-holder .slide-content h5 {
         margin-right: 10px;
         min-width: 170px; }
+        @media only screen and (max-width: 767px) {
+          .main-gallery-container .main-gallery-holder .slide-content h5 {
+            display: none; } }
       .main-gallery-container .main-gallery-holder .slide-content p {
         color: #FFF;
         line-height: 1.8; }
@@ -1762,6 +1775,28 @@ input[type="search"]::-webkit-search-results-decoration {
       margin-bottom: 10px; }
       .main-gallery-container .switchers-area *:last-child {
         margin-bottom: 0; }
+    @media only screen and (max-width: 767px) {
+      .main-gallery-container .switchers-area {
+        height: auto;
+        top: 3%; } }
+    @media only screen and (max-width: 767px) {
+      .main-gallery-container .switchers-area .slider-nav-thumbnails {
+        display: none; } }
+  .main-gallery-container .slick-arrow {
+    display: block;
+    position: absolute;
+    width: 34px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(244, 101, 8, 0.8); }
+    .main-gallery-container .slick-arrow.slick-prev {
+      left: 0;
+      right: auto;
+      display: none !important; }
+    @media only screen and (min-width: 767px) {
+      .main-gallery-container .slick-arrow {
+        display: none !important; } }
 
 .slider-nav-thumbnails {
   width: 172px; }
