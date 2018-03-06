@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import qs from 'query-string';
-import lowerCase from 'lodash/lowerCase';
-import upperFirst from 'lodash/upperFirst';
 
 import { STORY } from 'router';
 import { getStory } from 'utils/entities';
