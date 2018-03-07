@@ -23,6 +23,7 @@ class MenuDevice extends React.Component {
           <div className="wrap">
             <ul className="menu">
               <li className={ this.props.careHistory ? "who-cares" : 'who-cares is-active' } ><p className='menu-link text text-module-title -dark' onClick={ () => this.props.toggleHistory(false) }>Donor Impact Map</p></li>
+              <li className="anniversary"><a href="/stories" className='menu-link text text-module-title -dark'>Stories</a></li>
               <li className={ this.props.careHistory ? "anniversary is-active" : "anniversary" } ><p className='menu-link text text-module-title -dark' onClick={ () => this.props.toggleHistory(true) }>Learn about CARE</p></li>
             </ul>
           </div>
