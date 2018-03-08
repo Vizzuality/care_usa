@@ -18,13 +18,21 @@ function parseContentfulImg(url) {
 }
 
 function getStoryDetails(slug) {
-  const url = `https://cdn.contentful.com/spaces/${space}/entries?content_type=story&query=${slug.split('-').join(' ')}&access_token=${token}`
+  const slugParsed = decodeURIComponent(slug).split('-').join(' ');
+  const url = `https://cdn.contentful.com/spaces/${space}/entries?content_type=story&&fields.title[match]=${slugParsed}&access_token=${token}`
   return fetch(url)
   .then(res => res.json())
   .then(body => {
     if (!body.items || !body.items.length) return null;
     const item = body.items[0].fields;
-    const img = body.includes.Asset[0].fields.file;
+    let img = body.includes.Asset[0].fields.file;
+    const cover = body.includes.Entry.find((e) => e.fields.cover);
+    if (cover) {
+      const coverImage = body.includes.Asset.find(a => a.sys.id === cover.fields.file.sys.id);
+      if (coverImage) {
+        img = coverImage.fields.file;
+      }
+    }
     const seoStory = {};
     if (item.title) seoStory.title = `CARE story - ${item.title}`;
     if (item.summary) seoStory.description = item.summary;
