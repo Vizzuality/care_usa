@@ -12,7 +12,7 @@ const fileStrategy = {
 
 const storyStrategy = {
   ...contentful2Normalizr,
-  idAttribute: v => kebabCase(v.fields.title)
+  idAttribute: v => v.fields.title.split(' ').join('-')
 };
 
 const spreadFileStrategy = {
