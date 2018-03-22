@@ -2,6 +2,7 @@ import { connectRoutes, redirect, NOT_FOUND } from 'redux-first-router';
 import createHistory from 'history/createBrowserHistory';
 import querySerializer from 'query-string';
 import restoreScroll from 'redux-first-router-restore-scroll'
+import ReactGA from 'react-ga';
 
 // thunks
 import { getCategoriesThunk, getCountriesThunk } from 'components/filters/filters.duck';
@@ -56,6 +57,10 @@ export const routes = {
   }
 };
 
+function trackPage () {
+  ReactGA.pageview(window.location.pathname + window.location.search);
+}
+
 export default connectRoutes(
   history,
   routes,
@@ -63,6 +68,7 @@ export default connectRoutes(
     querySerializer,
     restoreScroll: restoreScroll({
       shouldUpdateScroll: (prev, locationState) => (prev.pathname !== locationState.pathname)
-    })
+    }),
+    onAfterChange: trackPage
   }
 );

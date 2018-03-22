@@ -3,7 +3,14 @@ import React, { Component } from 'react';
 import Pages from 'pages';
 import Header from 'components/header/header';
 import Footer from 'components/footer.component';
+import ReactGA from 'react-ga';
 import './style.css';
+
+const GA_ID = process.env.NODE_ENV === 'production' ? 'UA-77384250-1' : '';
+
+if (GA_ID) {
+  ReactGA.initialize(GA_ID);
+}
 
 class App extends Component {
   render() {
