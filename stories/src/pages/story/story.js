@@ -10,7 +10,6 @@ function mapStateToProps({ stories, location }) {
   const template = currentStory && camelCase(currentStory.template);
   const imgOptions = { q: '80', w: 1440, h: 700 };
   const story = getStory(currentStory, stories.all.entities, imgOptions);
-  debugger;
   return { story, template };
 }
 
